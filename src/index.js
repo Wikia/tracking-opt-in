@@ -19,7 +19,6 @@ const getAppRoot = () => {
 };
 
 const renderApp = (AppComponent, appOptions) => {
-    console.log('render');
     const root = getAppRoot();
     const options = Object.assign({}, defaultOptions, appOptions);
 

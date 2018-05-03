@@ -3,7 +3,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const buildPath = `${__dirname}/dist`;
 
 let topLevelOptions = {};
-let plugins = {};
+let plugins = [];
 
 if (process.env.NODE_ENV === 'development') {
     topLevelOptions = {
