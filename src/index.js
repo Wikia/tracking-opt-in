@@ -1,10 +1,14 @@
-import { h, render } from 'preact';
-import App from './App';
-import { userAcceptsTracking, userRejectsTracking } from './optInStatus';
+import {h, render} from 'preact';
+import App from './components/App';
+import OptInManager from "./OptInManager";
 
 let root = null;
 let hotOptions = null;
 const defaultOptions = {
+    cookieName: null, // use default cookie name
+    cookieExpiration: null, // use default
+    country: null, // use automatic detection in geo.js
+    language: null, // use browser language
     zIndex: 1000,
     onAcceptTracking() {
         console.log('user opted into tracking');
@@ -34,14 +38,17 @@ function runApp(AppComponent, appOptions) {
     const root = getAppRoot();
     const options = Object.assign({}, defaultOptions, appOptions);
 
-    if (userAcceptsTracking()) {
+    const optInManager = new OptInManager(options.cookieName, options.cookieExpiration);
+
+    if (optInManager.hasAcceptedTracking()) {
         options.onAcceptTracking();
-    } else if (userRejectsTracking()) {
+    } else if (optInManager.hasRejectedTracking()) {
         options.onRejectTracking();
     } else {
         render(
             <AppComponent
                 onRequestAppRemove={removePrompt}
+                optInManager={optInManager}
                 options={options}
             />,
             root,
@@ -56,8 +63,8 @@ function trackingOptIn(options) {
 }
 
 if (module.hot) {
-    module.hot.accept(['./App'], () => {
-        const newApp = require('./App').default;
+    module.hot.accept(['./components/App'], () => {
+        const newApp = require('./components/App').default;
         runApp(newApp, hotOptions);
     });
 }

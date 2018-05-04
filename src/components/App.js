@@ -1,16 +1,15 @@
-import { h, Component } from 'preact';
-import { setRejectTracking, setAcceptTracking } from "./optInStatus";
+import {h, Component} from 'preact';
 import styles from './styles.scss';
 
 class App extends Component {
     onAccept = () => {
-        setAcceptTracking();
+        this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
         this.props.options.onAcceptTracking();
     };
 
     onReject = () => {
-        setRejectTracking();
+        this.props.optInManager.setTrackingRejected();
         this.props.onRequestAppRemove();
         this.props.options.onRejectTracking();
     };
