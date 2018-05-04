@@ -1,3 +1,4 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
@@ -57,6 +58,7 @@ if (process.env.NODE_ENV === 'development') {
         }
     };
     plugins = [
+        ...plugins,
         new CopyWebpackPlugin([{
             from: `${__dirname}/demo.html`,
             to: `${buildPath}/index.html`,
@@ -72,6 +74,14 @@ if (process.env.NODE_ENV === 'development') {
             sourceMap: true,
         }
     });
+} else {
+    cssLoader.use.unshift(MiniCssExtractPlugin.loader);
+    plugins = [
+        ...plugins,
+        new MiniCssExtractPlugin({
+            filename: 'styles.css',
+        })
+    ]
 }
 
 module.exports = {
