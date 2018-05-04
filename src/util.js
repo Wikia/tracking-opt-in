@@ -7,6 +7,15 @@ const STATUS = {
     HIDE: 'hide',
 };
 
+function getCookieDomain() {
+    const parts = window.location.hostname.split('.');
+    if (parts.length < 2) {
+        return window.location.hostname;
+    }
+
+    return `.${parts[parts.length - 2]}.${parts[parts.length - 1]}`;
+}
+
 function getCookieValue() {
     return Cookies.get(COOKIE_NAME);
 }
@@ -20,9 +29,18 @@ export function userHidesTrackingPrompt() {
 }
 
 export function setTrackingAccepted() {
-    Cookies.set(COOKIE_NAME, STATUS.ACCEPTED, { expires: ACCEPT_COOKIE_EXPIRATION });
+    Cookies.set(COOKIE_NAME, STATUS.ACCEPTED, {
+        expires: ACCEPT_COOKIE_EXPIRATION,
+        domain: getCookieDomain(),
+    });
 }
 
 export function setHideTrackingPrompt() {
-    Cookies.set(COOKIE_NAME, STATUS.HIDE);
+    Cookies.set(COOKIE_NAME, STATUS.HIDE, {
+        domain: getCookieDomain(),
+    });
+}
+
+export function removeCooke() {
+    Cookes.remove(COOKIE_NAME, { domain: getCookieDomain() });
 }
