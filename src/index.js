@@ -4,7 +4,12 @@ import App from './components/App';
 let root = null;
 let hotOptions = null;
 const defaultOptions = {
-
+    onOptInToTracking() {
+        console.log('user opted into tracking');
+    },
+    onOptOutOfTracking() {
+        console.log('user opted out of tracking');
+    },
 };
 
 const getAppRoot = () => {
@@ -22,10 +27,10 @@ const renderApp = (AppComponent, appOptions) => {
     const root = getAppRoot();
     const options = Object.assign({}, defaultOptions, appOptions);
 
-    hotOptions = hotOptions || appOptions;
-
     render(
-        <AppComponent />,
+        <AppComponent
+            options={options}
+        />,
         root,
         root.lastChild
     );
