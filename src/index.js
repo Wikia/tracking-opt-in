@@ -13,7 +13,7 @@ const defaultOptions = {
     },
 };
 
-const getAppRoot = () => {
+function getAppRoot() {
     if (root !== null) {
         return root;
     }
@@ -22,9 +22,9 @@ const getAppRoot = () => {
     document.body.appendChild(root);
 
     return root;
-};
+}
 
-const renderApp = (AppComponent, appOptions) => {
+function renderApp(AppComponent, appOptions) {
     const root = getAppRoot();
     const options = Object.assign({}, defaultOptions, appOptions);
 
@@ -35,7 +35,12 @@ const renderApp = (AppComponent, appOptions) => {
         root,
         root.lastChild
     );
-};
+}
+
+function cookieOptIn(options) {
+    hotOptions = options;
+    renderApp(App, options);
+}
 
 if (module.hot) {
     module.hot.accept(['./App'], () => {
@@ -44,7 +49,4 @@ if (module.hot) {
     });
 }
 
-export default (options) => {
-    hotOptions = options;
-    renderApp(App, options);
-}
+export default cookieOptIn;
