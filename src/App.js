@@ -1,13 +1,24 @@
 import { h, Component } from 'preact';
 import styles from './styles.scss';
+import { setHideTrackingPrompt, setTrackingAccepted } from "./util";
 
 class App extends Component {
-    render(props) {
+    onAccept = () => {
+        setTrackingAccepted();
+        this.props.options.onOptInToTracking();
+    };
+
+    onHide = () => {
+        setHideTrackingPrompt();
+        this.props.options.onHideTrackingPrompt();
+    };
+
+    render({ options }) {
         return (
             <div
                 className={styles.overlay}
                 style={{
-                    zIndex: props.options.zIndex,
+                    zIndex: options.zIndex,
                 }}
             >
                 <div className={styles.container}>
@@ -15,7 +26,12 @@ class App extends Component {
                         cookies?
                     </div>
                     <div className={styles.footer}>
-                        actions
+                        <button onClick={this.onAccept}>
+                            Yes
+                        </button>
+                        <button onClick={this.onHide}>
+                            No
+                        </button>
                     </div>
                 </div>
             </div>

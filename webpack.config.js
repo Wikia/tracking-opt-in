@@ -102,6 +102,9 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: ['env', 'preact'],
+                        plugins: [
+                            'transform-class-properties',
+                        ]
                     }
                 }]
             },

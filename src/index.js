@@ -1,5 +1,6 @@
 import { h, render } from 'preact';
 import App from './App';
+import {userAcceptsTracking, userHidesTrackingPrompt} from './util';
 
 let root = null;
 let hotOptions = null;
@@ -8,7 +9,7 @@ const defaultOptions = {
     onOptInToTracking() {
         console.log('user opted into tracking');
     },
-    onOptOutOfTracking() {
+    onHideTrackingPrompt() {
         console.log('user opted out of tracking');
     },
 };
@@ -24,9 +25,17 @@ function getAppRoot() {
     return root;
 }
 
-function renderApp(AppComponent, appOptions) {
+function runApp(AppComponent, appOptions) {
     const root = getAppRoot();
     const options = Object.assign({}, defaultOptions, appOptions);
+
+    if (userAcceptsTracking()) {
+        options.onOptInToTracking();
+        return;
+    } else if (userHidesTrackingPrompt()) {
+        options.onHideTrackingPrompt();
+        return;
+    }
 
     render(
         <AppComponent
@@ -39,13 +48,13 @@ function renderApp(AppComponent, appOptions) {
 
 function cookieOptIn(options) {
     hotOptions = options;
-    renderApp(App, options);
+    runApp(App, options);
 }
 
 if (module.hot) {
     module.hot.accept(['./App'], () => {
         const newApp = require('./App').default;
-        renderApp(newApp, hotOptions);
+        runApp(newApp, hotOptions);
     });
 }
 

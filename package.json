@@ -7,6 +7,7 @@
     "autoprefixer": "^8.4.1",
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-preact": "^1.1.0",
     "copy-webpack-plugin": "^4.5.1",
@@ -23,6 +24,7 @@
     "webpack-serve": "^0.3.2"
   },
   "dependencies": {
+    "js-cookie": "^2.2.0",
     "preact": "^8.2.9"
   },
   "scripts": {
