@@ -13,7 +13,7 @@ const defaultOptions = {
     language: null, // use browser language
     zIndex: 1000,
     onAcceptTracking() {
-        console.log('user opted into tracking');
+        console.log('user opted in to tracking');
     },
     onRejectTracking() {
         console.log('user opted out of tracking');
