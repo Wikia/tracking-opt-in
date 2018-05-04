@@ -41,6 +41,6 @@ export function setHideTrackingPrompt() {
     });
 }
 
-export function removeCooke() {
+export function removeCookie() {
     Cookes.remove(COOKIE_NAME, { domain: getCookieDomain() });
 }
