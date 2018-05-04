@@ -1,18 +1,18 @@
 import { h, Component } from 'preact';
 import styles from './styles.scss';
-import { setHideTrackingPrompt, setTrackingAccepted } from "./util";
+import { setRejectTracking, setAcceptTracking } from "./util";
 
 class App extends Component {
     onAccept = () => {
-        setTrackingAccepted();
+        setAcceptTracking();
         this.props.onRequestAppRemove();
-        this.props.options.onOptInToTracking();
+        this.props.options.onAcceptTracking();
     };
 
     onReject = () => {
-        setHideTrackingPrompt();
+        setRejectTracking();
         this.props.onRequestAppRemove();
-        this.props.options.onHideTrackingPrompt();
+        this.props.options.onRejectTracking();
     };
 
     render({ options }) {

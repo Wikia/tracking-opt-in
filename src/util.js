@@ -4,7 +4,7 @@ export const COOKIE_NAME = 'cookie-opt-in-status';
 const ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
 const STATUS = {
     ACCEPTED: 'accepted',
-    HIDE: 'hide',
+    REJECTED: 'rejected',
 };
 
 function getCookieDomain() {
@@ -24,23 +24,23 @@ export function userAcceptsTracking() {
     return getCookieValue() === STATUS.ACCEPTED;
 }
 
-export function userHidesTrackingPrompt() {
+export function userRejectsTracking() {
     const value = window.sessionStorage ? window.sessionStorage.getItem(COOKIE_NAME) : getCookieValue();
-    return value === STATUS.HIDE;
+    return value === STATUS.REJECTED;
 }
 
-export function setTrackingAccepted() {
+export function setAcceptTracking() {
     Cookies.set(COOKIE_NAME, STATUS.ACCEPTED, {
         expires: ACCEPT_COOKIE_EXPIRATION,
         domain: getCookieDomain(),
     });
 }
 
-export function setHideTrackingPrompt() {
+export function setRejectTracking() {
     if (window.sessionStorage) {
-        window.sessionStorage.setItem(COOKIE_NAME, STATUS.HIDE);
+        window.sessionStorage.setItem(COOKIE_NAME, STATUS.REJECTED);
     } else {
-        Cookies.set(COOKIE_NAME, STATUS.HIDE, {
+        Cookies.set(COOKIE_NAME, STATUS.REJECTED, {
             domain: getCookieDomain(),
         });
     }
