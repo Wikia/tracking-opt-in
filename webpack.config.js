@@ -89,8 +89,9 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: buildPath,
-        filename: 'index.js',
-        library: 'cookieOptIn'
+        filename: 'cookie-opt-in.js',
+        library: 'cookieOptIn',
+        libraryTarget: 'umd',
     },
     module: {
         rules: [

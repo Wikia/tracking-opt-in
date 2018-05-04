@@ -1,7 +1,7 @@
 {
   "name": "cookie-optin",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "dist/cookie-opt-in.js",
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "^8.4.1",

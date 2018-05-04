@@ -1,5 +1,5 @@
 import { h, render } from 'preact';
-import App from './components/App';
+import App from './App';
 
 let root = null;
 let hotOptions = null;
@@ -37,8 +37,8 @@ const renderApp = (AppComponent, appOptions) => {
 };
 
 if (module.hot) {
-    module.hot.accept(['./components/App'], () => {
-        const newApp = require('./components/App').default;
+    module.hot.accept(['./App'], () => {
+        const newApp = require('./App').default;
         renderApp(newApp, hotOptions);
     });
 }
