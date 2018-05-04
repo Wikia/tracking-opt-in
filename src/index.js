@@ -1,6 +1,6 @@
 import { h, render } from 'preact';
 import App from './App';
-import {userAcceptsTracking, userRejectsTracking} from './util';
+import { userAcceptsTracking, userRejectsTracking } from './util';
 
 let root = null;
 let hotOptions = null;
@@ -50,7 +50,7 @@ function runApp(AppComponent, appOptions) {
     }
 }
 
-function cookieOptIn(options) {
+function trackingOptIn(options) {
     hotOptions = options;
     runApp(App, options);
 }
@@ -62,4 +62,4 @@ if (module.hot) {
     });
 }
 
-export default cookieOptIn;
+export default trackingOptIn;

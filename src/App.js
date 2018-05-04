@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
-import styles from './styles.scss';
 import { setRejectTracking, setAcceptTracking } from "./util";
+import styles from './styles.scss';
 
 class App extends Component {
     onAccept = () => {

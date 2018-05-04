@@ -1,7 +1,7 @@
 {
-  "name": "cookie-optin",
+  "name": "tracking-opt-in",
   "version": "1.0.0",
-  "main": "dist/cookie-opt-in.js",
+  "main": "dist/tracking-opt-in.js",
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "^8.4.1",
