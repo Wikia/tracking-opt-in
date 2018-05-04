@@ -1,6 +1,6 @@
 import { h, render } from 'preact';
 import App from './App';
-import { userAcceptsTracking, userRejectsTracking } from './util';
+import { userAcceptsTracking, userRejectsTracking } from './optInStatus';
 
 let root = null;
 let hotOptions = null;

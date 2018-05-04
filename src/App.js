@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { setRejectTracking, setAcceptTracking } from "./util";
+import { setRejectTracking, setAcceptTracking } from "./optInStatus";
 import styles from './styles.scss';
 
 class App extends Component {
