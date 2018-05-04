@@ -1,6 +1,7 @@
 import {h, render} from 'preact';
 import App from './components/App';
 import OptInManager from "./OptInManager";
+import GeoManager from "./GeoManager";
 
 let root = null;
 let hotOptions = null;
@@ -37,10 +38,12 @@ function removePrompt() {
 function runApp(AppComponent, appOptions) {
     const root = getAppRoot();
     const options = Object.assign({}, defaultOptions, appOptions);
-
     const optInManager = new OptInManager(options.cookieName, options.cookieExpiration);
+    const geoManager = new GeoManager(options.country);
 
-    if (optInManager.hasAcceptedTracking()) {
+    if (!geoManager.needsTrackingPrompt()) {
+        options.onAcceptTracking();
+    } else if (optInManager.hasAcceptedTracking()) {
         options.onAcceptTracking();
     } else if (optInManager.hasRejectedTracking()) {
         options.onRejectTracking();
