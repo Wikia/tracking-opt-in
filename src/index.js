@@ -36,20 +36,18 @@ function runApp(AppComponent, appOptions) {
 
     if (userAcceptsTracking()) {
         options.onOptInToTracking();
-        return;
     } else if (userHidesTrackingPrompt()) {
         options.onHideTrackingPrompt();
-        return;
+    } else {
+        render(
+            <AppComponent
+                onRequestAppRemove={removePrompt}
+                options={options}
+            />,
+            root,
+            root.lastChild
+        );
     }
-
-    render(
-        <AppComponent
-            onRequestAppRemove={removePrompt}
-            options={options}
-        />,
-        root,
-        root.lastChild
-    );
 }
 
 function cookieOptIn(options) {

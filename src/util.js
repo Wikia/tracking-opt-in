@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 
 export const COOKIE_NAME = 'cookie-opt-in-status';
-const ACCEPT_COOKIE_EXPIRATION = 7; // days
+const ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
 const STATUS = {
     ACCEPTED: 'accepted',
     HIDE: 'hide',
@@ -25,7 +25,8 @@ export function userAcceptsTracking() {
 }
 
 export function userHidesTrackingPrompt() {
-    return getCookieValue() === STATUS.HIDE;
+    const value = window.sessionStorage ? window.sessionStorage.getItem(COOKIE_NAME) : getCookieValue();
+    return value === STATUS.HIDE;
 }
 
 export function setTrackingAccepted() {
@@ -36,9 +37,13 @@ export function setTrackingAccepted() {
 }
 
 export function setHideTrackingPrompt() {
-    Cookies.set(COOKIE_NAME, STATUS.HIDE, {
-        domain: getCookieDomain(),
-    });
+    if (window.sessionStorage) {
+        window.sessionStorage.setItem(COOKIE_NAME, STATUS.HIDE);
+    } else {
+        Cookies.set(COOKIE_NAME, STATUS.HIDE, {
+            domain: getCookieDomain(),
+        });
+    }
 }
 
 export function removeCookie() {
