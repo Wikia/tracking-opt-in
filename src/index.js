@@ -25,6 +25,11 @@ function getAppRoot() {
     return root;
 }
 
+function removePrompt() {
+    const root = getAppRoot();
+    render(null, root, root.lastChild);
+}
+
 function runApp(AppComponent, appOptions) {
     const root = getAppRoot();
     const options = Object.assign({}, defaultOptions, appOptions);
@@ -39,6 +44,7 @@ function runApp(AppComponent, appOptions) {
 
     render(
         <AppComponent
+            onRequestAppRemove={removePrompt}
             options={options}
         />,
         root,

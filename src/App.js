@@ -5,11 +5,13 @@ import { setHideTrackingPrompt, setTrackingAccepted } from "./util";
 class App extends Component {
     onAccept = () => {
         setTrackingAccepted();
+        this.props.onRequestAppRemove();
         this.props.options.onOptInToTracking();
     };
 
-    onHide = () => {
+    onReject = () => {
         setHideTrackingPrompt();
+        this.props.onRequestAppRemove();
         this.props.options.onHideTrackingPrompt();
     };
 
@@ -29,7 +31,7 @@ class App extends Component {
                         <button onClick={this.onAccept}>
                             Yes
                         </button>
-                        <button onClick={this.onHide}>
+                        <button onClick={this.onReject}>
                             No
                         </button>
                     </div>
