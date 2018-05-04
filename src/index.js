@@ -4,6 +4,7 @@ import App from './App';
 let root = null;
 let hotOptions = null;
 const defaultOptions = {
+    zIndex: 1000,
     onOptInToTracking() {
         console.log('user opted into tracking');
     },

@@ -14,9 +14,11 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   justify-content: center;
 }
 
-.modal {
+.container {
   background-color: white;
   padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
 
   @media #{$mobile-devices} {
     width: 90%;
@@ -27,4 +29,12 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
     width: 50%;
     height: 60%;
   }
+}
+
+.content {
+  flex-grow: 1;
+}
+
+.footer {
+
 }
