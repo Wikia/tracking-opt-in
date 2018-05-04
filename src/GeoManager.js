@@ -1,8 +1,37 @@
 import Cookies from 'js-cookie';
 
 const COUNTRY_COOKIE_NAME = 'Geo';
+
+// client.geo.country_code https://docs.fastly.com/guides/vcl/geolocation-related-vcl-features
 const COUNTRIES_REQUIRING_PROMPT = [
-    'us',
+    'at', // Austria
+    'be', // Belgium
+    'bg', // Bulgaria
+    'hr', // Croatia
+    'cy', // Cyprus
+    'cz', // Czech Republic
+    'dk', // Denmark
+    'ee', // Estonia
+    'fi', // Finland
+    'fr', // France
+    'de', // Germany
+    'gr', // Greece
+    'hu', // Hungary
+    'ie', // Ireland
+    'it', // Italy
+    'lv', // Latvia
+    'lt', // Lithuania
+    'lu', // Luxembourg
+    'mt', // Malta
+    'nl', // Netherlands
+    'pl', // Poland
+    'pt', // Portugal
+    'ro', // Romania
+    'sk', // Slovakia
+    'si', // Slovenia
+    'es', // Spain
+    'se', // Sweden
+    'db', // United Kingdom of Great Britain and Northern Ireland
 ];
 
 function getCountryFromCookie() {

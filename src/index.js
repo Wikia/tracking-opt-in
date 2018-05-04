@@ -8,7 +8,8 @@ let hotOptions = null;
 const defaultOptions = {
     cookieName: null, // use default cookie name
     cookieExpiration: null, // use default
-    country: null, // use automatic detection in geo.js
+    country: null, // country code
+    countriesRequiringPrompt: null, // array of lower case country codes
     language: null, // use browser language
     zIndex: 1000,
     onAcceptTracking() {
@@ -39,7 +40,7 @@ function runApp(AppComponent, appOptions) {
     const root = getAppRoot();
     const options = Object.assign({}, defaultOptions, appOptions);
     const optInManager = new OptInManager(options.cookieName, options.cookieExpiration);
-    const geoManager = new GeoManager(options.country);
+    const geoManager = new GeoManager(options.country, options.countriesRequiringPrompt);
 
     if (!geoManager.needsTrackingPrompt()) {
         options.onAcceptTracking();
