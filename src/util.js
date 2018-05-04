@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-export const COOKIE_NAME = 'cookie-opt-in-status';
+export const COOKIE_NAME = 'tracking-opt-in-status';
 const ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
 const STATUS = {
     ACCEPTED: 'accepted',
@@ -46,6 +46,10 @@ export function setRejectTracking() {
     }
 }
 
-export function removeCookie() {
-    Cookes.remove(COOKIE_NAME, { domain: getCookieDomain() });
+export function clear() {
+    if (window.sessionStorage) {
+        window.sessionStorage.removeItem(COOKIE_NAME);
+    }
+
+    Cookies.remove(COOKIE_NAME, { domain: getCookieDomain() });
 }
