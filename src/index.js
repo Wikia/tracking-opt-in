@@ -1,14 +1,12 @@
-import {h, render} from 'preact';
-import ContentManager from './ContentManager';
-import LanguageManager from './LangManager';
-import App from './components/App';
+import LanguageManager from "./LangManager";
 import OptInManager from "./OptInManager";
+import Tracker from "./Tracker";
+import ContentManager from "./ContentManager";
 import GeoManager from "./GeoManager";
-import Tracker from './Tracker';
+import {h, render} from "preact/dist/preact";
+import App from "./components/App";
 
-let root = null;
-let hotOptions = null;
-const defaultOptions = {
+const DEFAULT_OPTIONS = {
     cookieName: null, // use default cookie name
     cookieExpiration: null, // use default
     country: null, // country code
@@ -24,62 +22,52 @@ const defaultOptions = {
     },
 };
 
-function getAppRoot() {
-    if (root !== null) {
-        return root;
+class TrackingOptIn {
+    constructor(options) {
+        this.options = Object.assign({}, DEFAULT_OPTIONS, options);
+        this.langManager = new LanguageManager(this.options.language);
+        this.tracker = new Tracker(this.langManager.lang, this.options.track);
+        this.optInManager = new OptInManager(this.options.cookieName, this.options.cookieExpiration);
+        this.geoManager = new GeoManager(this.options.country, this.options.countriesRequiringPrompt);
+        this.contentManager = new ContentManager(this.langManager.lang);
     }
 
-    root = document.createElement('div');
-    document.body.appendChild(root);
+    removeApp = () => {
+        render(null, this.root, this.root.lastChild);
+        this.root.parentNode.removeChild(this.root);
+        this.root = null;
+    };
 
-    return root;
-}
+    render() {
+        if (!this.root) {
+            this.root = document.createElement('div');
+            document.body.appendChild(this.root);
+        }
 
-function removePrompt() {
-    const root = getAppRoot();
-    render(null, root, root.lastChild);
-}
-
-function runApp(AppComponent, appOptions) {
-    const root = getAppRoot();
-    const options = Object.assign({}, defaultOptions, appOptions);
-    const langManager = new LanguageManager(options.language);
-    const tracker = new Tracker(langManager.lang, options.track);
-    const optInManager = new OptInManager(options.cookieName, options.cookieExpiration);
-    const geoManager = new GeoManager(options.country, options.countriesRequiringPrompt);
-    const contentManager = new ContentManager(langManager.lang);
-
-    if (!geoManager.needsTrackingPrompt()) {
-        options.onAcceptTracking();
-    } else if (optInManager.hasAcceptedTracking()) {
-        options.onAcceptTracking();
-    } else if (optInManager.hasRejectedTracking()) {
-        options.onRejectTracking();
-    } else {
-        render(
-            <AppComponent
-                onRequestAppRemove={removePrompt}
-                tracker={tracker}
-                optInManager={optInManager}
-                options={options}
-                content={contentManager.content}
-            />,
-            root,
-            root.lastChild
-        );
+        if (!this.geoManager.needsTrackingPrompt()) {
+            this.options.onAcceptTracking();
+        } else if (this.optInManager.hasAcceptedTracking()) {
+            this.options.onAcceptTracking();
+        } else if (this.optInManager.hasRejectedTracking()) {
+            this.options.onRejectTracking();
+        } else {
+            render(
+                <App
+                    onRequestAppRemove={this.removeApp}
+                    tracker={this.tracker}
+                    optInManager={this.optInManager}
+                    options={this.options}
+                    content={this.contentManager.content}
+                />,
+                this.root,
+                this.root.lastChild
+            );
+        }
     }
 }
 
-function trackingOptIn(options) {
-    hotOptions = options;
-    runApp(App, options);
+export default function main(options) {
+    const instance = new TrackingOptIn(options);
+    instance.render();
+    return instance;
 }
-
-if (module.hot) {
-    module.hot.accept(['./components/App'], () => {
-        const newApp = require('./components/App').default;
-        runApp(newApp, hotOptions);
-    });
-}
-
-export default trackingOptIn;
