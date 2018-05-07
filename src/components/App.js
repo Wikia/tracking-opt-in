@@ -55,7 +55,7 @@ class App extends Component {
         this.reject();
     };
 
-    render({ options }, { dialog }) {
+    render({ options, content }, { dialog }) {
         let onAccept;
         let onReject;
         let bodyText;
@@ -64,12 +64,12 @@ class App extends Component {
             case DIALOGS.INITIAL:
                 onAccept = this.onInitialAccept;
                 onReject = this.onInitialReject;
-                bodyText = 'cookies?';
+                bodyText = content.initialHeadline;
                 break;
             default:
                 onAccept = this.onFallbackAccept;
                 onReject = this.onFallbackReject;
-                bodyText = 'Are you sure???';
+                bodyText = content.secondHeadline;
                 break;
         }
 
@@ -86,10 +86,10 @@ class App extends Component {
                     </div>
                     <div className={styles.footer}>
                         <button onClick={onAccept}>
-                            accept all cookies
+                            {content.buttonAccept}
                         </button>
                         <button onClick={onReject}>
-                            reject all cookies
+                            {content.buttonReject}
                         </button>
                     </div>
                 </div>
