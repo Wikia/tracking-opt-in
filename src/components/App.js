@@ -1,6 +1,5 @@
 import {h, Component} from 'preact';
 import styles from './styles.scss';
-import {browserLangToContent} from '../LangManager';
 
 const DIALOGS = {
     INITIAL: 'initial',
