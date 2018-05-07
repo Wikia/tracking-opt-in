@@ -104,6 +104,7 @@ module.exports = {
                         presets: ['env', 'preact'],
                         plugins: [
                             'transform-class-properties',
+                            'transform-object-rest-spread',
                         ]
                     }
                 }]

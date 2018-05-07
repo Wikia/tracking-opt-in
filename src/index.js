@@ -2,6 +2,7 @@ import {h, render} from 'preact';
 import App from './components/App';
 import OptInManager from "./OptInManager";
 import GeoManager from "./GeoManager";
+import Tracker from './Tracker';
 
 let root = null;
 let hotOptions = null;
@@ -11,6 +12,7 @@ const defaultOptions = {
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
     language: null, // use browser language
+    track: true,
     zIndex: 1000,
     onAcceptTracking() {
         console.log('user opted in to tracking');
@@ -39,6 +41,7 @@ function removePrompt() {
 function runApp(AppComponent, appOptions) {
     const root = getAppRoot();
     const options = Object.assign({}, defaultOptions, appOptions);
+    const tracker = new Tracker('en', options.track); // TODO: use actual language once -3139 is done
     const optInManager = new OptInManager(options.cookieName, options.cookieExpiration);
     const geoManager = new GeoManager(options.country, options.countriesRequiringPrompt);
 
@@ -52,6 +55,7 @@ function runApp(AppComponent, appOptions) {
         render(
             <AppComponent
                 onRequestAppRemove={removePrompt}
+                tracker={tracker}
                 optInManager={optInManager}
                 options={options}
             />,
