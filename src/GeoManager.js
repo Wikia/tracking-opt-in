@@ -31,7 +31,7 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'si', // Slovenia
     'es', // Spain
     'se', // Sweden
-    'db', // United Kingdom of Great Britain and Northern Ireland
+    'gb', // United Kingdom of Great Britain and Northern Ireland
 ];
 
 function getCountryFromCookie() {
