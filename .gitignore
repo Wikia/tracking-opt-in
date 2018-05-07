@@ -3,3 +3,4 @@ dist/
 .idea/
 .cache/
 yarn-error.log
+package-lock.json
