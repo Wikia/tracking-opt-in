@@ -1,6 +1,7 @@
+const path = require('path');
+
 // Karma configuration
 // Generated on Mon May 07 2018 11:09:08 GMT-0500 (CDT)
-
 module.exports = function(config) {
   config.set({
       // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -20,11 +21,13 @@ module.exports = function(config) {
       ],
 
       webpack: {
+          devtool: 'eval-source-map',
           mode: 'production',
           module: {
               rules: [
                   {
                       test: /\.js$/,
+                      include: path.resolve(__dirname, './src'),
                       use: [{
                           loader: 'babel-loader',
                           options: {
@@ -42,6 +45,17 @@ module.exports = function(config) {
                       }],
                   }
               ],
+          },
+          resolve: {
+              extensions: ['.js'],
+              modules: [
+                  'src',
+                  'node_modules',
+              ],
+              symlinks: false,
+              alias: {
+                  "react": "preact-compat-enzyme"
+              }
           },
       },
 
