@@ -39,10 +39,28 @@ module.exports = function(config) {
                       }]
                   },
                   {
-                      test: /\.scss$/,
-                      use: [{
-                          loader: 'null-loader',
-                      }],
+                      test: /\.s?css$/,
+                      use: [
+                          {
+                              loader: 'style-loader',
+                              options: {
+                                  sourceMap: true,
+                              }
+                          },
+                          {
+                              loader: 'css-loader',
+                              options: {
+                                  sourceMap: false,
+                                  modules: true,
+                              },
+                          },
+                          {
+                              loader: 'sass-loader',
+                              options: {
+                                  sourceMap: false
+                              },
+                          }
+                      ],
                   }
               ],
           },
