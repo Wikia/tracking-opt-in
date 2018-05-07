@@ -1,7 +1,4 @@
-const DEFAULT_LANG = 'en';
-const DEFAULT_BROWSER_LANG = 'en-US';
-
-const langToContent = {
+export const langToContent = {
     de: {
         initialHeadline: '',
         secondHeadline: '',
@@ -92,23 +89,8 @@ const langToContent = {
     },
 };
 
-// https://developer.mozilla.org/en-US/docs/Web/API/NavigatorLanguage/language
-export const getBrowserLanguage = () =>  window.navigator && window.navigator.language
-    ? window.navigator.language : DEFAULT_BROWSER_LANG;
-
-// parse the browser lang to map to just a two letter lang code or 'zh-hans'/'zh-hant'
-const browserLangToLang = (browserLang = DEFAULT_BROWSER_LANG) => {
-    if (browserLang.length === 0) {
-        return DEFAULT_LANG;
+export default class ContentManager {
+    constructor(lang) {
+        this.content = langToContent[lang] || langToContent.en;
     }
-
-    if (langToContent[browserLang] !== undefined) {
-        return browserLang;
-    }
-
-    return browserLang.substring(0,2);
-};
-
-export const browserLangToContent = (browserLang = DEFAULT_LANG) => {
-  return langToContent[browserLangToLang(browserLang)] || langToContent[DEFAULT_LANG];
-};
+}

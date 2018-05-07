@@ -1,6 +1,6 @@
 import {h, Component} from 'preact';
 import styles from './styles.scss';
-import {browserLangToContent} from './../content';
+import {browserLangToContent} from '../LangManager';
 
 const DIALOGS = {
     INITIAL: 'initial',
@@ -28,9 +28,7 @@ class App extends Component {
         this.setState({ dialog: DIALOGS.CONFIRM_REJECT });
     };
 
-    render({ options }, { dialog }) {
-        const content = browserLangToContent(options.language);
-
+    render({ options, content }, { dialog }) {
         let onReject;
         let bodyText;
 
