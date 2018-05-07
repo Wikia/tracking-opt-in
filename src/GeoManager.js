@@ -34,7 +34,7 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'db', // United Kingdom of Great Britain and Northern Ireland
 ];
 
-function getCountryFromCookie() {
+export function getCountryFromCookie() {
     const cookie = Cookies.get(COUNTRY_COOKIE_NAME);
     if (cookie) {
         try {
