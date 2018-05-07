@@ -23,13 +23,12 @@ const DEFAULT_OPTIONS = {
 };
 
 class TrackingOptIn {
-    constructor(options) {
-        this.options = Object.assign({}, DEFAULT_OPTIONS, options);
-        this.langManager = new LanguageManager(this.options.language);
-        this.tracker = new Tracker(this.langManager.lang, this.options.track);
-        this.optInManager = new OptInManager(this.options.cookieName, this.options.cookieExpiration);
-        this.geoManager = new GeoManager(this.options.country, this.options.countriesRequiringPrompt);
-        this.contentManager = new ContentManager(this.langManager.lang);
+    constructor(tracker, optInManager, geoManager, contentManager, options) {
+        this.tracker = tracker;
+        this.optInManager = optInManager;
+        this.geoManager = geoManager;
+        this.contentManager = contentManager;
+        this.options = options;
     }
 
     removeApp = () => {
@@ -76,7 +75,24 @@ class TrackingOptIn {
 }
 
 export default function main(options) {
-    const instance = new TrackingOptIn(options);
+    const { zIndex, onAcceptTracking, onRejectTracking, ...depOptions } = Object.assign({}, DEFAULT_OPTIONS, options);
+    const langManager = new LanguageManager(depOptions.language);
+    const tracker = new Tracker(langManager.lang, depOptions.track);
+    const optInManager = new OptInManager(depOptions.cookieName, depOptions.cookieExpiration);
+    const geoManager = new GeoManager(depOptions.country, depOptions.countriesRequiringPrompt);
+    const contentManager = new ContentManager(langManager.lang);
+
+    const instance = new TrackingOptIn(
+        tracker,
+        optInManager,
+        geoManager,
+        contentManager,
+        {
+            zIndex,
+            onAcceptTracking,
+            onRejectTracking,
+        }
+    );
     instance.render();
     return instance;
 }
