@@ -14,6 +14,7 @@ const defaultOptions = {
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
     language: null,
+    track: true,
     zIndex: 1000,
     onAcceptTracking() {
         console.log('user opted in to tracking');
