@@ -2,6 +2,7 @@ import {h, render} from 'preact';
 import App from './components/App';
 import OptInManager from "./OptInManager";
 import GeoManager from "./GeoManager";
+import {getBrowserLanguage} from "./content";
 
 let root = null;
 let hotOptions = null;
@@ -10,7 +11,7 @@ const defaultOptions = {
     cookieExpiration: null, // use default
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
-    language: null, // use browser language
+    language: getBrowserLanguage(),
     zIndex: 1000,
     onAcceptTracking() {
         console.log('user opted in to tracking');
