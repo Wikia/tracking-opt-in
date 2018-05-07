@@ -98,16 +98,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 include: `${__dirname}/src`,
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['env', 'preact'],
-                        plugins: [
-                            'transform-class-properties',
-                            'transform-object-rest-spread',
-                        ]
-                    }
-                }]
+                use: 'babel-loader',
             },
             cssLoader,
         ],
