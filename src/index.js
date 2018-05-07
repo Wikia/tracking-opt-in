@@ -1,17 +1,19 @@
 import {h, render} from 'preact';
 import App from './components/App';
 import OptInManager from "./OptInManager";
+import GeoManager from "./GeoManager";
 
 let root = null;
 let hotOptions = null;
 const defaultOptions = {
     cookieName: null, // use default cookie name
     cookieExpiration: null, // use default
-    country: null, // use automatic detection in geo.js
+    country: null, // country code
+    countriesRequiringPrompt: null, // array of lower case country codes
     language: null, // use browser language
     zIndex: 1000,
     onAcceptTracking() {
-        console.log('user opted into tracking');
+        console.log('user opted in to tracking');
     },
     onRejectTracking() {
         console.log('user opted out of tracking');
@@ -37,10 +39,12 @@ function removePrompt() {
 function runApp(AppComponent, appOptions) {
     const root = getAppRoot();
     const options = Object.assign({}, defaultOptions, appOptions);
-
     const optInManager = new OptInManager(options.cookieName, options.cookieExpiration);
+    const geoManager = new GeoManager(options.country, options.countriesRequiringPrompt);
 
-    if (optInManager.hasAcceptedTracking()) {
+    if (!geoManager.needsTrackingPrompt()) {
+        options.onAcceptTracking();
+    } else if (optInManager.hasAcceptedTracking()) {
         options.onAcceptTracking();
     } else if (optInManager.hasRejectedTracking()) {
         options.onRejectTracking();
