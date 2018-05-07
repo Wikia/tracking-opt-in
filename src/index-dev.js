@@ -1,6 +1,6 @@
 import main from './index';
 
-// handles the hot reloading so it doesn't get included in the babel build
+// this module handles the hot reloading so it doesn't get included in the babel build
 let appInstance = null;
 
 if (module.hot) {

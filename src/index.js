@@ -38,6 +38,15 @@ class TrackingOptIn {
         this.root = null;
     };
 
+    reset() {
+        this.clear();
+        this.render();
+    }
+
+    clear() {
+        this.optInManager.clear();
+    }
+
     render() {
         if (!this.root) {
             this.root = document.createElement('div');

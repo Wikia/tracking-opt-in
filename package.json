@@ -31,7 +31,7 @@
   "scripts": {
     "start": "yarn clean && yarn dev",
     "dev": "cross-env NODE_ENV=development webpack-serve ./webpack.config.js",
-    "build": "yarn clean && yarn build:webpack && yarn build:babel",
+    "build": "yarn build:webpack",
     "build:webpack": "cross-env NODE_ENV=production webpack",
     "build:babel": "babel src --out-dir dist/src --ignore index-dev.js",
     "clean": "rimraf dist"
