@@ -1,6 +1,8 @@
 import {h, Component} from 'preact';
 import styles from './styles.scss';
 
+const DEFAULT_OPTIONS = { zIndex: 99 };
+
 class App extends Component {
     onAccept = () => {
         this.props.optInManager.setTrackingAccepted();
@@ -14,7 +16,8 @@ class App extends Component {
         this.props.options.onRejectTracking();
     };
 
-    render({ options }) {
+    render(props) {
+        const options = props || DEFAULT_OPTIONS;
         return (
             <div
                 className={styles.overlay}
