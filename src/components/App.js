@@ -27,18 +27,18 @@ class App extends Component {
         this.setState({ dialog: DIALOGS.CONFIRM_REJECT });
     };
 
-    render({ options }, { dialog }) {
+    render({ options, content }, { dialog }) {
         let onReject;
         let bodyText;
 
         switch (dialog) {
             case DIALOGS.INITIAL:
                 onReject = this.onInitialReject;
-                bodyText = 'cookies?';
+                bodyText = content.initialHeadline;
                 break;
             default:
                 onReject = this.onReject;
-                bodyText = 'Are you sure???';
+                bodyText = content.secondHeadline;
                 break;
         }
 
@@ -55,10 +55,10 @@ class App extends Component {
                     </div>
                     <div className={styles.footer}>
                         <button onClick={this.onAccept}>
-                            accept all cookies
+                            {content.buttonAccept}
                         </button>
                         <button onClick={onReject}>
-                            reject all cookies
+                            {content.buttonReject}
                         </button>
                     </div>
                 </div>
