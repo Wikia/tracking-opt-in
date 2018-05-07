@@ -42,10 +42,10 @@ function removePrompt() {
 function runApp(AppComponent, appOptions) {
     const root = getAppRoot();
     const options = Object.assign({}, defaultOptions, appOptions);
-    const tracker = new Tracker('en', options.track); // TODO: use actual language once -3139 is done
+    const langManager = new LanguageManager(options.language);
+    const tracker = new Tracker(langManager.lang, options.track);
     const optInManager = new OptInManager(options.cookieName, options.cookieExpiration);
     const geoManager = new GeoManager(options.country, options.countriesRequiringPrompt);
-    const langManager = new LanguageManager(options.language);
     const contentManager = new ContentManager(langManager.lang);
 
     if (!geoManager.needsTrackingPrompt()) {
