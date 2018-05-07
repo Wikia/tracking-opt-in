@@ -3,7 +3,7 @@ import OptInManager from "./OptInManager";
 import Tracker from "./Tracker";
 import ContentManager from "./ContentManager";
 import GeoManager from "./GeoManager";
-import {h, render} from "preact/dist/preact";
+import {h, render} from "preact";
 import App from "./components/App";
 
 const DEFAULT_OPTIONS = {

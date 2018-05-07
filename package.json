@@ -33,7 +33,7 @@
     "dev": "cross-env NODE_ENV=development webpack-serve ./webpack.config.js",
     "build": "yarn clean && yarn build:webpack && yarn build:babel",
     "build:webpack": "cross-env NODE_ENV=production webpack",
-    "build:babel": "babel src --out-dir dist",
+    "build:babel": "babel src --out-dir dist/src --ignore index-dev.js",
     "clean": "rimraf dist"
   }
 }
