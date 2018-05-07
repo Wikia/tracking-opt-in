@@ -4,6 +4,7 @@ import LanguageManager from './LangManager';
 import App from './components/App';
 import OptInManager from "./OptInManager";
 import GeoManager from "./GeoManager";
+import Tracker from './Tracker';
 
 let root = null;
 let hotOptions = null;
@@ -13,6 +14,7 @@ const defaultOptions = {
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
     language: null,
+    track: true,
     zIndex: 1000,
     onAcceptTracking() {
         console.log('user opted in to tracking');
@@ -41,9 +43,10 @@ function removePrompt() {
 function runApp(AppComponent, appOptions) {
     const root = getAppRoot();
     const options = Object.assign({}, defaultOptions, appOptions);
+    const langManager = new LanguageManager(options.language);
+    const tracker = new Tracker(langManager.lang, options.track);
     const optInManager = new OptInManager(options.cookieName, options.cookieExpiration);
     const geoManager = new GeoManager(options.country, options.countriesRequiringPrompt);
-    const langManager = new LanguageManager(options.language);
     const contentManager = new ContentManager(langManager.lang);
 
     if (!geoManager.needsTrackingPrompt()) {
@@ -56,6 +59,7 @@ function runApp(AppComponent, appOptions) {
         render(
             <AppComponent
                 onRequestAppRemove={removePrompt}
+                tracker={tracker}
                 optInManager={optInManager}
                 options={options}
                 content={contentManager.content}
