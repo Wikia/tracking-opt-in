@@ -15,7 +15,7 @@ describe('App Rendering Tests', () => {
     beforeEach(() => {
         wrapper = render(h(App, {
             options: {},
-            content: new ContentManager('en'),
+            content: (new ContentManager('en')).content,
             tracker: new Tracker(),
         }), document.body);
     });
@@ -36,6 +36,6 @@ describe('App Rendering Tests', () => {
         const content = findByClass(wrapper, styles.content);
         expect(content).to.not.equal(null);
         expect(content.className).to.equal(styles.content);
-        expect(content.innerHTML).to.equal('');
+        expect(content.innerHTML).to.equal('This site uses cookies');
     });
 });
