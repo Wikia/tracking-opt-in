@@ -22,7 +22,7 @@ module.exports = function(config) {
 
       webpack: {
           devtool: 'eval-source-map',
-          mode: 'production',
+          mode: 'development',
           module: {
               rules: [
                   {
