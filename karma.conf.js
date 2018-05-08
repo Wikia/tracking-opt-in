@@ -30,12 +30,6 @@ module.exports = function(config) {
                       include: path.resolve(__dirname, './src'),
                       use: [{
                           loader: 'babel-loader',
-                          options: {
-                              presets: ['env', 'preact'],
-                              plugins: [
-                                  'transform-class-properties',
-                              ]
-                          }
                       }]
                   },
                   {
