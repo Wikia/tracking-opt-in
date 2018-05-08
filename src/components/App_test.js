@@ -2,6 +2,8 @@ import { h, render } from 'preact';
 import { expect } from 'chai';
 import App from './App';
 import styles from './styles.scss';
+import ContentManager from "../ContentManager";
+import Tracker from "../Tracker";
 
 const document = global.document;
 
@@ -11,7 +13,11 @@ const findByClass = (wrapper, className) =>
 describe('App Rendering Tests', () => {
     let wrapper;
     beforeEach(() => {
-        wrapper = render(h(App), document.body);
+        wrapper = render(h(App, {
+            options: {},
+            content: new ContentManager('en'),
+            tracker: new Tracker(),
+        }), document.body);
     });
 
     it('renders the container', () => {
@@ -30,6 +36,6 @@ describe('App Rendering Tests', () => {
         const content = findByClass(wrapper, styles.content);
         expect(content).to.not.equal(null);
         expect(content.className).to.equal(styles.content);
-        expect(content.innerHTML).to.equal('cookies?');
+        expect(content.innerHTML).to.equal('');
     });
 });
