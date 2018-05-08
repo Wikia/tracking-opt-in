@@ -8,6 +8,7 @@
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-preact": "^1.1.0",
     "chai": "^4.1.2",
@@ -37,8 +38,11 @@
     "preact": "^8.2.9"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-serve ./webpack.config.js",
-    "build": "cross-env NODE_ENV=production webpack",
+    "start": "yarn clean && yarn dev",
+    "dev": "cross-env NODE_ENV=development webpack-serve ./webpack.config.js",
+    "build": "yarn build:webpack",
+    "build:webpack": "cross-env NODE_ENV=production webpack",
+    "build:babel": "babel src --out-dir dist/src --ignore index-dev.js",
     "clean": "rimraf dist",
     "test": "karma start",
     "test:watch": "karma start --auto-watch --no-single-run"

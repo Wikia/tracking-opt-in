@@ -16,6 +16,7 @@ const autoprefixerPlugin = autoprefixer({
     browsers: browsers.join(', '),
 });
 
+let entry = './src/index.js';
 let topLevelOptions = {};
 let plugins = [];
 let cssLoader = {
@@ -47,12 +48,13 @@ let cssLoader = {
 };
 
 if (process.env.NODE_ENV === 'development') {
+    entry = './src/index-dev.js';
     topLevelOptions = {
         serve: {
-            host: '0.0.0.0',
+            host: 'localhost',
             port: 3000,
             hot: {
-                host: '0.0.0.0',
+                host: 'localhost',
                 port: 3001,
             }
         }
@@ -86,7 +88,7 @@ if (process.env.NODE_ENV === 'development') {
 
 module.exports = {
     mode: process.env.NODE_ENV,
-    entry: './src/index.js',
+    entry,
     output: {
         path: buildPath,
         filename: 'tracking-opt-in.js',
@@ -98,15 +100,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 include: `${__dirname}/src`,
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['env', 'preact'],
-                        plugins: [
-                            'transform-class-properties',
-                        ]
-                    }
-                }]
+                use: 'babel-loader',
             },
             cssLoader,
         ],

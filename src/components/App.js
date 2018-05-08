@@ -1,23 +1,78 @@
 import {h, Component} from 'preact';
 import styles from './styles.scss';
 
-const DEFAULT_OPTIONS = { zIndex: 99 };
+const DIALOGS = {
+    INITIAL: 'initial',
+    CONFIRM_REJECT: 'confirm-reject',
+};
+
+const TRACKING_CATEGORY = 'gdpr-modal';
+const ACTION_IMPRESSION = 'Impression';
+const ACTION_CLICK = 'Click';
 
 class App extends Component {
-    onAccept = () => {
+    state = {
+        dialog: DIALOGS.INITIAL,
+    };
+
+    componentDidMount() {
+        this.track(ACTION_IMPRESSION, 'modal-view');
+    }
+
+    track(action, label) {
+        this.props.tracker.track(TRACKING_CATEGORY, action, label);
+    }
+
+    accept() {
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
         this.props.options.onAcceptTracking();
-    };
+    }
 
-    onReject = () => {
+    reject() {
         this.props.optInManager.setTrackingRejected();
         this.props.onRequestAppRemove();
         this.props.options.onRejectTracking();
+    }
+
+    onInitialAccept = () => {
+        this.track(ACTION_CLICK, 'accept-screen-1');
+        this.accept();
     };
 
-    render(props) {
-        const options = Object.assign({}, props,  DEFAULT_OPTIONS);
+    onFallbackAccept = () => {
+        this.track(ACTION_CLICK, 'accept-screen-2');
+        this.accept();
+    };
+
+    onInitialReject = () => {
+        this.track(ACTION_CLICK, 'reject-screen-1');
+        this.setState({ dialog: DIALOGS.CONFIRM_REJECT });
+    };
+
+    onFallbackReject = () => {
+        this.track(ACTION_CLICK, 'reject-screen-2');
+        this.reject();
+    };
+
+    render({ options, content }, { dialog }) {
+        let onAccept;
+        let onReject;
+        let bodyText;
+
+        switch (dialog) {
+            case DIALOGS.INITIAL:
+                onAccept = this.onInitialAccept;
+                onReject = this.onInitialReject;
+                bodyText = content.initialHeadline;
+                break;
+            default:
+                onAccept = this.onFallbackAccept;
+                onReject = this.onFallbackReject;
+                bodyText = content.secondHeadline;
+                break;
+        }
+
         return (
             <div
                 className={styles.overlay}
@@ -27,14 +82,14 @@ class App extends Component {
             >
                 <div className={styles.container}>
                     <div className={styles.content}>
-                        cookies?
+                        {bodyText}
                     </div>
                     <div className={styles.footer}>
-                        <button onClick={this.onAccept}>
-                            Yes
+                        <button onClick={onAccept}>
+                            {content.buttonAccept}
                         </button>
-                        <button onClick={this.onReject}>
-                            No
+                        <button onClick={onReject}>
+                            {content.buttonReject}
                         </button>
                     </div>
                 </div>
