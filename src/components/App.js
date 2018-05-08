@@ -17,7 +17,7 @@ class App extends Component {
     };
 
     render(props) {
-        const options = props || DEFAULT_OPTIONS;
+        const options = Object.assign({}, props,  DEFAULT_OPTIONS);
         return (
             <div
                 className={styles.overlay}

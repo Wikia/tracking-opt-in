@@ -70,10 +70,6 @@ module.exports = function(config) {
                   'src',
                   'node_modules',
               ],
-              symlinks: false,
-              alias: {
-                  "react": "preact-compat-enzyme"
-              }
           },
       },
 
