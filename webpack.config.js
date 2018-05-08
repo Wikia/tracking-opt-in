@@ -2,6 +2,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
+// ie11 does not let you set cookies on localhost. to test on ie11 set this to an actual domain
+// that resolves to localhost
+const host = 'localhost';
 const browsers = [
     'last 2 chrome versions',
     'last 2 firefox versions',
@@ -51,10 +54,10 @@ if (process.env.NODE_ENV === 'development') {
     entry = './src/index-dev.js';
     topLevelOptions = {
         serve: {
-            host: 'localhost',
+            host,
             port: 3000,
             hot: {
-                host: 'localhost',
+                host,
                 port: 3001,
             }
         }
