@@ -46,5 +46,18 @@ describe("without any relevant cookies", () => {
         const cookie = browser.getCookie(cookieName);
         assert.equal(cookie.value, cookieState.accepted);
         assert.equal(browser.isExisting(overlay), false);
-    })
+    });
+
+    it("adds the correct cookie when rejected", () => {
+        browser
+            .url(url)
+            .click(rejectButton)
+            .pause(500);
+
+        browser.click(rejectButton);
+
+        const cookie = browser.getCookie(cookieName);
+        assert.equal(cookie.value, cookieState.rejected);
+        assert.equal(browser.isExisting(overlay), false);
+    });
 });
