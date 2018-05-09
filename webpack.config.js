@@ -1,4 +1,3 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
@@ -18,40 +17,12 @@ const autoprefixerPlugin = autoprefixer({
     cascade: false,
     browsers: browsers.join(', '),
 });
+const isDevelopment = process.env.NODE_ENV === 'development';
 
-let entry = './src/index.js';
 let topLevelOptions = {};
 let plugins = [];
-let cssLoader = {
-    test: /\.s?css$/,
-    use: [
-        {
-            loader: 'css-loader',
-            options: {
-                sourceMap: false,
-                modules: true,
-            },
-        },
-        {
-            loader: 'postcss-loader',
-            options: {
-                sourceMap: false,
-                plugins: () => [
-                    autoprefixerPlugin,
-                ],
-            },
-        },
-        {
-            loader: 'sass-loader',
-            options: {
-                sourceMap: false
-            },
-        }
-    ],
-};
 
 if (process.env.NODE_ENV === 'development') {
-    entry = './src/index-dev.js';
     topLevelOptions = {
         serve: {
             host,
@@ -69,29 +40,11 @@ if (process.env.NODE_ENV === 'development') {
             to: `${buildPath}/index.html`,
         }])
     ];
-
-    cssLoader.use[0].options.sourceMap = true;
-    cssLoader.use[1].options.sourceMap = true;
-    cssLoader.use[2].options.sourceMap = true;
-    cssLoader.use.unshift({
-        loader: 'style-loader',
-        options: {
-            sourceMap: true,
-        }
-    });
-} else {
-    cssLoader.use.unshift(MiniCssExtractPlugin.loader);
-    plugins = [
-        ...plugins,
-        new MiniCssExtractPlugin({
-            filename: 'styles.css',
-        })
-    ]
 }
 
 module.exports = {
     mode: process.env.NODE_ENV,
-    entry,
+    entry: isDevelopment ? './src/index.js' : './src/index-dev.js',
     output: {
         path: buildPath,
         filename: 'tracking-opt-in.js',
@@ -105,7 +58,40 @@ module.exports = {
                 include: `${__dirname}/src`,
                 use: 'babel-loader',
             },
-            cssLoader,
+            {
+                test: /\.s?css$/,
+                use: [
+                    {
+                        loader: 'style-loader',
+                        options: {
+                            sourceMap: isDevelopment,
+                            hmr: isDevelopment,
+                        },
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: isDevelopment,
+                            modules: true,
+                        },
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: isDevelopment,
+                            plugins: () => [
+                                autoprefixerPlugin,
+                            ],
+                        },
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sourceMap: isDevelopment
+                        },
+                    }
+                ],
+            },
         ],
     },
     plugins: [
