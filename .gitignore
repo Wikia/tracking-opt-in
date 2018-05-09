@@ -1,5 +1,7 @@
 node_modules/
 dist/
+coverage/
 .idea/
 .cache/
 yarn-error.log
+package-lock.json
