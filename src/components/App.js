@@ -56,20 +56,24 @@ class App extends Component {
     };
 
     render({ options, content }, { dialog }) {
-        let onAccept, onReject, bodyText, bodyParagraph;
+        let onAccept, onReject, bodyText, bodyParagraph, acceptText, rejectText;
 
         switch (dialog) {
             case DIALOGS.INITIAL:
                 onAccept = this.onInitialAccept;
+                acceptText = content.buttonAccept;
                 onReject = this.onInitialReject;
+                rejectText = content.buttonReject;
                 bodyText = content.initialHeadline;
                 bodyParagraph = content.initialBodyText;
                 break;
             default:
                 onAccept = this.onFallbackAccept;
+                acceptText = content.secondButtonAccept;
                 onReject = this.onFallbackReject;
+                rejectText = content.secondButtonReject;
                 bodyText = content.secondHeadline;
-                bodyParagraph = 'test';
+                bodyParagraph = content.secondBodyText;
                 break;
         }
 
@@ -97,15 +101,15 @@ class App extends Component {
                     </div>
                     <div className={styles.buttons}>
                         <button className={styles.buttonPrimary} onClick={onAccept}>
-                            {content.buttonAccept}
+                            {acceptText}
                         </button>
                         <button className={styles.buttonSecondary} onClick={onReject}>
-                            {content.buttonReject}
+                            {rejectText}
                         </button>
                     </div>
                     <div className={styles.links}>
-                        <a href="#">Privacy Policy</a>
-                        <a href="#">Partner List</a>
+                        <a href={content.privacyLink}>{content.privacyLinkText}</a>
+                        <a href={content.partnerLink}>{content.partnerLinkText}</a>
                     </div>
                 </div>
             </div>

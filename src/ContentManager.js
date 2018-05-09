@@ -6,16 +6,23 @@ export const langToContent = {
         buttonAccept: '',
         buttonReject: '',
         privacyLinkText: '',
+        privacyLink: '#',
         partnerLinkText: '',
+        partnerLink: '#',
     },
     en: {
         initialHeadline: 'This site uses cookies',
         initialBodyText: 'FANDOM and our partners use technology such as cookies on our site to personalize content and ads, provide social media features, and analyze our traffic. Can we use this technology to deliver you a personalized experience?',
         secondHeadline: 'Are you sure?',
+        secondBodyText: 'By selecting no, you may see ads that are less relevant to you and certain features on the site may not work as intended. You can update your preferences at any time by visiting our Privacy Policy.',
         buttonAccept: 'YES',
         buttonReject: 'NO',
+        secondButtonAccept: 'Accept All Cookies',
+        secondButtonReject: 'Reject All Cookies',
         privacyLinkText: 'Privacy Policy',
+        privacyLink: '#',
         partnerLinkText: 'Partner List',
+        partnerLink: '#',
     },
     es: {
         initialHeadline: '',
@@ -24,7 +31,9 @@ export const langToContent = {
         buttonAccept: '',
         buttonReject: '',
         privacyLinkText: '',
+        privacyLink: '#',
         partnerLinkText: '',
+        partnerLink: '#',
     },
     fr: {
         initialHeadline: '',
@@ -33,7 +42,9 @@ export const langToContent = {
         buttonAccept: '',
         buttonReject: '',
         privacyLinkText: '',
+        privacyLink: '#',
         partnerLinkText: '',
+        partnerLink: '#',
     },
     it: {
         initialHeadline: '',
@@ -42,7 +53,9 @@ export const langToContent = {
         buttonAccept: '',
         buttonReject: '',
         privacyLinkText: '',
+        privacyLink: '#',
         partnerLinkText: '',
+        partnerLink: '#',
     },
     ja: {
         initialHeadline: '',
@@ -51,7 +64,9 @@ export const langToContent = {
         buttonAccept: '',
         buttonReject: '',
         privacyLinkText: '',
+        privacyLink: '#',
         partnerLinkText: '',
+        partnerLink: '#',
     },
     pl: {
         initialHeadline: '',
@@ -60,7 +75,9 @@ export const langToContent = {
         buttonAccept: '',
         buttonReject: '',
         privacyLinkText: '',
+        privacyLink: '#',
         partnerLinkText: '',
+        partnerLink: '#',
     },
     pt: {
         initialHeadline: '',
@@ -78,7 +95,9 @@ export const langToContent = {
         buttonAccept: '',
         buttonReject: '',
         privacyLinkText: '',
+        privacyLink: '#',
         partnerLinkText: '',
+        partnerLink: '#',
     },
     'zh-hans': {
         initialHeadline: '',
@@ -87,7 +106,9 @@ export const langToContent = {
         buttonAccept: '',
         buttonReject: '',
         privacyLinkText: '',
+        privacyLink: '#',
         partnerLinkText: '',
+        partnerLink: '#',
     },
     'zh-hant': {
         initialHeadline: '',
@@ -96,7 +117,9 @@ export const langToContent = {
         buttonAccept: '',
         buttonReject: '',
         privacyLinkText: '',
+        privacyLink: '#',
         partnerLinkText: '',
+        partnerLink: '#',
     },
 };
 

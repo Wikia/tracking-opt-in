@@ -74,7 +74,6 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   flex-direction: column;
   justify-content: center;
   margin: auto;
-  width: 61px;
 
   @media #{$desktop-devices} {
     align-items: center;
@@ -90,7 +89,6 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   font-size: 12px;
   font-weight: bold;
   padding: 10px 18px;
-  width: 61px;
 
   &:hover {
     cursor: pointer;
@@ -111,7 +109,6 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   font-size: 12px;
   font-weight: bold;
   padding: 10px 18px;
-  width: 61px;
 
   &:hover {
     cursor: pointer;
