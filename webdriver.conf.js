@@ -12,12 +12,12 @@ if (!user || !key) {
 exports.config = {
     user,
     key,
-    logLevel: 'info',
     coloredLogs: true,
     specs: [
         './selenium/sample.js'
     ],
     capabilities: [{
+        project: 'tracking-opt-in',
         browser: 'chrome',
         'browserstack.local': local,
     }],
