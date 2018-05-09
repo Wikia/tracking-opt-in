@@ -1,6 +1,6 @@
 {
-  "name": "tracking-opt-in",
-  "version": "1.0.0",
+  "name": "tracking-opt-in-test",
+  "version": "1.0.1",
   "main": "dist/tracking-opt-in.js",
   "license": "MIT",
   "devDependencies": {
@@ -34,6 +34,7 @@
     "build": "yarn build:webpack",
     "build:webpack": "cross-env NODE_ENV=production webpack",
     "build:babel": "babel src --out-dir dist/src --ignore index-dev.js",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "prepublish": "yarn build"
   }
 }
