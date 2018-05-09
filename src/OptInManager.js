@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie';
 
-const DEFAULT_COOKIE_NAME = 'tracking-opt-in-status';
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
-const STATUS = {
+export const DEFAULT_COOKIE_NAME = 'tracking-opt-in-status';
+export const STATUS = {
     ACCEPTED: 'accepted',
     REJECTED: 'rejected',
 };

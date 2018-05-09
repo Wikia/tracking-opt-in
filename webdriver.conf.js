@@ -10,7 +10,6 @@ if (!user || !key) {
 
 const SUITES = {
     local: 'local',
-    sample: 'sample',
 };
 
 const suite = process.env.SUITE || 'local';

@@ -81,6 +81,7 @@ class App extends Component {
         return (
 
             <div
+                data-tracking-opt-in-overlay="true"
                 className={styles.overlay}
                 style={{
                     zIndex: options.zIndex,
@@ -101,13 +102,15 @@ class App extends Component {
                     </div>
                     <div className={styles.buttons}>
                         <button
-                            className={`${styles.buttonPrimary} tracking-opt-in-accept`}
+                            data-tracking-opt-in-accept="true"
+                            className={styles.buttonPrimary}
                             onClick={onAccept}
                         >
                             {acceptText}
                         </button>
                         <button
-                            className={`${styles.buttonSecondary} tracking-opt-in-reject`}
+                            data-tracking-opt-in-reject="true"
+                            className={styles.buttonSecondary}
                             onClick={onReject}
                         >
                             {rejectText}
