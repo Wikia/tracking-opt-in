@@ -85,10 +85,16 @@ class App extends Component {
                         {bodyText}
                     </div>
                     <div className={styles.footer}>
-                        <button onClick={onAccept}>
+                        <button
+                            onClick={onAccept}
+                            className="tracking-opt-in-accept"
+                        >
                             {content.buttonAccept}
                         </button>
-                        <button onClick={onReject}>
+                        <button
+                            onClick={onReject}
+                            className="tracking-opt-in-reject"
+                        >
                             {content.buttonReject}
                         </button>
                     </div>
