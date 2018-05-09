@@ -1,6 +1,7 @@
 export const langToContent = {
     de: {
         initialHeadline: '',
+        initialBodyText: '',
         secondHeadline: '',
         buttonAccept: '',
         buttonReject: '',
@@ -9,14 +10,16 @@ export const langToContent = {
     },
     en: {
         initialHeadline: 'This site uses cookies',
+        initialBodyText: 'FANDOM and our partners use technology such as cookies on our site to personalize content and ads, provide social media features, and analyze our traffic. Can we use this technology to deliver you a personalized experience?',
         secondHeadline: 'Are you sure?',
-        buttonAccept: 'Accept all cookies',
-        buttonReject: 'Reject all cookies',
+        buttonAccept: 'YES',
+        buttonReject: 'NO',
         privacyLinkText: 'Privacy Policy',
         partnerLinkText: 'Partner List',
     },
     es: {
         initialHeadline: '',
+        initialBodyText: '',
         secondHeadline: '',
         buttonAccept: '',
         buttonReject: '',
@@ -25,6 +28,7 @@ export const langToContent = {
     },
     fr: {
         initialHeadline: '',
+        initialBodyText: '',
         secondHeadline: '',
         buttonAccept: '',
         buttonReject: '',
@@ -33,6 +37,7 @@ export const langToContent = {
     },
     it: {
         initialHeadline: '',
+        initialBodyText: '',
         secondHeadline: '',
         buttonAccept: '',
         buttonReject: '',
@@ -41,6 +46,7 @@ export const langToContent = {
     },
     ja: {
         initialHeadline: '',
+        initialBodyText: '',
         secondHeadline: '',
         buttonAccept: '',
         buttonReject: '',
@@ -49,6 +55,7 @@ export const langToContent = {
     },
     pl: {
         initialHeadline: '',
+        initialBodyText: '',
         secondHeadline: '',
         buttonAccept: '',
         buttonReject: '',
@@ -57,6 +64,7 @@ export const langToContent = {
     },
     pt: {
         initialHeadline: '',
+        initialBodyText: '',
         secondHeadline: '',
         buttonAccept: '',
         buttonReject: '',
@@ -65,6 +73,7 @@ export const langToContent = {
     },
     ru: {
         initialHeadline: '',
+        initialBodyText: '',
         secondHeadline: '',
         buttonAccept: '',
         buttonReject: '',
@@ -73,6 +82,7 @@ export const langToContent = {
     },
     'zh-hans': {
         initialHeadline: '',
+        initialBodyText: '',
         secondHeadline: '',
         buttonAccept: '',
         buttonReject: '',
@@ -81,6 +91,7 @@ export const langToContent = {
     },
     'zh-hant': {
         initialHeadline: '',
+        initialBodyText: '',
         secondHeadline: '',
         buttonAccept: '',
         buttonReject: '',
