@@ -14,7 +14,7 @@ const autoprefixerPlugin = autoprefixer({
     cascade: false,
     browsers: browsers.join(', '),
 });
-const isDevevelopment = process.env.NODE_ENV === 'development';
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 let topLevelOptions = {};
 let plugins = [];
@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'development') {
 
 module.exports = {
     mode: process.env.NODE_ENV,
-    entry: isDevevelopment ? './src/index.js' : './src/index-dev.js',
+    entry: isDevelopment ? './src/index.js' : './src/index-dev.js',
     output: {
         path: buildPath,
         filename: 'tracking-opt-in.js',
@@ -61,20 +61,21 @@ module.exports = {
                     {
                         loader: 'style-loader',
                         options: {
-                            sourceMap: isDevevelopment,
+                            sourceMap: isDevelopment,
+                            hmr: isDevelopment,
                         },
                     },
                     {
                         loader: 'css-loader',
                         options: {
-                            sourceMap: isDevevelopment,
+                            sourceMap: isDevelopment,
                             modules: true,
                         },
                     },
                     {
                         loader: 'postcss-loader',
                         options: {
-                            sourceMap: isDevevelopment,
+                            sourceMap: isDevelopment,
                             plugins: () => [
                                 autoprefixerPlugin,
                             ],
@@ -83,7 +84,7 @@ module.exports = {
                     {
                         loader: 'sass-loader',
                         options: {
-                            sourceMap: isDevevelopment
+                            sourceMap: isDevelopment
                         },
                     }
                 ],
