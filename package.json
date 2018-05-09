@@ -1,6 +1,6 @@
 {
-  "name": "tracking-opt-in",
-  "version": "1.0.0",
+  "name": "tracking-opt-in-test",
+  "version": "1.0.5",
   "main": "dist/tracking-opt-in.js",
   "license": "MIT",
   "devDependencies": {
@@ -47,6 +47,7 @@
     "build:webpack": "cross-env NODE_ENV=production webpack",
     "build:babel": "babel src --out-dir dist/src --ignore index-dev.js",
     "clean": "rimraf dist",
+    "prepublish": "yarn build",
     "test": "karma start",
     "test:watch": "karma start --auto-watch --no-single-run",
     "test:selenium": "wdio webdriver.conf.js"
