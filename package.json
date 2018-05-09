@@ -1,6 +1,6 @@
 {
   "name": "tracking-opt-in-test",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/tracking-opt-in.js",
   "license": "MIT",
   "devDependencies": {
