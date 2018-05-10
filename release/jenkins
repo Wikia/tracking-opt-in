@@ -1,13 +1,11 @@
 def buildimage = 'artifactory.wikia-inc.com/ops/k8s-deployer:0.0.12'
 
 pipeline {
-  agent {
-      node {
-        withEnv(["PATH+NODE=${tool name: 'node-9.9.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'}/bin"]) {
-          sh 'node -v'
-          sh 'yarn -v'
-        }
-      }
+  node {
+    withEnv(["PATH+NODE=${tool name: 'node-9.9.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'}/bin"]) {
+      sh 'node -v'
+      sh 'yarn -v'
+    }
   }
 
   stages {
