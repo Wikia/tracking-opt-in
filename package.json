@@ -1,6 +1,6 @@
 {
   "name": "@wikia/tracking-opt-in",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "main": "dist/tracking-opt-in.min.js",
   "license": "Apache 2.0",
   "repository": {
@@ -45,7 +45,7 @@
     "build:webpack": "cross-env NODE_ENV=production webpack",
     "build:babel": "babel src --out-dir dist/src --ignore index-dev.js",
     "clean": "rimraf dist",
-    "prepublish": "yarn build",
+    "prepublishOnly": "yarn build",
     "test": "karma start",
     "test:watch": "karma start --auto-watch --no-single-run"
   }
