@@ -60,7 +60,6 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 }
 
 .content {
-  font-size: 14px;
   line-height: 1.43;
   margin-bottom: 20px;
   text-align: center;
@@ -76,6 +75,10 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
     line-height: 1.57;
     margin: 30px auto;
     max-width: 650px;
+  }
+
+  p {
+    font-size: 14px;
   }
 }
 
