@@ -101,20 +101,20 @@ class App extends Component {
                         <div>{bodyParagraph}</div>
                     </div>
                     <div className={styles.buttons}>
-                        <button
+                        <div
                             data-tracking-opt-in-accept="true"
                             className={styles.buttonPrimary}
                             onClick={onAccept}
                         >
                             {acceptText}
-                        </button>
-                        <button
+                        </div>
+                        <div
                             data-tracking-opt-in-reject="true"
                             className={styles.buttonSecondary}
                             onClick={onReject}
                         >
                             {rejectText}
-                        </button>
+                        </div>
                     </div>
                     <div className={styles.links}>
                         <a href={content.privacyLink}>{content.privacyLinkText}</a>
