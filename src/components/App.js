@@ -11,10 +11,6 @@ const ACTION_IMPRESSION = 'Impression';
 const ACTION_CLICK = 'Click';
 
 class App extends Component {
-    state = {
-        dialog: DIALOGS.INITIAL,
-    };
-
     componentDidMount() {
         this.track(ACTION_IMPRESSION, 'modal-view');
     }
@@ -24,62 +20,21 @@ class App extends Component {
     }
 
     accept() {
+        this.track(ACTION_CLICK, 'accept-screen-1');
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
         this.props.options.onAcceptTracking();
     }
 
     reject() {
+        this.track(ACTION_CLICK, 'reject-screen-1');
         this.props.optInManager.setTrackingRejected();
         this.props.onRequestAppRemove();
         this.props.options.onRejectTracking();
     }
 
-    onInitialAccept = () => {
-        this.track(ACTION_CLICK, 'accept-screen-1');
-        this.accept();
-    };
-
-    onFallbackAccept = () => {
-        this.track(ACTION_CLICK, 'accept-screen-2');
-        this.accept();
-    };
-
-    onInitialReject = () => {
-        this.track(ACTION_CLICK, 'reject-screen-1');
-        this.setState({ dialog: DIALOGS.CONFIRM_REJECT });
-    };
-
-    onFallbackReject = () => {
-        this.track(ACTION_CLICK, 'reject-screen-2');
-        this.reject();
-    };
-
     render({ options, content }, { dialog }) {
-        let onAccept, onReject, bodyText, bodyParagraph, acceptText, rejectText;
-
-        switch (dialog) {
-            case DIALOGS.INITIAL:
-                onAccept = this.onInitialAccept;
-                acceptText = content.buttonAccept;
-                onReject = this.onInitialReject;
-                rejectText = content.buttonReject;
-                bodyText = content.initialHeadline;
-                bodyParagraph = content.initialBodyText;
-                break;
-            default:
-                onAccept = this.onFallbackAccept;
-                acceptText = content.secondButtonAccept;
-                onReject = this.onFallbackReject;
-                rejectText = content.secondButtonReject;
-                bodyText = content.secondHeadline;
-                bodyParagraph = content.secondBodyText;
-                break;
-        }
-
-
         return (
-
             <div
                 data-tracking-opt-in-overlay="true"
                 className={styles.overlay}
@@ -97,23 +52,27 @@ class App extends Component {
                         </svg>
                     </div>
                     <div className={styles.content}>
-                        {dialog === DIALOGS.INITIAL ? <div className={styles.usesCookiesText}> This site uses cookies </div> : ''}
-                        <div>{bodyParagraph}</div>
+                        <div className={styles.usesCookiesText}> {content.headline} </div>
+                        <div>
+                            {content.bodyParagraphs.map((paragraph) =>
+                                <p>{paragraph}</p>
+                            )}
+                        </div>
                     </div>
                     <div className={styles.buttons}>
                         <div
                             data-tracking-opt-in-accept="true"
                             className={styles.buttonPrimary}
-                            onClick={onAccept}
+                            onClick={this.accept}
                         >
-                            {acceptText}
+                            {content.buttonAccept}
                         </div>
                         <div
                             data-tracking-opt-in-reject="true"
                             className={styles.buttonSecondary}
-                            onClick={onReject}
+                            onClick={this.reject}
                         >
-                            {rejectText}
+                            {content.buttonReject}
                         </div>
                     </div>
                     <div className={styles.links}>

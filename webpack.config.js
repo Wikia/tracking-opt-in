@@ -47,7 +47,7 @@ module.exports = {
     entry: isDevelopment ? './src/index.js' : './src/index-dev.js',
     output: {
         path: buildPath,
-        filename: 'tracking-opt-in.js',
+        filename: 'tracking-opt-in.min.js',
         library: 'trackingOptIn',
         libraryTarget: 'umd',
     },
