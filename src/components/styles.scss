@@ -30,8 +30,8 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   }
 
   @media #{$desktop-devices} {
-    height: 400px;
-    width: 600px;
+    height: 600px;
+    width: 650px;
   }
 }
 
@@ -58,14 +58,22 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 }
 
 .content {
-  text-align: center;
+  font-size: 14px;
   line-height: 1.43;
+  margin-bottom: 20px;
+  text-align: center;
+
+  @media #{$mobile-devices} {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 85vw;
+    overflow-y: scroll;
+  }
 
   @media #{$desktop-devices} {
-    font-size: 14px;
     line-height: 1.57;
     margin: 30px auto;
-    max-width: 490px;
+    max-width: 650px;
   }
 }
 

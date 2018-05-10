@@ -11,10 +11,6 @@ const ACTION_IMPRESSION = 'Impression';
 const ACTION_CLICK = 'Click';
 
 class App extends Component {
-    state = {
-        dialog: DIALOGS.INITIAL,
-    };
-
     componentDidMount() {
         this.track(ACTION_IMPRESSION, 'modal-view');
     }
@@ -40,46 +36,13 @@ class App extends Component {
         this.accept();
     };
 
-    onFallbackAccept = () => {
-        this.track(ACTION_CLICK, 'accept-screen-2');
-        this.accept();
-    };
-
     onInitialReject = () => {
         this.track(ACTION_CLICK, 'reject-screen-1');
-        this.setState({ dialog: DIALOGS.CONFIRM_REJECT });
-    };
-
-    onFallbackReject = () => {
-        this.track(ACTION_CLICK, 'reject-screen-2');
         this.reject();
     };
 
     render({ options, content }, { dialog }) {
-        let onAccept, onReject, bodyText, bodyParagraph, acceptText, rejectText;
-
-        switch (dialog) {
-            case DIALOGS.INITIAL:
-                onAccept = this.onInitialAccept;
-                acceptText = content.buttonAccept;
-                onReject = this.onInitialReject;
-                rejectText = content.buttonReject;
-                bodyText = content.initialHeadline;
-                bodyParagraph = content.initialBodyText;
-                break;
-            default:
-                onAccept = this.onFallbackAccept;
-                acceptText = content.secondButtonAccept;
-                onReject = this.onFallbackReject;
-                rejectText = content.secondButtonReject;
-                bodyText = content.secondHeadline;
-                bodyParagraph = content.secondBodyText;
-                break;
-        }
-
-
         return (
-
             <div
                 className={styles.overlay}
                 style={{
@@ -96,15 +59,19 @@ class App extends Component {
                         </svg>
                     </div>
                     <div className={styles.content}>
-                        {dialog === DIALOGS.INITIAL ? <div className={styles.usesCookiesText}> This site uses cookies </div> : ''}
-                        <div>{bodyParagraph}</div>
+                        <div className={styles.usesCookiesText}> {content.headline} </div>
+                        <div>
+                            {content.bodyParagraphs.map((paragraph) =>
+                                <p>{paragraph}</p>
+                            )}
+                        </div>
                     </div>
                     <div className={styles.buttons}>
-                        <div className={styles.buttonPrimary} onClick={onAccept}>
-                            {acceptText}
+                        <div className={styles.buttonPrimary} onClick={this.onInitialAccept}>
+                            {content.buttonAccept}
                         </div>
-                        <div className={styles.buttonSecondary} onClick={onReject}>
-                            {rejectText}
+                        <div className={styles.buttonSecondary} onClick={this.onInitialReject}>
+                            {content.buttonReject}
                         </div>
                     </div>
                     <div className={styles.links}>
