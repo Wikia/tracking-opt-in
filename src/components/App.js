@@ -20,26 +20,18 @@ class App extends Component {
     }
 
     accept() {
+        this.track(ACTION_CLICK, 'accept-screen-1');
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
         this.props.options.onAcceptTracking();
     }
 
     reject() {
+        this.track(ACTION_CLICK, 'reject-screen-1');
         this.props.optInManager.setTrackingRejected();
         this.props.onRequestAppRemove();
         this.props.options.onRejectTracking();
     }
-
-    onInitialAccept = () => {
-        this.track(ACTION_CLICK, 'accept-screen-1');
-        this.accept();
-    };
-
-    onInitialReject = () => {
-        this.track(ACTION_CLICK, 'reject-screen-1');
-        this.reject();
-    };
 
     render({ options, content }, { dialog }) {
         return (
@@ -67,10 +59,10 @@ class App extends Component {
                         </div>
                     </div>
                     <div className={styles.buttons}>
-                        <div className={styles.buttonPrimary} onClick={this.onInitialAccept}>
+                        <div className={styles.buttonPrimary} onClick={this.accept}>
                             {content.buttonAccept}
                         </div>
-                        <div className={styles.buttonSecondary} onClick={this.onInitialReject}>
+                        <div className={styles.buttonSecondary} onClick={this.reject}>
                             {content.buttonReject}
                         </div>
                     </div>
