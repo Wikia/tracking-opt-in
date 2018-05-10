@@ -2,6 +2,7 @@ def buildimage = 'artifactory.wikia-inc.com/ops/k8s-deployer:0.0.12'
 
 pipeline {
   agent any
+  tools { nodejs "v9.9.0" }
 
   stages {
     stage('Git Checkout') {
@@ -21,9 +22,7 @@ pipeline {
 
     stage('Run the tests') {
       steps {
-        nodejs(nodeJSInstallationName: 'Node 9.9.0') {
-          sh "cd src/tracking-opt-in && yarn install --frozen-lockfile && yarn test"
-        }
+        sh "cd src/tracking-opt-in && yarn install --frozen-lockfile && yarn test"
       }
     }
 
