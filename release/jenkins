@@ -19,8 +19,7 @@ pipeline {
             ],
             submoduleCfg: [],
             branches: [[name: "*/${params.branch}"]],
-            userRemoteConfigs: [[url: 'git@github.com:Wikia/tracking-opt-in.git',
-              credentialsId: "${env.GIT_CREDENTIAL_ID}"]]])
+            userRemoteConfigs: [[url: 'https://github.com/Wikia/tracking-opt-in.git']]])
       }
     }
 
