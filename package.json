@@ -1,8 +1,12 @@
 {
-  "name": "tracking-opt-in",
-  "version": "1.0.7",
+  "name": "@wikia/tracking-opt-in",
+  "version": "1.0.9",
   "main": "dist/tracking-opt-in.js",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wikia/tracking-opt-in"
+  },
   "devDependencies": {
     "autoprefixer": "^8.4.1",
     "babel-cli": "^6.26.0",
@@ -33,8 +37,7 @@
     "webpack-cli": "^2.1.2",
     "webpack-serve": "^0.3.2"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
     "start": "yarn clean && yarn dev",
     "dev": "cross-env NODE_ENV=development webpack-serve ./webpack.config.js",
