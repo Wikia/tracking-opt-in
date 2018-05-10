@@ -1,3 +1,4 @@
+def buildimage = mhart/alpine-node:9.9.0
 
 pipeline {
   agent any
@@ -21,7 +22,9 @@ pipeline {
 
     stage('Run the tests') {
       steps {
-        sh "cd src/tracking-opt-in && yarn install --frozen-lockfile && yarn test"
+        withDockerContainer(buildimage) {
+            sh "cd src/tracking-opt-in && yarn install --frozen-lockfile && yarn test"
+        }
       }
     }
 
@@ -50,7 +53,7 @@ pipeline {
     }
 
     failure {
-      slackSend (channel: '#cake-team-tech', color: 'warning', failOnError: true, message: ":sadface: Release of tracking-opt-in on ${params.branch} environment} failed!")
+      slackSend (channel: '#cake-team-tech', color: 'warning', failOnError: true, message: ":sadface: Release of tracking-opt-in on ${params.branch} :flag_eu: :doom_look: failed!")
     }
   }
 }
