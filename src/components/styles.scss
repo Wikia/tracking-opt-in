@@ -96,7 +96,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   color: white;
   font-size: 12px;
   font-weight: bold;
-  padding: 6px 18px;
+  padding: 12px 18px;
 
   &:hover {
     cursor: pointer;
@@ -116,7 +116,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   border: none;
   font-size: 12px;
   font-weight: bold;
-  padding: 6px 18px;
+  padding: 12px 18px;
 
   &:hover {
     cursor: pointer;
