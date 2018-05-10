@@ -2,8 +2,8 @@ const assert = require('assert');
 
 const url = 'http://localhost:3000';
 const overlay = 'div[data-tracking-opt-in-overlay="true"]';
-const acceptButton = 'button[data-tracking-opt-in-accept="true"]';
-const rejectButton = 'button[data-tracking-opt-in-reject="true"]';
+const acceptButton = 'div[data-tracking-opt-in-accept="true"]';
+const rejectButton = 'div[data-tracking-opt-in-reject="true"]';
 const trackingCookie = 'tracking-opt-in-status';
 const cookieState = {
     accepted: 'accepted',
