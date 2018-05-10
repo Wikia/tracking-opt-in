@@ -28,7 +28,7 @@ describe('App Rendering Tests', () => {
     it('renders the container', () => {
         const container = findByClass(wrapper, styles.container);
         expect(container).to.not.equal(null);
-        expect(container.childElementCount).to.equal(2);
+        expect(container.childElementCount).to.equal(4);
         expect(container.className).to.equal(styles.container);
     });
 
@@ -36,6 +36,6 @@ describe('App Rendering Tests', () => {
         const content = findByClass(wrapper, styles.content);
         expect(content).to.not.equal(null);
         expect(content.className).to.equal(styles.content);
-        expect(content.innerHTML).to.equal('This site uses cookies');
+        expect(content.childElementCount).to.equal(2);
     });
 });
