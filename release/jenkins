@@ -1,7 +1,11 @@
 def buildimage = 'mhart/alpine-node:9.9.0'
 
 pipeline {
-  agent any
+  agent {
+    node {
+      label 'docker-daemon'
+    }
+  }
 
   stages {
     stage('Git Checkout') {
