@@ -37,6 +37,10 @@ class TrackingOptIn {
         this.root = null;
     };
 
+    geoRequiresTrackingConsent() {
+        return this.geoManager.needsTrackingPrompt();
+    }
+
     reset() {
         this.clear();
         this.render();
@@ -52,7 +56,7 @@ class TrackingOptIn {
             document.body.appendChild(this.root);
         }
 
-        if (!this.geoManager.needsTrackingPrompt()) {
+        if (!this.geoRequiresTrackingConsent()) {
             this.options.onAcceptTracking();
         } else if (this.optInManager.hasAcceptedTracking()) {
             this.options.onAcceptTracking();

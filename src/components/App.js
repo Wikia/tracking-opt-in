@@ -19,7 +19,7 @@ class App extends Component {
         this.props.tracker.track(TRACKING_CATEGORY, action, label);
     }
 
-    accept = () =>  {
+    accept = () => {
         this.track(ACTION_CLICK, 'accept-screen-1');
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
@@ -36,6 +36,7 @@ class App extends Component {
     render({ options, content }, { dialog }) {
         return (
             <div
+                data-tracking-opt-in-overlay="true"
                 className={styles.overlay}
                 style={{
                     zIndex: options.zIndex,
@@ -59,10 +60,18 @@ class App extends Component {
                         </div>
                     </div>
                     <div className={styles.buttons}>
-                        <div className={styles.buttonPrimary} onClick={this.accept}>
+                        <div
+                            data-tracking-opt-in-accept="true"
+                            className={styles.buttonPrimary}
+                            onClick={this.accept}
+                        >
                             {content.buttonAccept}
                         </div>
-                        <div className={styles.buttonSecondary} onClick={this.reject}>
+                        <div
+                            data-tracking-opt-in-reject="true"
+                            className={styles.buttonSecondary}
+                            onClick={this.reject}
+                        >
                             {content.buttonReject}
                         </div>
                     </div>

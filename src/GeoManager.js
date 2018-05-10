@@ -17,13 +17,16 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'de', // Germany
     'gr', // Greece
     'hu', // Hungary
+    'is', // Iceland
     'ie', // Ireland
     'it', // Italy
     'lv', // Latvia
+    'li', // Liechtenstein
     'lt', // Lithuania
     'lu', // Luxembourg
     'mt', // Malta
     'nl', // Netherlands
+    'no', // Norway
     'pl', // Poland
     'pt', // Portugal
     'ro', // Romania
@@ -31,6 +34,7 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'si', // Slovenia
     'es', // Spain
     'se', // Sweden
+    'ch', // Switzerland
     'gb', // United Kingdom of Great Britain and Northern Ireland
 ];
 

@@ -22,10 +22,8 @@ let plugins = [];
 if (process.env.NODE_ENV === 'development') {
     topLevelOptions = {
         serve: {
-            host: 'localhost',
             port: 3000,
             hot: {
-                host: 'localhost',
                 port: 3001,
             }
         }
