@@ -34,28 +34,10 @@ describe("without any relevant cookies", () => {
         assert.equal(browser.isExisting(overlay), false);
     });
 
-    it("adds the correct cookie when accepted on the secondary modal", () => {
-        browser
-            .url(url)
-            .click(rejectButton)
-            .pause(500);
-
-        assert(browser.isExisting(acceptButton));
-
-        browser.click(acceptButton);
-
-        const cookie = browser.getCookie(trackingCookie);
-        assert.equal(cookie.value, cookieState.accepted);
-        assert.equal(browser.isExisting(overlay), false);
-    });
-
     it("adds the correct cookie when rejected", () => {
         browser
             .url(url)
-            .click(rejectButton)
-            .pause(500);
-
-        browser.click(rejectButton);
+            .click(rejectButton);
 
         const cookie = browser.getCookie(trackingCookie);
         assert.equal(cookie.value, cookieState.rejected);
