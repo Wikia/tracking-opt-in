@@ -1,7 +1,7 @@
 {
   "name": "@wikia/tracking-opt-in",
   "version": "1.0.9",
-  "main": "dist/tracking-opt-in.js",
+  "main": "dist/tracking-opt-in.min.js",
   "license": "Apache 2.0",
   "repository": {
     "type": "git",
