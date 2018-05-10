@@ -1,8 +1,8 @@
 {
   "name": "@wikia/tracking-opt-in",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "main": "dist/tracking-opt-in.min.js",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Wikia/tracking-opt-in"
@@ -51,7 +51,7 @@
     "build:webpack": "cross-env NODE_ENV=production webpack",
     "build:babel": "babel src --out-dir dist/src --ignore index-dev.js",
     "clean": "rimraf dist selenium/reports",
-    "prepublish": "yarn build",
+    "prepublishOnly": "yarn build",
     "test": "karma start",
     "test:watch": "karma start --auto-watch --no-single-run",
     "test:selenium": "wdio webdriver.conf.js"
