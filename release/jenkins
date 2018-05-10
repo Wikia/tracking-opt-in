@@ -29,7 +29,6 @@ pipeline {
             /**
                 sh "cd src/tracking-opt-in && yarn install --frozen-lockfile && yarn test"
             */
-            sh "cd src/tracking-opt-in && ls"
             sh "which yarn"
         }
       }
