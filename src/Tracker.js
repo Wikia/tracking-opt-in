@@ -1,6 +1,6 @@
-const TRACKING_BASE = 'https://beacon.wikia-services.com/__track/special/trackingevent';
+const TRACKING_BASE = 'https://beacon.wikia-services.com/__track/special/gdpr_events';
 const TRACK_PARAMS = {
-    LANGUAGE_CODE: 'lc',
+    LANGUAGE_CODE: 'lang_code',
     CATEGORY: 'ga_category',
     ACTION: 'ga_action',
     LABEL: 'ga_label',
