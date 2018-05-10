@@ -10,7 +10,6 @@ pipeline {
         checkout([$class: 'GitSCM',
             doGenerateSubmoduleConfigurations: false,
             extensions: [
-              [$class: 'RelativeTargetDirectory', relativeTargetDir: 'src/tracking-opt-in'],
               [$class: 'LocalBranch', localBranch: "${params.branch}"],
               [$class: 'CleanCheckout']
             ],
@@ -20,9 +19,15 @@ pipeline {
       }
     }
 
+    stage('Install dependencies') {
+      steps {
+        sh "yarn install --frozen-lockfile"
+      }
+    }
+
     stage('Run the tests') {
       steps {
-        sh "cd src/tracking-opt-in && yarn install --frozen-lockfile && yarn test"
+        sh "yarn test"
       }
     }
 
