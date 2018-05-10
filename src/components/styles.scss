@@ -32,6 +32,8 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   @media #{$desktop-devices} {
     height: 600px;
     width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
   }
 }
 
@@ -66,8 +68,8 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   @media #{$mobile-devices} {
     margin-left: auto;
     margin-right: auto;
-    max-width: 85vw;
-    overflow-y: scroll;
+    max-width: 80vw;
+    overflow-y: auto;
   }
 
   @media #{$desktop-devices} {
