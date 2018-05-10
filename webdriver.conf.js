@@ -18,47 +18,52 @@ const macOsDevice = {
     os_version: 'High Sierra',
 };
 const android4_4Device = {
+    os: 'Android',
     device: 'Google Nexus 5',
     os_version: '4.4',
     realMobile: true,
 };
 const android5Device = {
+    os: 'Android',
     device: 'Samsung Galaxy S6',
     os_version: '5.0',
     realMobile: true,
 };
 const android6Device = {
+    os: 'Android',
     device: 'Samsung Galaxy S7',
     os_version: '6.0',
     realMobile: true,
 };
 const android7Device = {
+    os: 'Android',
     device: 'Samsung Galaxy S8',
     os_version: '7.0',
     realMobile: true,
 };
 const android8Device = {
+    os: 'Android',
     device: 'Google Pixel',
     os_version: '8.0',
     realMobile: true,
 };
 const ios10_3Device = {
+    os: 'iOS',
     device: 'iPhone 7',
     os_version: '10.3',
     realMobile: true,
-    browser: 'safari',
 };
 const ios11Device = {
+    os: 'iOS',
     device: 'iPhone 8',
     os_version: '11.0',
     realMobile: true,
-    browser: 'safari',
 };
 const ios11_2Device = {
+    os: 'iOS',
     device: 'iPhone SE',
     os_version: '11.2',
     realMobile: true,
-    browser: 'safari',
 };
 
 
@@ -87,34 +92,42 @@ exports.config = {
         {
             ...ios10_3Device,
             ...commonCapabilities,
+            browser: 'safari',
         },
         {
             ...ios11Device,
             ...commonCapabilities,
+            browser: 'safari',
         },
         {
             ...ios11_2Device,
             ...commonCapabilities,
+            browser: 'safari',
         },
         {
             ...android4_4Device,
             ...commonCapabilities,
+            browser: 'chrome',
         },
         {
             ...android5Device,
             ...commonCapabilities,
+            browser: 'chrome',
         },
         {
             ...android6Device,
             ...commonCapabilities,
+            browser: 'chrome',
         },
         {
             ...android7Device,
             ...commonCapabilities,
+            browser: 'chrome',
         },
         {
             ...android8Device,
             ...commonCapabilities,
+            browser: 'chrome',
         },
         {
             ...windows10Device,
@@ -154,6 +167,13 @@ exports.config = {
         },
     ],
 };
+
+// so that the generated reports have the proper browserName
+exports.config.capabilities.forEach((cap) => {
+    if (cap.browser && !cap.browserName) {
+        cap.browserName = cap.browser;
+    }
+});
 
 if (useTunnel) {
     // Code to start browserstack local before start of test
