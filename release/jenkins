@@ -2,9 +2,12 @@ def buildimage = 'artifactory.wikia-inc.com/ops/k8s-deployer:0.0.12'
 
 pipeline {
   agent {
-    node {
-      label 'docker-daemon'
-    }
+      node {
+        withEnv(["PATH+NODE=${tool name: 'node-9.9.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'}/bin"]) {
+          sh 'node -v'
+          sh 'yarn -v'
+        }
+      }
   }
 
   stages {
@@ -25,11 +28,7 @@ pipeline {
 
     stage('Run the tests') {
       steps {
-        withDockerContainer(buildimage) {
-            /**
-                sh "cd src/tracking-opt-in && yarn install --frozen-lockfile && yarn test"
-            */
-            sh "/bin/ls"
+            sh "cd src/tracking-opt-in && yarn install --frozen-lockfile && yarn test"
         }
       }
     }
