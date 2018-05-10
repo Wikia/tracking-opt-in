@@ -52,76 +52,115 @@ const android8Device = {
     os_version: '8.0',
     realMobile: true,
 };
+const ios10_3Device = {
+    device: 'iPhone 7',
+    os_version: '10.3',
+    realMobile: true,
+    browser: 'safari',
+};
+const ios11Device = {
+    device: 'iPhone 8',
+    os_version: '11.0',
+    realMobile: true,
+    browser: 'safari',
+};
+const ios11_2Device = {
+    device: 'iPhone SE',
+    os_version: '11.2',
+    realMobile: true,
+    browser: 'safari',
+};
+
+
 const commonCapabilities = {
     project: 'tracking-opt-in',
     'browserstack.local': local,
 };
 
+// see http://webdriver.io/guide/testrunner/configurationfile.html for options
 exports.config = {
     user,
     key,
+    logLevel: 'error',
     coloredLogs: true,
     maxInstances: 10,
     specs: [
         `./selenium/${SUITES[suite]}.js`
     ],
     capabilities: [
+        // {
+        //     ...ios10_3Device,
+        //     ...commonCapabilities,
+        // },
+        // {
+        //     ...ios11Device,
+        //     ...commonCapabilities,
+        // },
         {
-            ...android4_4Device,
+            ...ios11_2Device,
             ...commonCapabilities,
         },
-        {
-            ...android5Device,
-            ...commonCapabilities,
-        },
-        {
-            ...android6Device,
-            ...commonCapabilities,
-        },
-        {
-            ...android7Device,
-            ...commonCapabilities,
-        },
-        {
-            ...android8Device,
-            ...commonCapabilities,
-        },
-        {
-            ...windows10Device,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...windows10Device,
-            ...commonCapabilities,
-            browser: 'firefox',
-        },
-        {
-            ...windows10Device,
-            ...commonCapabilities,
-            browser: 'ie',
-            browser_version: '11.0',
-        },
-        {
-            ...windows10Device,
-            ...commonCapabilities,
-            browser: 'edge',
-        },
-        {
-            ...macOsDevice,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...macOsDevice,
-            ...commonCapabilities,
-            browser: 'firefox',
-        },
-        {
-            ...macOsDevice,
-            ...commonCapabilities,
-            browser: 'safari',
-        },
+        // {
+        //     ...android4_4Device,
+        //     ...commonCapabilities,
+        // },
+        // {
+        //     ...android5Device,
+        //     ...commonCapabilities,
+        // },
+        // {
+        //     ...android6Device,
+        //     ...commonCapabilities,
+        // },
+        // {
+        //     ...android7Device,
+        //     ...commonCapabilities,
+        // },
+        // {
+        //     ...android8Device,
+        //     ...commonCapabilities,
+        // },
+        // {
+        //     ...windows10Device,
+        //     ...commonCapabilities,
+        //     browser: 'chrome',
+        // },
+        // {
+        //     ...windows10Device,
+        //     ...commonCapabilities,
+        //     browser: 'firefox',
+        // },
+        // {
+        //     ...windows10Device,
+        //     ...commonCapabilities,
+        //     browser: 'ie',
+        //     browser_version: '11.0',
+        // },
+        // /*
+        // the current edge driver does not allow cookies to be deleted, so tests don't work :(
+        // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
+        // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/5751773/
+        // {
+        //     ...windows10Device,
+        //     ...commonCapabilities,
+        //     browser: 'edge',
+        // },
+        // */
+        // {
+        //     ...macOsDevice,
+        //     ...commonCapabilities,
+        //     browser: 'chrome',
+        // },
+        // {
+        //     ...macOsDevice,
+        //     ...commonCapabilities,
+        //     browser: 'firefox',
+        // },
+        // {
+        //     ...macOsDevice,
+        //     ...commonCapabilities,
+        //     browser: 'safari',
+        // },
     ],
 };
 

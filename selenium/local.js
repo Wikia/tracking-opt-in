@@ -4,7 +4,7 @@ const url = 'http://localhost:3000';
 const overlay = 'div[data-tracking-opt-in-overlay="true"]';
 const acceptButton = 'button[data-tracking-opt-in-accept="true"]';
 const rejectButton = 'button[data-tracking-opt-in-reject="true"]';
-const cookieName = 'tracking-opt-in-status';
+const trackingCookie = 'tracking-opt-in-status';
 const cookieState = {
     accepted: 'accepted',
     rejected: 'rejected',
@@ -28,7 +28,7 @@ describe("without any relevant cookies", () => {
             .url(url)
             .click(acceptButton);
 
-        const cookie = browser.getCookie(cookieName);
+        const cookie = browser.getCookie(trackingCookie);
         assert.equal(cookie.value, cookieState.accepted);
         assert.equal(browser.isExisting(overlay), false);
     });
@@ -43,7 +43,7 @@ describe("without any relevant cookies", () => {
 
         browser.click(acceptButton);
 
-        const cookie = browser.getCookie(cookieName);
+        const cookie = browser.getCookie(trackingCookie);
         assert.equal(cookie.value, cookieState.accepted);
         assert.equal(browser.isExisting(overlay), false);
     });
@@ -56,7 +56,7 @@ describe("without any relevant cookies", () => {
 
         browser.click(rejectButton);
 
-        const cookie = browser.getCookie(cookieName);
+        const cookie = browser.getCookie(trackingCookie);
         assert.equal(cookie.value, cookieState.rejected);
         assert.equal(browser.isExisting(overlay), false);
     });
