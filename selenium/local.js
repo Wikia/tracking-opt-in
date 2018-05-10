@@ -11,8 +11,9 @@ const cookieState = {
 };
 
 describe("without any relevant cookies", () => {
-    beforeEach(() => {
-        browser.deleteCookie();
+    afterEach(() => {
+        // driver for MS Edge browser crashes on browser.deleteCookie()
+        browser.setCookie({ name: trackingCookie, value: 'unknown' });
     });
 
     it("prompts the user", () => {

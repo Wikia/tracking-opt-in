@@ -96,71 +96,66 @@ exports.config = {
         //     ...ios11Device,
         //     ...commonCapabilities,
         // },
+        // {
+        //     ...ios11_2Device,
+        //     ...commonCapabilities,
+        // },
         {
-            ...ios11_2Device,
+            ...android4_4Device,
             ...commonCapabilities,
         },
-        // {
-        //     ...android4_4Device,
-        //     ...commonCapabilities,
-        // },
-        // {
-        //     ...android5Device,
-        //     ...commonCapabilities,
-        // },
-        // {
-        //     ...android6Device,
-        //     ...commonCapabilities,
-        // },
-        // {
-        //     ...android7Device,
-        //     ...commonCapabilities,
-        // },
-        // {
-        //     ...android8Device,
-        //     ...commonCapabilities,
-        // },
-        // {
-        //     ...windows10Device,
-        //     ...commonCapabilities,
-        //     browser: 'chrome',
-        // },
-        // {
-        //     ...windows10Device,
-        //     ...commonCapabilities,
-        //     browser: 'firefox',
-        // },
-        // {
-        //     ...windows10Device,
-        //     ...commonCapabilities,
-        //     browser: 'ie',
-        //     browser_version: '11.0',
-        // },
-        // /*
-        // the current edge driver does not allow cookies to be deleted, so tests don't work :(
-        // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14838528/
-        // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/5751773/
-        // {
-        //     ...windows10Device,
-        //     ...commonCapabilities,
-        //     browser: 'edge',
-        // },
-        // */
-        // {
-        //     ...macOsDevice,
-        //     ...commonCapabilities,
-        //     browser: 'chrome',
-        // },
-        // {
-        //     ...macOsDevice,
-        //     ...commonCapabilities,
-        //     browser: 'firefox',
-        // },
-        // {
-        //     ...macOsDevice,
-        //     ...commonCapabilities,
-        //     browser: 'safari',
-        // },
+        {
+            ...android5Device,
+            ...commonCapabilities,
+        },
+        {
+            ...android6Device,
+            ...commonCapabilities,
+        },
+        {
+            ...android7Device,
+            ...commonCapabilities,
+        },
+        {
+            ...android8Device,
+            ...commonCapabilities,
+        },
+        {
+            ...windows10Device,
+            ...commonCapabilities,
+            browser: 'chrome',
+        },
+        {
+            ...windows10Device,
+            ...commonCapabilities,
+            browser: 'firefox',
+        },
+        {
+            ...windows10Device,
+            ...commonCapabilities,
+            browser: 'ie',
+            browser_version: '11.0',
+        },
+        {
+            ...windows10Device,
+            ...commonCapabilities,
+            browser: 'edge',
+        },
+        {
+            ...macOsDevice,
+            ...commonCapabilities,
+            browser: 'chrome',
+        },
+        {
+            ...macOsDevice,
+            ...commonCapabilities,
+            browser: 'firefox',
+        },
+        {
+            ...macOsDevice,
+            ...commonCapabilities,
+            browser: 'safari',
+        },
     ],
 };
 
