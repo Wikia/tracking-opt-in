@@ -2,23 +2,13 @@ const browserstack = require('browserstack-local');
 
 const user = process.env.BROWSERSTACK_USERNAME;
 const key = process.env.BROWSERSTACK_KEY;
+const useTunnel = !!process.env.USE_TUNNEL;
 
 if (!user || !key) {
     console.error('Please provide BROWSERSTACK_USERNAME and BROWSERSTACK_KEY environment params');
     process.exit(1);
 }
 
-const SUITES = {
-    local: 'local',
-};
-
-const suite = process.env.SUITE || 'local';
-if (!SUITES[suite]) {
-    console.error('unknown suite', suite);
-    process.exit(1);
-}
-
-const local = SUITES[suite] === SUITES.local;
 const windows10Device = {
     os: 'Windows',
     os_version: '10',
@@ -74,7 +64,7 @@ const ios11_2Device = {
 
 const commonCapabilities = {
     project: 'tracking-opt-in',
-    'browserstack.local': local,
+    'browserstack.local': useTunnel,
 };
 
 // see http://webdriver.io/guide/testrunner/configurationfile.html for options
@@ -84,22 +74,28 @@ exports.config = {
     logLevel: 'error',
     coloredLogs: true,
     maxInstances: 10,
+    reporters: ['junit', 'concise'],
+    reporterOptions: {
+        junit: {
+            outputDir: 'selenium/reports/junit',
+        }
+    },
     specs: [
-        `./selenium/${SUITES[suite]}.js`
+        `./selenium/*.js`
     ],
     capabilities: [
-        // {
-        //     ...ios10_3Device,
-        //     ...commonCapabilities,
-        // },
-        // {
-        //     ...ios11Device,
-        //     ...commonCapabilities,
-        // },
-        // {
-        //     ...ios11_2Device,
-        //     ...commonCapabilities,
-        // },
+        {
+            ...ios10_3Device,
+            ...commonCapabilities,
+        },
+        {
+            ...ios11Device,
+            ...commonCapabilities,
+        },
+        {
+            ...ios11_2Device,
+            ...commonCapabilities,
+        },
         {
             ...android4_4Device,
             ...commonCapabilities,
@@ -159,7 +155,7 @@ exports.config = {
     ],
 };
 
-if (local) {
+if (useTunnel) {
     // Code to start browserstack local before start of test
     exports.config.onPrepare = function(config, capabilities) {
         console.log("Connecting local");
