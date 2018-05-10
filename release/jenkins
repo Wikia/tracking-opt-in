@@ -29,7 +29,6 @@ pipeline {
     stage('Run the tests') {
       steps {
             sh "cd src/tracking-opt-in && yarn install --frozen-lockfile && yarn test"
-        }
       }
     }
 
