@@ -1,0 +1,57 @@
+def buildimage = 'artifactory.wikia-inc.com/ops/k8s-deployer:0.0.12'
+
+pipeline {
+  agent any
+  tools { nodejs "v9.9.0" }
+
+  stages {
+    stage('Git Checkout') {
+      steps {
+        checkout([$class: 'GitSCM',
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [
+              [$class: 'RelativeTargetDirectory', relativeTargetDir: 'src/tracking-opt-in'],
+              [$class: 'LocalBranch', localBranch: "${params.branch}"],
+              [$class: 'CleanCheckout']
+            ],
+            submoduleCfg: [],
+            branches: [[name: "*/${params.branch}"]],
+            userRemoteConfigs: [[url: 'https://github.com/Wikia/tracking-opt-in.git']]])
+      }
+    }
+
+    stage('Run the tests') {
+      steps {
+        sh "cd src/tracking-opt-in && yarn install --frozen-lockfile && yarn test"
+      }
+    }
+
+    stage('Deploy the demo container') {
+      steps {
+        sh "echo '...building and deploying the container...'"
+      }
+    }
+
+    stage('Run the browserstack tests') {
+      steps {
+        sh "echo '...running the browserstack tests...'"
+      }
+    }
+
+    stage('Creating tag and releasing to npm') {
+      steps {
+        sh "echo '...cerating tag and releasing to npm...'"
+      }
+    }
+  }
+
+  post {
+    success {
+      slackSend (channel: '#cake-team-tech', color: 'good', failOnError: true, message: ":shipit: -> tracking-opt-in on ${params.branch} :fandom2017: :flag-eu: :gdpr: :ok_hand:!")
+    }
+
+    failure {
+      slackSend (channel: '#cake-team-tech', color: 'warning', failOnError: true, message: ":sadface: Release of tracking-opt-in on ${params.branch} :flag-eu: :gdpr: :doom_look: failed!")
+    }
+  }
+}
