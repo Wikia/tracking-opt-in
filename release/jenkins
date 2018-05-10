@@ -1,4 +1,4 @@
-def buildimage = 'mhart/alpine-node:9.9.0'
+def buildimage = 'artifactory.wikia-inc.com/ops/k8s-deployer:0.0.12'
 
 pipeline {
   agent {
@@ -29,7 +29,7 @@ pipeline {
             /**
                 sh "cd src/tracking-opt-in && yarn install --frozen-lockfile && yarn test"
             */
-            sh "which yarn"
+            sh "/bin/ls"
         }
       }
     }
