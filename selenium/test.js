@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-const url = 'http://localhost:3000';
+const url = process.env.TEST_URL || 'http://localhost:3000';
 const overlay = 'div[data-tracking-opt-in-overlay="true"]';
 const acceptButton = 'div[data-tracking-opt-in-accept="true"]';
 const rejectButton = 'div[data-tracking-opt-in-reject="true"]';
