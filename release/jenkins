@@ -10,8 +10,8 @@ pipeline {
         checkout([$class: 'GitSCM',
             doGenerateSubmoduleConfigurations: false,
             extensions: [
-              [$class: 'LocalBranch', localBranch: "${params.branch}"],
-              [$class: 'CleanCheckout']
+              [$class: 'CleanCheckout'],
+              [$class: 'LocalBranch', localBranch: "${params.branch}"]
             ],
             submoduleCfg: [],
             branches: [[name: "*/${params.branch}"]],
