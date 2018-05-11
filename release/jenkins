@@ -1,28 +1,12 @@
-def buildimage = 'artifactory.wikia-inc.com/ops/k8s-deployer:0.0.12'
-
 pipeline {
   agent any
   tools { nodejs "v9.9.0" }
 
   stages {
-    stage('Git Checkout') {
-      steps {
-        checkout([$class: 'GitSCM',
-            doGenerateSubmoduleConfigurations: false,
-            extensions: [
-              [$class: 'RelativeTargetDirectory', relativeTargetDir: 'src/tracking-opt-in'],
-              [$class: 'LocalBranch', localBranch: "${params.branch}"],
-              [$class: 'CleanCheckout']
-            ],
-            submoduleCfg: [],
-            branches: [[name: "*/${params.branch}"]],
-            userRemoteConfigs: [[url: 'https://github.com/Wikia/tracking-opt-in.git']]])
-      }
-    }
 
     stage('Run the tests') {
       steps {
-        sh "cd src/tracking-opt-in && yarn install --frozen-lockfile && yarn test"
+        sh "yarn install --frozen-lockfile && yarn test"
       }
     }
 
@@ -40,7 +24,7 @@ pipeline {
 
     stage('Creating tag and releasing to npm') {
       steps {
-        sh "echo '...cerating tag and releasing to npm...'"
+        sh "echo '...creating tag and releasing to npm...'"
       }
     }
   }
