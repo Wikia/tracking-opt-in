@@ -22,6 +22,7 @@ pipeline {
 
     stage('tests') {
       steps {
+        sh "echo $PATH"
         sh "yarn test"
       }
     }
