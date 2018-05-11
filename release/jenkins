@@ -16,13 +16,13 @@ pipeline {
       }
     }
 
-    stage('build') {
+    stage('build app') {
       steps {
         sh "yarn build"
       }
     }
 
-    stage('start demo container') {
+    stage('start container') {
       steps {
         sh "echo '...building and deploying the container...'"
       }
@@ -34,7 +34,7 @@ pipeline {
       }
     }
 
-    stage('stop demo container') {
+    stage('stop container') {
       steps {
         sh "echo '...stopping the demo container...'"
       }
