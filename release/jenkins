@@ -1,3 +1,6 @@
+def imageName = "tracking-opt-in-demo"
+def currentCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+
 pipeline {
   agent any
   tools { nodejs "v9.9.0" }
@@ -22,9 +25,9 @@ pipeline {
       }
     }
 
-    stage('start container') {
+    stage('start test container') {
       steps {
-        sh "echo '...building and deploying the container...'"
+        sh "docker build --file release/Dockerfile --tag ${imageName}:${currentCommit} ."
       }
     }
 
@@ -34,7 +37,7 @@ pipeline {
       }
     }
 
-    stage('stop container') {
+    stage('stop test container') {
       steps {
         sh "echo '...stopping the demo container...'"
       }
