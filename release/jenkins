@@ -78,7 +78,6 @@ pipeline {
     }
 
     always {
-      sh 'sleep 30'
       withDockerContainer(env.K8S_DEPLOYER) {
         sh "kubectl -n $K8S_NAMESPACE delete service,deployment,ingress -l app=${serviceName}"
       }
