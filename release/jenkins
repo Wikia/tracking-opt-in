@@ -31,6 +31,12 @@ pipeline {
       }
     }
 
+    stage('Build app') {
+      steps {
+        sh "yarn build"
+      }
+    }
+
     stage('Deploy the demo container') {
       steps {
         sh "echo '...building and deploying the container...'"
