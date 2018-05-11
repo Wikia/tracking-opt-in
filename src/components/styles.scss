@@ -19,7 +19,8 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   display: flex;
   flex-direction: column;
   font-family: Rubik, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  padding: 10px 20px;
+  padding: 0 10px;
+  border: 10px solid #fff;
 
   @media #{$mobile-devices} {
     height: 90%;
