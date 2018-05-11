@@ -1,28 +1,70 @@
 pipeline {
-  agent any
+  agent {
+    node {
+      label 'docker-daemon'
+    }
+  }
+
   tools { nodejs "v9.9.0" }
+  environment {
+    imageName = "tracking-opt-in-demo"
+    currentCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+    dockerRepoUrl = "${env.DOCKER_REPO_URL}"
+    serviceName = "${imageName}-${currentCommit}"
+    appHost = "${env.APP_HOST_PREFIX}${currentCommit}${env.APP_HOST_SUFFIX}"
+  }
 
   stages {
 
-    stage('Run the tests') {
+    stage('dependencies') {
       steps {
-        sh "yarn install --frozen-lockfile && yarn test"
+        sh "yarn install --frozen-lockfile"
       }
     }
 
-    stage('Deploy the demo container') {
+    stage('tests') {
       steps {
-        sh "echo '...building and deploying the container...'"
+        sh "yarn test"
       }
     }
 
-    stage('Run the browserstack tests') {
+    stage('build app') {
+      steps {
+        sh "yarn build"
+      }
+    }
+
+    stage('start test container') {
+      steps {
+        sh "docker build --file release/demo-container/Dockerfile --tag ${imageName}:${currentCommit} ."
+        sh "docker tag ${imageName}:${currentCommit} ${dockerRepoUrl}/${imageName}:${currentCommit}"
+        sh "docker push ${dockerRepoUrl}/${imageName}:${currentCommit}"
+        sh '''
+            APP_HOST="${appHost}" \
+            IMAGE="${dockerRepoUrl}/${imageName}:${currentCommit}" \
+            INSTANCES=1 \
+            NAMESPACE="$K8S_NAMESPACE" \
+            SERVICE_NAME="${serviceName}" \
+            node release/scripts/generate-k8s-yaml.js > release/k8s.yaml
+        '''
+        withDockerContainer(env.K8S_DEPLOYER) {
+            sh "kubectl -n $K8S_NAMESPACE --context $K8S_CONTEXT apply -f release/k8s.yaml"
+        }
+      }
+    }
+
+    stage('BrowserStack') {
       steps {
         sh "echo '...running the browserstack tests...'"
       }
     }
 
-    stage('Creating tag and releasing to npm') {
+    stage('release') {
+      when {
+        expression {
+          return params.pipeline == 'release'
+        }
+      }
       steps {
         sh "echo '...creating tag and releasing to npm...'"
       }
@@ -31,11 +73,27 @@ pipeline {
 
   post {
     success {
-      slackSend (channel: '#cake-team-tech', color: 'good', failOnError: true, message: ":shipit: -> tracking-opt-in on ${params.branch} :fandom2017: :flag-eu: :gdpr: :ok_hand:!")
+      slackSend (
+        channel: '#cake-team-tech',
+        color: 'good',
+        failOnError: true,
+        message: ":checkmark: tracking-opt-in ${params.pipeline} on ${params.branch} <${env.BUILD_URL}|succeeded>"
+      )
     }
 
     failure {
-      slackSend (channel: '#cake-team-tech', color: 'warning', failOnError: true, message: ":sadface: Release of tracking-opt-in on ${params.branch} :flag-eu: :gdpr: :doom_look: failed!")
+      slackSend (
+        channel: '#cake-team-tech',
+        color: 'warning',
+        failOnError: true,
+        message: ":warning: tracking-opt-in ${params.pipeline} on ${params.branch} <${env.BUILD_URL}|failed>"
+      )
+    }
+
+    always {
+      withDockerContainer(env.K8S_DEPLOYER) {
+        sh "kubectl -n $K8S_NAMESPACE --context $K8S_CONTEXT delete service,deployment,ingress -l app=${serviceName}"
+      }
     }
   }
 }

@@ -37,6 +37,18 @@ class TrackingOptIn {
         this.root = null;
     };
 
+    hasUserConsented() {
+        if (!this.geoRequiresTrackingConsent()) {
+            return true;
+        } else if (this.optInManager.hasAcceptedTracking()) {
+            return true;
+        } else if (this.optInManager.hasRejectedTracking()) {
+            return false;
+        }
+
+        return undefined;
+    }
+
     geoRequiresTrackingConsent() {
         return this.geoManager.needsTrackingPrompt();
     }
@@ -56,24 +68,25 @@ class TrackingOptIn {
             document.body.appendChild(this.root);
         }
 
-        if (!this.geoRequiresTrackingConsent()) {
-            this.options.onAcceptTracking();
-        } else if (this.optInManager.hasAcceptedTracking()) {
-            this.options.onAcceptTracking();
-        } else if (this.optInManager.hasRejectedTracking()) {
-            this.options.onRejectTracking();
-        } else {
-            render(
-                <App
-                    onRequestAppRemove={this.removeApp}
-                    tracker={this.tracker}
-                    optInManager={this.optInManager}
-                    options={this.options}
-                    content={this.contentManager.content}
-                />,
-                this.root,
-                this.root.lastChild
-            );
+        switch (this.hasUserConsented()) {
+            case true:
+                this.options.onAcceptTracking();
+                break;
+            case false:
+                this.options.onRejectTracking();
+                break;
+            default:
+                render(
+                    <App
+                        onRequestAppRemove={this.removeApp}
+                        tracker={this.tracker}
+                        optInManager={this.optInManager}
+                        options={this.options}
+                        content={this.contentManager.content}
+                    />,
+                    this.root,
+                    this.root.lastChild
+                );
         }
     }
 }
