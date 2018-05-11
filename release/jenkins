@@ -43,12 +43,12 @@ pipeline {
             APP_HOST="${appHost}" \
             IMAGE="${dockerRepoUrl}/${imageName}:${currentCommit}" \
             INSTANCES=1 \
-            NAMESPACE="${env.K8S_NAMESPACE}" \
+            NAMESPACE="$K8S_NAMESPACE" \
             SERVICE_NAME="${serviceName}" \
             node release/scripts/generate-k8s-yaml.js > release/k8s.yaml
         '''
-        withDockerContainer(env.K8S_DEPLOYER) {
-            sh "kubectl -n ${env.K8S_NAMESPACE} --context ${env.K8S_CONTEXT} apply -f release/k8s.yaml"
+        withDockerContainer($K8S_DEPLOYER) {
+            sh "kubectl -n $K8S_NAMESPACE --context $K8S_CONTEXT apply -f release/k8s.yaml"
         }
       }
     }
