@@ -53,6 +53,8 @@ kind: Ingress
 metadata:
   name: {{serviceName}}
   namespace: {{namespace}}
+  labels:
+    app: {{serviceName}}
 spec:
   rules:
   - host: {{appHost}}

@@ -59,12 +59,6 @@ pipeline {
       }
     }
 
-    stage('stop test container') {
-      steps {
-        sh "echo '...stopping the demo container...'"
-      }
-    }
-
     stage('release') {
       steps {
         sh "echo '...creating tag and releasing to npm...'"
@@ -81,6 +75,12 @@ pipeline {
     failure {
       sh "echo failed"
       // slackSend (channel: '#cake-team-tech', color: 'warning', failOnError: true, message: ":sadface: Release of tracking-opt-in on ${params.branch} :flag-eu: :gdpr: :doom_look: failed!")
+    }
+
+    always {
+      withDockerContainer(env.K8S_DEPLOYER) {
+        sh "kubectl -n $K8S_NAMESPACE delete service,deployment,ingress -l app=${serviceName}"
+      }
     }
   }
 }
