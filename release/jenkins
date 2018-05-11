@@ -77,7 +77,7 @@ pipeline {
         channel: '#cake-team-tech',
         color: 'good',
         failOnError: true,
-        message: ":checkmark: tracking-opt-in ${params.pipeline} on ${params.branch}\n<${env.BUILD_URL}|View>"
+        message: ":checkmark: tracking-opt-in ${params.pipeline} on ${params.branch} <${env.BUILD_URL}|succeeded>"
       )
     }
 
@@ -86,7 +86,7 @@ pipeline {
         channel: '#cake-team-tech',
         color: 'warning',
         failOnError: true,
-        message: ":warning: tracking-opt-in ${params.pipeline} on ${params.branch}\n<${env.BUILD_URL}|View>"
+        message: ":warning: tracking-opt-in ${params.pipeline} on ${params.branch} <${env.BUILD_URL}|failed>"
       )
     }
 
