@@ -63,7 +63,8 @@ pipeline {
     }
 
     failure {
-      slackSend (channel: '#cake-team-tech', color: 'warning', failOnError: true, message: ":sadface: Release of tracking-opt-in on ${params.branch} :flag-eu: :gdpr: :doom_look: failed!")
+      sh "echo failed"
+      // slackSend (channel: '#cake-team-tech', color: 'warning', failOnError: true, message: ":sadface: Release of tracking-opt-in on ${params.branch} :flag-eu: :gdpr: :doom_look: failed!")
     }
   }
 }
