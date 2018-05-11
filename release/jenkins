@@ -1,5 +1,3 @@
-def imageName = "tracking-opt-in-demo"
-
 pipeline {
   agent {
     node {
@@ -9,6 +7,7 @@ pipeline {
 
   tools { nodejs "v9.9.0" }
   environment {
+    imageName = "tracking-opt-in-demo"
     currentCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
   }
 
@@ -22,7 +21,6 @@ pipeline {
 
     stage('tests') {
       steps {
-        sh "echo $PATH"
         sh "yarn test"
       }
     }
@@ -35,7 +33,7 @@ pipeline {
 
     stage('start test container') {
       steps {
-        sh "docker build --file release/Dockerfile --tag ${imageName}:${currentCommit} ."
+        sh "docker build --file release/demo-container/Dockerfile --tag ${imageName}:${currentCommit} ."
       }
     }
 
