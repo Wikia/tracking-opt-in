@@ -15,6 +15,7 @@ pipeline {
 
     stage('dependencies') {
       steps {
+        sh "echo '1=$NELSON_TEST 2=${env.NELSON_TEST}'"
         sh "yarn install --frozen-lockfile"
       }
     }
@@ -58,7 +59,8 @@ pipeline {
 
   post {
     success {
-      slackSend (channel: '#cake-team-tech', color: 'good', failOnError: true, message: ":shipit: -> tracking-opt-in on ${params.branch} :fandom2017: :flag-eu: :gdpr: :ok_hand:!")
+      sh "echo success"
+      // slackSend (channel: '#cake-team-tech', color: 'good', failOnError: true, message: ":shipit: -> tracking-opt-in on ${params.branch} :fandom2017: :flag-eu: :gdpr: :ok_hand:!")
     }
 
     failure {
