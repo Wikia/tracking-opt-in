@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { DEFAULT_COOKIE_NAME, COOKIE_STATUS } from 'src/constants';
+import { DEFAULT_COOKIE_NAME, COOKIE_STATUS } from './constants';
 
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
 
