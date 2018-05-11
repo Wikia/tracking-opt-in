@@ -47,7 +47,7 @@ pipeline {
             SERVICE_NAME="${serviceName}" \
             node release/scripts/generate-k8s-yaml.js > release/k8s.yaml
         '''
-        withDockerContainer($K8S_DEPLOYER) {
+        withDockerContainer(env.K8S_DEPLOYER) {
             sh "kubectl -n $K8S_NAMESPACE --context $K8S_CONTEXT apply -f release/k8s.yaml"
         }
       }
