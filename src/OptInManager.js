@@ -1,11 +1,7 @@
 import Cookies from 'js-cookie';
+import { DEFAULT_COOKIE_NAME, COOKIE_STATUS } from 'src/constants';
 
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
-export const DEFAULT_COOKIE_NAME = 'tracking-opt-in-status';
-export const STATUS = {
-    ACCEPTED: 'accepted',
-    REJECTED: 'rejected',
-};
 
 function getCookieDomain() {
     const parts = window.location.hostname.split('.');
@@ -44,11 +40,11 @@ class OptInManager {
             attributes.domain = this.domain;
         }
 
-        Cookies.set(this.cookieName, STATUS.ACCEPTED, attributes);
+        Cookies.set(this.cookieName, COOKIE_STATUS.ACCEPTED, attributes);
     }
 
     setTrackingRejected() {
-        Cookies.set(this.cookieName, STATUS.REJECTED);
+        Cookies.set(this.cookieName, COOKIE_STATUS.REJECTED);
     }
 
     clear() {
