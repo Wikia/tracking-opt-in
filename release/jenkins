@@ -10,6 +10,9 @@ pipeline {
     imageName = "tracking-opt-in-demo"
     currentCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
     dockerRepoUrl = "${env.DOCKER_REPO_URL}"
+    serviceName = "${imageName}-${currentCommit}"
+    appHost = "${env.APP_HOST_PREFIX}${currentCommit}${env.APP_HOST_SUFFIX}"
+    appNamespace = "dev"
   }
 
   stages {
@@ -37,6 +40,13 @@ pipeline {
         sh "docker build --file release/demo-container/Dockerfile --tag ${imageName}:${currentCommit} ."
         sh "docker tag ${imageName}:${currentCommit} ${dockerRepoUrl}/${imageName}:${currentCommit}"
         sh "docker push ${dockerRepoUrl}/${imageName}:${currentCommit}"
+        sh "" \
+            "APP_HOST=\"${appHost}\" " \
+            "IMAGE=\"${dockerRepoUrl}/${imageName}:${currentCommit}\" " \
+            "INSTANCES=1" \
+            "NAMESPACE=\"${appNamespace}\" " \
+            "SERVICE_NAME=\"${serviceName}\" " \
+            "node release/scripts/generate-k8s-yaml.js > release/k8s.yaml"
       }
     }
 

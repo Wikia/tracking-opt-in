@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{serviceName}}
+  name: {{serviceName}}
+  namespace: {{namespace}}
+spec:
+  ports:
+  - port: 80
+    name: main
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: {{serviceName}}
+  type: ClusterIP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{serviceName}}
+  namespace: {{namespace}}
+spec:
+  replicas: {{instances}}
+  template:
+    metadata:
+      labels:
+        app: {{serviceName}}
+      annotations:
+        wikia.com/keys: '{"es_logs": {"container_name": "{{serviceName}}", "es_index": "{{serviceName}}" }}'
+    spec:
+      containers:
+      - name: {{serviceName}}
+        image: {{image}}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          timeoutSeconds: 3
+          periodSeconds: 20
+        resources:
+          limits:
+            memory: 2048Mi
+          requests:
+            cpu: 500m
+            memory: 2048Mi
+        ports:
+        - containerPort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{serviceName}}
+  namespace: {{namespace}}
+spec:
+  rules:
+  - host: {{appHost}}
+    http:
+      paths:
+      - backend:
+          serviceName: {{serviceName}}
+          servicePort: 80
