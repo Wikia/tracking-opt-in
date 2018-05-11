@@ -73,11 +73,21 @@ pipeline {
 
   post {
     success {
-      slackSend (channel: '#cake-team-tech', color: 'good', failOnError: true, message: ":shipit: -> tracking-opt-in on ${params.branch} :fandom2017: :flag-eu: :gdpr: :ok_hand:!")
+      slackSend (
+        channel: '#cake-team-tech',
+        color: 'good',
+        failOnError: true,
+        message: ":checkmark: tracking-opt-in ${params.pipeline} on ${params.branch}\n<${env.BUILD_URL}|View>"
+      )
     }
 
     failure {
-      slackSend (channel: '#cake-team-tech', color: 'warning', failOnError: true, message: ":sadface: Release of tracking-opt-in on ${params.branch} :flag-eu: :gdpr: :doom_look: failed!")
+      slackSend (
+        channel: '#cake-team-tech',
+        color: 'warning',
+        failOnError: true,
+        message: ":warning: tracking-opt-in ${params.pipeline} on ${params.branch}\n<${env.BUILD_URL}|View>"
+      )
     }
 
     always {
