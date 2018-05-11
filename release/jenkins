@@ -22,7 +22,7 @@ pipeline {
       }
     }
 
-    stage('demo container') {
+    stage('start demo container') {
       steps {
         sh "echo '...building and deploying the container...'"
       }
@@ -31,6 +31,12 @@ pipeline {
     stage('BrowserStack') {
       steps {
         sh "echo '...running the browserstack tests...'"
+      }
+    }
+
+    stage('stop demo container') {
+      steps {
+        sh "echo '...stopping the demo container...'"
       }
     }
 
