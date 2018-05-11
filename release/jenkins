@@ -68,13 +68,11 @@ pipeline {
 
   post {
     success {
-      sh "echo success"
-      // slackSend (channel: '#cake-team-tech', color: 'good', failOnError: true, message: ":shipit: -> tracking-opt-in on ${params.branch} :fandom2017: :flag-eu: :gdpr: :ok_hand:!")
+      slackSend (channel: '#cake-team-tech', color: 'good', failOnError: true, message: ":shipit: -> tracking-opt-in on ${params.branch} :fandom2017: :flag-eu: :gdpr: :ok_hand:!")
     }
 
     failure {
-      sh "echo failed"
-      // slackSend (channel: '#cake-team-tech', color: 'warning', failOnError: true, message: ":sadface: Release of tracking-opt-in on ${params.branch} :flag-eu: :gdpr: :doom_look: failed!")
+      slackSend (channel: '#cake-team-tech', color: 'warning', failOnError: true, message: ":sadface: Release of tracking-opt-in on ${params.branch} :flag-eu: :gdpr: :doom_look: failed!")
     }
 
     always {
