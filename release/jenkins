@@ -9,13 +9,13 @@ pipeline {
   environment {
     imageName = "tracking-opt-in-demo"
     currentCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+    dockerRepoUrl = "${env.DOCKER_REPO_URL}"
   }
 
   stages {
 
     stage('dependencies') {
       steps {
-        sh "echo '1=$NELSON_TEST 2=${env.NELSON_TEST}'"
         sh "yarn install --frozen-lockfile"
       }
     }
@@ -35,6 +35,8 @@ pipeline {
     stage('start test container') {
       steps {
         sh "docker build --file release/demo-container/Dockerfile --tag ${imageName}:${currentCommit} ."
+        sh "docker tag ${imageName}:${currentCommit} ${dockerRepoUrl}/${imageName}:${currentCommit}"
+        sh "docker push ${dockerRepoUrl}/${imageName}:${currentCommit}"
       }
     }
 
