@@ -19,37 +19,37 @@ pipeline {
       }
     }
 
-    stage('Install dependencies') {
+    stage('dependencies') {
       steps {
         sh "yarn install --frozen-lockfile"
       }
     }
 
-    stage('Run the tests') {
+    stage('tests') {
       steps {
         sh "yarn test"
       }
     }
 
-    stage('Build app') {
+    stage('build') {
       steps {
         sh "yarn build"
       }
     }
 
-    stage('Deploy the demo container') {
+    stage('demo container') {
       steps {
         sh "echo '...building and deploying the container...'"
       }
     }
 
-    stage('Run the browserstack tests') {
+    stage('BrowserStack') {
       steps {
         sh "echo '...running the browserstack tests...'"
       }
     }
 
-    stage('Creating tag and releasing to npm') {
+    stage('release') {
       steps {
         sh "echo '...cerating tag and releasing to npm...'"
       }
