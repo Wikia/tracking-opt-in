@@ -1,5 +1,5 @@
 import LanguageManager from "./LangManager";
-import OptInManager, { STATUS } from "./OptInManager";
+import OptInManager from "./OptInManager";
 import Tracker from "./Tracker";
 import ContentManager from "./ContentManager";
 import GeoManager from "./GeoManager";
@@ -37,13 +37,13 @@ class TrackingOptIn {
         this.root = null;
     };
 
-    getConsentStatus() {
+    hasUserConsented() {
         if (!this.geoRequiresTrackingConsent()) {
-            return STATUS.ACCEPTED;
+            return true;
         } else if (this.optInManager.hasAcceptedTracking()) {
-            return STATUS.ACCEPTED;
+            return true;
         } else if (this.optInManager.hasRejectedTracking()) {
-            return STATUS.REJECTED;
+            return false;
         }
 
         return undefined;
@@ -68,11 +68,11 @@ class TrackingOptIn {
             document.body.appendChild(this.root);
         }
 
-        switch (this.getConsentStatus()) {
-            case STATUS.ACCEPTED:
+        switch (this.hasUserConsented()) {
+            case true:
                 this.options.onAcceptTracking();
                 break;
-            case STATUS.REJECTED:
+            case false:
                 this.options.onRejectTracking();
                 break;
             default:
