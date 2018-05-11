@@ -1,9 +1,11 @@
 def imageName = "tracking-opt-in-demo"
-def currentCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
 
 pipeline {
   agent any
   tools { nodejs "v9.9.0" }
+  environment {
+    currentCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+  }
 
   stages {
 
