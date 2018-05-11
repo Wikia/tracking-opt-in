@@ -41,11 +41,11 @@ pipeline {
         sh "docker tag ${imageName}:${currentCommit} ${dockerRepoUrl}/${imageName}:${currentCommit}"
         sh "docker push ${dockerRepoUrl}/${imageName}:${currentCommit}"
         sh '''
-            APP_HOST="${appHost}"
-            IMAGE="${dockerRepoUrl}/${imageName}:${currentCommit}"
-            INSTANCES=1
-            NAMESPACE="${appNamespace}"
-            SERVICE_NAME="${serviceName}"
+            APP_HOST="${appHost}" \
+            IMAGE="${dockerRepoUrl}/${imageName}:${currentCommit}" \
+            INSTANCES=1 \
+            NAMESPACE="${appNamespace}" \
+            SERVICE_NAME="${serviceName}" \
             node release/scripts/generate-k8s-yaml.js > release/k8s.yaml
         '''
       }
