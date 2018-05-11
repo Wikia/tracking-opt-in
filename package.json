@@ -54,6 +54,7 @@
     "prepublishOnly": "yarn build",
     "test": "karma start",
     "test:watch": "karma start --auto-watch --no-single-run",
-    "test:selenium": "wdio webdriver.conf.js"
+    "test:selenium": "wdio webdriver.conf.js",
+    "validate-jenkins": "sh release/scripts/validate-jenkins-files.sh"
   }
 }
