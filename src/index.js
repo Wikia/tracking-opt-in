@@ -1,5 +1,5 @@
 import LanguageManager from "./LangManager";
-import OptInManager from "./OptInManager";
+import OptInManager, { STATUS } from "./OptInManager";
 import Tracker from "./Tracker";
 import ContentManager from "./ContentManager";
 import GeoManager from "./GeoManager";
@@ -37,6 +37,18 @@ class TrackingOptIn {
         this.root = null;
     };
 
+    getConsentStatus() {
+        if (!this.geoRequiresTrackingConsent()) {
+            return STATUS.ACCEPTED;
+        } else if (this.optInManager.hasAcceptedTracking()) {
+            return STATUS.ACCEPTED;
+        } else if (this.optInManager.hasRejectedTracking()) {
+            return STATUS.REJECTED;
+        }
+
+        return undefined;
+    }
+
     geoRequiresTrackingConsent() {
         return this.geoManager.needsTrackingPrompt();
     }
@@ -56,24 +68,25 @@ class TrackingOptIn {
             document.body.appendChild(this.root);
         }
 
-        if (!this.geoRequiresTrackingConsent()) {
-            this.options.onAcceptTracking();
-        } else if (this.optInManager.hasAcceptedTracking()) {
-            this.options.onAcceptTracking();
-        } else if (this.optInManager.hasRejectedTracking()) {
-            this.options.onRejectTracking();
-        } else {
-            render(
-                <App
-                    onRequestAppRemove={this.removeApp}
-                    tracker={this.tracker}
-                    optInManager={this.optInManager}
-                    options={this.options}
-                    content={this.contentManager.content}
-                />,
-                this.root,
-                this.root.lastChild
-            );
+        switch (this.getConsentStatus()) {
+            case STATUS.ACCEPTED:
+                this.options.onAcceptTracking();
+                break;
+            case STATUS.REJECTED:
+                this.options.onRejectTracking();
+                break;
+            default:
+                render(
+                    <App
+                        onRequestAppRemove={this.removeApp}
+                        tracker={this.tracker}
+                        optInManager={this.optInManager}
+                        options={this.options}
+                        content={this.contentManager.content}
+                    />,
+                    this.root,
+                    this.root.lastChild
+                );
         }
     }
 }
