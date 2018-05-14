@@ -70,6 +70,7 @@ const ios11_2Device = {
 const commonCapabilities = {
     project: 'tracking-opt-in',
     'browserstack.local': useTunnel,
+    'browserstack.debug': true,
 };
 
 // see http://webdriver.io/guide/testrunner/configurationfile.html for options
@@ -89,81 +90,81 @@ exports.config = {
         `./selenium/*.js`
     ],
     capabilities: [
-        {
-            ...ios10_3Device,
-            ...commonCapabilities,
-            browser: 'safari',
-        },
-        {
-            ...ios11Device,
-            ...commonCapabilities,
-            browser: 'safari',
-        },
-        {
-            ...ios11_2Device,
-            ...commonCapabilities,
-            browser: 'safari',
-        },
-        {
-            ...android4_4Device,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...android5Device,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...android6Device,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...android7Device,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...android8Device,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...windows10Device,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...windows10Device,
-            ...commonCapabilities,
-            browser: 'firefox',
-        },
-        {
-            ...windows10Device,
-            ...commonCapabilities,
-            browser: 'ie',
-            browser_version: '11.0',
-        },
-        {
-            ...windows10Device,
-            ...commonCapabilities,
-            browser: 'edge',
-        },
+        // {
+        //     ...ios10_3Device,
+        //     ...commonCapabilities,
+        //     browser: 'safari',
+        // },
+        // {
+        //     ...ios11Device,
+        //     ...commonCapabilities,
+        //     browser: 'safari',
+        // },
+        // {
+        //     ...ios11_2Device,
+        //     ...commonCapabilities,
+        //     browser: 'safari',
+        // },
+        // {
+        //     ...android4_4Device,
+        //     ...commonCapabilities,
+        //     browser: 'chrome',
+        // },
+        // {
+        //     ...android5Device,
+        //     ...commonCapabilities,
+        //     browser: 'chrome',
+        // },
+        // {
+        //     ...android6Device,
+        //     ...commonCapabilities,
+        //     browser: 'chrome',
+        // },
+        // {
+        //     ...android7Device,
+        //     ...commonCapabilities,
+        //     browser: 'chrome',
+        // },
+        // {
+        //     ...android8Device,
+        //     ...commonCapabilities,
+        //     browser: 'chrome',
+        // },
+        // {
+        //     ...windows10Device,
+        //     ...commonCapabilities,
+        //     browser: 'chrome',
+        // },
+        // {
+        //     ...windows10Device,
+        //     ...commonCapabilities,
+        //     browser: 'firefox',
+        // },
+        // {
+        //     ...windows10Device,
+        //     ...commonCapabilities,
+        //     browser: 'ie',
+        //     browser_version: '11.0',
+        // },
+        // {
+        //     ...windows10Device,
+        //     ...commonCapabilities,
+        //     browser: 'edge',
+        // },
+        // {
+        //     ...macOsDevice,
+        //     ...commonCapabilities,
+        //     browser: 'firefox',
+        // },
+        // {
+        //     ...macOsDevice,
+        //     ...commonCapabilities,
+        //     browser: 'safari',
+        // },
         {
             ...macOsDevice,
             ...commonCapabilities,
             browser: 'chrome',
-        },
-        {
-            ...macOsDevice,
-            ...commonCapabilities,
-            browser: 'firefox',
-        },
-        {
-            ...macOsDevice,
-            ...commonCapabilities,
-            browser: 'safari',
         },
     ],
 };
