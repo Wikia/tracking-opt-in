@@ -22,7 +22,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   background-color: white;
   display: flex;
   flex-direction: column;
-  font-family: Rubik, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Rubik, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   padding: 10px 10px;
   border-bottom: 10px solid #fff;
   border-top: 10px solid #fff;
@@ -112,6 +112,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   font-size: 12px;
   font-weight: bold;
   padding: 12px 18px;
+  text-align: center;
 
   &:hover {
     cursor: pointer;
@@ -132,6 +133,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   font-size: 12px;
   font-weight: bold;
   padding: 12px 18px;
+  text-align: center;
 
   &:hover {
     cursor: pointer;
