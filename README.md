@@ -48,6 +48,8 @@ The following options are accepted:
   - the user rejects tracking
   - the user has already rejected tracking (subsequent page load)
   
+`onAcceptTracking` and `onRejectTracking` are the key options that should be overridden by each app to either initialize their respective trackers or to somehow react to the user's rejection of tracking.
+  
 ### TrackingOptIn class
 Calling the exported function returns an instance of the [`TrackingOptIn`](https://github.com/Wikia/tracking-opt-in/blob/master/src/index.js) class. The class has the following functions:
 - `hasUserConsented()` - returns `true` if the user has accepted tracking (or does not need to based on their geo), `false` if they have explicitly rejected tracking, and `undefined` if the user has neither consented or rejected tracking.
