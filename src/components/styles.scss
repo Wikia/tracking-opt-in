@@ -2,6 +2,10 @@ $breakpoint: 768px;
 $mobile-devices: "only screen and (max-width: #{$breakpoint - 1})";
 $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 
+.withTrackingOptInDialogShown {
+  overflow: hidden;
+}
+
 .overlay {
   align-items: center;
   background-color: rgba(0, 0, 0, .5);
