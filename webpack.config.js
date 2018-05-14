@@ -1,4 +1,4 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
 const browsers = [
@@ -17,7 +17,6 @@ const autoprefixerPlugin = autoprefixer({
 const isDevelopment = process.env.NODE_ENV === 'development';
 
 let topLevelOptions = {};
-let plugins = [];
 
 if (process.env.NODE_ENV === 'development') {
     topLevelOptions = {
@@ -28,13 +27,6 @@ if (process.env.NODE_ENV === 'development') {
             }
         }
     };
-    plugins = [
-        ...plugins,
-        new CopyWebpackPlugin([{
-            from: `${__dirname}/demo.html`,
-            to: `${buildPath}/index.html`,
-        }])
-    ];
 }
 
 module.exports = {
@@ -90,7 +82,13 @@ module.exports = {
         ],
     },
     plugins: [
-        ...plugins,
+        new HtmlWebpackPlugin({
+            title: 'Tracking Opt In Demo',
+            filename: 'index.html',
+            inject: 'head',
+            template: 'handlebars-loader!demo.hbs',
+            isDevelopment,
+      }),
     ],
     ...topLevelOptions,
 };
