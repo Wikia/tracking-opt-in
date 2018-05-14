@@ -66,11 +66,13 @@ pipeline {
         }
       }
       steps {
-        sh "git config -l"
-        sh "yarn version --loose-semver --new-version patch"
-        sh "npm publish"
-        sh "git push origin ${params.branch}"
-        sh "git push origin --tags"
+        sshagent(credentials: ['bd3cf712-39a7-4b16-979e-ff86208ab2ea']) {
+          sh "git checkout ${params.branch}"
+          sh "yarn version --loose-semver --new-version patch"
+          sh "npm publish"
+          sh "git push origin ${params.branch}"
+          sh "git push origin --tags"
+        }
       }
     }
   }
