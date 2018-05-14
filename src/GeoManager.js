@@ -48,7 +48,7 @@ export function getCountryFromCookie() {
             console.error('error parsing geo cookie', e);
         }
     } else {
-        console.error('no geo cookie found');
+        console.warn('no geo cookie found');
     }
 
     return false;
