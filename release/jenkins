@@ -66,8 +66,10 @@ pipeline {
         }
       }
       steps {
+        sh "git config -l"
         sh "yarn version --loose-semver --new-version patch"
         sh "npm publish"
+        sh "git push origin ${params.branch}"
         sh "git push origin --tags"
       }
     }
