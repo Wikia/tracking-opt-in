@@ -13,14 +13,14 @@ The library exports one function that can be invoked to kickoff the process of s
 
 ### Examples
 As es6 module:
-```
+```javascript
 import main from '@wikia/tracking-opt-in'
 ...
 const optIn = main(options)
 ```
 
 As script tag:
-```
+```html
 <script src="..."></script>
 ...
 <script>
