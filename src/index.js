@@ -12,6 +12,7 @@ const DEFAULT_OPTIONS = {
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
     language: null,
+    preventScrollOn: 'body',
     track: true,
     zIndex: 1000,
     onAcceptTracking() {
@@ -92,7 +93,13 @@ class TrackingOptIn {
 }
 
 export default function main(options) {
-    const { zIndex, onAcceptTracking, onRejectTracking, ...depOptions } = Object.assign({}, DEFAULT_OPTIONS, options);
+    const {
+        zIndex,
+        onAcceptTracking,
+        onRejectTracking,
+        preventScrollOn,
+        ...depOptions
+    } = Object.assign({}, DEFAULT_OPTIONS, options);
     const langManager = new LanguageManager(depOptions.language);
     const tracker = new Tracker(langManager.lang, depOptions.track);
     const optInManager = new OptInManager(depOptions.cookieName, depOptions.cookieExpiration);
@@ -105,6 +112,7 @@ export default function main(options) {
         geoManager,
         contentManager,
         {
+            preventScrollOn,
             zIndex,
             onAcceptTracking,
             onRejectTracking,

@@ -1,11 +1,6 @@
 import {h, Component} from 'preact';
 import styles from './styles.scss';
 
-const DIALOGS = {
-    INITIAL: 'initial',
-    CONFIRM_REJECT: 'confirm-reject',
-};
-
 const TRACKING_CATEGORY = 'gdpr-modal';
 const ACTION_IMPRESSION = 'Impression';
 const ACTION_CLICK = 'Click';
@@ -13,6 +8,35 @@ const ACTION_CLICK = 'Click';
 class App extends Component {
     componentDidMount() {
         this.track(ACTION_IMPRESSION, 'modal-view');
+        this.preventScroll();
+    }
+
+    componentWillUnmount() {
+        this.enableScroll();
+    }
+
+    preventScroll() {
+        const scrollContainer = this.getScrollContainer();
+        if (scrollContainer) {
+            scrollContainer.classList.add(styles.withTrackingOptInDialogShown);
+        }
+    }
+
+    enableScroll() {
+        const scrollContainer = this.getScrollContainer();
+        if (scrollContainer) {
+            scrollContainer.classList.remove(styles.withTrackingOptInDialogShown);
+        }
+    }
+
+    getScrollContainer() {
+        if (!this.props.options.preventScrollOn) {
+            return null;
+        }
+
+        return typeof this.props.options.preventScrollOn === 'string' ?
+               document.querySelector(this.props.options.preventScrollOn) :
+               this.props.options.preventScrollOn;
     }
 
     track(action, label) {
