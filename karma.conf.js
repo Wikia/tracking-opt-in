@@ -18,10 +18,12 @@ module.exports = function(config) {
 
       // list of files / patterns to exclude
       exclude: [
+          'src/**/*_test.js',
+          'src/index-dev.js',
       ],
 
       webpack: {
-          devtool: 'eval-source-map',
+          devtool: 'inline-source-map',
           mode: 'development',
           module: {
               rules: [
@@ -30,6 +32,11 @@ module.exports = function(config) {
                       include: path.resolve(__dirname, './src'),
                       use: [{
                           loader: 'babel-loader',
+                          options: {
+                              plugins: [
+                                  'istanbul',
+                              ]
+                          },
                       }]
                   },
                   {
@@ -72,12 +79,13 @@ module.exports = function(config) {
           'karma-webpack',
           'karma-coverage',
           'karma-jsdom-launcher',
+          'karma-sourcemap-loader',
       ],
 
       // preprocess matching files before serving them to the browser
       // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
       preprocessors: {
-          'src/**/*.js': ['webpack', 'coverage']
+          'src/**/*.js': ['webpack', 'sourcemap']
       },
 
       // test results reporter to use
