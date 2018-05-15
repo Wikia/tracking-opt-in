@@ -69,7 +69,7 @@ pipeline {
         sshagent(credentials: ["$CREDENTIAL_ID"]) {
           sh "git checkout ${params.branch}"
           sh "yarn version --loose-semver --new-version patch"
-          sh "npm publish"
+          sh "NPM_TOKEN=${env.NPM_TOKEN} npm publish"
           sh "git push origin ${params.branch}"
           sh "git push origin --tags"
         }
