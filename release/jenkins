@@ -62,12 +62,13 @@ pipeline {
     stage('release') {
       when {
         expression {
-          return params.pipeline == 'release' && params.branch == 'master'
+          return params.pipeline == 'release'
         }
       }
       steps {
         sshagent(credentials: ["$CREDENTIAL_ID"]) {
           sh "git checkout ${params.branch}"
+          sh "npm config set //registry.npmjs.org/:_authToken ${env.NPM_TOKEN}"
           sh "yarn version --loose-semver --new-version patch"
           sh "npm publish"
           sh "git push origin ${params.branch}"
