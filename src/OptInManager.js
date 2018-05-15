@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
+export const DEFAULT_QUERY_PARAM_NAME = 'tracking-opt-in-status';
 export const DEFAULT_COOKIE_NAME = 'tracking-opt-in-status';
 export const STATUS = {
     ACCEPTED: 'accepted',
@@ -17,10 +18,11 @@ function getCookieDomain() {
 }
 
 class OptInManager {
-    constructor(cookieName, expirationInDays, domain) {
+    constructor(cookieName, expirationInDays, queryParam) {
         this.cookieName = cookieName || DEFAULT_COOKIE_NAME;
         this.expirationInDays = expirationInDays || DEFAULT_ACCEPT_COOKIE_EXPIRATION;
-        this.domain = domain || getCookieDomain();
+        this.domain = getCookieDomain();
+        this.queryParam = queryParam || DEFAULT_QUERY_PARAM_NAME;
     }
 
     getValue() {
@@ -45,6 +47,16 @@ class OptInManager {
         }
 
         Cookies.set(this.cookieName, STATUS.ACCEPTED, attributes);
+    }
+
+    setForcedStatusFromQueryParams() {
+        const queryString = window.location.search;
+
+        if (queryString.indexOf(`${this.queryParam}=true`) !== -1) {
+            this.setTrackingAccepted();
+        } else if (queryString.indexOf(`${this.queryParam}=false`) !== -1) {
+            this.setTrackingRejected();
+        }
     }
 
     setTrackingRejected() {
