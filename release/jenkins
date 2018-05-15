@@ -30,6 +30,7 @@ pipeline {
 
     stage('build app') {
       steps {
+        sh "yarn clean"
         sh "yarn build"
       }
     }
@@ -62,7 +63,7 @@ pipeline {
     stage('release') {
       when {
         expression {
-          return params.pipeline == 'release' && params.branch == 'master'
+          return params.pipeline == 'release'
         }
       }
       steps {
