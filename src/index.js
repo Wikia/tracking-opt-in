@@ -12,6 +12,7 @@ const DEFAULT_OPTIONS = {
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
     language: null,
+    queryParamName: null,
     preventScrollOn: 'body',
     track: true,
     zIndex: 1000,
@@ -102,9 +103,11 @@ export default function main(options) {
     } = Object.assign({}, DEFAULT_OPTIONS, options);
     const langManager = new LanguageManager(depOptions.language);
     const tracker = new Tracker(langManager.lang, depOptions.track);
-    const optInManager = new OptInManager(depOptions.cookieName, depOptions.cookieExpiration);
+    const optInManager = new OptInManager(depOptions.cookieName, depOptions.cookieExpiration, depOptions.queryParamName);
     const geoManager = new GeoManager(depOptions.country, depOptions.countriesRequiringPrompt);
     const contentManager = new ContentManager(langManager.lang);
+
+    optInManager.setForcedStatusFromQueryParams();
 
     const instance = new TrackingOptIn(
         tracker,
