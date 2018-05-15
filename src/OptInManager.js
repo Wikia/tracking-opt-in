@@ -49,9 +49,7 @@ class OptInManager {
         Cookies.set(this.cookieName, STATUS.ACCEPTED, attributes);
     }
 
-    setForcedStatusFromQueryParams() {
-        const queryString = window.location.search;
-
+    setForcedStatusFromQueryParams(queryString) {
         if (queryString.indexOf(`${this.queryParam}=true`) !== -1) {
             this.setTrackingAccepted();
         } else if (queryString.indexOf(`${this.queryParam}=false`) !== -1) {

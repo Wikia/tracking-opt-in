@@ -107,7 +107,7 @@ export default function main(options) {
     const geoManager = new GeoManager(depOptions.country, depOptions.countriesRequiringPrompt);
     const contentManager = new ContentManager(langManager.lang);
 
-    optInManager.setForcedStatusFromQueryParams();
+    optInManager.setForcedStatusFromQueryParams(window.location.search);
 
     const instance = new TrackingOptIn(
         tracker,
