@@ -62,11 +62,17 @@ pipeline {
     stage('release') {
       when {
         expression {
-          return params.pipeline == 'release'
+          return params.pipeline == 'release' && params.branch == 'master'
         }
       }
       steps {
-        sh "echo '...creating tag and releasing to npm...'"
+        sshagent(credentials: ["$CREDENTIAL_ID"]) {
+          sh "git checkout ${params.branch}"
+          sh "yarn version --loose-semver --new-version patch"
+          sh "npm publish"
+          sh "git push origin ${params.branch}"
+          sh "git push origin --tags"
+        }
       }
     }
   }
