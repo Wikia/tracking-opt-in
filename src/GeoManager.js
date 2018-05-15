@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-const COUNTRY_COOKIE_NAME = 'Geo';
+export const COUNTRY_COOKIE_NAME = 'Geo';
 
 // client.geo.country_code https://docs.fastly.com/guides/vcl/geolocation-related-vcl-features
 const COUNTRIES_REQUIRING_PROMPT = [
