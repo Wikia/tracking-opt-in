@@ -103,7 +103,7 @@ export default function main(options) {
     } = Object.assign({}, DEFAULT_OPTIONS, options);
     const langManager = new LanguageManager(depOptions.language);
     const tracker = new Tracker(langManager.lang, depOptions.track);
-    const optInManager = new OptInManager(depOptions.cookieName, depOptions.cookieExpiration, depOptions.queryParam);
+    const optInManager = new OptInManager(depOptions.cookieName, depOptions.cookieExpiration, depOptions.queryParamName);
     const geoManager = new GeoManager(depOptions.country, depOptions.countriesRequiringPrompt);
     const contentManager = new ContentManager(langManager.lang);
 
