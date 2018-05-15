@@ -47,8 +47,10 @@ The following options are accepted:
 - `onRejectTracking` - the callback fired when:
   - the user rejects tracking
   - the user has already rejected tracking (subsequent page load)
-  
-`onAcceptTracking` and `onRejectTracking` are the key options that should be overridden by each app to either initialize their respective trackers or to somehow react to the user's rejection of tracking.
+
+#### Notes
+- `onAcceptTracking` and `onRejectTracking` are the key options that should be overridden by each app to either initialize their respective trackers or to somehow react to the user's rejection of tracking.
+- Country codes are in [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1) format.
   
 ### TrackingOptIn class
 Calling the exported function returns an instance of the [`TrackingOptIn`](https://github.com/Wikia/tracking-opt-in/blob/master/src/index.js) class. The class has the following functions:
