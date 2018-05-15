@@ -45,7 +45,7 @@ function getCountryFromCookie() {
             const obj = JSON.parse(cookie);
             return obj.country;
         } catch (e) {
-            console.error('error parsing geo cookie', e);
+            console.error('error parsing geo cookie', cookie);
         }
     } else {
         console.warn('no geo cookie found');

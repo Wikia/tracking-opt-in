@@ -18,7 +18,7 @@ module.exports = function(config) {
 
       // list of files / patterns to exclude
       exclude: [
-          'src/index-dev.js',
+          'src/index*.js',
       ],
 
       webpack: {
