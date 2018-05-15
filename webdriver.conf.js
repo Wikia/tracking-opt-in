@@ -3,6 +3,7 @@ const browserstack = require('browserstack-local');
 const user = process.env.BROWSERSTACK_USERNAME;
 const key = process.env.BROWSERSTACK_KEY;
 const useTunnel = !!process.env.USE_TUNNEL;
+const build = process.env.BUILD_ID || 'local-test';
 
 if (!user || !key) {
     console.error('Please provide BROWSERSTACK_USERNAME and BROWSERSTACK_KEY environment params');
@@ -68,12 +69,14 @@ const ios11_2Device = {
 
 
 const commonCapabilities = {
+    build,
     project: 'tracking-opt-in',
     'browserstack.local': useTunnel,
     'browserstack.debug': true,
+    'browserstack.console': 'warnings',
 };
 
-// see http://webdriver.io/guide/testrunner/configurationfile.html for options
+// http://webdriver.io/guide/testrunner/configurationfile.html for options
 exports.config = {
     user,
     key,
@@ -90,77 +93,77 @@ exports.config = {
         `./selenium/*.js`
     ],
     capabilities: [
-        // {
-        //     ...ios10_3Device,
-        //     ...commonCapabilities,
-        //     browser: 'safari',
-        // },
-        // {
-        //     ...ios11Device,
-        //     ...commonCapabilities,
-        //     browser: 'safari',
-        // },
-        // {
-        //     ...ios11_2Device,
-        //     ...commonCapabilities,
-        //     browser: 'safari',
-        // },
-        // {
-        //     ...android4_4Device,
-        //     ...commonCapabilities,
-        //     browser: 'chrome',
-        // },
-        // {
-        //     ...android5Device,
-        //     ...commonCapabilities,
-        //     browser: 'chrome',
-        // },
-        // {
-        //     ...android6Device,
-        //     ...commonCapabilities,
-        //     browser: 'chrome',
-        // },
-        // {
-        //     ...android7Device,
-        //     ...commonCapabilities,
-        //     browser: 'chrome',
-        // },
-        // {
-        //     ...android8Device,
-        //     ...commonCapabilities,
-        //     browser: 'chrome',
-        // },
-        // {
-        //     ...windows10Device,
-        //     ...commonCapabilities,
-        //     browser: 'chrome',
-        // },
-        // {
-        //     ...windows10Device,
-        //     ...commonCapabilities,
-        //     browser: 'firefox',
-        // },
-        // {
-        //     ...windows10Device,
-        //     ...commonCapabilities,
-        //     browser: 'ie',
-        //     browser_version: '11.0',
-        // },
-        // {
-        //     ...windows10Device,
-        //     ...commonCapabilities,
-        //     browser: 'edge',
-        // },
-        // {
-        //     ...macOsDevice,
-        //     ...commonCapabilities,
-        //     browser: 'firefox',
-        // },
-        // {
-        //     ...macOsDevice,
-        //     ...commonCapabilities,
-        //     browser: 'safari',
-        // },
+        {
+            ...ios10_3Device,
+            ...commonCapabilities,
+            browser: 'safari',
+        },
+        {
+            ...ios11Device,
+            ...commonCapabilities,
+            browser: 'safari',
+        },
+        {
+            ...ios11_2Device,
+            ...commonCapabilities,
+            browser: 'safari',
+        },
+        {
+            ...android4_4Device,
+            ...commonCapabilities,
+            browser: 'chrome',
+        },
+        {
+            ...android5Device,
+            ...commonCapabilities,
+            browser: 'chrome',
+        },
+        {
+            ...android6Device,
+            ...commonCapabilities,
+            browser: 'chrome',
+        },
+        {
+            ...android7Device,
+            ...commonCapabilities,
+            browser: 'chrome',
+        },
+        {
+            ...android8Device,
+            ...commonCapabilities,
+            browser: 'chrome',
+        },
+        {
+            ...windows10Device,
+            ...commonCapabilities,
+            browser: 'chrome',
+        },
+        {
+            ...windows10Device,
+            ...commonCapabilities,
+            browser: 'firefox',
+        },
+        {
+            ...windows10Device,
+            ...commonCapabilities,
+            browser: 'ie',
+            browser_version: '11.0',
+        },
+        {
+            ...windows10Device,
+            ...commonCapabilities,
+            browser: 'edge',
+        },
+        {
+            ...macOsDevice,
+            ...commonCapabilities,
+            browser: 'firefox',
+        },
+        {
+            ...macOsDevice,
+            ...commonCapabilities,
+            browser: 'safari',
+        },
         {
             ...macOsDevice,
             ...commonCapabilities,
