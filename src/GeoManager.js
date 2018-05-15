@@ -38,7 +38,7 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'gb', // United Kingdom of Great Britain and Northern Ireland
 ];
 
-export function getCountryFromCookie() {
+function getCountryFromCookie() {
     const cookie = Cookies.get(COUNTRY_COOKIE_NAME);
     if (cookie) {
         try {
@@ -56,7 +56,7 @@ export function getCountryFromCookie() {
 
 class GeoManager {
     constructor(country, countriesRequiringPrompt) {
-        this.countriesRequiringPrompt = countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT;
+        this.countriesRequiringPrompt = (countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT).map(country => country.toLowerCase());
         this.country = (country || getCountryFromCookie() || this.countriesRequiringPrompt[0]).toLowerCase();
     }
 

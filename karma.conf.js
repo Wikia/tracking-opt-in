@@ -18,7 +18,6 @@ module.exports = function(config) {
 
       // list of files / patterns to exclude
       exclude: [
-          'src/**/*_test.js',
           'src/index-dev.js',
       ],
 
