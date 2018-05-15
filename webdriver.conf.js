@@ -88,7 +88,7 @@ exports.config = {
     reporters: ['junit', 'concise'],
     reporterOptions: {
         junit: {
-            outputDir: 'selenium/reports/junit',
+            outputDir: 'reports/webdriver/junit',
         }
     },
     specs: [

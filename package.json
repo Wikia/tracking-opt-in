@@ -53,7 +53,7 @@
     "build": "yarn build:webpack",
     "build:webpack": "cross-env NODE_ENV=production webpack",
     "build:babel": "babel src --out-dir dist/src --ignore index-dev.js",
-    "clean": "rimraf dist selenium/reports",
+    "clean": "rimraf dist reports",
     "prepublishOnly": "yarn build",
     "test": "karma start",
     "test:watch": "karma start --auto-watch --no-single-run",
