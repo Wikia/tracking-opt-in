@@ -34,6 +34,7 @@
     "node-sass": "^4.9.0",
     "postcss-loader": "^2.1.4",
     "preact": "^8.2.9",
+    "request": "^2.86.0",
     "rimraf": "^2.6.2",
     "sass-loader": "^7.0.1",
     "style-loader": "^0.21.0",
