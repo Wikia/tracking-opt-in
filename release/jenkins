@@ -62,7 +62,7 @@ pipeline {
     stage('release') {
       when {
         expression {
-          return params.pipeline == 'release'
+          return params.pipeline == 'release' && params.branch == 'master'
         }
       }
       steps {
