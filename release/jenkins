@@ -78,7 +78,7 @@ pipeline {
             channel: '#gdpr_engineering',
             color: 'good',
             failOnError: true,
-            message: ":checkmark: new version of tracking-top-in has been released to https://www.npmjs.com/package/@wikia/tracking-opt-in"
+            message: ":checkmark: new version of tracking-opt-in has been released to https://www.npmjs.com/package/@wikia/tracking-opt-in"
           )
         }
       }
