@@ -81,6 +81,7 @@ module.exports = function(config) {
           'karma-jsdom-launcher',
           'karma-sourcemap-loader',
           'karma-junit-reporter',
+          'karma-allure-reporter',
       ],
 
       // preprocess matching files before serving them to the browser
@@ -92,7 +93,7 @@ module.exports = function(config) {
       // test results reporter to use
       // possible values: 'dots', 'progress'
       // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-      reporters: ['mocha', 'coverage', 'junit'],
+      reporters: ['mocha', 'coverage', 'junit', 'allure'],
 
       coverageReporter: {
           type : 'html',
@@ -104,6 +105,10 @@ module.exports = function(config) {
           outputDir: 'reports/karma/junit',
           outputFile: 'tests.xml',
           useBrowserName: false,
+      },
+
+      allureReport: {
+          reportDir: 'reports/karma/allure',
       },
 
       // web server port
