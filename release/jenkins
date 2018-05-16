@@ -117,7 +117,7 @@ pipeline {
         reportTitles: ''
       ])
       withDockerContainer(env.K8S_DEPLOYER) {
-        sh "kubectl -n $K8S_NAMESPACE --context $K8S_CONTEXT delete service,deployment,ingress -l app=${serviceName}"
+        // sh "kubectl -n $K8S_NAMESPACE --context $K8S_CONTEXT delete service,deployment,ingress -l app=${serviceName}"
       }
     }
   }
