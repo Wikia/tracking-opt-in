@@ -25,6 +25,15 @@ pipeline {
     stage('tests') {
       steps {
         sh "yarn test"
+        publishHTML([
+          allowMissing: false,
+          alwaysLinkToLastBuild: false,
+          keepAll: false,
+          reportDir: 'reports/karma/coverage',
+          reportFiles: 'index.html',
+          reportName: 'Unit Test Code Coverage Report',
+          reportTitles: ''
+        ])
       }
     }
 
