@@ -74,6 +74,13 @@ pipeline {
           sh "npm publish"
           sh "git push origin ${params.branch}"
           sh "git push origin --tags"
+
+          slackSend (
+            channel: '#gdpr_engineering',
+            color: 'good',
+            failOnError: true,
+            message: ":checkmark: new version of tracking-opt-in has been released to https://www.npmjs.com/package/@wikia/tracking-opt-in"
+          )
         }
       }
     }
