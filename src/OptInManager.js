@@ -58,7 +58,8 @@ class OptInManager {
     }
 
     setTrackingRejected() {
-        Cookies.set(this.cookieName, STATUS.REJECTED);
+        const attributes = this.domain ? { domain: this.domain } : {};
+        Cookies.set(this.cookieName, STATUS.REJECTED, attributes);
     }
 
     clear() {
