@@ -53,7 +53,9 @@
             language: 'en',
         });
     {{else}}
-        var optIn = trackingOptIn.default();
+        var optIn = trackingOptIn.default({
+            track: false,
+        });
     {{/if}}
 </script>
 

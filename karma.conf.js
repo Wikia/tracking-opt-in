@@ -29,6 +29,9 @@ module.exports = function(config) {
                   {
                       test: /\.js$/,
                       include: path.resolve(__dirname, './src'),
+                      exclude: [
+                          `${__dirname}/src/Tracker.js`,
+                      ],
                       use: [{
                           loader: 'babel-loader',
                           options: {
