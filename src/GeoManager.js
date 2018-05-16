@@ -35,6 +35,7 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'hu', // Hungary
     'is', // Iceland
     'ie', // Ireland
+    'im', // Isle of Man
     'it', // Italy
     're', // La Réunion
     'lv', // Latvia
