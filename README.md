@@ -54,7 +54,7 @@ The following options are accepted:
 - Country codes are in [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1) format.
   
 ### TrackingOptIn class
-Calling the exported function returns an instance of the [`TrackingOptIn`](https://github.com/Wikia/tracking-opt-in/blob/master/src/index.js) class. The class has the following functions:
+Calling the exported function returns an instance of the [`TrackingOptIn`](https://github.com/Wikia/tracking-opt-in/blob/master/src/TrackingOptIn.js) class. The class has the following functions:
 - `hasUserConsented()` - returns `true` if the user has accepted tracking (or does not need to based on their geo), `false` if they have explicitly rejected tracking, and `undefined` if the user has neither consented or rejected tracking.
 - `geoRequiresTrackingConsent()` - returns `true` if the user's geo requires consent, `false` otherwise.
 - `reset()` - clears the opt-in cookie and runs through the rendering rules again.
