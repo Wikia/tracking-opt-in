@@ -11,9 +11,11 @@ class TrackingOptIn {
     }
 
     removeApp = () => {
-        render(null, this.root, this.root.lastChild);
-        this.root.parentNode.removeChild(this.root);
-        this.root = null;
+        if (this.root) {
+            render(null, this.root, this.root.lastChild);
+            this.root.parentNode.removeChild(this.root);
+            this.root = null;
+        }
     };
 
     hasUserConsented() {

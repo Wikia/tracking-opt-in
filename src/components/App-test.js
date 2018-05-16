@@ -1,6 +1,6 @@
 import { h, render } from 'preact';
 import { expect, assert } from 'chai';
-import { stub } from 'sinon';
+import { createStubInstance, stub }  from 'sinon';
 import App from './App';
 import styles from './styles.scss';
 import ContentManager from "../ContentManager";
@@ -21,8 +21,8 @@ describe('App', () => {
     let wrapper;
 
     function renderApp(callbacks = {}, preventScrollOn = null) {
-        tracker = stub(new Tracker('en', true));
-        optInManager = stub(new OptInManager());
+        tracker = createStubInstance(Tracker);
+        optInManager = createStubInstance(OptInManager);
 
         return render(h(App, {
             tracker,
