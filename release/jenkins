@@ -108,12 +108,14 @@ pipeline {
     always {
         // junit allowEmptyResults: true, testResults: 'reports/karma/junit/*.xml'
         allure([
-          includeProperties: false,
+          config: [
+            includeProperties: false,
           jdk: '',
           properties: [],
           reportBuildPolicy: 'ALWAYS',
           results: [
             [path: 'reports/karma/allure']
+          ]
           ]
         ])
         publishHTML([
