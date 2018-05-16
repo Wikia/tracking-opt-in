@@ -28,7 +28,7 @@ pipeline {
         publishHTML([
           allowMissing: false,
           alwaysLinkToLastBuild: false,
-          keepAll: false,
+          keepAll: true,
           reportDir: 'reports/karma/coverage',
           reportFiles: 'index.html',
           reportName: 'Unit Test Code Coverage Report',
