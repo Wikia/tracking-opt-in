@@ -85,10 +85,15 @@ exports.config = {
     maxInstances,
     logLevel: 'error',
     coloredLogs: true,
-    reporters: ['junit', 'concise'],
+    reporters: ['junit', 'concise', 'allure'],
     reporterOptions: {
         junit: {
             outputDir: 'reports/webdriver/junit',
+        },
+        allure: {
+            outputDir: 'allure-results',
+            disableWebdriverStepsReporting: true,
+            useCucumberStepReporter: false
         }
     },
     specs: [

@@ -43,6 +43,7 @@
     "sass-loader": "^7.0.1",
     "sinon": "^5.0.7",
     "style-loader": "^0.21.0",
+    "wdio-allure-reporter": "^0.6.1",
     "wdio-concise-reporter": "^0.1.2",
     "wdio-junit-reporter": "^0.4.3",
     "wdio-mocha-framework": "^0.5.13",
