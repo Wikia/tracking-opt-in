@@ -1,8 +1,11 @@
 const browserstack = require('browserstack-local');
+const request = require('request');
 
 const user = process.env.BROWSERSTACK_USERNAME;
 const key = process.env.BROWSERSTACK_KEY;
 const useTunnel = !!process.env.USE_TUNNEL;
+const build = process.env.BUILD_ID || 'local-test';
+const maxInstances = process.env.MAX_INSTANCES || 3;
 
 if (!user || !key) {
     console.error('Please provide BROWSERSTACK_USERNAME and BROWSERSTACK_KEY environment params');
@@ -65,24 +68,27 @@ const ios11_2Device = {
     os_version: '11.2',
     realMobile: true,
 };
-
-
 const commonCapabilities = {
+    build,
     project: 'tracking-opt-in',
     'browserstack.local': useTunnel,
+    'browserstack.debug': true,
+    'browserstack.console': 'warnings',
 };
 
-// see http://webdriver.io/guide/testrunner/configurationfile.html for options
+const failedTests = [];
+
+// http://webdriver.io/guide/testrunner/configurationfile.html for options
 exports.config = {
     user,
     key,
+    maxInstances,
     logLevel: 'error',
     coloredLogs: true,
-    maxInstances: 10,
     reporters: ['junit', 'concise'],
     reporterOptions: {
         junit: {
-            outputDir: 'selenium/reports/junit',
+            outputDir: 'reports/webdriver/junit',
         }
     },
     specs: [
@@ -153,11 +159,6 @@ exports.config = {
         {
             ...macOsDevice,
             ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...macOsDevice,
-            ...commonCapabilities,
             browser: 'firefox',
         },
         {
@@ -165,7 +166,29 @@ exports.config = {
             ...commonCapabilities,
             browser: 'safari',
         },
+        {
+            ...macOsDevice,
+            ...commonCapabilities,
+            browser: 'chrome',
+        },
     ],
+    afterTest(test) {
+        if (!test.passed) {
+            failedTests.push(test.fullTitle);
+        }
+    },
+    after(resultCode) {
+        if (resultCode !== 0) {
+            request({
+                uri: `https://${user}:${key}@api.browserstack.com/automate/sessions/${browser.sessionId}.json`,
+                method: 'PUT',
+                form: {
+                    status: 'error',
+                    reason: failedTests.join(';'),
+                }
+            });
+        }
+    }
 };
 
 // so that the generated reports have the proper browserName

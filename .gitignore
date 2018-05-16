@@ -1,9 +1,8 @@
 node_modules/
 dist/
-coverage/
 .idea/
 .cache/
-selenium/reports/
 yarn-error.log
 package-lock.json
 local.log
+reports/

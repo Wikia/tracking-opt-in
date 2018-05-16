@@ -1,11 +1,6 @@
 <html>
 <head>
-    <!-- for build testing, uncomment these -->
-    <!--<script src="dist/tracking-opt-in.js"></script>-->
-
-    <!-- for dev testing, uncomment this -->
-    <script src="/tracking-opt-in.min.js"></script>
-
+    <title>{{htmlWebpackPlugin.options.title}}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
 <body>
@@ -51,11 +46,15 @@
 <p>Gastropub stumptown heirloom twee seitan, tbh +1 ethical celiac DIY fam meditation asymmetrical. Kitsch +1 poutine freegan sriracha knausgaard direct trade. Beard bitters microdosing tumeric plaid gochujang shoreditch deep v asymmetrical humblebrag venmo. Ennui tattooed XOXO pug mixtape air plant. Messenger bag cred master cleanse flannel vexillologist bitters. Flexitarian small batch raclette seitan.</p>
 
 <script type="text/javascript">
-    var optIn = trackingOptIn.default({
-        countriesRequiringPrompt: ['us'],
-        country: 'us',
-        language: 'en',
-    });
+    {{#if htmlWebpackPlugin.options.isDevelopment}}
+        var optIn = trackingOptIn.default({
+            countriesRequiringPrompt: ['us'],
+            country: 'us',
+            language: 'en',
+        });
+    {{else}}
+        var optIn = trackingOptIn.default();
+    {{/if}}
 </script>
 
 </body>
