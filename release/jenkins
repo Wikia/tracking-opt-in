@@ -56,7 +56,7 @@ pipeline {
 
     stage('BrowserStack') {
       steps {
-        sh "echo '...running the browserstack tests...'"
+        sh "BUILD_ID=${currentCommit} TEST_URL=http://gdpr-modal-test-${currentCommit}.wikia-dev.us yarn test:selenium"
       }
     }
 
