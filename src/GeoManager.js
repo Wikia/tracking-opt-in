@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-const COUNTRY_COOKIE_NAME = 'Geo';
+export const COUNTRY_COOKIE_NAME = 'Geo';
 
 // client.geo.country_code https://docs.fastly.com/guides/vcl/geolocation-related-vcl-features
 const COUNTRIES_REQUIRING_PROMPT = [
@@ -70,14 +70,14 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'wf', // Wallis-et-Futuna
 ];
 
-export function getCountryFromCookie() {
+function getCountryFromCookie() {
     const cookie = Cookies.get(COUNTRY_COOKIE_NAME);
     if (cookie) {
         try {
             const obj = JSON.parse(cookie);
             return obj.country;
         } catch (e) {
-            console.error('error parsing geo cookie', e);
+            console.error('error parsing geo cookie', cookie);
         }
     } else {
         console.warn('no geo cookie found');
@@ -88,7 +88,7 @@ export function getCountryFromCookie() {
 
 class GeoManager {
     constructor(country, countriesRequiringPrompt) {
-        this.countriesRequiringPrompt = countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT;
+        this.countriesRequiringPrompt = (countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT).map(country => country.toLowerCase());
         this.country = (country || getCountryFromCookie() || this.countriesRequiringPrompt[0]).toLowerCase();
     }
 

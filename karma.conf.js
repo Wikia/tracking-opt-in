@@ -18,18 +18,27 @@ module.exports = function(config) {
 
       // list of files / patterns to exclude
       exclude: [
+          'src/index*.js',
       ],
 
       webpack: {
-          devtool: 'eval-source-map',
+          devtool: 'inline-source-map',
           mode: 'development',
           module: {
               rules: [
                   {
                       test: /\.js$/,
                       include: path.resolve(__dirname, './src'),
+                      exclude: [
+                          `${__dirname}/src/Tracker.js`,
+                      ],
                       use: [{
                           loader: 'babel-loader',
+                          options: {
+                              plugins: [
+                                  'istanbul',
+                              ]
+                          },
                       }]
                   },
                   {
@@ -69,25 +78,41 @@ module.exports = function(config) {
 
       plugins: [
           'karma-mocha',
+          'karma-mocha-reporter',
           'karma-webpack',
           'karma-coverage',
           'karma-jsdom-launcher',
+          'karma-sourcemap-loader',
+          'karma-junit-reporter',
+          'karma-allure-reporter',
       ],
 
       // preprocess matching files before serving them to the browser
       // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
       preprocessors: {
-          'src/**/*.js': ['webpack', 'coverage']
+          'src/**/*.js': ['webpack', 'sourcemap']
       },
 
       // test results reporter to use
       // possible values: 'dots', 'progress'
       // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-      reporters: ['progress', 'coverage'],
+      reporters: ['mocha', 'coverage', 'junit', 'allure'],
 
       coverageReporter: {
           type : 'html',
-          dir : 'reports/karma/coverage'
+          dir : 'reports/karma/coverage',
+          subdir: '.',
+      },
+
+      junitReporter: {
+          outputDir: 'reports/karma/junit',
+          outputFile: 'tests.xml',
+          useBrowserName: false,
+      },
+
+      // the default configuration
+      allureReport: {
+          reportDir: 'reports/karma/allure',
       },
 
       // web server port

@@ -8,8 +8,8 @@ export const STATUS = {
     REJECTED: 'rejected',
 };
 
-function getCookieDomain() {
-    const parts = window.location.hostname.split('.');
+function getCookieDomain(hostname) {
+    const parts = hostname.split('.');
     if (parts.length < 2) {
         return undefined;
     }
@@ -18,10 +18,10 @@ function getCookieDomain() {
 }
 
 class OptInManager {
-    constructor(cookieName, expirationInDays, queryParam) {
+    constructor(hostname, cookieName, expirationInDays, queryParam) {
         this.cookieName = cookieName || DEFAULT_COOKIE_NAME;
         this.expirationInDays = expirationInDays || DEFAULT_ACCEPT_COOKIE_EXPIRATION;
-        this.domain = getCookieDomain();
+        this.domain = getCookieDomain(hostname || window.location.hostname);
         this.queryParam = queryParam || DEFAULT_QUERY_PARAM_NAME;
     }
 
@@ -49,9 +49,7 @@ class OptInManager {
         Cookies.set(this.cookieName, STATUS.ACCEPTED, attributes);
     }
 
-    setForcedStatusFromQueryParams() {
-        const queryString = window.location.search;
-
+    setForcedStatusFromQueryParams(queryString) {
         if (queryString.indexOf(`${this.queryParam}=true`) !== -1) {
             this.setTrackingAccepted();
         } else if (queryString.indexOf(`${this.queryParam}=false`) !== -1) {
@@ -60,7 +58,8 @@ class OptInManager {
     }
 
     setTrackingRejected() {
-        Cookies.set(this.cookieName, STATUS.REJECTED);
+        const attributes = this.domain ? { domain: this.domain } : {};
+        Cookies.set(this.cookieName, STATUS.REJECTED, attributes);
     }
 
     clear() {

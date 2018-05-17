@@ -85,10 +85,15 @@ exports.config = {
     maxInstances,
     logLevel: 'error',
     coloredLogs: true,
-    reporters: ['junit', 'concise'],
+    reporters: ['junit', 'concise', 'allure'],
     reporterOptions: {
         junit: {
             outputDir: 'reports/webdriver/junit',
+        },
+        allure: {
+            outputDir: 'reports/selenium/allure',
+            disableWebdriverStepsReporting: true,
+            useCucumberStepReporter: false
         }
     },
     specs: [
@@ -204,7 +209,7 @@ if (useTunnel) {
         console.log("Connecting local");
         return new Promise(function(resolve, reject){
             exports.bs_local = new browserstack.Local();
-            exports.bs_local.start({'key': exports.config.key }, function(error) {
+            exports.bs_local.start({'key': exports.config.key, 'forceLocal': true }, function(error) {
                 if (error) return reject(error);
                 console.log('Connected. Now testing...');
 

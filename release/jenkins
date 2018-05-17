@@ -56,7 +56,7 @@ pipeline {
 
     stage('BrowserStack') {
       steps {
-        sh "echo '...running the browserstack tests...'"
+        sh "BUILD_ID=${currentCommit} TEST_URL=${params.testUrl ?: "http://${appHost}"} yarn test:selenium"
       }
     }
 
@@ -106,6 +106,21 @@ pipeline {
     }
 
     always {
+      script {
+        allure([includeProperties: false, jdk: '', properties: [], reportBuildPolicy: 'ALWAYS', results: [[path: 'reports/selenium/allure'], [path: 'reports/karma/allure']]])
+      }
+
+      junit allowEmptyResults: true, testResults: 'reports/karma/junit/*.xml'
+      junit allowEmptyResults: true, testResults: 'reports/webdriver/junit/*.xml'
+      publishHTML([
+        allowMissing: true,
+        alwaysLinkToLastBuild: false,
+        keepAll: true,
+        reportDir: 'reports/karma/coverage',
+        reportFiles: 'index.html',
+        reportName: 'Unit Test Code Coverage Report',
+        reportTitles: ''
+      ])
       withDockerContainer(env.K8S_DEPLOYER) {
         sh "kubectl -n $K8S_NAMESPACE --context $K8S_CONTEXT delete service,deployment,ingress -l app=${serviceName}"
       }

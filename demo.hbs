@@ -51,9 +51,12 @@
             countriesRequiringPrompt: ['us'],
             country: 'us',
             language: 'en',
+            track: false,
         });
     {{else}}
-        var optIn = trackingOptIn.default();
+        var optIn = trackingOptIn.default({
+            track: false,
+        });
     {{/if}}
 </script>
 
