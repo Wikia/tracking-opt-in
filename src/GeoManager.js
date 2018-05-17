@@ -66,6 +66,7 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'ch', // Switzerland
     'tc', // Turks and Caicos Islands
     'gb', // United Kingdom of Great Britain and Northern Ireland
+    'uk', // United Kingdom of Great Britain and Northern Ireland
     'wf', // Wallis-et-Futuna
 ];
 
