@@ -109,7 +109,7 @@ module.exports = function(config) {
 
       // the default configuration
       allureReport: {
-          reportDir: 'allure-results-karma',
+          reportDir: 'reports/karma/allure',
       },
 
       // web server port

@@ -88,7 +88,7 @@ pipeline {
     stage('reports') {
       steps {
         script {
-          allure([includeProperties: false, jdk: '', properties: [], reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results-selenium'], [path: 'allure-results-karma']]])
+          allure([includeProperties: false, jdk: '', properties: [], reportBuildPolicy: 'ALWAYS', results: [[path: 'reports/selenium/allure'], [path: 'reports/karma/allure']]])
         }
       }
     }
