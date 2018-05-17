@@ -12,7 +12,6 @@ pipeline {
     dockerRepoUrl = "${env.DOCKER_REPO_URL}"
     serviceName = "${imageName}-${currentCommit}"
     appHost = "${env.APP_HOST_PREFIX}${currentCommit}${env.APP_HOST_SUFFIX}"
-    domain = env.DOMAIN == null ? "http://gdpr-modal-test-${currentCommit}.wikia-dev.us" : "${env.DOMAIN}"
   }
 
   stages {
@@ -57,7 +56,7 @@ pipeline {
 
     stage('BrowserStack') {
       steps {
-        sh "BUILD_ID=${currentCommit} TEST_URL=${domain} yarn test:selenium"
+        sh "BUILD_ID=${currentCommit} TEST_URL=${domain} DOMAIN=${env.DOMAIN ?: "http://gdpr-modal-test-${currentCommit}.wikia-dev.us"}« yarn test:selenium"
       }
     }
 
