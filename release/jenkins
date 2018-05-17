@@ -117,6 +117,7 @@ pipeline {
 
     always {
       junit allowEmptyResults: true, testResults: 'reports/karma/junit/*.xml'
+      junit allowEmptyResults: true, testResults: 'reports/webdriver/junit/*.xml'
       publishHTML([
         allowMissing: true,
         alwaysLinkToLastBuild: false,
