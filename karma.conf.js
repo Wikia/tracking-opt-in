@@ -92,7 +92,7 @@ module.exports = function(config) {
       // test results reporter to use
       // possible values: 'dots', 'progress'
       // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-      reporters: ['mocha', 'coverage', 'junit'],
+      reporters: ['mocha', 'coverage', 'junit', 'allure'],
 
       coverageReporter: {
           type : 'html',
@@ -104,6 +104,11 @@ module.exports = function(config) {
           outputDir: 'reports/karma/junit',
           outputFile: 'tests.xml',
           useBrowserName: false,
+      },
+
+      // the default configuration
+      allureReport: {
+          reportDir: 'allure-results-karma',
       },
 
       // web server port

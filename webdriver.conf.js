@@ -91,7 +91,7 @@ exports.config = {
             outputDir: 'reports/webdriver/junit',
         },
         allure: {
-            outputDir: 'allure-results',
+            outputDir: 'allure-results-selenium',
             disableWebdriverStepsReporting: true,
             useCucumberStepReporter: false
         }
