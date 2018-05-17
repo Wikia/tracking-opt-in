@@ -12,6 +12,7 @@ pipeline {
     dockerRepoUrl = "${env.DOCKER_REPO_URL}"
     serviceName = "${imageName}-${currentCommit}"
     appHost = "${env.APP_HOST_PREFIX}${currentCommit}${env.APP_HOST_SUFFIX}"
+    domain = env.DOMAIN ?: "http://gdpr-modal-test-${currentCommit}.wikia-dev.us"
   }
 
   stages {
@@ -56,7 +57,7 @@ pipeline {
 
     stage('BrowserStack') {
       steps {
-        sh "BUILD_ID=${currentCommit} TEST_URL=http://gdpr-modal-test-${currentCommit}.wikia-dev.us yarn test:selenium"
+        sh "BUILD_ID=${currentCommit} TEST_URL=${domain} yarn test:selenium"
       }
     }
 
@@ -96,21 +97,23 @@ pipeline {
 
   post {
     success {
-      slackSend (
-        channel: '#cake-team-tech',
-        color: 'good',
-        failOnError: true,
-        message: ":checkmark: tracking-opt-in ${params.pipeline} on ${params.branch} <${env.BUILD_URL}|succeeded>"
-      )
+      sh 'echo here'
+//      slackSend (
+//        channel: '#cake-team-tech',
+//        color: 'good',
+//        failOnError: true,
+//        message: ":checkmark: tracking-opt-in ${params.pipeline} on ${params.branch} <${env.BUILD_URL}|succeeded>"
+//      )
     }
 
     failure {
-      slackSend (
-        channel: '#cake-team-tech',
-        color: 'warning',
-        failOnError: true,
-        message: ":warning: tracking-opt-in ${params.pipeline} on ${params.branch} <${env.BUILD_URL}|failed>"
-      )
+      sh 'echo here'
+//      slackSend (
+//        channel: '#cake-team-tech',
+//        color: 'warning',
+//        failOnError: true,
+//        message: ":warning: tracking-opt-in ${params.pipeline} on ${params.branch} <${env.BUILD_URL}|failed>"
+//      )
     }
 
     always {
