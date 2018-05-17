@@ -56,7 +56,8 @@ pipeline {
 
     stage('BrowserStack') {
       steps {
-        sh "BUILD_ID=${currentCommit} TEST_URL=http://gdpr-modal-test-${currentCommit}.wikia-dev.us yarn test:selenium"
+          sh "echo here"
+//        sh "BUILD_ID=${currentCommit} TEST_URL=http://gdpr-modal-test-${currentCommit}.wikia-dev.us yarn test:selenium"
       }
     }
 
@@ -88,8 +89,8 @@ pipeline {
     stage('reports') {
       steps {
         script {
-          allure([includeProperties: false, jdk: '', properties: [], reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results-selenium']]])
-          allure([includeProperties: false, jdk: '', properties: [], reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results-karma']]])
+//          allure([includeProperties: false, jdk: '', properties: [], reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results-selenium']]])
+          allure([includeProperties: false, jdk: '', properties: [], reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results-karma', reportName: 'test name']]])
         }
       }
     }
