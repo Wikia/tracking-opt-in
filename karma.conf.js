@@ -81,6 +81,7 @@ module.exports = function(config) {
           'karma-jsdom-launcher',
           'karma-sourcemap-loader',
           'karma-junit-reporter',
+          'karma-allure-reporter',
       ],
 
       // preprocess matching files before serving them to the browser
