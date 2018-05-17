@@ -32,7 +32,7 @@ function ensureNoPrompt() {
     assert.equal(browser.isExisting(overlay), false);
 }
 
-describe("App Test", () => {
+describe("BrowserStack: ", () => {
     before(() =>{
         browser.url(url);
         setGeoCookie(countryRequiringConsent);
