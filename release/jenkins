@@ -96,7 +96,6 @@ pipeline {
 
   post {
     success {
-      sh "echo here"
       slackSend (
         channel: '#cake-team-tech',
         color: 'good',
@@ -106,7 +105,6 @@ pipeline {
     }
 
     failure {
-      sh "echo here"
       slackSend (
         channel: '#cake-team-tech',
         color: 'warning',
