@@ -6,3 +6,4 @@ yarn-error.log
 package-lock.json
 local.log
 reports/
+allure-results-karma/
