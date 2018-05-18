@@ -47,6 +47,8 @@ describe("BrowserStack: ", () => {
         setGeoCookie(countryRequiringConsent);
     });
 
+    // add a basic test to make sure the page loads
+
     describe("without any relevant cookies", () => {
         afterEach(() => {
             removeTrackingCookie();
@@ -86,85 +88,85 @@ describe("BrowserStack: ", () => {
         });
     });
 
-    describe("after accepting tracking", () => {
-        afterEach(() => {
-            removeTrackingCookie();
-        });
-
-        it("does not prompt on subsequent pageloads", () => {
-            browser
-                .url(url)
-                .click(acceptButton);
-
-            browser.url(url);
-            ensureNoPrompt();
-        })
-    });
-
-    describe("after rejecting tracking", () => {
-        afterEach(() => {
-            removeTrackingCookie();
-        });
-
-        it("does not prompt on subsequent pageloads", () => {
-            browser
-                .url(url)
-                .click(rejectButton);
-
-            browser.url(url);
-            ensureNoPrompt();
-        });
-    });
-
-    describe("with geo cookie from country requiring consent", () => {
-        before(() => {
-            browser.url(url);
-            removeTrackingCookie();
-            setGeoCookie(countryRequiringConsent)
-        });
-
-        afterEach(() => {
-            removeTrackingCookie();
-        });
-
-        it("prompts the user", () => {
-            browser.url(url);
-            ensureUserPrompt();
-        });
-
-        it("does not reprompt when the user accepts", () => {
-            browser.url(url);
-            ensureUserPrompt();
-            browser.click(acceptButton);
-
-            browser.url(url);
-            ensureNoPrompt();
-        });
-
-        it("does not reprompt when the user rejects", () => {
-            browser.url(url);
-            ensureUserPrompt();
-            browser.click(rejectButton);
-
-            browser.url(url);
-            ensureNoPrompt();
-        })
-    });
-
-    describe("with geo cookie from country not requiring consent", () => {
-        before(() => {
-            browser.url(url);
-            removeTrackingCookie();
-            setGeoCookie(countryNotRequiringConsent);
-        });
-
-        afterEach(() => {
-            removeTrackingCookie();
-        });
-
-        it("does not prompt the user", () => {
-            browser.url(url);
-            ensureNoPrompt();
-        });
-    });
+    // describe("after accepting tracking", () => {
+    //     afterEach(() => {
+    //         removeTrackingCookie();
+    //     });
+    //
+    //     it("does not prompt on subsequent pageloads", () => {
+    //         browser
+    //             .url(url)
+    //             .click(acceptButton);
+    //
+    //         browser.url(url);
+    //         ensureNoPrompt();
+    //     })
+    // });
+    //
+    // describe("after rejecting tracking", () => {
+    //     afterEach(() => {
+    //         removeTrackingCookie();
+    //     });
+    //
+    //     it("does not prompt on subsequent pageloads", () => {
+    //         browser
+    //             .url(url)
+    //             .click(rejectButton);
+    //
+    //         browser.url(url);
+    //         ensureNoPrompt();
+    //     });
+    // });
+    //
+    // describe("with geo cookie from country requiring consent", () => {
+    //     before(() => {
+    //         browser.url(url);
+    //         removeTrackingCookie();
+    //         setGeoCookie(countryRequiringConsent)
+    //     });
+    //
+    //     afterEach(() => {
+    //         removeTrackingCookie();
+    //     });
+    //
+    //     it("prompts the user", () => {
+    //         browser.url(url);
+    //         ensureUserPrompt();
+    //     });
+    //
+    //     it("does not reprompt when the user accepts", () => {
+    //         browser.url(url);
+    //         ensureUserPrompt();
+    //         browser.click(acceptButton);
+    //
+    //         browser.url(url);
+    //         ensureNoPrompt();
+    //     });
+    //
+    //     it("does not reprompt when the user rejects", () => {
+    //         browser.url(url);
+    //         ensureUserPrompt();
+    //         browser.click(rejectButton);
+    //
+    //         browser.url(url);
+    //         ensureNoPrompt();
+    //     })
+    // });
+    //
+    // describe("with geo cookie from country not requiring consent", () => {
+    //     before(() => {
+    //         browser.url(url);
+    //         removeTrackingCookie();
+    //         setGeoCookie(countryNotRequiringConsent);
+    //     });
+    //
+    //     afterEach(() => {
+    //         removeTrackingCookie();
+    //     });
+    //
+    //     it("does not prompt the user", () => {
+    //         browser.url(url);
+    //         ensureNoPrompt();
+    //     });
+    // });
 });

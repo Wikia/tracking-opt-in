@@ -47,7 +47,7 @@ pipeline {
 
         always {
             script {
-                allure([includeProperties: false, jdk: '', properties: [], reportBuildPolicy: 'ALWAYS', results: [[path: 'reports/selenium/allure'], [path: 'reports/karma/allure']]])
+                allure([includeProperties: false, jdk: '', properties: [], reportBuildPolicy: 'ALWAYS', results: [[path: 'reports/selenium/allure']]])
             }
 
             junit allowEmptyResults: true, testResults: 'reports/webdriver/junit/*.xml'
