@@ -7,15 +7,9 @@ pipeline {
 
     tools { nodejs "v9.9.0" }
     environment {
-        imageName = "tracking-opt-in-demo"
         currentCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-        dockerRepoUrl = "${env.DOCKER_REPO_URL}"
-        serviceName = "${imageName}-${currentCommit}"
-        appHost = "${env.APP_HOST_PREFIX}${currentCommit}${env.APP_HOST_SUFFIX}"
     }
-
     stages {
-
         stage('dependencies') {
             steps {
                 sh "yarn install --frozen-lockfile"
@@ -24,25 +18,28 @@ pipeline {
 
         stage('BrowserStack') {
             steps {
-                sh "BUILD_ID=${currentCommit} TEST_URL=${params.testUrl ?: "http://${appHost}"} yarn test:selenium"
+                sh "BUILD_ID=${params.testUrl}-${currentCommit} TEST_URL=${params.testUrl} yarn test:selenium"
             }
         }
-
     }
 
     post {
         success {
-            sh 'echo hello'
-//            slackSend (
-//                    channel: '#cake-team-tech',
-//                    color: 'good',
-//                    failOnError: true,
-//                    message: ":checkmark: tracking-opt-in ${params.pipeline} on ${params.branch} <${env.BUILD_URL}|succeeded>"
-//            )
+            slackSend (
+                    channel: '#cake-team-tech',
+                    color: 'good',
+                    failOnError: true,
+                    message: ":checkmark: tracking-opt-in external test passed <${env.BUILD_URL}|succeeded at ${params.testUrl}>"
+            )
         }
 
         failure {
-            sh 'echo hello'
+            slackSend (
+                    channel: '#cake-team-tech',
+                    color: 'warning',
+                    failOnError: true,
+                    message: ":warning: tracking-opt-in external test failed <${env.BUILD_URL}|failed> at ${params.testUrl}"
+            )
         }
 
         always {

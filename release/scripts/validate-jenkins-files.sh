@@ -5,3 +5,4 @@ if [[ -z $JENKINS_URL ]]; then
 fi
 
 curl -X POST  -F "jenkinsfile=<release/jenkins" $JENKINS_URL/pipeline-model-converter/validate
+curl -X POST  -F "jenkinsfile=<selenium/jenkins" $JENKINS_URL/pipeline-model-converter/validate
