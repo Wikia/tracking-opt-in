@@ -25,8 +25,13 @@ pipeline {
 
     post {
         success {
+            when {
+                expression {
+                    return params.slackChannel != ''
+                }
+            }
             slackSend (
-                    channel: '#cake-team-tech',
+                    channel: "#${params.slackChannel}",
                     color: 'good',
                     failOnError: true,
                     message: ":checkmark: tracking-opt-in external test passed <${env.BUILD_URL}|succeeded at ${params.testUrl}>"
@@ -34,8 +39,13 @@ pipeline {
         }
 
         failure {
+            when {
+                expression {
+                    return params.slackChannel != ''
+                }
+            }
             slackSend (
-                    channel: '#cake-team-tech',
+                    channel: "#${params.slackChannel}",
                     color: 'warning',
                     failOnError: true,
                     message: ":warning: tracking-opt-in external test failed <${env.BUILD_URL}|failed> at ${params.testUrl}"
