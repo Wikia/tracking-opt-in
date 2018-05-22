@@ -3,6 +3,7 @@ const request = require('request');
 
 const user = process.env.BROWSERSTACK_USERNAME;
 const url = process.env.TEST_URL || 'http://localhost:3000';
+const projectName = process.env.PROJECT_NAME || 'tracking-opt-in';
 const key = process.env.BROWSERSTACK_KEY;
 const useTunnel = !!process.env.USE_TUNNEL;
 const build = process.env.BUILD_ID || 'local-test';
@@ -71,7 +72,7 @@ const ios11_2Device = {
 };
 const commonCapabilities = {
     build,
-    project: `tracking-opt-in-${url}`,
+    project: projectName,
     'browserstack.local': useTunnel,
     'browserstack.debug': true,
     'browserstack.console': 'warnings',
