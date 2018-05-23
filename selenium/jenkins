@@ -1,0 +1,54 @@
+pipeline {
+    agent {
+        node {
+            label 'docker-daemon'
+        }
+    }
+
+    tools { nodejs "v9.9.0" }
+    environment {
+        currentCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+    }
+    stages {
+        stage('dependencies') {
+            steps {
+                sh "yarn install --frozen-lockfile"
+            }
+        }
+
+        stage('BrowserStack') {
+            steps {
+
+                sh "BUILD_ID=${params.projectNamej}-${currentCommit} TEST_URL=${params.testUrl} PROJECT_NAME=${params.projectName} ${params.testIE11 ? "TEST_IE_11=true" : ""} yarn test:selenium"
+            }
+        }
+    }
+
+    post {
+        success {
+            slackSend (
+                    channel: "#${params.slackChannel}",
+                    color: 'good',
+                    failOnError: true,
+                    message: ":checkmark: tracking-opt-in external test passed <${env.BUILD_URL}|succeeded at ${params.testUrl}>"
+            )
+        }
+
+        failure {
+            slackSend(
+                    channel: "#${params.slackChannel}",
+                    color: 'warning',
+                    failOnError: true,
+                    message: ":warning: tracking-opt-in external test failed <${env.BUILD_URL}|failed> at ${params.testUrl}"
+            )
+        }
+
+        always {
+            script {
+                allure([includeProperties: false, jdk: '', properties: [], reportBuildPolicy: 'ALWAYS', results: [[path: 'reports/selenium/allure']]])
+            }
+
+            junit allowEmptyResults: true, testResults: 'reports/webdriver/junit/*.xml'
+        }
+    }
+}

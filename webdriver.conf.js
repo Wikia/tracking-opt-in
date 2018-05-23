@@ -2,6 +2,8 @@ const browserstack = require('browserstack-local');
 const request = require('request');
 
 const user = process.env.BROWSERSTACK_USERNAME;
+const url = process.env.TEST_URL || 'http://localhost:3000';
+const projectName = process.env.PROJECT_NAME || 'tracking-opt-in';
 const key = process.env.BROWSERSTACK_KEY;
 const useTunnel = !!process.env.USE_TUNNEL;
 const build = process.env.BUILD_ID || 'local-test';
@@ -70,13 +72,97 @@ const ios11_2Device = {
 };
 const commonCapabilities = {
     build,
-    project: 'tracking-opt-in',
+    project: projectName,
     'browserstack.local': useTunnel,
     'browserstack.debug': true,
     'browserstack.console': 'warnings',
 };
 
 const failedTests = [];
+
+const capabilities = [
+    {
+        ...ios10_3Device,
+        ...commonCapabilities,
+        browser: 'safari',
+    },
+    {
+        ...ios11Device,
+        ...commonCapabilities,
+        browser: 'safari',
+    },
+    {
+        ...ios11_2Device,
+        ...commonCapabilities,
+        browser: 'safari',
+    },
+    {
+        ...android4_4Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...android5Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...android6Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...android7Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...android8Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...windows10Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...windows10Device,
+        ...commonCapabilities,
+        browser: 'firefox',
+    },
+    {
+        ...windows10Device,
+        ...commonCapabilities,
+        browser: 'edge',
+    },
+    {
+        ...macOsDevice,
+        ...commonCapabilities,
+        browser: 'firefox',
+    },
+    {
+        ...macOsDevice,
+        ...commonCapabilities,
+        browser: 'safari',
+    },
+    {
+        ...macOsDevice,
+        ...commonCapabilities,
+        browser: 'chrome',
+    }
+];
+
+if (process.env.TEST_IE_11) {
+    capabilities.push(
+        {
+            ...windows10Device,
+            ...commonCapabilities,
+            browser: 'ie',
+            browser_version: '11.0',
+        }
+    )
+}
 
 // http://webdriver.io/guide/testrunner/configurationfile.html for options
 exports.config = {
@@ -86,6 +172,9 @@ exports.config = {
     logLevel: 'error',
     coloredLogs: true,
     reporters: ['junit', 'concise', 'allure'],
+    mochaOpts: {
+        timeout: 300000,
+    },
     reporterOptions: {
         junit: {
             outputDir: 'reports/webdriver/junit',
@@ -99,84 +188,7 @@ exports.config = {
     specs: [
         `./selenium/*.js`
     ],
-    capabilities: [
-        {
-            ...ios10_3Device,
-            ...commonCapabilities,
-            browser: 'safari',
-        },
-        {
-            ...ios11Device,
-            ...commonCapabilities,
-            browser: 'safari',
-        },
-        {
-            ...ios11_2Device,
-            ...commonCapabilities,
-            browser: 'safari',
-        },
-        {
-            ...android4_4Device,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...android5Device,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...android6Device,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...android7Device,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...android8Device,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...windows10Device,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-        {
-            ...windows10Device,
-            ...commonCapabilities,
-            browser: 'firefox',
-        },
-        {
-            ...windows10Device,
-            ...commonCapabilities,
-            browser: 'ie',
-            browser_version: '11.0',
-        },
-        {
-            ...windows10Device,
-            ...commonCapabilities,
-            browser: 'edge',
-        },
-        {
-            ...macOsDevice,
-            ...commonCapabilities,
-            browser: 'firefox',
-        },
-        {
-            ...macOsDevice,
-            ...commonCapabilities,
-            browser: 'safari',
-        },
-        {
-            ...macOsDevice,
-            ...commonCapabilities,
-            browser: 'chrome',
-        },
-    ],
+    capabilities,
     afterTest(test) {
         if (!test.passed) {
             failedTests.push(test.fullTitle);
