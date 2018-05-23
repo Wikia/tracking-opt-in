@@ -32,14 +32,14 @@ export default function main(options) {
         ...depOptions
     } = Object.assign({}, DEFAULT_OPTIONS, options);
     const langManager = new LanguageManager(depOptions.language);
-    const tracker = new Tracker(langManager.lang, depOptions.track);
+    const geoManager = new GeoManager(depOptions.country, depOptions.countriesRequiringPrompt);
+    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.track);
     const optInManager = new OptInManager(
         window.location.hostname,
         depOptions.cookieName,
         depOptions.cookieExpiration,
         depOptions.queryParamName
     );
-    const geoManager = new GeoManager(depOptions.country, depOptions.countriesRequiringPrompt);
     const contentManager = new ContentManager(langManager.lang);
 
     optInManager.setForcedStatusFromQueryParams(window.location.search);

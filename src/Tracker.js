@@ -1,6 +1,7 @@
 const TRACKING_BASE = 'https://beacon.wikia-services.com/__track/special/gdpr_events';
 const TRACK_PARAMS = {
     LANGUAGE_CODE: 'lang_code',
+    DETECTED_GEO: 'detected_geo',
     CATEGORY: 'ga_category',
     ACTION: 'ga_action',
     LABEL: 'ga_label',
@@ -8,10 +9,11 @@ const TRACK_PARAMS = {
 const TRACK_TIMEOUT = 3000;
 
 class Tracker {
-    constructor(language, enable) {
+    constructor(language, detectedGeo, enable) {
         this.enable = enable;
         this.defaultParams = {
             [TRACK_PARAMS.LANGUAGE_CODE]: language,
+            [TRACK_PARAMS.DETECTED_GEO]: detectedGeo,
         };
     }
 
