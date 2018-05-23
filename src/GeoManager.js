@@ -89,11 +89,15 @@ function getCountryFromCookie() {
 class GeoManager {
     constructor(country, countriesRequiringPrompt) {
         this.countriesRequiringPrompt = (countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT).map(country => country.toLowerCase());
-        this.country = (country || getCountryFromCookie() || this.countriesRequiringPrompt[0]).toLowerCase();
+        this.country = (country || getCountryFromCookie() || 'no-cookie').toLowerCase();
     }
 
     needsTrackingPrompt() {
         return this.countriesRequiringPrompt.indexOf(this.country) !== -1;
+    }
+
+    hasGeoCookie() {
+        return this.country !== false;
     }
 }
 

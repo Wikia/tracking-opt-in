@@ -6,6 +6,7 @@ import styles from './styles.scss';
 import ContentManager from "../ContentManager";
 import Tracker from '../Tracker';
 import OptInManager from "../OptInManager";
+import GeoManager from "../GeoManager";
 
 const document = global.document;
 
@@ -18,15 +19,18 @@ function noop() {}
 describe('App', () => {
     let tracker;
     let optInManager;
+    let geoManager;
     let wrapper;
 
     function renderApp(callbacks = {}, preventScrollOn = null) {
         tracker = createStubInstance(Tracker);
         optInManager = createStubInstance(OptInManager);
+        geoManager = createStubInstance(GeoManager);
 
         return render(h(App, {
             tracker,
             optInManager,
+            geoManager,
             onRequestAppRemove: callbacks.onRequestAppRemove || noop,
             content: (new ContentManager('en')).content,
             options: {

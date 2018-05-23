@@ -170,4 +170,20 @@ describe("BrowserStack: ", () => {
             ensureNoPrompt();
         });
     });
+
+    describe("without geo cookie", () => {
+        before(() => {
+            browser.url(url);
+            removeGeoCookie();
+        });
+
+        afterEach(() => {
+            removeTrackingCookie();
+        });
+
+        it("does not prompt the user", () => {
+            browser.url(url);
+            ensureNoPrompt();
+        });
+    });
 });

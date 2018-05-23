@@ -9,6 +9,7 @@ class App extends Component {
     componentDidMount() {
         this.track(ACTION_IMPRESSION, 'modal-view');
         this.preventScroll();
+        this.checkForCookie();
     }
 
     componentWillUnmount() {
@@ -37,6 +38,12 @@ class App extends Component {
         return typeof this.props.options.preventScrollOn === 'string' ?
                document.querySelector(this.props.options.preventScrollOn) :
                this.props.options.preventScrollOn;
+    }
+
+    checkForCookie() {
+        if(!this.props.geoManager.hasGeoCookie()) {
+            this.track(ACTION_IMPRESSION, 'no-cookie');
+        }
     }
 
     track(action, label) {

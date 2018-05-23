@@ -49,7 +49,7 @@ class TrackingOptIn {
             document.body.appendChild(this.root);
         }
 
-        switch (this.hasUserConsented()) {
+        switch (this.hasUserConsented() || !this.geoManager.hasGeoCookie()) {
             case true:
                 this.options.onAcceptTracking();
                 break;
@@ -62,6 +62,7 @@ class TrackingOptIn {
                         onRequestAppRemove={this.removeApp}
                         tracker={this.tracker}
                         optInManager={this.optInManager}
+                        geoManager={this.geoManager}
                         options={this.options}
                         content={this.contentManager.content}
                     />,
