@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 
 export const COUNTRY_COOKIE_NAME = 'Geo';
+const MISSING_COOKIE_NAME = 'no-cookie';
 
 // client.geo.country_code https://docs.fastly.com/guides/vcl/geolocation-related-vcl-features
 const COUNTRIES_REQUIRING_PROMPT = [
@@ -89,11 +90,19 @@ function getCountryFromCookie() {
 class GeoManager {
     constructor(country, countriesRequiringPrompt) {
         this.countriesRequiringPrompt = (countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT).map(country => country.toLowerCase());
-        this.country = (country || getCountryFromCookie() || this.countriesRequiringPrompt[0]).toLowerCase();
+        this.country = (country || getCountryFromCookie() || MISSING_COOKIE_NAME).toLowerCase();
     }
 
     needsTrackingPrompt() {
         return this.countriesRequiringPrompt.indexOf(this.country) !== -1;
+    }
+
+    getDetectedGeo() {
+        return this.country;
+    }
+
+    hasGeoCookie() {
+        return this.country !== MISSING_COOKIE_NAME;
     }
 }
 

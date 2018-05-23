@@ -31,6 +31,10 @@ function setGeoCookie(country) {
     browser.setCookie({ name: 'Geo', value: `{%22region%22:%22CA%22%2C%22country%22:%22${country}%22%2C%22continent%22:%22NA%22}` });
 }
 
+function removeGeoCookie(country) {
+    browser.setCookie({ name: 'Geo', value: '{' });
+}
+
 function ensureUserPrompt() {
     browser.waitForExist(overlay);
     assert(browser.isExisting(overlay));
@@ -159,6 +163,22 @@ describe("BrowserStack: ", () => {
             browser.url(url);
             removeTrackingCookie();
             setGeoCookie(countryNotRequiringConsent);
+        });
+
+        afterEach(() => {
+            removeTrackingCookie();
+        });
+
+        it("does not prompt the user", () => {
+            browser.url(url);
+            ensureNoPrompt();
+        });
+    });
+
+    describe("without geo cookie", () => {
+        before(() => {
+            browser.url(url);
+            removeGeoCookie();
         });
 
         afterEach(() => {

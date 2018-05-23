@@ -25,6 +25,8 @@ class TrackingOptIn {
             return true;
         } else if (this.optInManager.hasRejectedTracking()) {
             return false;
+        } else if(!this.geoManager.hasGeoCookie()) {
+            return false;
         }
 
         return undefined;
@@ -62,6 +64,7 @@ class TrackingOptIn {
                         onRequestAppRemove={this.removeApp}
                         tracker={this.tracker}
                         optInManager={this.optInManager}
+                        geoManager={this.geoManager}
                         options={this.options}
                         content={this.contentManager.content}
                     />,

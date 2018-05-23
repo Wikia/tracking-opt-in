@@ -148,7 +148,7 @@ export const langToContent = {
         partnerLinkText: '合作伙伴列表',
         partnerLink: 'http://fandom.wikia.com/partner-list',
     },
-    'zh-TW': {
+    'zh-tw': {
         headline: '本網站使用Cookie',
         bodyParagraphs: [
             'FANDOM以及其合作夥伴在網站上會使用Cookie等技術來使內容和廣告個人化、提供社交媒體功能，以及分析網站流量。',
@@ -163,7 +163,7 @@ export const langToContent = {
         partnerLinkText: '合作夥伴清單',
         partnerLink: 'http://fandom.wikia.com/partner-list',
     },
-    'zh-HK': {
+    'zh-hk': {
         headline: '本網站使用Cookie',
         bodyParagraphs: [
             'FANDOM以及其合作夥伴在網站上會使用Cookie等技術來使內容和廣告個人化、提供社交媒體功能，以及分析網站流量。',

@@ -46,14 +46,14 @@ describe('GeoManager', () => {
         describe('and unparseable geo cookie', () => {
             it('indicates consent is required', () => {
                 Cookies.set(COUNTRY_COOKIE_NAME, '{');
-                assert.isOk(new GeoManager().needsTrackingPrompt());
+                assert.isNotOk(new GeoManager().needsTrackingPrompt());
             });
         });
 
         describe('and no geo cookie', () => {
             it('indicates consent is required', () => {
                 Cookies.remove(COUNTRY_COOKIE_NAME);
-                assert.isOk(new GeoManager().needsTrackingPrompt());
+                assert.isNotOk(new GeoManager().needsTrackingPrompt());
             });
         });
     });
