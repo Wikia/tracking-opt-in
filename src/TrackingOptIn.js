@@ -25,6 +25,8 @@ class TrackingOptIn {
             return true;
         } else if (this.optInManager.hasRejectedTracking()) {
             return false;
+        } else if(!this.geoManager.hasGeoCookie()) {
+            return false;
         }
 
         return undefined;
@@ -49,7 +51,7 @@ class TrackingOptIn {
             document.body.appendChild(this.root);
         }
 
-        switch (this.hasUserConsented() || !this.geoManager.hasGeoCookie()) {
+        switch (this.hasUserConsented()) {
             case true:
                 this.options.onAcceptTracking();
                 break;
