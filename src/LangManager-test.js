@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import LangManager, { DEFAULT_BROWSER_LANG, DEFAULT_LANG } from './LangManager';
 
 const validLang = 'es';
-const validLangValidLocale = 'zh-TW';
+const validLangValidLocale = 'zh-tw';
 const validLangInvalidLocale = 'pt-br';
 
 function setBrowserLang(lang) {
