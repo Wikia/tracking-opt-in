@@ -44,6 +44,7 @@ describe('TrackingOptIn', () => {
 
     it('renders when the user has not consented in a geo that requires consent', () => {
         geoManager.needsTrackingPrompt.withArgs().returns(true);
+        geoManager.hasGeoCookie.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(false);
         optInManager.hasRejectedTracking.withArgs().returns(false);
 
@@ -54,6 +55,7 @@ describe('TrackingOptIn', () => {
 
     it('calls accept callback when the user geo does not require consent', () => {
         geoManager.needsTrackingPrompt.withArgs().returns(false);
+        geoManager.hasGeoCookie.withArgs().returns(true);
 
         trackingOptIn.render();
 
@@ -63,6 +65,7 @@ describe('TrackingOptIn', () => {
     it('calls accept callback when the user has already consented', () => {
         geoManager.needsTrackingPrompt.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(true);
+        geoManager.hasGeoCookie.withArgs().returns(true);
 
         trackingOptIn.render();
 
@@ -74,6 +77,7 @@ describe('TrackingOptIn', () => {
         geoManager.needsTrackingPrompt.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(false);
         optInManager.hasRejectedTracking.withArgs().returns(true);
+        geoManager.hasGeoCookie.withArgs().returns(true);
 
         trackingOptIn.render();
 
@@ -83,6 +87,7 @@ describe('TrackingOptIn', () => {
 
     it('re-renders on reset()', () => {
         geoManager.needsTrackingPrompt.withArgs().returns(true);
+        geoManager.hasGeoCookie.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(false);
         optInManager.hasRejectedTracking.withArgs().returns(false);
 

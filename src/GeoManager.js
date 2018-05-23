@@ -97,7 +97,7 @@ class GeoManager {
     }
 
     hasGeoCookie() {
-        return this.country !== false;
+        return this.country !== 'no-cookie';
     }
 }
 
