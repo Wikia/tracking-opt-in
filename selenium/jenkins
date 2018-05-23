@@ -19,7 +19,7 @@ pipeline {
         stage('BrowserStack') {
             steps {
 
-                sh "BUILD_ID=${params.testUrl}-${currentCommit} TEST_URL=${params.testUrl} PROJECT_NAME=${params.projectName} ${params.testIE11 ? "TEST_IE_11=true" : ""} yarn test:selenium"
+                sh "BUILD_ID=${params.projectNamej}-${currentCommit} TEST_URL=${params.testUrl} PROJECT_NAME=${params.projectName} ${params.testIE11 ? "TEST_IE_11=true" : ""} yarn test:selenium"
             }
         }
     }

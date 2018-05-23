@@ -77,7 +77,7 @@ describe("BrowserStack: ", () => {
             assert.equal(cookie.value, cookieState.accepted);
             ensureNoPrompt();
         });
-        //
+
         it("adds the correct cookie when rejected", () => {
             browser
                 .url(url)
