@@ -32,16 +32,19 @@ function setGeoCookie(country) {
 }
 
 function ensureUserPrompt() {
+    browser.waitForExist(overlay);
     assert(browser.isExisting(overlay));
     assert(browser.isExisting(acceptButton));
     assert(browser.isExisting(rejectButton));
 }
 
 function ensureNoPrompt() {
+    browser.waitForExist('html')
     assert.equal(browser.isExisting(overlay), false);
 }
 
 describe("BrowserStack: ", () => {
+
     before(() =>{
         browser.url(url);
         setGeoCookie(countryRequiringConsent);
@@ -74,7 +77,7 @@ describe("BrowserStack: ", () => {
             assert.equal(cookie.value, cookieState.accepted);
             ensureNoPrompt();
         });
-
+        //
         it("adds the correct cookie when rejected", () => {
             browser
                 .url(url)
