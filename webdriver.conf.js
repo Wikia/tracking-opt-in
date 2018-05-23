@@ -173,7 +173,7 @@ exports.config = {
     coloredLogs: true,
     reporters: ['junit', 'concise', 'allure'],
     mochaOpts: {
-        timeout: 200000,
+        timeout: 300000,
     },
     reporterOptions: {
         junit: {
