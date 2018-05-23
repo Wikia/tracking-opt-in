@@ -19,7 +19,7 @@ const browserLangToLang = (browserLang) => {
 
 export default class LangManager {
     constructor(browserLang) {
-        this.browserLang = browserLang || getBrowserLang();
+        this.browserLang = (browserLang || getBrowserLang()).toLowerCase();
         this.lang = browserLangToLang(this.browserLang);
     }
 }
