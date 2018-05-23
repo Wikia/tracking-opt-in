@@ -11,6 +11,15 @@ yarn add @wikia/tracking-opt-in
 ## Usage
 The library exports one function that can be invoked to kickoff the process of showing the modal, or calling the appropriate callbacks if the user has already accepted or rejected tracking. The library is built using webpack's [`libraryTarget: "umd"`](https://webpack.js.org/configuration/output/#module-definition-systems) option, so it should be usable in any of our projects.
 
+## Integration Test
+* An integration test can be run for any client by adding a additional build to their pipeline: [Pipeline Syntax](http://jenkins:8080/view/CAKE/view/tracking-opt-in/job/external%20test/pipeline-syntax/)
+* If you do not integrate with with Jenkins you can ping a url `http://jenkins:8080/view/CAKE/view/tracking-opt-in/job/external%20test/buildWithParameters?token=tracking-opt-in-external-test&testUrl=<url>&slackChannel=<slack channel>&projectName=<your app>`
+* Params
+    * `token` = tracking-opt-in-external-test (no need to change)
+    * `testUrl` = publicly accessible url where the selenium tests will target
+    * `projectName` = A unique per app name to organize each integration test
+    * `testIE` = (Optional - defaults to true) Enable ie11 tests 
+
 ### Examples
 As es6 module:
 ```javascript
