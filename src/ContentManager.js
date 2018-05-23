@@ -133,7 +133,7 @@ export const langToContent = {
         partnerLinkText: 'Список партнеров',
         partnerLink: 'http://fandom.wikia.com/partner-list',
     },
-    'zh-hans': {
+    'zh': {
         headline: '本网站使用Cookie',
         bodyParagraphs: [
             'FANDOM以及其合作伙伴在网站上将使用Cookie等技术来定制化内容和广告，提供社交媒体功能，以及分析网站流量。',
@@ -148,7 +148,22 @@ export const langToContent = {
         partnerLinkText: '合作伙伴列表',
         partnerLink: 'http://fandom.wikia.com/partner-list',
     },
-    'zh-hant': {
+    'zh-TW': {
+        headline: '本網站使用Cookie',
+        bodyParagraphs: [
+            'FANDOM以及其合作夥伴在網站上會使用Cookie等技術來使內容和廣告個人化、提供社交媒體功能，以及分析網站流量。',
+            '我們尤其希望您能夠注意到Cookie將用於行銷，為您提供個人化的廣告。 如果您同意我們使用這些Cookie（「廣告Cookie」），可以按下面的「接收廣告Cookie」按鈕。 請注意，如果您選擇「拒絕」，您可能會看到與您的喜好不太相關的廣告，並且網站的某些功能可能無法正常運作。',
+            '您可以隨時透過訪問我們的隱私權方針頁面，改變您的想法並重新選擇是否同意這個選項。  有關我們使用Cookie的詳細內容，請參閱我們的隱私權方針。 關於會使用我們網站上廣告Cookie的合作夥伴資訊，請參見下面的合作夥伴列表。',
+        ],
+        buttonAccept: '接受廣告Cookie',
+        buttonReject: '拒絕廣告Cookie',
+        privacyLinkText: 'FANDOM隱私政策',
+        // privacyLink: 'http://zh.wikia.com/wiki/%E9%9A%90%E7%A7%81%E6%9D%83%E6%96%B9%E9%92%88?variant=zh-hant',
+        privacyLink: 'http://www.wikia.com/Privacy_Policy',
+        partnerLinkText: '合作夥伴清單',
+        partnerLink: 'http://fandom.wikia.com/partner-list',
+    },
+    'zh-HK': {
         headline: '本網站使用Cookie',
         bodyParagraphs: [
             'FANDOM以及其合作夥伴在網站上會使用Cookie等技術來使內容和廣告個人化、提供社交媒體功能，以及分析網站流量。',
