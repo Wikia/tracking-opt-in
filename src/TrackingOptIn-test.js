@@ -36,7 +36,7 @@ describe('TrackingOptIn', () => {
             onRejectTracking,
         };
 
-        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, options);
+        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, options, window.location);
     });
 
     afterEach(() => {
@@ -122,5 +122,8 @@ describe('TrackingOptIn', () => {
 
         trackingOptIn.render();
         assert.isNotOk(modalIsShown());
+
+        trackingOptIn.reset();
+        assert.isOk(modalIsShown());
     })
 });

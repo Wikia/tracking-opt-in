@@ -9,7 +9,8 @@ class TrackingOptIn {
         this.geoManager = geoManager;
         this.contentManager = contentManager;
         this.options = options;
-        this.location = location || window.location;
+        this.location = location;
+        this.isReset = false;
     }
 
     removeApp = () => {
@@ -21,7 +22,9 @@ class TrackingOptIn {
     };
 
     hasUserConsented() {
-        if (!this.geoRequiresTrackingConsent()) {
+        if (this.isOnWhiteListedPage()) {
+            return false;
+        } else if (!this.geoRequiresTrackingConsent()) {
             return true;
         } else if (this.optInManager.hasAcceptedTracking()) {
             return true;
@@ -29,14 +32,16 @@ class TrackingOptIn {
             return false;
         } else if(!this.geoManager.hasGeoCookie()) {
             return false;
-        } else if(this.isOnWhiteListedPage()) {
-            return false;
         }
 
         return undefined;
     }
 
     isOnWhiteListedPage() {
+        if (this.isReset) {
+            return false;
+        }
+
         const {host, pathname} = this.location;
         const {privacyLink, partnerLink} = this.contentManager.content;
         const privacyParsedUrl = parseUrl(privacyLink);
@@ -56,6 +61,7 @@ class TrackingOptIn {
     }
 
     reset() {
+        this.isReset = true;
         this.clear();
         this.render();
     }

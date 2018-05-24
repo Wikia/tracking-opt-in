@@ -55,7 +55,8 @@ export default function main(options) {
             zIndex,
             onAcceptTracking,
             onRejectTracking,
-        }
+        },
+        window.location,
     );
     instance.render();
     return instance;
