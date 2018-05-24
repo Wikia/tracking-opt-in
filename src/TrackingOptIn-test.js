@@ -111,6 +111,9 @@ describe('TrackingOptIn', () => {
 
         trackingOptIn.render();
         assert.isNotOk(modalIsShown());
+
+        trackingOptIn.reset();
+        assert.isOk(modalIsShown());
     });
 
     it('does not display on http://www.wikia.com/Privacy_Policy', () => {
