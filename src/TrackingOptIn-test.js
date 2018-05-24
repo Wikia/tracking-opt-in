@@ -17,6 +17,7 @@ describe('TrackingOptIn', () => {
     let contentManager;
     let onAcceptTracking;
     let onRejectTracking;
+    let options;
 
     function modalIsShown() {
         return document.querySelector(`.${styles.overlay}`);
@@ -30,12 +31,12 @@ describe('TrackingOptIn', () => {
         onAcceptTracking = stub();
         onRejectTracking = stub();
 
-        const options = {
+        options = {
             onAcceptTracking,
             onRejectTracking,
         };
 
-        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, options);
+        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, options, window.location);
     });
 
     afterEach(() => {
@@ -100,4 +101,32 @@ describe('TrackingOptIn', () => {
         trackingOptIn.reset();
         assert.isOk(modalIsShown());
     });
+
+    it('does not display on fandom.wikia.com/partner-list', () => {
+        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, options, {host: 'fandom.wikia.com', pathname: '/partner-list'});
+        geoManager.needsTrackingPrompt.withArgs().returns(true);
+        geoManager.hasGeoCookie.withArgs().returns(true);
+        optInManager.hasAcceptedTracking.withArgs().returns(false);
+        optInManager.hasRejectedTracking.withArgs().returns(false);
+
+        trackingOptIn.render();
+        assert.isNotOk(modalIsShown());
+
+        trackingOptIn.reset();
+        assert.isOk(modalIsShown());
+    });
+
+    it('does not display on http://www.wikia.com/Privacy_Policy', () => {
+        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, options, {host: 'www.wikia.com', pathname: '/Privacy_Policy'});
+        geoManager.needsTrackingPrompt.withArgs().returns(true);
+        geoManager.hasGeoCookie.withArgs().returns(true);
+        optInManager.hasAcceptedTracking.withArgs().returns(false);
+        optInManager.hasRejectedTracking.withArgs().returns(false);
+
+        trackingOptIn.render();
+        assert.isNotOk(modalIsShown());
+
+        trackingOptIn.reset();
+        assert.isOk(modalIsShown());
+    })
 });
