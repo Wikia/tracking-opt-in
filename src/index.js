@@ -6,6 +6,7 @@ import GeoManager from "./GeoManager";
 import TrackingOptIn from './TrackingOptIn';
 
 const DEFAULT_OPTIONS = {
+    beaconCookieName: null,
     cookieName: null, // use default cookie name
     cookieExpiration: null, // use default
     country: null, // country code
@@ -33,7 +34,7 @@ export default function main(options) {
     } = Object.assign({}, DEFAULT_OPTIONS, options);
     const langManager = new LanguageManager(depOptions.language);
     const geoManager = new GeoManager(depOptions.country, depOptions.countriesRequiringPrompt);
-    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.track);
+    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
     const optInManager = new OptInManager(
         window.location.hostname,
         depOptions.cookieName,
