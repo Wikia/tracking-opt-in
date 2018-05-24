@@ -1,13 +1,15 @@
 import {h, render} from "preact/dist/preact";
 import App from "./components/App";
+import {parseUrl} from "./urlUtils";
 
 class TrackingOptIn {
-    constructor(tracker, optInManager, geoManager, contentManager, options) {
+    constructor(tracker, optInManager, geoManager, contentManager, options, location) {
         this.tracker = tracker;
         this.optInManager = optInManager;
         this.geoManager = geoManager;
         this.contentManager = contentManager;
         this.options = options;
+        this.location = location || window.location;
     }
 
     removeApp = () => {
@@ -27,9 +29,26 @@ class TrackingOptIn {
             return false;
         } else if(!this.geoManager.hasGeoCookie()) {
             return false;
+        } else if(this.isOnWhiteListedPage()) {
+            return false;
         }
 
         return undefined;
+    }
+
+    isOnWhiteListedPage() {
+        const {host, pathname} = this.location;
+        const {privacyLink, partnerLink} = this.contentManager.content;
+        const privacyParsedUrl = parseUrl(privacyLink);
+        const partnerParsedUrl = parseUrl(partnerLink);
+
+        if (privacyParsedUrl.hostname === host && pathname === privacyParsedUrl.pathname) {
+            return true;
+        } else if (partnerParsedUrl.hostname === host && pathname === partnerParsedUrl.pathname) {
+            return true;
+        }
+
+        return false;
     }
 
     geoRequiresTrackingConsent() {
