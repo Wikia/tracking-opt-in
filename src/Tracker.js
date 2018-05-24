@@ -1,3 +1,6 @@
+import Cookies from 'js-cookie';
+
+const DEFAULT_BEACON_COOKIE_NAME = 'wikia_beacon_id';
 const TRACKING_BASE = 'https://beacon.wikia-services.com/__track/special/gdpr_events';
 const TRACK_PARAMS = {
     LANGUAGE_CODE: 'lang_code',
@@ -5,16 +8,26 @@ const TRACK_PARAMS = {
     CATEGORY: 'ga_category',
     ACTION: 'ga_action',
     LABEL: 'ga_label',
+    BEACON: 'beacon',
 };
 const TRACK_TIMEOUT = 3000;
 
+function getBeaconFromCookie(cookieName) {
+    return Cookies.get(cookieName || DEFAULT_BEACON_COOKIE_NAME);
+}
+
 class Tracker {
-    constructor(language, detectedGeo, enable) {
+    constructor(language, detectedGeo, beaconCookieName, enable) {
         this.enable = enable;
         this.defaultParams = {
             [TRACK_PARAMS.LANGUAGE_CODE]: language,
             [TRACK_PARAMS.DETECTED_GEO]: detectedGeo,
         };
+
+        const beacon = getBeaconFromCookie(beaconCookieName);
+        if (beacon) {
+            this.defaultParams[TRACK_PARAMS.BEACON] = beacon;
+        }
     }
 
     // largely taken from https://github.com/Wikia/app/blob/a34191d/resources/wikia/modules/tracker.js

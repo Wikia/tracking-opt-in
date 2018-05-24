@@ -18,7 +18,7 @@ The library exports one function that can be invoked to kickoff the process of s
     * `token` = tracking-opt-in-external-test (no need to change)
     * `testUrl` = publicly accessible url where the selenium tests will target
     * `projectName` = A unique per app name to organize each integration test
-    * `testIE` = (Optional - defaults to true) Enable ie11 tests 
+    * `testIE` = (Optional - defaults to true) Enable ie11 tests
 
 ### Examples
 As es6 module:
@@ -41,13 +41,14 @@ Invocation of the exported function returns an instance of `TrackingOptIn`. See 
 
 ### Options
 The following options are accepted:
+- `beaconCookieName` - The name of the beacon cookie that'll be added to tracking calls
 - `cookieName` - The name of the cookie used for the user's tracking consent status. Should only be changed for development purposes. defaults to `tracking-opt-in-status`.
 - `cookieExpiration` - How long the cookie should last when the user accepts consent. Defaults to 50 years.
 - `country` - Override the country code for determining the country the user is visiting from. Defaults to reading from the `Geo` cookie that should be available in all of our web apps.
 - `countriesRequiringPrompt` - array of country codes that require tracking opt-in. See [`GeoManager`](https://github.com/Wikia/tracking-opt-in/blob/master/src/GeoManager.js) for the defaults.
 - `language` - Override the language used to display the dialog text. Defaults to `window.navigator.language` if available, otherwise to `en`.
 - `preventScrollOn` - Prevent scrolling on the specified element when the dialog is shown. Can be either an element or query selector passed to `document.querySelector`. Defaults to `'body'`, set to `null` to prevent this behavior.
-- `queryParam` - The name of the query param to forcefully set the accepted status. Defaults to `tracking-opt-in-status` and accepts the string values `true` or `false` (e.g `http://starwars.wikia.com/?tracking-opt-in-status=true`) 
+- `queryParam` - The name of the query param to forcefully set the accepted status. Defaults to `tracking-opt-in-status` and accepts the string values `true` or `false` (e.g `http://starwars.wikia.com/?tracking-opt-in-status=true`)
 - `track` - whether to track impressions and user consent/rejections. Defaults to `true`.
 - `zIndex` - Useful if elements on the app are appearing above the overlay/modal. Defaults to `1000`.
 - `onAcceptTracking` - The callback fired when:
@@ -61,7 +62,7 @@ The following options are accepted:
 #### Notes
 - `onAcceptTracking` and `onRejectTracking` are the key options that should be overridden by each app to either initialize their respective trackers or to somehow react to the user's rejection of tracking.
 - Country codes are in [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1) format.
-  
+
 ### TrackingOptIn class
 Calling the exported function returns an instance of the [`TrackingOptIn`](https://github.com/Wikia/tracking-opt-in/blob/master/src/TrackingOptIn.js) class. The class has the following functions:
 - `hasUserConsented()` - returns `true` if the user has accepted tracking (or does not need to based on their geo), `false` if they have explicitly rejected tracking, and `undefined` if the user has neither consented or rejected tracking.
