@@ -12,9 +12,10 @@ describe('OptInManager', () => {
         const customExpiration = 2;
         const customQueryParam = 'my-param';
 
-        const optInManager = new OptInManager('www.test.com', customCookieName, customExpiration, customQueryParam);
+        const optInManager = new OptInManager('www.test.com', customCookieName, customExpiration, customExpiration, customQueryParam);
         assert.equal(optInManager.cookieName, customCookieName);
-        assert.equal(optInManager.expirationInDays, customExpiration);
+        assert.equal(optInManager.acceptExpiration, customExpiration);
+        assert.equal(optInManager.rejectExpiration, customExpiration);
         assert.equal(optInManager.domain, '.test.com');
         assert.equal(optInManager.queryParam, customQueryParam);
     });

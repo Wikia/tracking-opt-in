@@ -9,6 +9,7 @@ const DEFAULT_OPTIONS = {
     beaconCookieName: null,
     cookieName: null, // use default cookie name
     cookieExpiration: null, // use default
+    cookieRejectExpiration: null,
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
     language: null,
@@ -39,6 +40,7 @@ export default function main(options) {
         window.location.hostname,
         depOptions.cookieName,
         depOptions.cookieExpiration,
+        depOptions.cookieRejectExpiration,
         depOptions.queryParamName
     );
     const contentManager = new ContentManager(langManager.lang);

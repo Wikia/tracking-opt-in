@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
+const DEFAULT_REJECT_COOKIE_EXPIRATION = 1;
 export const DEFAULT_QUERY_PARAM_NAME = 'tracking-opt-in-status';
 export const DEFAULT_COOKIE_NAME = 'tracking-opt-in-status';
 export const STATUS = {
@@ -18,9 +19,10 @@ function getCookieDomain(hostname) {
 }
 
 class OptInManager {
-    constructor(hostname, cookieName, expirationInDays, queryParam) {
+    constructor(hostname, cookieName, acceptExpiration, rejectExpiration, queryParam) {
         this.cookieName = cookieName || DEFAULT_COOKIE_NAME;
-        this.expirationInDays = expirationInDays || DEFAULT_ACCEPT_COOKIE_EXPIRATION;
+        this.acceptExpiration = acceptExpiration || DEFAULT_ACCEPT_COOKIE_EXPIRATION;
+        this.rejectExpiration = rejectExpiration || DEFAULT_REJECT_COOKIE_EXPIRATION;
         this.domain = getCookieDomain(hostname || window.location.hostname);
         this.queryParam = queryParam || DEFAULT_QUERY_PARAM_NAME;
     }
@@ -39,7 +41,7 @@ class OptInManager {
 
     setTrackingAccepted() {
         const attributes = {
-            expires: this.expirationInDays,
+            expires: this.acceptExpiration,
         };
 
         if (this.domain) {
@@ -58,7 +60,14 @@ class OptInManager {
     }
 
     setTrackingRejected() {
-        const attributes = this.domain ? { domain: this.domain } : {};
+        const attributes = {
+            expires: this.rejectExpiration,
+        };
+
+        if (this.domain) {
+            attributes.domain = this.domain;
+        }
+
         Cookies.set(this.cookieName, STATUS.REJECTED, attributes);
     }
 
