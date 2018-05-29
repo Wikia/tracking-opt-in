@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
-const DEFAULT_REJECT_COOKIE_EXPIRATION = 1;
+const DEFAULT_REJECT_COOKIE_EXPIRATION = 31;
 export const DEFAULT_QUERY_PARAM_NAME = 'tracking-opt-in-status';
 export const DEFAULT_COOKIE_NAME = 'tracking-opt-in-status';
 export const STATUS = {
