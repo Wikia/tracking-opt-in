@@ -43,7 +43,8 @@ Invocation of the exported function returns an instance of `TrackingOptIn`. See 
 The following options are accepted:
 - `beaconCookieName` - The name of the beacon cookie that'll be added to tracking calls
 - `cookieName` - The name of the cookie used for the user's tracking consent status. Should only be changed for development purposes. defaults to `tracking-opt-in-status`.
-- `cookieExpiration` - How long the cookie should last when the user accepts consent. Defaults to 50 years.
+- `cookieExpiration` - How long the consent cookie should last when the user accepts consent. Defaults to 50 years.
+- `cookieRejectExpiration` - How long the reject cookie should last when the user rejects. Defaults to 1 days.
 - `country` - Override the country code for determining the country the user is visiting from. Defaults to reading from the `Geo` cookie that should be available in all of our web apps.
 - `countriesRequiringPrompt` - array of country codes that require tracking opt-in. See [`GeoManager`](https://github.com/Wikia/tracking-opt-in/blob/master/src/GeoManager.js) for the defaults.
 - `language` - Override the language used to display the dialog text. Defaults to `window.navigator.language` if available, otherwise to `en`.
