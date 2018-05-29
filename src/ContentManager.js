@@ -32,7 +32,7 @@ export const langToContent = {
         headline: 'Este sitio utiliza cookies',
         bodyParagraphs: [
             'FANDOM y nuestros socios utilizan tecnología como cookies en nuestro sitio para personalizar el contenido y anuncios, proporcionar funcionalidades de redes sociales y analizar nuestro tráfico. ',
-            'En particular, queremos llamar tu atención sobre los cookies que se utilizan proporcionar anuncios personalizados. Cuando utilizamos estos cookies ("cookies de publicidad"), lo hacemos solamente donde tú hayas consentido el uso de tales cookies seleccionando ""ACEPTAR COOKIES DE PUBLICIDAD"". Toma en cuenta que si seleccionas rechazar, puede que veas los anuncios que son menos relevantes y que ciertas funcionalidades del sitio no funcionen según lo previsto.',
+            'En particular, queremos llamar tu atención sobre los cookies que se utilizan para comercializar o proporcionar anuncios personalizados. Cuando utilizamos estos cookies ("cookies de publicidad"), lo hacemos solamente donde tú hayas consentido el uso de tales cookies seleccionando ""ACEPTAR COOKIES DE PUBLICIDAD"". Toma en cuenta que si seleccionas rechazar, puede que veas los anuncios que son menos relevantes y que ciertas funcionalidades del sitio no funcionen según lo previsto.',
             'Puedes cambiar de opinión y revisar las opciones de consentimiento en cualquier momento visitando nuestra política de privacidad. Para obtener más información acerca de los cookies que utilizamos, por favor revisa nuestra política de privacidad. Para obtener más información sobre nuestros socios utilizando las cookies de publicidad en nuestro sitio, consulta la lista de socios abajo.',
         ],
         buttonAccept: 'ACEPTAR LOS COOKIES DE PUBLICIDAD',
@@ -48,7 +48,7 @@ export const langToContent = {
         bodyParagraphs: [
             'FANDOM et ses partenaires se servent de technologies telles que les cookies sur le site pour personnaliser le contenu et les publicités, fournir des fonctionnalités de réseau social et analyser le trafic.',
             'Nous souhaitons attirer plus particulièrement votre attention sur les cookies utilisés pour vous proposer des publicités personnalisées. Nous utilisons ces cookies (“cookies publicitaires”) uniquement si vous avez consenti à leur utilisation en cochant la case "ACCEPTER LES COOKIES PUBLICITAIRES" ci-dessous. Notez que si vous sélectionnez Refuser, il se peut que des publicités moins pertinentes s\'affichent pour vous et que certaines fonctionnalités du site ne fonctionnent pas comme prévu.',
-            'Si vous changez d\'avis, vous pouvez revenir sur votre choix à tout moment en consultant notre politique de confidentialité.Pour plus d\'informations sur les cookies utilisés, voir notre Politique de confidentialité.Pour plus d\'informations sur nos partenaires utilisant des cookies publicitaires sur le site, voir la Liste des partenaires ci-dessous.',
+            'Si vous changez d\'avis, vous pouvez revenir sur votre choix à tout moment en consultant notre politique de confidentialité. Pour plus d\'informations sur les cookies utilisés, voir notre Politique de confidentialité. Pour plus d\'informations sur nos partenaires utilisant des cookies publicitaires sur le site, voir la Liste des partenaires ci-dessous.',
         ],
         buttonAccept: 'ACCEPTER LES COOKIES PUBLICITAIRES',
         buttonReject: 'REFUSER LES COOKIES PUBLICITAIRES',
@@ -63,7 +63,7 @@ export const langToContent = {
         bodyParagraphs: [
             'FANDOM e i nostri partner usano tecnologie come i cookie sul nostro sito per personalizzare contenuti, annunci, fornire funzioni social e analizzare il nostro traffico.',
             'Vorremmo concentrare la tua attenzione in particolar modo sui cookie che sono usati a scopi commerciali o per fornire annunci personalizzati per te. Quando usiamo questi cookie ("cookie commerciali"), lo facciamo solo se hai acconsentito al loro uso selezionando "ACCETTA COOKIE COMMERCIALI" qui sotto. Considera che nel caso di rifiuto potresti vedere annunci meno pertinenti per te e certe funzioni del sito potrebbero non funzionare come previsto.',
-            'Puoi cambiare idea e rivisitare le tue scelte di consenso in qualsiasi momento visitando la nostra informativa sulla privacy.Per ulteriori informazioni sui cookie che usiamo, si prega di consultare la nostra informativa sulla privacy.Per informazioni sui nostri partner che usano cookie per la pubblicità sul nostro sito, consulta per favore la lista dei partner qui sotto.',
+            'Puoi cambiare idea e rivisitare le tue scelte di consenso in qualsiasi momento visitando la nostra informativa sulla privacy. Per ulteriori informazioni sui cookie che usiamo, si prega di consultare la nostra informativa sulla privacy. Per informazioni sui nostri partner che usano cookie per la pubblicità sul nostro sito, consulta per favore la lista dei partner qui sotto.',
         ],
         buttonAccept: 'ACCETTA COOKIE COMMERCIALI',
         buttonReject: 'RIFIUTA COOKIE COMMERCIALI',
@@ -74,15 +74,15 @@ export const langToContent = {
         partnerLink: 'http://fandom.wikia.com/partner-list',
     },
     ja: {
-        headline: 'このサイトではCookieを使用しています',
+        headline: 'cookie情報の利用について',
         bodyParagraphs: [
             'FANDOMおよびパートナーは当サイトでcookieなどの技術を、コンテンツや広告のユーザーに合わせたカスタマイズ、ソーシャルメディア機能の提供やトラフィックの分析に使用しています。',
             'この機能はアクセス動向の把握による、ユーザーの目を引く、よりカスタマイズされた広告の表示を目的とするものです。 FANDOMとパートナーがこうしたcookie（広告用cookie）を使用するのは、ユーザーが下の「広告用cookieを許可する」をクリックして、同意した場合のみになります。 なお拒否を選択した場合に、関連性の低い広告が表示される可能性や当サイトの一部の機能が正常に動作しない場合がありますのでご注意ください。 ',
             'この設定はプライバシー・ポリシーのページにアクセスして、後からいつでも変更可能です。 FANDOMとパートナーが使用するcookieについて詳しくは、プライバシー・ポリシーをご覧ください。 また、このサイトで広告用Cookieを使用しているFANDOMのパートナーについて詳しくは、下記のパートナー・リストをご覧ください。',
         ],
-        buttonAccept: '広告Cookieを許可',
-        buttonReject: '広告Cookieを拒否',
-        privacyLinkText: 'FANDOM個人情報保護方針',
+        buttonAccept: '広告用cookieを許可',
+        buttonReject: '広告用cookieを拒否',
+        privacyLinkText: 'FANDOMプライバシー・ポリシー',
         // privacyLink: 'http://ja.wikia.com/%E3%83%97%E3%83%A9%E3%82%A4%E3%83%90%E3%82%B7%E3%83%BC%E3%83%BB%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC',
         privacyLink: 'http://www.wikia.com/Privacy_Policy',
         partnerLinkText: 'パートナー・リスト',
@@ -92,7 +92,7 @@ export const langToContent = {
         headline: 'Ta witryna używa plików cookie',
         bodyParagraphs: [
             'FANDOM i nasi partnerzy korzystają z technologii takich jak pliki cookie na naszej stronie, aby personalizować treści i reklamy, dostarczać funkcje mediów społecznościowych oraz by analizować nasze statystyki odwiedzin.',
-            'W szczególności chcemy zwrócić uwagę na pliki cookie, które są używane do kierowania do ciebie marketingu lub zapewnienia ci spersonalizowanych reklam. W przypadku, gdy używamy plików cookies („reklamowe cookies”), robimy to wyłącznie tam gdzie uzyskaliśmy twoją zgodę na używanie tych plików cookies poprzez zaznaczenie „AKCEPTUJĘ REKLAMOWE PLIKI COOKIES” poniżej. Zwróć uwagę, że jeśli wybierzesz opcję odrzuć, możesz zobaczyć reklamy, które są mniej odpowiednie dla Ciebie, a niektóre funkcje witryny mogą nie działać zgodnie z przeznaczeniem.',
+            'W szczególności chcemy zwrócić uwagę na pliki cookie, które są używane do kierowania do ciebie marketingu lub zapewnienia ci spersonalizowanych reklam. W przypadku, gdy używamy plików cookies („reklamowe cookies”), robimy to wyłączinie tam gdzie uzyskaliśmy twoją zgodę na używanie tych plików cookies poprzez zaznaczenie „AKCEPTUJĘ REKLAMOWE PLIKI COOKIES” poniżej. Zwróć uwagę, że jeśli wybierzesz opcję odrzuć, możesz zobaczyć reklamy, które są mniej odpowiednie dla Ciebie, a niektóre funkcje witryny mogą nie działać zgodnie z przeznaczeniem.',
             'Możesz zmienić zdanie i ponownie przejrzeć zgody w dowolnym momencie, odwiedzając naszą politykę prywatności. Aby uzyskać więcej informacji na temat plików cookies, z których korzystamy, zapoznaj się z naszą polityką prywatności. Aby uzyskać informacje o naszych partnerach wykorzystujących reklamowe pliki cookies na naszej stronie zobacz listę partnerów poniżej.',
         ],
         buttonAccept: 'AKCEPTUJĘ REKLAMOWE PLIKI COOKIES',
@@ -100,7 +100,7 @@ export const langToContent = {
         privacyLinkText: 'Polityka prywatności FANDOMu',
         // privacyLink: 'http://pl.wikia.com/Polityka_Prywatno%C5%9Bci',
         privacyLink: 'http://www.wikia.com/Privacy_Policy',
-        partnerLinkText: 'Lista partnerów',
+        partnerLinkText: 'Polityka prywatności FANDOMU',
         partnerLink: 'http://fandom.wikia.com/partner-list',
     },
     pt: {
@@ -137,7 +137,7 @@ export const langToContent = {
         headline: '本网站使用Cookie',
         bodyParagraphs: [
             'FANDOM以及其合作伙伴在网站上将使用Cookie等技术来定制化内容和广告，提供社交媒体功能，以及分析网站流量。',
-            '我们尤其希望您能够注意到Cookie将用于为您提供个性化的广告。 如果您同意我们使用这些Cookie（“广告Cookie”），可以点击下面的“接收广告Cookie”按钮。 请注意，如果您选择“拒绝”，您可能会看到与您喜好不太相关的广告，并且网站的某些功能可能无法按正常工作。 ',
+            '我们尤其希望您能够注意到Cookie将用于为您提供个性化的广告。 如果您同意我们使用这些Cookie（“广告Cookie”），可以点击下面的“接收广告Cookie”按钮。 请注意，如果您选择“拒绝”，您可能会看到与您喜好不太相关的广告，并且网站的某些功能可能无法正常工作。',
             '您可以随时通过访问我们的隐私政策改变您的想法并重新选择是否同意这项条款。 有关我们使用Cookie的详细信息，请参阅我们的隐私政策。 关于我们的合作伙伴使用我们网站上的广告Cookie信息，请参阅下面的合作伙伴列表。',
         ],
         buttonAccept: '接受广告Cookie',
