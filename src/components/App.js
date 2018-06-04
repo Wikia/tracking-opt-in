@@ -84,7 +84,7 @@ class App extends Component {
                     </div>
                     <div className={styles.content}>
                         <div className={styles.usesCookiesText}> {content.headline} </div>
-                        <div>
+                        <div className={styles.bodyParagraphsContainer}>
                             {content.bodyParagraphs.map((paragraph) =>
                                 <p>{paragraph}</p>
                             )}

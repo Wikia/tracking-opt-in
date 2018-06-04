@@ -157,3 +157,9 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
     padding-right: 10px;
   }
 }
+
+.bodyParagraphsContainer {
+  p:last-of-type {
+    margin-bottom: 0; // save some space to prevent scroll bars
+  }
+}
