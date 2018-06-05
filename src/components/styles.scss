@@ -67,7 +67,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 }
 
 .content {
-  line-height: 1.43;
+  line-height: 1.43 !important;
   margin-bottom: 20px;
   text-align: center;
   overflow-y: auto;
@@ -112,6 +112,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   color: white;
   font-size: 12px;
   font-weight: bold;
+  line-height: 1;
   padding: 12px 18px;
   text-align: center;
 
@@ -133,6 +134,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   border: none;
   font-size: 12px;
   font-weight: bold;
+  line-height: 1;
   padding: 12px 18px;
   text-align: center;
 
@@ -155,5 +157,17 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
     display: block;
     font-size: 10px;
     padding-right: 10px;
+  }
+}
+
+.bodyParagraphsContainer {
+  p {
+    margin-top: 14px;
+    margin-bottom: 14px;
+    line-height: 1.57;
+  }
+
+  p:last-of-type {
+    margin-bottom: 0; // save some space to prevent scroll bars
   }
 }
