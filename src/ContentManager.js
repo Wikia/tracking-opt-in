@@ -100,7 +100,7 @@ export const langToContent = {
         privacyLinkText: 'Polityka prywatności FANDOMu',
         // privacyLink: 'http://pl.wikia.com/Polityka_Prywatno%C5%9Bci',
         privacyLink: 'http://www.wikia.com/Privacy_Policy',
-        partnerLinkText: 'Polityka prywatności FANDOMU',
+        partnerLinkText: 'Lista partnerów',
         partnerLink: 'http://fandom.wikia.com/partner-list',
     },
     pt: {
