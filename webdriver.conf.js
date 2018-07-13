@@ -205,7 +205,8 @@ exports.config = {
                 }
             });
         }
-    }
+    },
+    waitforTimeout: 2000,
 };
 
 // so that the generated reports have the proper browserName
