@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const autoprefixer = require('autoprefixer');
 
 const browsers = [
@@ -88,7 +89,12 @@ module.exports = {
             inject: 'head',
             template: 'handlebars-loader!demo.hbs',
             isDevelopment,
-      }),
+        }),
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: `${__dirname}/reports/bundle-analysis.html`,
+            openAnalyzer: false,
+        }),
     ],
     ...topLevelOptions,
 };
