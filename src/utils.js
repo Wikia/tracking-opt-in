@@ -6,6 +6,15 @@ export function parseUrl(url) {
     return parser;
 }
 
+export function getCookieDomain(hostname) {
+    const parts = hostname.split('.');
+    if (parts.length < 2) {
+        return undefined;
+    }
+
+    return `.${parts[parts.length - 2]}.${parts[parts.length - 1]}`;
+}
+
 export function getJSON(url) {
     return new Promise((resolve, reject) => {
         const req = new XMLHttpRequest();

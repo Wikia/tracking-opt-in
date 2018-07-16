@@ -5,6 +5,7 @@ import ContentManager from "./ContentManager";
 import GeoManager from "./GeoManager";
 import TrackingOptIn from './TrackingOptIn';
 import ConsentManagementProvider from "./ConsentManagementProvider";
+import {getCookieDomain} from './utils';
 
 const DEFAULT_OPTIONS = {
     beaconCookieName: null,

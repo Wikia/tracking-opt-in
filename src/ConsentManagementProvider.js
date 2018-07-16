@@ -1,7 +1,7 @@
 import {ConsentString} from 'consent-string';
 import {Promise} from 'es6-promise';
 import Cookies from 'js-cookie';
-import {getJSON} from './utils';
+import {getCookieDomain, getJSON} from './utils';
 
 const CMP_ID = 141;
 const CMP_VERSION = 1;
@@ -11,6 +11,7 @@ const PUBLISHER_CONSENT_COOKIE_NAME = 'eupubconsent';
 const MAX_STANDARD_PURPOSE_ID = 24;
 const MAX_CUSTOM_PURPOSE_ID = 88;
 const getDefaultCookieAttributes = () => ({
+    domain: getCookieDomain(window.location.hostname),
     expires: 365 // 1 year
 });
 const getDefaultOptions = () => ({
