@@ -1,13 +1,22 @@
 import {h, render} from "preact/dist/preact";
 import App from "./components/App";
-import {parseUrl} from "./urlUtils";
+import {parseUrl} from "./utils";
 
 class TrackingOptIn {
-    constructor(tracker, optInManager, geoManager, contentManager, options, location) {
+    constructor(
+        tracker,
+        optInManager,
+        geoManager,
+        contentManager,
+        consentManagementProvider,
+        options,
+        location
+    ) {
         this.tracker = tracker;
         this.optInManager = optInManager;
         this.geoManager = geoManager;
         this.contentManager = contentManager;
+        this.consentManagementProvider = consentManagementProvider;
         this.options = options;
         this.location = location;
         this.isReset = false;
@@ -19,6 +28,26 @@ class TrackingOptIn {
             this.root.parentNode.removeChild(this.root);
             this.root = null;
         }
+    };
+
+    onAcceptTracking = () => {
+        this.consentManagementProvider.configure({
+            gdprApplies: this.geoRequiresTrackingConsent(),
+            allowedVendors: this.options.enabledVendors,
+            allowedVendorPurposes: this.options.enabledVendorPurposes
+        });
+        this.consentManagementProvider.install();
+        this.options.onAcceptTracking();
+    };
+
+    onRejectTracking = () => {
+        this.consentManagementProvider.configure({
+            gdprApplies: this.geoRequiresTrackingConsent(),
+            allowedVendors: [],
+            allowedVendorPurposes: []
+        });
+        this.consentManagementProvider.install();
+        this.options.onRejectTracking();
     };
 
     hasUserConsented() {
@@ -63,11 +92,13 @@ class TrackingOptIn {
     reset() {
         this.isReset = true;
         this.clear();
+        this.consentManagementProvider.installStub();
         this.render();
     }
 
     clear() {
         this.optInManager.clear();
+        this.consentManagementProvider.uninstall();
     }
 
     render() {
@@ -76,21 +107,28 @@ class TrackingOptIn {
             document.body.appendChild(this.root);
         }
 
+        const options = {
+            zIndex: this.options.zIndex,
+            preventScrollOn: this.options.preventScrollOn
+        };
+
         switch (this.hasUserConsented()) {
             case true:
-                this.options.onAcceptTracking();
+                this.onAcceptTracking();
                 break;
             case false:
-                this.options.onRejectTracking();
+                this.onRejectTracking();
                 break;
             default:
                 render(
                     <App
                         onRequestAppRemove={this.removeApp}
+                        onAcceptTracking={this.onAcceptTracking}
+                        onRejectTracking={this.onRejectTracking}
                         tracker={this.tracker}
                         optInManager={this.optInManager}
                         geoManager={this.geoManager}
-                        options={this.options}
+                        options={options}
                         content={this.contentManager.content}
                     />,
                     this.root,

@@ -54,14 +54,14 @@ class App extends Component {
         this.track(ACTION_CLICK, 'accept-screen-1');
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
-        this.props.options.onAcceptTracking();
+        this.props.onAcceptTracking();
     };
 
     reject = () => {
         this.track(ACTION_CLICK, 'reject-screen-1');
         this.props.optInManager.setTrackingRejected();
         this.props.onRequestAppRemove();
-        this.props.options.onRejectTracking();
+        this.props.onRejectTracking();
     };
 
     render({ options, content }, { dialog }) {
