@@ -160,7 +160,7 @@ class ConsentManagementProvider {
             defaultConsent
         } = this.options;
 
-        this.gdprApplies = !!gdprApplies;
+        this.gdprApplies = !!gdprApplies || !!gdprAppliesGlobally;
         this.gdprAppliesGlobally = !!gdprAppliesGlobally;
         this.hasGlobalScope = !!hasGlobalScope;
         this.defaultConsent = !!defaultConsent;
@@ -205,6 +205,10 @@ class ConsentManagementProvider {
     }
 
     createConsents() {
+        if (!this.gdprApplies) {
+            return;
+        }
+
         const {
             allowedVendorPurposes,
             allowedVendors,
@@ -266,7 +270,7 @@ class ConsentManagementProvider {
         const vendorListVersion = isNaN(Number(vendorList)) ? null : Number(vendorList);
         const hasData = (this.hasUserConsent() || vendorList && !vendorListVersion);
 
-        if (hasData) {
+        if (hasData || !this.gdprApplies) {
             this.createConsents();
             this.mount();
             return Promise.resolve();
@@ -298,12 +302,16 @@ class ConsentManagementProvider {
     }
 
     getConsentData(version) {
-        const isCorrectVersion = (!version || Number(version) === this.vendorConsent.getVersion());
+        const isCorrectVersion = (
+            !this.gdprApplies ||
+            !version ||
+            Number(version) === this.vendorConsent.getVersion()
+        );
 
         return new Promise((resolve, reject) => {
             if (isCorrectVersion) {
                 resolve({
-                    consentData: this.getVendorConsentCookie(),
+                    consentData: this.gdprApplies ? this.getVendorConsentCookie() : null,
                     gdprApplies: this.gdprApplies,
                     hasGlobalScope: this.hasGlobalScope
                 });
@@ -314,29 +322,40 @@ class ConsentManagementProvider {
     }
 
     getVendorConsents(ids) {
-        const maxVendorId = this.vendorConsent.maxVendorId;
-        const vendorList = this.vendorList;
-
         let vendorIds = [];
+        let consents = {
+            metadata: null,
+            purposeConsents: {},
+            vendorConsents: {}
+        };
 
-        if (Array.isArray(ids)) {
-            vendorIds = ids;
-        } else {
-            vendorIds = maxVendorId ? createIdArray(1, maxVendorId) : vendorList.vendors.map(({id}) => id);
+        if (this.vendorConsent) {
+            const maxVendorId = this.vendorConsent.maxVendorId;
+            const vendorList = this.vendorList;
+
+            if (Array.isArray(ids)) {
+                vendorIds = ids;
+            } else {
+                vendorIds = maxVendorId ? createIdArray(1, maxVendorId) : vendorList.vendors.map(({id}) => id);
+            }
+
+            consents = {
+                metadata: this.vendorConsent.getMetadataString(),
+                purposeConsents: toAllowedMap(
+                    createIdArray(1, MAX_STANDARD_PURPOSE_ID),
+                    (id) => this.vendorConsent.isPurposeAllowed(id)
+                ),
+                vendorConsents: toAllowedMap(
+                    vendorIds,
+                    (id) => this.vendorConsent.isVendorAllowed(id)
+                )
+            };
         }
 
         return new Promise((resolve) => resolve({
-            metadata: this.vendorConsent.getMetadataString(),
             gdprApplies: this.gdprApplies,
             hasGlobalScope: this.hasGlobalScope,
-            purposeConsents: toAllowedMap(
-                createIdArray(1, MAX_STANDARD_PURPOSE_ID),
-                (id) => this.vendorConsent.isPurposeAllowed(id)
-            ),
-            vendorConsents: toAllowedMap(
-                vendorIds,
-                (id) => this.vendorConsent.isVendorAllowed(id)
-            )
+            ...consents
         }));
     }
 
