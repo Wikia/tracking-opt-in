@@ -234,10 +234,8 @@ class ConsentManagementProvider {
             this[commandName](parameter)
                 .then((result) => callback(result, true))
                 .catch((reason) => {
-                    const error = (reason instanceof Error) ? reason : new Error(reason);
-
-                    console.error(error);
                     callback(null, false);
+                    throw (reason instanceof Error) ? reason : new Error(reason);
                 });
         } else {
             callback(null, false);

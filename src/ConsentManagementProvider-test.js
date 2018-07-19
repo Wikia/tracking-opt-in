@@ -3,6 +3,7 @@ import {spy, stub} from 'sinon';
 import Cookies from 'js-cookie';
 import ConsentManagementProvider from './ConsentManagementProvider';
 import {vendorList as vendorListMock} from './fixtures-test';
+import { setTimeout } from 'timers';
 
 describe('ConsentManagementProvider', () => {
     function cleanup() {
@@ -113,6 +114,17 @@ describe('ConsentManagementProvider', () => {
             });
         });
 
+        it('getConsentData throws an error for wrong consent string version', (done) => {
+            try {
+                window.__cmp('getConsentData', 999, (params, success) => {
+                    assert.isFalse(success);
+                    done();
+                });
+            } catch (error) {
+                void(error);
+            }
+        });
+
         it('implements getVendorConsents command', (done) => {
             window.__cmp('getVendorConsents', null, (params, success) => {
                 const {
@@ -148,6 +160,39 @@ describe('ConsentManagementProvider', () => {
             });
         });
 
+        it('implements getVendorConsents with parameters', (done) => {
+            window.__cmp('getVendorConsents', [8, 11], (params, success) => {
+                const {
+                    metadata,
+                    gdprApplies,
+                    hasGlobalScope,
+                    purposeConsents,
+                    vendorConsents
+                } = params;
+
+                assert.isString(metadata);
+                assert.notEqual(metadata.length, 0);
+                assert.isBoolean(gdprApplies);
+                assert.isBoolean(hasGlobalScope);
+                assert.isObject(purposeConsents);
+                assert.isObject(vendorConsents);
+
+                config.allowedVendorPurposes.forEach((id) => {
+                    assert.isTrue(purposeConsents[id]);
+                });
+                [0, -1, -2, -3].forEach((id) => {
+                    assert.isNotOk(purposeConsents[id]);
+                });
+                assert.deepEqual(vendorConsents, {'8': true, '11': false});
+                [0, -1, -2, -3].forEach((id) => {
+                    assert.isNotOk(vendorConsents[id]);
+                });
+
+                assert.isTrue(success);
+                done();
+            });
+        });
+
         it('implements getVendorList command', (done) => {
             window.__cmp('getVendorList', null, (vendorList, success) => {
                 assert.isObject(vendorList);
@@ -159,8 +204,31 @@ describe('ConsentManagementProvider', () => {
             });
         });
 
+        it('communicates through postMessage', () => {
+            const cmpSpy = spy(window, '__cmp');
+            const msg = new MessageEvent('message', {
+                data: JSON.stringify({
+                    __cmpCall: {
+                        command: 'ping',
+                        parameter: null,
+                        callId: 0
+                    }
+                })
+            });
+
+            window.dispatchEvent(msg);
+            assert.isTrue(cmpSpy.calledWith('ping', null));
+        });
+
         it('sets cookies', () => {
             assert.isString(Cookies.get('euconsent'));
+        });
+
+        it('cleans up after uninstall', () => {
+            cmp.uninstall();
+
+            assert.isUndefined(window.__cmp);
+            assert.isNotOk(Cookies.get('euconsent'));
         });
     });
 });
