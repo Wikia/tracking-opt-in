@@ -9,7 +9,6 @@ const CMP_DEFAULT_LANGUAGE = 'en';
 const VENDOR_CONSENT_COOKIE_NAME = 'euconsent';
 const PUBLISHER_CONSENT_COOKIE_NAME = 'eupubconsent';
 const MAX_STANDARD_PURPOSE_ID = 24;
-const MAX_CUSTOM_PURPOSE_ID = 88;
 const getDefaultCookieAttributes = () => ({
     domain: getCookieDomain(window.location.hostname),
     expires: 365 // 1 year
@@ -23,8 +22,7 @@ const getDefaultOptions = () => ({
     gdprAppliesGlobally: false,
     hasGlobalScope: false,
     language: CMP_DEFAULT_LANGUAGE,
-    vendorList: null,
-    defaultConsent: true
+    vendorList: null
 });
 
 function createConsent(consentString, vendorList, options = {}) {
@@ -135,7 +133,6 @@ class ConsentManagementProvider {
         this.vendorList = null;
         this.cookieAttributes = null;
         this.vendorConsent = null;
-        this.defaultConsent = false;
         this.cmpCommands = [
             this.getConsentData,
             this.getVendorConsents,
@@ -156,14 +153,12 @@ class ConsentManagementProvider {
             gdprAppliesGlobally,
             hasGlobalScope,
             vendorList,
-            cookieAttributes,
-            defaultConsent
+            cookieAttributes
         } = this.options;
 
         this.gdprApplies = !!gdprApplies || !!gdprAppliesGlobally;
         this.gdprAppliesGlobally = !!gdprAppliesGlobally;
         this.hasGlobalScope = !!hasGlobalScope;
-        this.defaultConsent = !!defaultConsent;
         this.vendorList = vendorList;
         this.cookieAttributes = Object.assign(getDefaultCookieAttributes(), cookieAttributes);
     }
