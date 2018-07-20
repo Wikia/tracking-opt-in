@@ -127,11 +127,7 @@ class ConsentManagementProvider {
 
     constructor(options) {
         this.options = Object.assign(getDefaultOptions(), options);
-        this.gdprApplies = false;
-        this.gdprAppliesGlobally = false;
-        this.hasGlobalScope = false;
         this.vendorList = null;
-        this.cookieAttributes = null;
         this.vendorConsent = null;
         this.cmpCommands = [
             this.getConsentData,
@@ -147,20 +143,6 @@ class ConsentManagementProvider {
 
     configure(options) {
         Object.assign(this.options, options);
-
-        const {
-            gdprApplies,
-            gdprAppliesGlobally,
-            hasGlobalScope,
-            vendorList,
-            cookieAttributes
-        } = this.options;
-
-        this.gdprApplies = !!gdprApplies || !!gdprAppliesGlobally;
-        this.gdprAppliesGlobally = !!gdprAppliesGlobally;
-        this.hasGlobalScope = !!hasGlobalScope;
-        this.vendorList = vendorList;
-        this.cookieAttributes = Object.assign(getDefaultCookieAttributes(), cookieAttributes);
     }
 
     fetchVendorList(version) {
@@ -171,15 +153,27 @@ class ConsentManagementProvider {
         return getJSON(`https://vendorlist.consensu.org/${version ? `v-${version}/` : ''}purposes-${language}.json`);
     }
 
+    getCommonCmpProperties() {
+        const {gdprApplies, gdprAppliesGlobally, hasGlobalScope} = this.options;
+
+        return {
+            gdprApplies: !!gdprApplies || !!gdprAppliesGlobally,
+            gdprAppliesGlobally: !!gdprAppliesGlobally,
+            hasGlobalScope: !!hasGlobalScope
+        };
+    }
+
     getVendorConsentCookie() {
         return Cookies.get(VENDOR_CONSENT_COOKIE_NAME) || '';
     }
 
     setVendorConsentCookie(consentString) {
+        const cookieAttributes = this.options.cookieAttributes;
+
         if (consentString) {
-            Cookies.set(VENDOR_CONSENT_COOKIE_NAME, consentString, this.cookieAttributes);
+            Cookies.set(VENDOR_CONSENT_COOKIE_NAME, consentString, cookieAttributes);
         } else {
-            Cookies.remove(VENDOR_CONSENT_COOKIE_NAME, this.cookieAttributes);
+            Cookies.remove(VENDOR_CONSENT_COOKIE_NAME, cookieAttributes);
         }
     }
 
@@ -188,10 +182,12 @@ class ConsentManagementProvider {
     }
 
     setPublisherConsentCookie(consentString) {
+        const cookieAttributes = this.options.cookieAttributes;
+
         if (consentString) {
-            Cookies.set(PUBLISHER_CONSENT_COOKIE_NAME, consentString, this.cookieAttributes);
+            Cookies.set(PUBLISHER_CONSENT_COOKIE_NAME, consentString, cookieAttributes);
         } else {
-            Cookies.remove(PUBLISHER_CONSENT_COOKIE_NAME, this.cookieAttributes);
+            Cookies.remove(PUBLISHER_CONSENT_COOKIE_NAME, cookieAttributes);
         }
     }
 
@@ -200,7 +196,9 @@ class ConsentManagementProvider {
     }
 
     createConsents() {
-        if (!this.gdprApplies) {
+        const {gdprApplies} = this.getCommonCmpProperties();
+
+        if (!gdprApplies) {
             return;
         }
 
@@ -235,7 +233,7 @@ class ConsentManagementProvider {
                 .then((result) => callback(result, true))
                 .catch((reason) => {
                     callback(null, false);
-                    throw (reason instanceof Error) ? reason : new Error(reason);
+                    console.error((reason instanceof Error) ? reason : new Error(reason));
                 });
         } else {
             callback(null, false);
@@ -253,25 +251,27 @@ class ConsentManagementProvider {
             });
         } catch (error) {
             void(error);
-            console.error(new Error('incompatible stub, cannot run queue'));
             window.__cmp = cmp;
+            console.error(new Error('incompatible stub, cannot run queue'));
         }
     }
 
     install() {
         const {vendorList} = this.options;
+        const {gdprApplies} = this.getCommonCmpProperties();
         const vendorListVersion = isNaN(Number(vendorList)) ? null : Number(vendorList);
         const hasData = (this.hasUserConsent() || vendorList && !vendorListVersion);
 
-        if (hasData || !this.gdprApplies) {
+        if (hasData || !gdprApplies) {
+            this.vendorList = vendorList;
             this.createConsents();
             this.mount();
             return Promise.resolve();
         }
 
         return this.fetchVendorList(vendorListVersion)
-            .then((vendorList) => (this.vendorList = vendorList))
-            .then(() => {
+            .then((vendorList) => {
+                this.vendorList = vendorList;
                 this.createConsents();
                 this.mount();
             });
@@ -288,25 +288,24 @@ class ConsentManagementProvider {
     }
 
     ping() {
+        const {gdprAppliesGlobally} = this.getCommonCmpProperties();
+
         return new Promise((resolve) => resolve({
-            gdprAppliesGlobally: this.gdprAppliesGlobally,
+            gdprAppliesGlobally,
             cmpLoaded: true
         }));
     }
 
     getConsentData(version) {
-        const isCorrectVersion = (
-            !this.gdprApplies ||
-            !version ||
-            Number(version) === this.vendorConsent.getVersion()
-        );
+        const {gdprApplies, hasGlobalScope} = this.getCommonCmpProperties();
+        const isCorrectVersion = !gdprApplies || !version || Number(version) === this.vendorConsent.getVersion();
 
         return new Promise((resolve, reject) => {
             if (isCorrectVersion) {
                 resolve({
-                    consentData: this.gdprApplies ? this.getVendorConsentCookie() : null,
-                    gdprApplies: this.gdprApplies,
-                    hasGlobalScope: this.hasGlobalScope
+                    consentData: gdprApplies ? this.getVendorConsentCookie() : null,
+                    gdprApplies,
+                    hasGlobalScope
                 });
             } else {
                 reject(new Error('consent string version mismatch'));
@@ -315,6 +314,8 @@ class ConsentManagementProvider {
     }
 
     getVendorConsents(ids) {
+        const {gdprApplies, hasGlobalScope} = this.getCommonCmpProperties();
+
         let vendorIds = [];
         let consents = {
             metadata: null,
@@ -346,8 +347,8 @@ class ConsentManagementProvider {
         }
 
         return new Promise((resolve) => resolve({
-            gdprApplies: this.gdprApplies,
-            hasGlobalScope: this.hasGlobalScope,
+            gdprApplies,
+            hasGlobalScope,
             ...consents
         }));
     }
