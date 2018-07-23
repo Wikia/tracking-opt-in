@@ -32,11 +32,11 @@ describe('App', () => {
             optInManager,
             geoManager,
             onRequestAppRemove: callbacks.onRequestAppRemove || noop,
+            onAcceptTracking: callbacks.onAcceptTracking || noop,
+            onRejectTracking: callbacks.onRejectTracking || noop,
             content: (new ContentManager('en')).content,
             options: {
-                preventScrollOn,
-                onAcceptTracking: callbacks.onAcceptTracking || noop,
-                onRejectTracking: callbacks.onRejectTracking || noop,
+                preventScrollOn
             },
         }), document.body);
     }

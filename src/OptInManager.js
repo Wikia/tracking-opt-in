@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import {getCookieDomain} from './utils';
 
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
 const DEFAULT_REJECT_COOKIE_EXPIRATION = 31;
@@ -8,15 +9,6 @@ export const STATUS = {
     ACCEPTED: 'accepted',
     REJECTED: 'rejected',
 };
-
-function getCookieDomain(hostname) {
-    const parts = hostname.split('.');
-    if (parts.length < 2) {
-        return undefined;
-    }
-
-    return `.${parts[parts.length - 2]}.${parts[parts.length - 1]}`;
-}
 
 class OptInManager {
     constructor(hostname, cookieName, acceptExpiration, rejectExpiration, queryParam) {
