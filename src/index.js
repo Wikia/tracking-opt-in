@@ -5,6 +5,7 @@ import ContentManager from "./ContentManager";
 import GeoManager from "./GeoManager";
 import TrackingOptIn from './TrackingOptIn';
 import ConsentManagementProvider from "./ConsentManagementProvider";
+import CookieSyncManager from "./CookieSyncManager";
 
 const DEFAULT_OPTIONS = {
     beaconCookieName: null,
@@ -59,6 +60,7 @@ export default function main(options) {
         depOptions.queryParamName
     );
     const contentManager = new ContentManager(langManager.lang);
+    const cookieSyncManager = new CookieSyncManager(window.location);
 
     optInManager.setForcedStatusFromQueryParams(window.location.search);
 
@@ -68,6 +70,7 @@ export default function main(options) {
         geoManager,
         contentManager,
         consentManagementProvider,
+		cookieSyncManager,
         {
             preventScrollOn,
             zIndex,

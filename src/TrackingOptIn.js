@@ -9,6 +9,7 @@ class TrackingOptIn {
         geoManager,
         contentManager,
         consentManagementProvider,
+		cookieSyncManager,
         options,
         location
     ) {
@@ -17,6 +18,7 @@ class TrackingOptIn {
         this.geoManager = geoManager;
         this.contentManager = contentManager;
         this.consentManagementProvider = consentManagementProvider;
+		this.cookieSyncManager = cookieSyncManager;
         this.options = options;
         this.location = location;
         this.isReset = false;
@@ -28,6 +30,7 @@ class TrackingOptIn {
             this.root.parentNode.removeChild(this.root);
             this.root = null;
         }
+		this.cookieSyncManager.crossDomainSync();
     };
 
     onAcceptTracking = () => {

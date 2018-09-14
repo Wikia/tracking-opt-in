@@ -5,6 +5,7 @@ import OptInManager from './OptInManager';
 import GeoManager from './GeoManager';
 import ContentManager from './ContentManager';
 import ConsentManagementProvider from './ConsentManagementProvider';
+import CookieSyncManager from './CookieSyncManager';
 import Tracker from './Tracker';
 import styles from './components/styles.scss';
 
@@ -17,6 +18,7 @@ describe('TrackingOptIn', () => {
     let geoManager;
     let contentManager;
     let consentManagementProvider;
+    let cookieSyncManager;
     let onAcceptTracking;
     let onRejectTracking;
     let options;
@@ -29,7 +31,8 @@ describe('TrackingOptIn', () => {
         tracker = createStubInstance(Tracker);
         optInManager = createStubInstance(OptInManager);
         geoManager = createStubInstance(GeoManager);
-        consentManagementProvider = createStubInstance(ConsentManagementProvider);
+		consentManagementProvider = createStubInstance(ConsentManagementProvider);
+        cookieSyncManager = createStubInstance(CookieSyncManager);
         contentManager = new ContentManager('en');
         onAcceptTracking = stub();
         onRejectTracking = stub();
@@ -39,7 +42,8 @@ describe('TrackingOptIn', () => {
             onRejectTracking,
         };
 
-        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider, options, window.location);
+        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider,
+            cookieSyncManager, options, window.location);
     });
 
     afterEach(() => {
@@ -106,7 +110,8 @@ describe('TrackingOptIn', () => {
     });
 
     it('does not display on fandom.wikia.com/partner-list', () => {
-        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider, options, {host: 'fandom.wikia.com', pathname: '/partner-list'});
+        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider,
+			cookieSyncManager, options, {host: 'fandom.wikia.com', pathname: '/partner-list'});
         geoManager.needsTrackingPrompt.withArgs().returns(true);
         geoManager.hasGeoCookie.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(false);
@@ -120,7 +125,8 @@ describe('TrackingOptIn', () => {
     });
 
     it('does not display on http://www.wikia.com/Privacy_Policy', () => {
-        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider, options, {host: 'www.wikia.com', pathname: '/Privacy_Policy'});
+        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider,
+			cookieSyncManager, options, {host: 'www.wikia.com', pathname: '/Privacy_Policy'});
         geoManager.needsTrackingPrompt.withArgs().returns(true);
         geoManager.hasGeoCookie.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(false);
