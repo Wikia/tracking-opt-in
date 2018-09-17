@@ -70,7 +70,7 @@ export default function main(options) {
         geoManager,
         contentManager,
         consentManagementProvider,
-		cookieSyncManager,
+        cookieSyncManager,
         {
             preventScrollOn,
             zIndex,

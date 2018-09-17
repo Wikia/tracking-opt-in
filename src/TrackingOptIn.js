@@ -9,7 +9,7 @@ class TrackingOptIn {
         geoManager,
         contentManager,
         consentManagementProvider,
-		cookieSyncManager,
+        cookieSyncManager,
         options,
         location
     ) {
