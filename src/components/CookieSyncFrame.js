@@ -6,7 +6,8 @@ class CookieSyncFrame extends Component {
         return(
             <frame
                 className={styles.hidden}
-                src={this.props.src} />
+                src={this.props.src}
+            />
         );
     }
 }
