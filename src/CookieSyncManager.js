@@ -14,8 +14,12 @@ class CookieSyncManager {
         ];
     }
 
+    hostEndsWith(suffix) {
+        return suffix === this.host.slice(-suffix.length);
+    }
+
     getServicesDomain() {
-        return this.knownDomains.find(domain => this.host.endsWith(domain), this);
+        return this.knownDomains.find(domain => this.hostEndsWith(domain), this);
     }
 
     getFrameUrl() {

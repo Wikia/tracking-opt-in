@@ -10,6 +10,7 @@ describe('CookieSyncManager', () => {
             ['muppet.xxx.fandom-dev.pl', 'https://services.fandom-dev.pl/cookie-syncer/frame'],
             ['muppet.xxx.wikia-dev.us', 'https://services.wikia-dev.us/cookie-syncer/frame'],
             ['muppet.xxx.fandom-dev.us', 'https://services.fandom-dev.us/cookie-syncer/frame'],
+            ['tricky.fandom.com.wikia.com', 'https://services.wikia.com/cookie-syncer/frame'],
         ].forEach(testData => testFrameUrl(testData[0], testData[1]));
 
         function testFrameUrl(host, expectedUrl) {
