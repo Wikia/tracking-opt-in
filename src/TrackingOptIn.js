@@ -29,8 +29,8 @@ class TrackingOptIn {
             render(null, this.root, this.root.lastChild);
             this.root.parentNode.removeChild(this.root);
             this.root = null;
+            this.cookieSyncManager.crossDomainSync();
         }
-		this.cookieSyncManager.crossDomainSync();
     };
 
     onAcceptTracking = () => {

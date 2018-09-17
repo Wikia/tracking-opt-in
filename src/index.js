@@ -60,7 +60,7 @@ export default function main(options) {
         depOptions.queryParamName
     );
     const contentManager = new ContentManager(langManager.lang);
-    const cookieSyncManager = new CookieSyncManager(window.location);
+    const cookieSyncManager = new CookieSyncManager(window.location.host);
 
     optInManager.setForcedStatusFromQueryParams(window.location.search);
 
