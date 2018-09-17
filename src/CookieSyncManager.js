@@ -18,14 +18,14 @@ class CookieSyncManager {
         return suffix === this.host.slice(-suffix.length);
     }
 
-    getServicesDomain() {
+    getTopLevelDomain() {
         return this.knownDomains.find(domain => this.hostEndsWith(domain), this);
     }
 
     getFrameUrl() {
-        const domain = this.getServicesDomain();
+        const domain = this.getTopLevelDomain();
         if (domain !== undefined) {
-            return `https://services${this.getServicesDomain()}/cookie-syncer/frame`;
+            return `https://services${this.getTopLevelDomain()}/cookie-syncer/frame`;
         }
     }
 
