@@ -29,9 +29,6 @@ class TrackingOptIn {
             render(null, this.root, this.root.lastChild);
             this.root.parentNode.removeChild(this.root);
             this.root = null;
-            if (this.cookieSyncManager) {
-                this.cookieSyncManager.crossDomainSync();
-            }
         }
     };
 
@@ -41,7 +38,12 @@ class TrackingOptIn {
             allowedVendors: this.options.enabledVendors,
             allowedVendorPurposes: this.options.enabledVendorPurposes
         });
-        this.consentManagementProvider.install();
+        this.consentManagementProvider.install()
+            .then(() => {
+				if (this.cookieSyncManager) {
+					this.cookieSyncManager.crossDomainSync();
+				}
+            });
         this.options.onAcceptTracking();
     };
 
@@ -51,7 +53,12 @@ class TrackingOptIn {
             allowedVendors: [],
             allowedVendorPurposes: []
         });
-        this.consentManagementProvider.install();
+        this.consentManagementProvider.install()
+			.then(() => {
+				if (this.cookieSyncManager) {
+					this.cookieSyncManager.crossDomainSync();
+				}
+			});
         this.options.onRejectTracking();
     };
 
