@@ -40,17 +40,17 @@ class TrackingOptIn {
         });
         this.options.onAcceptTracking();
 
-		return this.consentManagementProvider.install();
-	};
+        return this.consentManagementProvider.install();
+    };
 
-	onAcceptTrackingClicked = () => {
+    onAcceptTrackingClicked = () => {
         this.onAcceptTracking()
-			.then(() => {
-				if (this.cookieSyncManager) {
-					this.cookieSyncManager.crossDomainSync();
-				}
-			});
-	};
+            .then(() => {
+                if (this.cookieSyncManager) {
+                    this.cookieSyncManager.crossDomainSync();
+                }
+            });
+    };
 
     onRejectTracking = () => {
         this.consentManagementProvider.configure({
@@ -61,16 +61,16 @@ class TrackingOptIn {
         this.options.onRejectTracking();
 
         return this.consentManagementProvider.install();
-	};
+    };
 
-	onRejectTrackingClicked = () => {
-		this.onRejectTracking()
-			.then(() => {
-				if (this.cookieSyncManager) {
-					this.cookieSyncManager.crossDomainSync();
-				}
-			});
-	};
+    onRejectTrackingClicked = () => {
+        this.onRejectTracking()
+            .then(() => {
+                if (this.cookieSyncManager) {
+                    this.cookieSyncManager.crossDomainSync();
+                }
+            });
+    };
 
     hasUserConsented() {
         if (this.isOnWhiteListedPage()) {
