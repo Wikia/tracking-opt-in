@@ -38,14 +38,19 @@ class TrackingOptIn {
             allowedVendors: this.options.enabledVendors,
             allowedVendorPurposes: this.options.enabledVendorPurposes
         });
-        this.consentManagementProvider.install()
-            .then(() => {
+        this.options.onAcceptTracking();
+
+		return this.consentManagementProvider.install();
+	};
+
+	onAcceptTrackingClicked = () => {
+        this.onAcceptTracking()
+			.then(() => {
 				if (this.cookieSyncManager) {
 					this.cookieSyncManager.crossDomainSync();
 				}
-            });
-        this.options.onAcceptTracking();
-    };
+			});
+	};
 
     onRejectTracking = () => {
         this.consentManagementProvider.configure({
@@ -53,14 +58,19 @@ class TrackingOptIn {
             allowedVendors: [],
             allowedVendorPurposes: []
         });
-        this.consentManagementProvider.install()
+        this.options.onRejectTracking();
+
+        return this.consentManagementProvider.install();
+	};
+
+	onRejectTrackingClicked = () => {
+		this.onRejectTracking()
 			.then(() => {
 				if (this.cookieSyncManager) {
 					this.cookieSyncManager.crossDomainSync();
 				}
 			});
-        this.options.onRejectTracking();
-    };
+	};
 
     hasUserConsented() {
         if (this.isOnWhiteListedPage()) {
@@ -135,8 +145,8 @@ class TrackingOptIn {
                 render(
                     <App
                         onRequestAppRemove={this.removeApp}
-                        onAcceptTracking={this.onAcceptTracking}
-                        onRejectTracking={this.onRejectTracking}
+                        onAcceptTracking={this.onAcceptTrackingClicked}
+                        onRejectTracking={this.onRejectTrackingClicked}
                         tracker={this.tracker}
                         optInManager={this.optInManager}
                         geoManager={this.geoManager}
