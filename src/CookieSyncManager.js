@@ -1,4 +1,4 @@
-import {render} from 'preact/dist/preact';
+import {h, render} from 'preact/dist/preact';
 import Cookies from 'js-cookie';
 import CookieSyncFrame from './components/CookieSyncFrame';
 
