@@ -1,5 +1,8 @@
-import {h, render} from "preact/dist/preact";
-import CookieSyncFrame from "./components/CookieSyncFrame";
+import {render} from 'preact/dist/preact';
+import Cookies from 'js-cookie';
+import CookieSyncFrame from './components/CookieSyncFrame';
+
+const COOKIE_SYNC_DONE_COOKIE_NAME = 'cookiesync_done';
 
 class CookieSyncManager {
     constructor(host) {
@@ -29,9 +32,16 @@ class CookieSyncManager {
         }
     }
 
+    // Remove the cookie so if the cookie-syncer service fails
+    // we'll have another chance to sync on the next page view
+    static removeCookieSyncDoneCookie() {
+        Cookies.remove(COOKIE_SYNC_DONE_COOKIE_NAME);
+    }
+
     crossDomainSync() {
         const frameSrc = this.getFrameUrl();
         if (frameSrc) {
+            CookieSyncManager.removeCookieSyncDoneCookie();
             render(
                 <CookieSyncFrame
                     src={frameSrc}
