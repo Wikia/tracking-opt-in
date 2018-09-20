@@ -17,6 +17,12 @@ class CookieSyncManager {
         ];
     }
 
+    // Remove the cookie guard so if we fail to sync cookies,
+    // we'll have another chance on the next page view
+    clear() {
+        Cookies.remove(COOKIE_SYNC_DONE_COOKIE_NAME);
+    }
+
     hostEndsWith(suffix) {
         return suffix === this.host.slice(-suffix.length);
     }
@@ -32,16 +38,9 @@ class CookieSyncManager {
         }
     }
 
-    // Remove the cookie so if the cookie-syncer service fails
-    // we'll have another chance to sync on the next page view
-    static removeCookieSyncDoneCookie() {
-        Cookies.remove(COOKIE_SYNC_DONE_COOKIE_NAME);
-    }
-
     crossDomainSync() {
         const frameSrc = this.getFrameUrl();
         if (frameSrc) {
-            CookieSyncManager.removeCookieSyncDoneCookie();
             render(
                 <CookieSyncFrame
                     src={frameSrc}

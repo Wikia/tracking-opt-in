@@ -121,6 +121,10 @@ class TrackingOptIn {
     clear() {
         this.optInManager.clear();
         this.consentManagementProvider.uninstall();
+
+        if (this.cookieSyncManager) {
+            this.cookieSyncManager.clear();
+        }
     }
 
     render() {
