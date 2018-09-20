@@ -52,6 +52,7 @@ The following options are accepted:
 - `language` - Override the language used to display the dialog text. Defaults to `window.navigator.language` if available, otherwise to `en`.
 - `preventScrollOn` - Prevent scrolling on the specified element when the dialog is shown. Can be either an element or query selector passed to `document.querySelector`. Defaults to `'body'`, set to `null` to prevent this behavior.
 - `queryParam` - The name of the query param to forcefully set the accepted status. Defaults to `tracking-opt-in-status` and accepts the string values `true` or `false` (e.g `http://starwars.wikia.com/?tracking-opt-in-status=true`)
+- `syncCookies` - Whether cookie-syncer service should be used to set cookies on the secondary wikia/fandom domain. Defaults to `true`.
 - `track` - whether to track impressions and user consent/rejections. Defaults to `true`.
 - `zIndex` - Useful if elements on the app are appearing above the overlay/modal. Defaults to `1000`.
 - `onAcceptTracking` - The callback fired when:

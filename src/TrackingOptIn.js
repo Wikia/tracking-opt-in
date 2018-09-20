@@ -9,6 +9,7 @@ class TrackingOptIn {
         geoManager,
         contentManager,
         consentManagementProvider,
+        cookieSyncManager,
         options,
         location
     ) {
@@ -17,6 +18,7 @@ class TrackingOptIn {
         this.geoManager = geoManager;
         this.contentManager = contentManager;
         this.consentManagementProvider = consentManagementProvider;
+        this.cookieSyncManager = cookieSyncManager;
         this.options = options;
         this.location = location;
         this.isReset = false;
@@ -36,8 +38,18 @@ class TrackingOptIn {
             allowedVendors: this.options.enabledVendors,
             allowedVendorPurposes: this.options.enabledVendorPurposes
         });
-        this.consentManagementProvider.install();
         this.options.onAcceptTracking();
+
+        return this.consentManagementProvider.install();
+    };
+
+    onAcceptTrackingClicked = () => {
+        this.onAcceptTracking()
+            .then(() => {
+                if (this.cookieSyncManager) {
+                    this.cookieSyncManager.crossDomainSync();
+                }
+            });
     };
 
     onRejectTracking = () => {
@@ -46,8 +58,18 @@ class TrackingOptIn {
             allowedVendors: [],
             allowedVendorPurposes: []
         });
-        this.consentManagementProvider.install();
         this.options.onRejectTracking();
+
+        return this.consentManagementProvider.install();
+    };
+
+    onRejectTrackingClicked = () => {
+        this.onRejectTracking()
+            .then(() => {
+                if (this.cookieSyncManager) {
+                    this.cookieSyncManager.crossDomainSync();
+                }
+            });
     };
 
     hasUserConsented() {
@@ -99,6 +121,10 @@ class TrackingOptIn {
     clear() {
         this.optInManager.clear();
         this.consentManagementProvider.uninstall();
+
+        if (this.cookieSyncManager) {
+            this.cookieSyncManager.clear();
+        }
     }
 
     render() {
@@ -123,8 +149,8 @@ class TrackingOptIn {
                 render(
                     <App
                         onRequestAppRemove={this.removeApp}
-                        onAcceptTracking={this.onAcceptTracking}
-                        onRejectTracking={this.onRejectTracking}
+                        onAcceptTracking={this.onAcceptTrackingClicked}
+                        onRejectTracking={this.onRejectTrackingClicked}
                         tracker={this.tracker}
                         optInManager={this.optInManager}
                         geoManager={this.geoManager}

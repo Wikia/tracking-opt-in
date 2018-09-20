@@ -5,6 +5,7 @@ import ContentManager from "./ContentManager";
 import GeoManager from "./GeoManager";
 import TrackingOptIn from './TrackingOptIn';
 import ConsentManagementProvider from "./ConsentManagementProvider";
+import CookieSyncManager from "./CookieSyncManager";
 
 const DEFAULT_OPTIONS = {
     beaconCookieName: null,
@@ -25,6 +26,7 @@ const DEFAULT_OPTIONS = {
     language: null,
     queryParamName: null,
     preventScrollOn: 'body',
+    syncCookies: true, // use cookie-syncer service to set cookies on the other domain
     track: true,
     zIndex: 1000,
     onAcceptTracking() {
@@ -59,6 +61,7 @@ export default function main(options) {
         depOptions.queryParamName
     );
     const contentManager = new ContentManager(langManager.lang);
+    const cookieSyncManager = depOptions.syncCookies ?  new CookieSyncManager(window.location.host) : null;
 
     optInManager.setForcedStatusFromQueryParams(window.location.search);
 
@@ -68,6 +71,7 @@ export default function main(options) {
         geoManager,
         contentManager,
         consentManagementProvider,
+        cookieSyncManager,
         {
             preventScrollOn,
             zIndex,

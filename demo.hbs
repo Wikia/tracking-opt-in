@@ -51,10 +51,12 @@
             countriesRequiringPrompt: ['us'],
             country: 'us',
             language: 'en',
+            syncCookies: false,
             track: false,
         });
     {{else}}
         var optIn = trackingOptIn.default({
+            syncCookies: false,
             track: false,
         });
     {{/if}}

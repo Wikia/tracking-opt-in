@@ -171,3 +171,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
     margin-bottom: 0; // save some space to prevent scroll bars
   }
 }
+
+.hidden {
+  display: none;
+}
