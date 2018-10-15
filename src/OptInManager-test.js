@@ -1,6 +1,11 @@
 import { assert } from 'chai';
 import Cookies from 'js-cookie';
-import OptInManager, { DEFAULT_COOKIE_NAME, DEFAULT_QUERY_PARAM_NAME } from './OptInManager';
+import OptInManager, {
+    DEFAULT_COOKIE_NAME,
+    DEFAULT_QUERY_PARAM_NAME,
+    VERSION_COOKIE_NAME,
+    VERSION_CURRENT_ID
+} from './OptInManager';
 
 describe('OptInManager', () => {
     afterEach(() => {
@@ -36,15 +41,28 @@ describe('OptInManager', () => {
         assert.isNotOk(optInManager.hasAcceptedTracking());
     });
 
-    it('clears cookie on demand', () => {
-        const optInManager = new OptInManager();
-        optInManager.setTrackingAccepted();
-        optInManager.clear();
+	it('clears cookie on demand', () => {
+		const optInManager = new OptInManager();
+		optInManager.setTrackingAccepted();
+		optInManager.clear();
 
-        assert.isNotOk(optInManager.hasAcceptedTracking());
-        assert.isNotOk(optInManager.hasRejectedTracking());
-        assert.equal(optInManager.getValue(), undefined);
-    });
+		assert.isNotOk(optInManager.hasAcceptedTracking());
+		assert.isNotOk(optInManager.hasRejectedTracking());
+		assert.equal(optInManager.getValue(), undefined);
+	});
+
+	it('clears cookie on version change', () => {
+		let optInManager = new OptInManager();
+		optInManager.setTrackingAccepted();
+
+		Cookies.set(VERSION_COOKIE_NAME, VERSION_CURRENT_ID - 1);
+		optInManager = new OptInManager();
+		optInManager.checkCookieVersion();
+
+		assert.isNotOk(optInManager.hasAcceptedTracking());
+		assert.isNotOk(optInManager.hasRejectedTracking());
+		assert.equal(optInManager.getValue(), undefined);
+	});
 
     it('consents based on expected query params', () => {
         const optInManager = new OptInManager();

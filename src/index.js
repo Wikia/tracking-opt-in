@@ -92,6 +92,7 @@ export default function main(options) {
     const contentManager = new ContentManager(langManager.lang);
 
     optInManager.setForcedStatusFromQueryParams(window.location.search);
+    optInManager.checkCookieVersion();
 
     const instance = new TrackingOptIn(
         tracker,

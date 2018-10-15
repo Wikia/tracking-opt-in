@@ -9,6 +9,8 @@ export const STATUS = {
     ACCEPTED: 'accepted',
     REJECTED: 'rejected',
 };
+export const VERSION_COOKIE_NAME = 'tracking-opt-in-version';
+export const VERSION_CURRENT_ID = 2; // Increment to force modal again
 
 class OptInManager {
     constructor(hostname, cookieName, acceptExpiration, rejectExpiration, queryParam) {
@@ -17,6 +19,14 @@ class OptInManager {
         this.rejectExpiration = rejectExpiration || DEFAULT_REJECT_COOKIE_EXPIRATION;
         this.domain = getCookieDomain(hostname || window.location.hostname);
         this.queryParam = queryParam || DEFAULT_QUERY_PARAM_NAME;
+    }
+
+    checkCookieVersion() {
+        const versionCookieValue = Cookies.get(VERSION_COOKIE_NAME);
+
+        if (!versionCookieValue || parseInt(versionCookieValue) < VERSION_CURRENT_ID) {
+            this.clear();
+        }
     }
 
     getValue() {
@@ -31,16 +41,19 @@ class OptInManager {
         return this.getValue() === STATUS.REJECTED;
     }
 
+    setCookie(name, value, attributes = {}) {
+	    if (this.domain) {
+		    attributes.domain = this.domain;
+	    }
+
+	    Cookies.set(name, value, attributes);
+	    Cookies.set(VERSION_COOKIE_NAME, VERSION_CURRENT_ID, attributes);
+    }
+
     setTrackingAccepted() {
-        const attributes = {
-            expires: this.acceptExpiration,
-        };
-
-        if (this.domain) {
-            attributes.domain = this.domain;
-        }
-
-        Cookies.set(this.cookieName, STATUS.ACCEPTED, attributes);
+	    this.setCookie(this.cookieName, STATUS.ACCEPTED, {
+		    expires: this.acceptExpiration,
+	    });
     }
 
     setForcedStatusFromQueryParams(queryString) {
@@ -52,15 +65,9 @@ class OptInManager {
     }
 
     setTrackingRejected() {
-        const attributes = {
-            expires: this.rejectExpiration,
-        };
-
-        if (this.domain) {
-            attributes.domain = this.domain;
-        }
-
-        Cookies.set(this.cookieName, STATUS.REJECTED, attributes);
+	    this.setCookie(this.cookieName, STATUS.REJECTED, {
+		    expires: this.rejectExpiration,
+	    });
     }
 
     clear() {
