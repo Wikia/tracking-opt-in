@@ -42,18 +42,18 @@ class OptInManager {
     }
 
     setCookie(name, value, attributes = {}) {
-	    if (this.domain) {
-		    attributes.domain = this.domain;
-	    }
+        if (this.domain) {
+            attributes.domain = this.domain;
+        }
 
-	    Cookies.set(name, value, attributes);
-	    Cookies.set(VERSION_COOKIE_NAME, VERSION_CURRENT_ID, attributes);
+        Cookies.set(name, value, attributes);
+        Cookies.set(VERSION_COOKIE_NAME, VERSION_CURRENT_ID, attributes);
     }
 
     setTrackingAccepted() {
-	    this.setCookie(this.cookieName, STATUS.ACCEPTED, {
-		    expires: this.acceptExpiration,
-	    });
+        this.setCookie(this.cookieName, STATUS.ACCEPTED, {
+            expires: this.acceptExpiration,
+        });
     }
 
     setForcedStatusFromQueryParams(queryString) {
@@ -65,9 +65,9 @@ class OptInManager {
     }
 
     setTrackingRejected() {
-	    this.setCookie(this.cookieName, STATUS.REJECTED, {
-		    expires: this.rejectExpiration,
-	    });
+        this.setCookie(this.cookieName, STATUS.REJECTED, {
+            expires: this.rejectExpiration,
+        });
     }
 
     clear() {
