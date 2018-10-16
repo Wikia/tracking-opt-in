@@ -24,7 +24,7 @@ class OptInManager {
     checkCookieVersion() {
         const versionCookieValue = Cookies.get(VERSION_COOKIE_NAME);
 
-        if (!versionCookieValue || parseInt(versionCookieValue) < VERSION_CURRENT_ID) {
+        if (!versionCookieValue || parseInt(versionCookieValue, 10) < VERSION_CURRENT_ID) {
             this.clear();
         }
     }
@@ -41,7 +41,7 @@ class OptInManager {
         return this.getValue() === STATUS.REJECTED;
     }
 
-    setCookie(name, value, attributes = {}) {
+    setCookies(name, value, attributes = {}) {
         if (this.domain) {
             attributes.domain = this.domain;
         }
@@ -51,7 +51,7 @@ class OptInManager {
     }
 
     setTrackingAccepted() {
-        this.setCookie(this.cookieName, STATUS.ACCEPTED, {
+        this.setCookies(this.cookieName, STATUS.ACCEPTED, {
             expires: this.acceptExpiration,
         });
     }
@@ -65,7 +65,7 @@ class OptInManager {
     }
 
     setTrackingRejected() {
-        this.setCookie(this.cookieName, STATUS.REJECTED, {
+        this.setCookies(this.cookieName, STATUS.REJECTED, {
             expires: this.rejectExpiration,
         });
     }
