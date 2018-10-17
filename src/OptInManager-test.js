@@ -64,6 +64,19 @@ describe('OptInManager', () => {
         assert.equal(optInManager.getValue(), undefined);
     });
 
+    it('clears cookie if version cookie not exists', () => {
+        let optInManager = new OptInManager();
+        optInManager.setTrackingAccepted();
+
+        Cookies.remove(VERSION_COOKIE_NAME);
+        optInManager = new OptInManager();
+        optInManager.checkCookieVersion();
+
+        assert.isNotOk(optInManager.hasAcceptedTracking());
+        assert.isNotOk(optInManager.hasRejectedTracking());
+        assert.equal(optInManager.getValue(), undefined);
+    });
+
     it('consents based on expected query params', () => {
         const optInManager = new OptInManager();
 
