@@ -1,5 +1,5 @@
-import {assert} from 'chai';
-import ContentManager, {langToContent} from './ContentManager';
+import { assert } from 'chai';
+import ContentManager, { langToContent } from './ContentManager';
 
 describe('ContentManager', () => {
     it('gives content in the specified language', () => {

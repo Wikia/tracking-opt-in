@@ -1,4 +1,4 @@
-import {Promise} from 'es6-promise';
+import { Promise } from 'es6-promise';
 
 export function parseUrl(url) {
     const parser = document.createElement('a');
@@ -22,13 +22,13 @@ export function getJSON(url) {
         req.open('GET', url, true);
         req.onload = function () {
             let response;
-    
+
             try {
                 response = JSON.parse(this.responseText);
             } catch (e) {
                 response = null;
             }
-    
+
             resolve(response);
         };
         req.onerror = function () {

@@ -1,4 +1,4 @@
-import {h, Component} from 'preact';
+import { h, Component } from 'preact';
 import styles from './styles.scss';
 
 const TRACKING_CATEGORY = 'gdpr-modal';
