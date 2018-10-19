@@ -3,9 +3,9 @@ import Cookies from 'js-cookie';
 import OptInManager, {
     DEFAULT_COOKIE_NAME,
     DEFAULT_QUERY_PARAM_NAME,
-    VERSION_COOKIE_NAME,
-    VERSION_CURRENT_ID
+    VERSION_COOKIE_NAME
 } from './OptInManager';
+import { CMP_VERSION } from './ConsentManagementProvider';
 
 describe('OptInManager', () => {
     afterEach(() => {
@@ -55,13 +55,14 @@ describe('OptInManager', () => {
         let optInManager = new OptInManager();
         optInManager.setTrackingAccepted();
 
-        Cookies.set(VERSION_COOKIE_NAME, VERSION_CURRENT_ID - 1);
+        Cookies.set(VERSION_COOKIE_NAME, CMP_VERSION - 1);
         optInManager = new OptInManager();
-        optInManager.checkCookieVersion();
+        const cookiesRemoved = optInManager.checkCookieVersion();
 
         assert.isNotOk(optInManager.hasAcceptedTracking());
         assert.isNotOk(optInManager.hasRejectedTracking());
         assert.equal(optInManager.getValue(), undefined);
+        assert.equal(cookiesRemoved, true);
     });
 
     it('clears cookie if version cookie not exists', () => {
@@ -70,11 +71,12 @@ describe('OptInManager', () => {
 
         Cookies.remove(VERSION_COOKIE_NAME);
         optInManager = new OptInManager();
-        optInManager.checkCookieVersion();
+        const cookiesRemoved = optInManager.checkCookieVersion();
 
         assert.isNotOk(optInManager.hasAcceptedTracking());
         assert.isNotOk(optInManager.hasRejectedTracking());
         assert.equal(optInManager.getValue(), undefined);
+        assert.equal(cookiesRemoved, true);
     });
 
     it('consents based on expected query params', () => {

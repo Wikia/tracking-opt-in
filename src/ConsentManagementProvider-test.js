@@ -1,8 +1,8 @@
-import {assert} from 'chai';
-import {spy, stub} from 'sinon';
+import { assert } from 'chai';
+import { spy, stub } from 'sinon';
 import Cookies from 'js-cookie';
 import ConsentManagementProvider from './ConsentManagementProvider';
-import {vendorList as vendorListMock} from './fixtures-test';
+import { vendorList as vendorListMock } from './fixtures-test';
 import { setTimeout } from 'timers';
 
 describe('ConsentManagementProvider', () => {
@@ -78,7 +78,7 @@ describe('ConsentManagementProvider', () => {
             cleanup();
 
             cmp = new ConsentManagementProvider();
-            
+
             stub(cmp, 'fetchVendorList').resolves(vendorListMock);
             cmp.configure(config);
 
@@ -92,7 +92,7 @@ describe('ConsentManagementProvider', () => {
 
         it('implements ping command', (done) => {
             const callbackSpy = spy();
-            
+
             window.__cmp('ping', null, (...args) => {
                 callbackSpy(...args);
                 callbackSpy.calledWith({

@@ -1,16 +1,16 @@
 import Cookies from 'js-cookie';
-import {getCookieDomain} from './utils';
+import { getCookieDomain } from './utils';
+import { CMP_VERSION } from './ConsentManagementProvider';
 
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
 const DEFAULT_REJECT_COOKIE_EXPIRATION = 31;
 export const DEFAULT_QUERY_PARAM_NAME = 'tracking-opt-in-status';
 export const DEFAULT_COOKIE_NAME = 'tracking-opt-in-status';
+export const VERSION_COOKIE_NAME = 'tracking-opt-in-version';
 export const STATUS = {
     ACCEPTED: 'accepted',
     REJECTED: 'rejected',
 };
-export const VERSION_COOKIE_NAME = 'tracking-opt-in-version';
-export const VERSION_CURRENT_ID = 2; // Increment to force modal again
 
 class OptInManager {
     constructor(hostname, cookieName, acceptExpiration, rejectExpiration, queryParam) {
@@ -24,9 +24,13 @@ class OptInManager {
     checkCookieVersion() {
         const versionCookieValue = Cookies.get(VERSION_COOKIE_NAME);
 
-        if (!versionCookieValue || parseInt(versionCookieValue, 10) < VERSION_CURRENT_ID) {
+        if (!versionCookieValue || parseInt(versionCookieValue, 10) < CMP_VERSION) {
             this.clear();
+
+            return true;
         }
+
+        return false;
     }
 
     getValue() {
@@ -47,7 +51,7 @@ class OptInManager {
         }
 
         Cookies.set(name, value, attributes);
-        Cookies.set(VERSION_COOKIE_NAME, VERSION_CURRENT_ID, attributes);
+        Cookies.set(VERSION_COOKIE_NAME, CMP_VERSION, attributes);
     }
 
     setTrackingAccepted() {
@@ -73,6 +77,7 @@ class OptInManager {
     clear() {
         const attributes = this.domain ? { domain: this.domain } : {};
         Cookies.remove(this.cookieName, attributes);
+        Cookies.remove(VERSION_COOKIE_NAME, attributes);
     }
 }
 
