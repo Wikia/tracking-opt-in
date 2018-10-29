@@ -37,3 +37,7 @@ export function getJSON(url) {
         req.send(null);
     });
 }
+
+export function urlContainsParam(url, param) {
+    return new URL(url).searchParams.get(param) === 'true';
+}
