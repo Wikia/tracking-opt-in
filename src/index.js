@@ -5,6 +5,7 @@ import ContentManager from "./ContentManager";
 import GeoManager from "./GeoManager";
 import TrackingOptIn from './TrackingOptIn';
 import ConsentManagementProvider from "./ConsentManagementProvider";
+import { isParameterSet } from "./utils";
 
 const DEFAULT_OPTIONS = {
     beaconCookieName: null,
@@ -114,6 +115,9 @@ export default function main(options) {
         },
         window.location,
     );
-    instance.render();
+
+    if (!isParameterSet('mobile-app')) {
+	    instance.render();
+    }
     return instance;
 }
