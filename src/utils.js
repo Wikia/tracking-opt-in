@@ -38,6 +38,6 @@ export function getJSON(url) {
     });
 }
 
-export function urlContainsParam(url, param) {
-    return new URL(url).searchParams.get(param) === 'true';
+export function isParameterSet(param) {
+    return new URL(window.location.href).searchParams.get(param) === 'true';
 }
