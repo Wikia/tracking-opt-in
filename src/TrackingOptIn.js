@@ -1,6 +1,6 @@
 import { h, render } from "preact/dist/preact";
 import App from "./components/App";
-import { parseUrl } from "./utils";
+import { isParameterSet, parseUrl } from "./utils";
 
 class TrackingOptIn {
     constructor(
