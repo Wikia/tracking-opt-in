@@ -84,10 +84,6 @@ describe('TrackingOptIn', () => {
         Object.defineProperty(window, 'location', {
             value: windowLocation
         });
-
-        trackingOptIn.render();
-
-        assert.isOk(modalIsShown());
     });
 
     it('calls accept callback when the user geo does not require consent', () => {
