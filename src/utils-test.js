@@ -4,6 +4,12 @@ import * as utils from './utils';
 const noop = () => {};
 
 describe('Utils', () => {
+    context('isParameterSet', () => {
+        it('checks if query parameter is set', () => {
+            assert.isNotTrue(utils.isParameterSet('parameter'));
+        });
+    });
+
     context('parseUrl', () => {
         it('parses a URL from string', () => {
             const parsed = utils.parseUrl('http://fandom.com/foo/bar');
@@ -21,7 +27,7 @@ describe('Utils', () => {
             assert.equal(domain, undefined);
 
             domain = utils.getCookieDomain('');
-        
+
             assert.equal(domain, undefined);
         });
 
@@ -31,7 +37,7 @@ describe('Utils', () => {
             assert.equal(domain, '.fandom.com');
 
             domain = utils.getCookieDomain('muppets.fandom.com');
-        
+
             assert.equal(domain, '.fandom.com');
 
             domain = utils.getCookieDomain('www.muppets.fandom.com');

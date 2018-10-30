@@ -57,6 +57,39 @@ describe('TrackingOptIn', () => {
         assert.isOk(modalIsShown());
     });
 
+    it('not renders when user is visiting through mobile app', () => {
+        geoManager.needsTrackingPrompt.withArgs().returns(true);
+        geoManager.hasGeoCookie.withArgs().returns(true);
+        optInManager.hasAcceptedTracking.withArgs().returns(false);
+        optInManager.hasRejectedTracking.withArgs().returns(false);
+
+        let windowLocation = JSON.parse(JSON.stringify(window.location));
+        const previousHref = windowLocation.href;
+        delete window.location;
+
+        windowLocation.href = 'http://fandom.com/foo/bar?mobile-app=true';
+
+        Object.defineProperty(window, 'location', {
+            value: windowLocation
+        });
+
+        trackingOptIn.render();
+
+        assert.isNotOk(modalIsShown());
+
+        delete window.location;
+
+        windowLocation.href = previousHref;
+
+        Object.defineProperty(window, 'location', {
+            value: windowLocation
+        });
+
+        trackingOptIn.render();
+
+        assert.isOk(modalIsShown());
+    });
+
     it('calls accept callback when the user geo does not require consent', () => {
         geoManager.needsTrackingPrompt.withArgs().returns(false);
         geoManager.hasGeoCookie.withArgs().returns(true);
