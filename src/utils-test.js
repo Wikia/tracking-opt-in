@@ -4,12 +4,6 @@ import * as utils from './utils';
 const noop = () => {};
 
 describe('Utils', () => {
-    context('isParameterSet', () => {
-        it('checks if query parameter is set', () => {
-            assert.isNotTrue(utils.isParameterSet('parameter'));
-        });
-    });
-
     context('parseUrl', () => {
         it('parses a URL from string', () => {
             const parsed = utils.parseUrl('http://fandom.com/foo/bar');
