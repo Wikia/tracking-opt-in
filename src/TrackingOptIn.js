@@ -112,29 +112,31 @@ class TrackingOptIn {
             preventScrollOn: this.options.preventScrollOn
         };
 
-        switch (this.hasUserConsented()) {
-            case true:
-                this.onAcceptTracking();
-                break;
-            case false:
-                this.onRejectTracking();
-                break;
-            default:
-                render(
-                    <App
-                        onRequestAppRemove={this.removeApp}
-                        onAcceptTracking={this.onAcceptTracking}
-                        onRejectTracking={this.onRejectTracking}
-                        tracker={this.tracker}
-                        optInManager={this.optInManager}
-                        geoManager={this.geoManager}
-                        options={options}
-                        content={this.contentManager.content}
-                    />,
-                    this.root,
-                    this.root.lastChild
-                );
-        }
+	    if (!isParameterSet('mobile-app')) {
+		    switch (this.hasUserConsented()) {
+			    case true:
+				    this.onAcceptTracking();
+				    break;
+			    case false:
+				    this.onRejectTracking();
+				    break;
+			    default:
+				    render(
+					    <App
+						    onRequestAppRemove={this.removeApp}
+						    onAcceptTracking={this.onAcceptTracking}
+						    onRejectTracking={this.onRejectTracking}
+						    tracker={this.tracker}
+						    optInManager={this.optInManager}
+						    geoManager={this.geoManager}
+						    options={options}
+						    content={this.contentManager.content}
+					    />,
+					    this.root,
+					    this.root.lastChild
+				    );
+		    }
+	    }
     }
 }
 

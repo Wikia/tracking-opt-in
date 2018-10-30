@@ -37,3 +37,7 @@ export function getJSON(url) {
         req.send(null);
     });
 }
+
+export function isParameterSet(param) {
+	return new URL(window.location.href).searchParams.get(param) === 'true';
+}
