@@ -1,5 +1,9 @@
 import { Promise } from 'es6-promise';
 
+export function isParameterSet(param) {
+    return new URL(window.location.href).searchParams.get(param) === 'true';
+}
+
 export function parseUrl(url) {
     const parser = document.createElement('a');
     parser.href = url;

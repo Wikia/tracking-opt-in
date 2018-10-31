@@ -21,7 +21,7 @@ describe('Utils', () => {
             assert.equal(domain, undefined);
 
             domain = utils.getCookieDomain('');
-        
+
             assert.equal(domain, undefined);
         });
 
@@ -31,7 +31,7 @@ describe('Utils', () => {
             assert.equal(domain, '.fandom.com');
 
             domain = utils.getCookieDomain('muppets.fandom.com');
-        
+
             assert.equal(domain, '.fandom.com');
 
             domain = utils.getCookieDomain('www.muppets.fandom.com');

@@ -1,6 +1,6 @@
 import { h, render } from "preact/dist/preact";
 import App from "./components/App";
-import { parseUrl } from "./utils";
+import { isParameterSet, parseUrl } from "./utils";
 
 class TrackingOptIn {
     constructor(
@@ -112,6 +112,7 @@ class TrackingOptIn {
             preventScrollOn: this.options.preventScrollOn
         };
 
+
         switch (this.hasUserConsented()) {
             case true:
                 this.onAcceptTracking();
@@ -120,20 +121,22 @@ class TrackingOptIn {
                 this.onRejectTracking();
                 break;
             default:
-                render(
-                    <App
-                        onRequestAppRemove={this.removeApp}
-                        onAcceptTracking={this.onAcceptTracking}
-                        onRejectTracking={this.onRejectTracking}
-                        tracker={this.tracker}
-                        optInManager={this.optInManager}
-                        geoManager={this.geoManager}
-                        options={options}
-                        content={this.contentManager.content}
-                    />,
-                    this.root,
-                    this.root.lastChild
-                );
+                if (!isParameterSet('mobile-app')) {
+                    render(
+                        <App
+                            onRequestAppRemove={this.removeApp}
+                            onAcceptTracking={this.onAcceptTracking}
+                            onRejectTracking={this.onRejectTracking}
+                            tracker={this.tracker}
+                            optInManager={this.optInManager}
+                            geoManager={this.geoManager}
+                            options={options}
+                            content={this.contentManager.content}
+                        />,
+                        this.root,
+                        this.root.lastChild
+                    );
+                }
         }
     }
 }
