@@ -1,7 +1,7 @@
 import { Promise } from 'es6-promise';
 
 export function isParameterSet(param) {
-    return new URL(window.location.href).searchParams.get(param) === 'true';
+    return window.location.href.indexOf(`${param}=true`) !== -1;
 }
 
 export function parseUrl(url) {
