@@ -57,7 +57,7 @@ describe('TrackingOptIn', () => {
         assert.isOk(modalIsShown());
     });
 
-    /*it('not renders when user is visiting through mobile app', () => {
+    it('not renders when user is visiting through mobile app', () => {
         geoManager.needsTrackingPrompt.withArgs().returns(true);
         geoManager.hasGeoCookie.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(false);
@@ -84,7 +84,7 @@ describe('TrackingOptIn', () => {
         Object.defineProperty(window, 'location', {
             value: windowLocation
         });
-    });*/
+    });
 
     it('calls accept callback when the user geo does not require consent', () => {
         geoManager.needsTrackingPrompt.withArgs().returns(false);
