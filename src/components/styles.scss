@@ -166,15 +166,16 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   font-size: 11px;
   line-height: 1.73;
   margin: 0 -10px;
-  overflow: auto;
   padding: 0 10px 10px;
 
   @media #{$mobile-devices} {
     max-height: 100px;
+    overflow: auto;
   }
 
   @media #{$desktop-devices} {
     font-size: 12px;
     line-height: 1.83;
+    padding-bottom: 0;
   }
 }

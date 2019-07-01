@@ -10,6 +10,7 @@ class App extends Component {
       super();
 
       this.state = { isScreenOne: true };
+      this.learnMore = this.learnMore.bind(this);
     }
 
     componentDidMount() {
@@ -67,7 +68,7 @@ class App extends Component {
         this.track(ACTION_CLICK, 'learn-more-screen-1');
         // add show screen 2 logic here
         this.setState({ isScreenOne: false });
-        // TODO: Figure out how to re-render component on this.setState
+        // TODO: Figure out how to re-render component on this.setState w/out forceUpdate
         this.forceUpdate();
     }
 
