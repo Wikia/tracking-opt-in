@@ -14,7 +14,7 @@ export const langToContent = {
         partnerLink: 'http://fandom.wikia.com/partner-list',
     },
     en: {
-        headline: 'This site uses cookies',
+        headline: 'This Site Uses Cookies',
         bodyParagraphScreenOne: 'Fandom and our partners use technology such as cookies on our site. To consent to these activities, click / tap "ACCEPT ADVERTISING COOKIES". For additional options, please select "LEARN MORE".',
         bodyPargraphScreenTwo: 'Fandom and our partners use technology such as cookies on our site to personalize content and ads, provide social media features, and analyze our traffic. In particular, we want to draw your attention to cookies which are used to market to you, or provide personalized ads to you. Where we use these cookies (“advertising cookies”), we do so only where you have consented to our use of such cookies by clicking / tapping "ACCEPT ADVERTISING COOKIES" below. Note that if you select reject, you may see ads that are less relevant to you and certain features of the site may not work as intended. You can change your mind and revisit your consent choices at any time by visiting our privacy policy. For more information about the cookies we use, please see our Privacy Policy. For information about our partners using advertising cookies on our site, please see the Partner List below.',
         buttonAccept: 'ACCEPT ADVERTISING COOKIES',
