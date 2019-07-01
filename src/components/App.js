@@ -6,6 +6,12 @@ const ACTION_IMPRESSION = 'Impression';
 const ACTION_CLICK = 'Click';
 
 class App extends Component {
+    constructor() {
+      super();
+
+      this.state = { isScreenOne: true };
+    }
+
     componentDidMount() {
         this.track(ACTION_IMPRESSION, 'modal-view');
         this.preventScroll();
@@ -57,6 +63,14 @@ class App extends Component {
         this.props.onAcceptTracking();
     };
 
+    learnMore = () => {
+        this.track(ACTION_CLICK, 'learn-more-screen-1');
+        // add show screen 2 logic here
+        this.setState({ isScreenOne: false });
+        // TODO: Figure out how to re-render component on this.setState
+        this.forceUpdate();
+    }
+
     reject = () => {
         this.track(ACTION_CLICK, 'reject-screen-1');
         this.props.optInManager.setTrackingRejected();
@@ -64,7 +78,10 @@ class App extends Component {
         this.props.onRejectTracking();
     };
 
+
     render({ options, content }, { dialog }) {
+        let bodyParagraphText = this.state.isScreenOne ? content.bodyParagraphScreenOne : content.bodyPargraphScreenTwo;
+
         return (
             <div
                 data-tracking-opt-in-overlay="true"
@@ -77,9 +94,7 @@ class App extends Component {
                     <div className={styles.content}>
                         <div className={styles.usesCookiesText}> {content.headline} </div>
                         <div className={styles.bodyParagraphsContainer}>
-                            {content.bodyParagraphs.map((paragraph) =>
-                                <p>{paragraph}</p>
-                            )}
+                          {bodyParagraphText}
                         </div>
                     </div>
                     <div className={styles.buttons}>
@@ -90,13 +105,22 @@ class App extends Component {
                         >
                             {content.buttonAccept}
                         </div>
-                        <div
-                            data-tracking-opt-in-reject="true"
-                            className={styles.buttonSecondary}
-                            onClick={this.reject}
-                        >
-                            {content.buttonReject}
-                        </div>
+                        {this.state.isScreenOne ?
+                          <div
+                              data-tracking-opt-in-learn-more="true"
+                              className={styles.buttonSecondary}
+                              onClick={this.learnMore}
+                          >
+                              {content.buttonLearnMore}
+                          </div> :
+                          <div
+                              data-tracking-opt-in-reject="true"
+                              className={styles.buttonPrimary}
+                              onClick={this.reject}
+                          >
+                              {content.buttonReject}
+                          </div>
+                        }
                     </div>
                     <div className={styles.links}>
                         <a href={content.privacyLink}>{content.privacyLinkText}</a>

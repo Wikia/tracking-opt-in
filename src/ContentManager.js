@@ -2,9 +2,7 @@ export const langToContent = {
     de: {
         headline: 'Diese Website verwendet Cookies',
         bodyParagraphs: [
-            'FANDOM und unsere Partner verwenden auf unserer Website Technologien wie Cookies, um Inhalte und Werbung zu personalisieren, Social-Media-Funktionen bereitzustellen und unseren Datenverkehr zu analysieren.',
-            'Wir möchten dich besonders auf Cookies aufmerksam machen, die zu Marketingzwecken verwendet werden oder um dir personalisierte Werbung anzuzeigen. Wir verwenden diese Cookies („Werbe-Cookies“) nur dort, wo du der Verwendung von Cookies zugestimmt hast, indem du „WERBE-COOKIES AKZEPTIEREN“ auswählst. Bitte beachte, dass du nach dem Ablehnen von Cookies Werbung siehst, die für dich weniger relevant ist und bestimmte Elemente der Website möglicherweise nicht wie vorgesehen funktionieren.',
-            'Du kannst deine Meinung jederzeit ändern und deine Auswahl in unserer Datenschutzerklärung entsprechend anpassen. Weitere Informationen zu den von uns verwendeten Cookies findest du in unserer Datenschutzerklärung. Informationen über unsere Partner, die Werbe-Cookies auf unserer Website einsetzen, findest du in der nachfolgenden Partnerliste.',
+            'Fandom und unsere Partner verwenden auf unserer Website Technologien wie z. B. Cookies. Um dem zuzustimmen, klicke bitte auf „WERBE-COOKIES AKZEPTIEREN“. Per opzioni aggiuntive, seleziona "ULTERIORI INFORMAZIONI".',
         ],
         buttonAccept: 'WERBE-COOKIES AKZEPTIEREN',
         buttonLearnMore: '',
@@ -17,9 +15,8 @@ export const langToContent = {
     },
     en: {
         headline: 'This site uses cookies',
-        bodyParagraphs: [
-            'Fandom and our partners use technology such as cookies on our site. To consent to these activities, click / tap "ACCEPT ADVERTISING COOKIES". For additional options, please select "LEARN MORE".',
-        ],
+        bodyParagraphScreenOne: 'Fandom and our partners use technology such as cookies on our site. To consent to these activities, click / tap "ACCEPT ADVERTISING COOKIES". For additional options, please select "LEARN MORE".',
+        bodyPargraphScreenTwo: 'Fandom and our partners use technology such as cookies on our site to personalize content and ads, provide social media features, and analyze our traffic. In particular, we want to draw your attention to cookies which are used to market to you, or provide personalized ads to you. Where we use these cookies (“advertising cookies”), we do so only where you have consented to our use of such cookies by clicking / tapping "ACCEPT ADVERTISING COOKIES" below. Note that if you select reject, you may see ads that are less relevant to you and certain features of the site may not work as intended. You can change your mind and revisit your consent choices at any time by visiting our privacy policy. For more information about the cookies we use, please see our Privacy Policy. For information about our partners using advertising cookies on our site, please see the Partner List below.',
         buttonAccept: 'ACCEPT ADVERTISING COOKIES',
         buttonLearnMore: 'LEARN MORE',
         buttonReject: 'REJECT ADVERTISING COOKIES',

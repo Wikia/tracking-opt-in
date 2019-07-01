@@ -24,7 +24,8 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   display: flex;
   flex-direction: column;
   font-family: Rubik, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  padding: 18px 18px 10px;
+  padding: 28px 18px 20px;
+  width: 100%;
 
   @media #{$mobile-devices} {
     height: 320px;
@@ -33,7 +34,6 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 
   @media #{$desktop-devices} {
     overflow-y: auto;
-    padding: 28px 34px 24px;
   }
 }
 
@@ -73,7 +73,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 18px auto auto;
+  margin: 0 auto auto;
 
   @media #{$desktop-devices} {
     align-items: center;
@@ -84,14 +84,16 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 }
 
 .buttonPrimary {
-  background-color: #00acac;
+  align-items: center;
+  background-color: #00cdd0;
   border-radius: 3px;
   color: #0e191a;
+  display: flex;
   font-size: 12px;
   font-weight: bold;
+  height: 36px;
+  justify-content: center;
   line-height: 1;
-  padding: 12px 18px;
-  text-align: center;
   width: 234px;
 
   &:hover {
@@ -99,7 +101,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   }
 
   @media #{$mobile-devices} {
-    margin-bottom: 12px;
+    margin-bottom: 24px;
   }
 
   @media #{$desktop-devices} {
@@ -154,13 +156,15 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 }
 
 .bodyParagraphsContainer {
-  p {
-    margin-top: 14px;
-    margin-bottom: 14px;
-    line-height: 1.83;
-  }
+  font-size: 11px;
+  height: 100px;
+  line-height: 1.73;
+  margin: 0 -10px;
+  overflow: auto;
+  padding: 0 10px;
 
-  p:last-of-type {
-    margin-bottom: 0; // save some space to prevent scroll bars
+  @media #{$desktop-devices} {
+    font-size: 12px;
+    line-height: 1.83;
   }
 }
