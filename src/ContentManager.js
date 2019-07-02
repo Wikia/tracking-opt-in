@@ -31,7 +31,7 @@ export const langToContent = {
         buttonAccept: 'ACEPTAR COOKIES PUBLICITARIAS',
         buttonLearnMore: 'MÁS INFORMACIÓN',
         buttonReject: 'RECHAZAR COOKIES PUBLICITARIAS',
-        privacyLinkText: 'Política de Privacidad de Fandom',
+        privacyLinkText: 'Política de privacidad',
         // privacyLink: 'http://es.wikia.com/Pol%C3%ADtica_de_Privacidad',
         privacyLink: 'http://www.wikia.com/Privacy_Policy',
         partnerLinkText: 'Lista de socios',
