@@ -57,7 +57,9 @@ class App extends Component {
     }
 
     accept = () => {
-        this.track(ACTION_CLICK, 'accept-screen-1');
+        let label = this.state.isScreenOne ? 'accept-1' : 'accept-2';
+
+        this.track(ACTION_CLICK, label);
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
         this.props.onAcceptTracking();
@@ -65,11 +67,11 @@ class App extends Component {
 
     reject = () => {
         if (this.state.isScreenOne) {
-          this.track(ACTION_CLICK, 'learn-more-screen-1');
+          this.track(ACTION_CLICK, 'learn-more');
           this.setState({ isScreenOne: false });
           this.forceUpdate();
         } else {
-          this.track(ACTION_CLICK, 'reject-screen-1');
+          this.track(ACTION_CLICK, 'reject');
           this.props.optInManager.setTrackingRejected();
           this.props.onRequestAppRemove();
           this.props.onRejectTracking();
@@ -121,8 +123,8 @@ class App extends Component {
                         }
                     </div>
                     <div className={styles.links}>
-                        <a href={content.privacyLink}>{content.privacyLinkText}</a>
-                        <a href={content.partnerLink}>{content.partnerLinkText}</a>
+                        <a href={content.privacyLink} onClick={this.track(ACTION_CLICK, 'privacy_policy')}>{content.privacyLinkText}</a>
+                        <a href={content.partnerLink} onClick={this.track(ACTION_CLICK, 'partner_list')}>{content.partnerLinkText}</a>
                     </div>
                 </div>
             </div>
