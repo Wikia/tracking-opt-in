@@ -10,7 +10,6 @@ class App extends Component {
       super();
 
       this.state = { isScreenOne: true };
-      this.learnMore = this.learnMore.bind(this);
     }
 
     componentDidMount() {
@@ -64,19 +63,18 @@ class App extends Component {
         this.props.onAcceptTracking();
     };
 
-    learnMore = () => {
-        this.track(ACTION_CLICK, 'learn-more-screen-1');
-        this.setState({ isScreenOne: false });
-        this.forceUpdate();
-    }
-
     reject = () => {
-        this.track(ACTION_CLICK, 'reject-screen-1');
-        this.props.optInManager.setTrackingRejected();
-        this.props.onRequestAppRemove();
-        this.props.onRejectTracking();
+        if (this.state.isScreenOne) {
+          this.track(ACTION_CLICK, 'learn-more-screen-1');
+          this.setState({ isScreenOne: false });
+          this.forceUpdate();
+        } else {
+          this.track(ACTION_CLICK, 'reject-screen-1');
+          this.props.optInManager.setTrackingRejected();
+          this.props.onRequestAppRemove();
+          this.props.onRejectTracking();
+        }
     };
-
 
     render({ options, content }, { dialog }) {
         let bodyParagraphText = this.state.isScreenOne ? content.bodyParagraphScreenOne : content.bodyPargraphScreenTwo;
@@ -106,9 +104,10 @@ class App extends Component {
                         </div>
                         {this.state.isScreenOne ?
                           <div
+                              id="learn-more-btn"
                               data-tracking-opt-in-learn-more="true"
                               className={styles.buttonSecondary}
-                              onClick={this.learnMore}
+                              onClick={this.reject}
                           >
                               {content.buttonLearnMore}
                           </div> :

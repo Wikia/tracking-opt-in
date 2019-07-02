@@ -87,17 +87,14 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 }
 
 .buttonPrimary {
-  align-items: center;
   background-color: #00cdd0;
   border-radius: 3px;
   color: #0e191a;
-  display: flex;
   font-size: 12px;
   font-weight: bold;
-  height: 36px;
-  justify-content: center;
   line-height: 1;
-  width: 234px;
+  padding: 12px 18px;
+  text-align: center;
 
   &:last-child {
     margin-bottom: 0;
@@ -125,8 +122,6 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   line-height: 1;
   margin: 0 auto;
   padding: 12px 18px;
-  text-align: center;
-  width: 121px;
 
   @media #{$desktop-devices} {
     margin: 0;
