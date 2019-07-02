@@ -132,6 +132,33 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   }
 }
 
+.rejectButton {
+  background-color: #00cdd0;
+  border-radius: 3px;
+  color: #0e191a;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  padding: 12px 18px;
+  text-align: center;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  @media #{$mobile-devices} {
+    margin-bottom: 24px;
+  }
+
+  @media #{$desktop-devices} {
+    margin-right: 38px;
+  }
+}
+
 .links {
   display: flex;
   justify-content: space-between;

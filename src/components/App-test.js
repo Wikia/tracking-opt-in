@@ -85,7 +85,13 @@ describe('App', () => {
         const onRequestAppRemove = stub();
 
         const wrapper = renderApp({ onRejectTracking, onRequestAppRemove });
-        const rejectButton = findByClass(wrapper, styles.buttonSecondary);
+
+        // Click learn more button to reveal reject button
+        const learnMoreButton = findByClass(wrapper, styles.buttonSecondary);
+        expect(learnMoreButton).to.not.equal(null);
+        learnMoreButton.click();
+
+        const rejectButton = findByClass(wrapper, styles.rejectButton);
         expect(rejectButton).to.not.equal(null);
         rejectButton.click();
 

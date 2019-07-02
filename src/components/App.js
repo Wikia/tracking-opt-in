@@ -113,7 +113,7 @@ class App extends Component {
                           </div> :
                           <div
                               data-tracking-opt-in-reject="true"
-                              className={styles.buttonPrimary}
+                              className={styles.rejectButton}
                               onClick={this.reject}
                           >
                               {content.buttonReject}
