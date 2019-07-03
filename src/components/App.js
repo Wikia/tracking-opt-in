@@ -65,18 +65,18 @@ class App extends Component {
         this.props.onAcceptTracking();
     };
 
+    learnMore = () => {
+        this.track(ACTION_CLICK, 'learn-more');
+        this.setState({ isScreenOne: false });
+        this.forceUpdate();
+    }
+
     reject = () => {
-        if (this.state.isScreenOne) {
-          this.track(ACTION_CLICK, 'learn-more');
-          this.setState({ isScreenOne: false });
-          this.forceUpdate();
-        } else {
-          this.track(ACTION_CLICK, 'reject');
-          this.props.optInManager.setTrackingRejected();
-          this.props.onRequestAppRemove();
-          this.props.onRejectTracking();
-        }
-    };
+        this.track(ACTION_CLICK, 'reject');
+        this.props.optInManager.setTrackingRejected();
+        this.props.onRequestAppRemove();
+        this.props.onRejectTracking();
+    }
 
     render({ options, content }, { dialog }) {
         let bodyParagraphText = this.state.isScreenOne ? content.bodyParagraphScreenOne : content.bodyPargraphScreenTwo;
@@ -101,15 +101,16 @@ class App extends Component {
                             data-tracking-opt-in-accept="true"
                             className={styles.buttonPrimary}
                             onClick={this.accept}
+                            key="accept"
                         >
                             {content.buttonAccept}
                         </div>
                         {this.state.isScreenOne ?
                           <div
-                              id="learn-more-btn"
                               data-tracking-opt-in-learn-more="true"
                               className={styles.buttonSecondary}
-                              onClick={this.reject}
+                              onClick={this.learnMore}
+                              key="learn"
                           >
                               {content.buttonLearnMore}
                           </div> :
@@ -117,6 +118,7 @@ class App extends Component {
                               data-tracking-opt-in-reject="true"
                               className={styles.rejectButton}
                               onClick={this.reject}
+                              key="reject"
                           >
                               {content.buttonReject}
                           </div>
