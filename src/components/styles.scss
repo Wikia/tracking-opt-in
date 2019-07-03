@@ -86,52 +86,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   }
 }
 
-.buttonPrimary {
-  background-color: #00cdd0;
-  border-radius: 3px;
-  color: #0e191a;
-  font-size: 12px;
-  font-weight: bold;
-  line-height: 1;
-  padding: 12px 18px;
-  text-align: center;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  @media #{$mobile-devices} {
-    margin-bottom: 24px;
-  }
-
-  @media #{$desktop-devices} {
-    margin-right: 38px;
-  }
-}
-
-.buttonSecondary {
-  border-radius: 3px;
-  border: 1px solid #5f7a7b;
-  color: #5f7a7b;
-  font-size: 12px;
-  font-weight: bold;
-  line-height: 1;
-  margin: 0 auto;
-  padding: 12px 18px;
-
-  @media #{$desktop-devices} {
-    margin: 0;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
+.acceptButton,
 .rejectButton {
   background-color: #00cdd0;
   border-radius: 3px;
@@ -156,6 +111,25 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 
   @media #{$desktop-devices} {
     margin-right: 38px;
+  }
+}
+
+.learnMoreButton {
+  border-radius: 3px;
+  border: 1px solid #5f7a7b;
+  color: #5f7a7b;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 auto;
+  padding: 12px 18px;
+
+  @media #{$desktop-devices} {
+    margin: 0;
+  }
+
+  &:hover {
+    cursor: pointer;
   }
 }
 

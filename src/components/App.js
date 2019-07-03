@@ -99,7 +99,7 @@ class App extends Component {
                     <div className={styles.buttons}>
                         <div
                             data-tracking-opt-in-accept="true"
-                            className={styles.buttonPrimary}
+                            className={styles.acceptButton}
                             onClick={this.accept}
                             key="accept"
                         >
@@ -108,7 +108,7 @@ class App extends Component {
                         {this.state.isScreenOne ?
                           <div
                               data-tracking-opt-in-learn-more="true"
-                              className={styles.buttonSecondary}
+                              className={styles.learnMoreButton}
                               onClick={this.learnMore}
                               key="learn"
                           >
