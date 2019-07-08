@@ -69,14 +69,14 @@ class App extends Component {
         this.track(ACTION_CLICK, 'learn-more');
         this.setState({ isScreenOne: false });
         this.forceUpdate();
-    }
+    };
 
     reject = () => {
         this.track(ACTION_CLICK, 'reject');
         this.props.optInManager.setTrackingRejected();
         this.props.onRequestAppRemove();
         this.props.onRejectTracking();
-    }
+    };
 
     render({ options, content }, { dialog }) {
         let bodyParagraphText = this.state.isScreenOne ? content.bodyParagraphScreenOne : content.bodyPargraphScreenTwo;
