@@ -57,7 +57,7 @@ class App extends Component {
     }
 
     accept = () => {
-        let label = this.state.isScreenOne ? 'accept-1' : 'accept-2';
+        const label = this.state.isScreenOne ? 'accept-1' : 'accept-2';
 
         this.track(ACTION_CLICK, label);
         this.props.optInManager.setTrackingAccepted();
