@@ -125,8 +125,8 @@ class App extends Component {
                         }
                     </div>
                     <div className={styles.links}>
-                        <a href={content.privacyLink} onClick={this.track(ACTION_CLICK, 'privacy_policy')}>{content.privacyLinkText}</a>
-                        <a href={content.partnerLink} onClick={this.track(ACTION_CLICK, 'partner_list')}>{content.partnerLinkText}</a>
+                        <a href={content.privacyLink} onClick={() => { this.track(ACTION_CLICK, 'privacy_policy'); }}>{content.privacyLinkText}</a>
+                        <a href={content.partnerLink} onClick={() => { this.track(ACTION_CLICK, 'partner_list'); }}>{content.partnerLinkText}</a>
                     </div>
                 </div>
             </div>

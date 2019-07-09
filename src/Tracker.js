@@ -32,6 +32,12 @@ class Tracker {
 
     // largely taken from https://github.com/Wikia/app/blob/a34191d/resources/wikia/modules/tracker.js
     track(category, action, label, onComplete = () => {}) {
+        console.log({
+          category,
+          action,
+          label,
+        });
+        
         if (!this.enable) {
             return;
         }
