@@ -15,6 +15,7 @@ const countryNotRequiringConsent = process.env.COUNTRY_NOT_REQUIRING_CONSENT || 
 const domain = getCookieDomain(url);
 const overlay = 'div[data-tracking-opt-in-overlay="true"]';
 const acceptButton = 'div[data-tracking-opt-in-accept="true"]';
+const learnMoreButton = 'div[data-tracking-opt-in-learn-more="true"]';
 const rejectButton = 'div[data-tracking-opt-in-reject="true"]';
 const trackingCookie = 'tracking-opt-in-status';
 const cookieState = {
@@ -39,7 +40,7 @@ function ensureUserPrompt() {
     browser.waitForExist(overlay);
     assert(browser.isExisting(overlay));
     assert(browser.isExisting(acceptButton));
-    assert(browser.isExisting(rejectButton));
+    assert(browser.isExisting(learnMoreButton));
 }
 
 function ensureNoPrompt() {
