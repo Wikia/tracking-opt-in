@@ -6,6 +6,7 @@ pipeline {
   }
 
   tools { nodejs "10.7.0" }
+
   environment {
     imageName = "tracking-opt-in-demo"
     currentCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
@@ -16,22 +17,9 @@ pipeline {
 
   stages {
 
-    stage('dependencies') {
+    stage('build') {
       steps {
-        sh "yarn install --frozen-lockfile"
-      }
-    }
-
-    stage('tests') {
-      steps {
-        sh "yarn test"
-      }
-    }
-
-    stage('build app') {
-      steps {
-        sh "yarn clean"
-        sh "yarn build"
+        sh "docker build --file release/build/Dockerfile .."
       }
     }
 
