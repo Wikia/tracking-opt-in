@@ -134,8 +134,8 @@ describe('TrackingOptIn', () => {
         assert.isOk(modalIsShown());
     });
 
-    it('does not display on https://www.fandom.com/partner-list', () => {
-        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider, options, {host: 'www.fandom.com', pathname: '/partner-list'});
+    it('does not display on fandom.wikia.com/partner-list', () => {
+        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider, options, {host: 'fandom.wikia.com', pathname: '/partner-list'});
         geoManager.needsTrackingPrompt.withArgs().returns(true);
         geoManager.hasGeoCookie.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(false);
@@ -148,8 +148,8 @@ describe('TrackingOptIn', () => {
         assert.isOk(modalIsShown());
     });
 
-    it('does not display on https://www.fandom.com/privacy-policy', () => {
-        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider, options, {host: 'www.fandom.com', pathname: '/privacy-policy'});
+    it('does not display on http://www.wikia.com/Privacy_Policy', () => {
+        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider, options, {host: 'www.wikia.com', pathname: '/Privacy_Policy'});
         geoManager.needsTrackingPrompt.withArgs().returns(true);
         geoManager.hasGeoCookie.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(false);
