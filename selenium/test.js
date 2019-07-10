@@ -84,9 +84,13 @@ describe("BrowserStack: ", () => {
         });
 
         it("adds the correct cookie when rejected", () => {
+            // click learn more button to view reject button
             browser
                 .url(url)
-                .click(rejectButton);
+                .click(learnMoreButton);
+
+            browser.waitForExist(rejectButton);
+            browser.click(rejectButton);
 
             const cookie = browser.getCookie(trackingCookie);
             assert.equal(cookie.value, cookieState.rejected);
@@ -115,9 +119,13 @@ describe("BrowserStack: ", () => {
         });
 
         it("does not prompt on subsequent pageloads", () => {
+            // click learn more button to view reject button
             browser
                 .url(url)
-                .click(rejectButton);
+                .click(learnMoreButton);
+
+            browser.waitForExist(rejectButton);
+            browser.click(rejectButton);
 
             browser.url(url);
             ensureNoPrompt();
@@ -152,6 +160,10 @@ describe("BrowserStack: ", () => {
         it("does not reprompt when the user rejects", () => {
             browser.url(url);
             ensureUserPrompt();
+
+            browser.click(learnMoreButton);
+
+            browser.waitForExist(rejectButton);
             browser.click(rejectButton);
 
             browser.url(url);
