@@ -19,7 +19,7 @@ pipeline {
 
     stage('build') {
       steps {
-        sh "docker build --file release/build/Dockerfile ../.."
+        sh "docker build --file release/build/Dockerfile ."
       }
     }
 
