@@ -7,6 +7,7 @@ const DEFAULT_REJECT_COOKIE_EXPIRATION = 31;
 export const DEFAULT_QUERY_PARAM_NAME = 'tracking-opt-in-status';
 export const DEFAULT_COOKIE_NAME = 'tracking-opt-in-status';
 export const VERSION_COOKIE_NAME = 'tracking-opt-in-version';
+export const VENDOR_LIST_COOKIE_NAME = 'tracking-opt-in-vendor-list';
 export const STATUS = {
     ACCEPTED: 'accepted',
     REJECTED: 'rejected',
@@ -52,12 +53,15 @@ class OptInManager {
 
         Cookies.set(name, value, attributes);
         Cookies.set(VERSION_COOKIE_NAME, CMP_VERSION, attributes);
+
+        // set a new cookie with the vendor list (TBD on how to get this value
+        const allowedVendors = {};
+        Cookies.set(VENDOR_LIST_COOKIE_NAME, JSON.stringify({allowedVendors: allowedVendors}), attributes);
     }
 
     setTrackingAccepted() {
         this.setCookies(this.cookieName, STATUS.ACCEPTED, {
             expires: this.acceptExpiration,
-            allowedVendors: {} // add the vendor list the user has agreed to accept
         });
     }
 
