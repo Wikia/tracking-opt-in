@@ -58,6 +58,7 @@
   },
   "scripts": {
     "start": "yarn clean && yarn dev",
+    "nohup": "yarn clean && nohup yarn dev &",
     "dev": "cross-env NODE_ENV=development webpack-serve ./webpack.config.js",
     "build": "yarn build:webpack",
     "build:webpack": "cross-env NODE_ENV=production webpack",
