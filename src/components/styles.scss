@@ -1,6 +1,8 @@
 $breakpoint: 768px;
 $mobile-devices: "only screen and (max-width: #{$breakpoint - 1})";
 $desktop-devices: "only screen and (min-width: #{$breakpoint})";
+$color-primary: #00acac;
+$color-text: #002a32;
 
 .withTrackingOptInDialogShown {
   overflow: hidden;
@@ -10,7 +12,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   align-items: center;
   background-color: rgba(0, 0, 0, .5);
   bottom: 0;
-  color: #002a32;
+  color: $color-text;
   display: flex;
   justify-content: center;
   left: 0;
@@ -60,7 +62,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 }
 
 .usesCookiesText {
-  color: #002a32;
+  color: $color-text;
   font-weight: bold;
   margin-bottom: 5px;
   text-transform: uppercase;
@@ -107,7 +109,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 }
 
 .buttonPrimary {
-  background-color: #00acac;
+  background-color: $color-primary;
   border-radius: 3px;
   color: white;
   font-size: 12px;
@@ -153,7 +155,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   }
 
   a {
-    color: #002a32;
+    color: $color-text;
     display: block;
     font-size: 10px;
     padding-right: 10px;
@@ -170,4 +172,59 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   p:last-of-type {
     margin-bottom: 0; // save some space to prevent scroll bars
   }
+}
+
+.switch {
+    $width: 35px;
+    $height: 20px;
+
+    display: inline-flex;
+
+    input {
+        height: 0;
+        width: 0;
+        visibility: hidden;
+    }
+
+    label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        width: $width;
+        height: $height;
+        background: grey;
+        border-radius: $width;
+        position: relative;
+        transition: background-color .2s;
+    }
+
+    label span {
+        $size: $height - 4px;
+
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: $size;
+        height: $size;
+        border-radius: $size;
+        transition: 0.2s;
+        background: #fff;
+        box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+    }
+
+    input:checked + label {
+        background-color: $color-primary;
+    }
+
+    input:checked + label span {
+        left: calc(100% - 2px);
+        transform: translateX(-100%);
+    }
+
+    .label:active span {
+        background: $color-primary;
+        width: $height;
+    }
 }
