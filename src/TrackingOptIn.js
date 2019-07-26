@@ -33,7 +33,7 @@ class TrackingOptIn {
     onAcceptTracking = () => {
         this.consentManagementProvider.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
-            allowedVendors: this.options.enabledVendors,
+            allowedVendors: this.options.enabledVendors, // grab this value from the cookie
             allowedVendorPurposes: this.options.enabledVendorPurposes
         });
         this.consentManagementProvider.install();
