@@ -57,7 +57,7 @@ class OptInManager {
     setTrackingAccepted() {
         this.setCookies(this.cookieName, STATUS.ACCEPTED, {
             expires: this.acceptExpiration,
-            vendorList: {} // add the vendor list the user has agreed to accept
+            allowedVendors: {} // add the vendor list the user has agreed to accept
         });
     }
 
