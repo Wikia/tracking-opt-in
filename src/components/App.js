@@ -1,6 +1,8 @@
 import { h, Component } from 'preact';
 import styles from './styles.scss';
 
+import Switch from './Switch';
+
 const TRACKING_CATEGORY = 'gdpr-modal';
 const ACTION_IMPRESSION = 'Impression';
 const ACTION_CLICK = 'Click';
@@ -97,6 +99,10 @@ class App extends Component {
                               <p>{paragraph}</p>
                           )}
                         </div>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                        {/* REMOVE ME */}
+                        I agree <Switch isOn={true} onChange={v => console.log('switch', v)} />
                     </div>
                     <div className={styles.buttons}>
                         <div
