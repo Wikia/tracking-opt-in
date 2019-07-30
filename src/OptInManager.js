@@ -7,7 +7,7 @@ const DEFAULT_REJECT_COOKIE_EXPIRATION = 31;
 export const DEFAULT_QUERY_PARAM_NAME = 'tracking-opt-in-status';
 export const DEFAULT_COOKIE_NAME = 'tracking-opt-in-status';
 export const VERSION_COOKIE_NAME = 'tracking-opt-in-version';
-export const VENDOR_LIST_COOKIE_NAME = 'tracking-opt-in-vendor-list';
+export const VENDOR_PURPOSE_LIST_COOKIE_NAME = 'tracking-opt-in-vendor-purpose-list';
 export const STATUS = {
     ACCEPTED: 'accepted',
     REJECTED: 'rejected',
@@ -20,6 +20,14 @@ class OptInManager {
         this.rejectExpiration = rejectExpiration || DEFAULT_REJECT_COOKIE_EXPIRATION;
         this.domain = getCookieDomain(hostname || window.location.hostname);
         this.queryParam = queryParam || DEFAULT_QUERY_PARAM_NAME;
+
+        this.vendorIds = [];
+        this.purposeIds = [];
+    }
+
+    setVendorsPurposes(vendorIds, purposeIds) {
+        this.vendorIds = vendorIds;
+        this.purposeIds = purposeIds;
     }
 
     checkCookieVersion() {
@@ -54,9 +62,9 @@ class OptInManager {
         Cookies.set(name, value, attributes);
         Cookies.set(VERSION_COOKIE_NAME, CMP_VERSION, attributes);
 
-        // set a new cookie with the vendor list (TBD on how to get this value
-        const allowedVendors = {};
-        Cookies.set(VENDOR_LIST_COOKIE_NAME, JSON.stringify({allowedVendors: allowedVendors}), attributes);
+        // set a new cookie with the vendor list and purpose list as JSON
+        const cookieValue = {vendorIds: this.vendorIds, purposeIds: this.purposeIds};
+        Cookies.set(VENDOR_PURPOSE_LIST_COOKIE_NAME, JSON.stringify(cookieValue), attributes);
     }
 
     setTrackingAccepted() {
