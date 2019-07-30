@@ -1,8 +1,6 @@
 $breakpoint: 768px;
 $mobile-devices: "only screen and (max-width: #{$breakpoint - 1})";
 $desktop-devices: "only screen and (min-width: #{$breakpoint})";
-$color-primary: #00acac;
-$color-text: #002a32;
 
 .withTrackingOptInDialogShown {
   overflow: hidden;
@@ -12,7 +10,7 @@ $color-text: #002a32;
   align-items: flex-end;
   background-color: rgba(0, 0, 0, .5);
   bottom: 0;
-  color: $color-text;
+  color: #002a32;
   display: flex;
   justify-content: center;
   left: 0;
@@ -46,7 +44,8 @@ $color-text: #002a32;
 }
 
 .usesCookiesText {
-  color: $color-text;
+  color: #002a32;
+  font-size: 14px;
   font-weight: bold;
   margin-bottom: 11px;
 
@@ -92,11 +91,10 @@ $color-text: #002a32;
   }
 }
 
-.buttonPrimary,
-.learnMoreButton,
 .acceptButton,
-.rejectButton {
-  background-color: $color-primary;
+.rejectButton,
+.learnMoreButton {
+  background-color: #00cdd0;
   border-radius: 3px;
   color: #0e191a;
   font-size: 12px;
@@ -133,10 +131,14 @@ $color-text: #002a32;
   }
 
   a {
-    color: $color-text;
-    display: block;
-    font-size: 10px;
-    padding-right: 10px;
+    color: #00acac;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+
+    @media #{$desktop-devices} {
+      margin-right: 30px;
+    }
   }
 }
 
@@ -167,60 +169,4 @@ $color-text: #002a32;
   p:last-child {
     margin-bottom: 0;
   }
-}
-
-.switch {
-    $width: 35px;
-    $height: 20px;
-    $animation-speed: .2s;
-
-    display: inline-flex;
-
-    input {
-        height: 0;
-        visibility: hidden;
-        width: 0;
-    }
-
-    label {
-        align-items: center;
-        background: $color-text;
-        border-radius: $width;
-        cursor: pointer;
-        display: flex;
-        height: $height;
-        justify-content: space-between;
-        position: relative;
-        transition: background-color $animation-speed;
-        width: $width;
-    }
-
-    label span {
-        $size: $height - 4px;
-
-        background: #fff;
-        border-radius: $size;
-        box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
-        content: '';
-        height: $size;
-        left: 2px;
-        position: absolute;
-        top: 2px;
-        transition: $animation-speed;
-        width: $size;
-    }
-
-    input:checked + label {
-        background-color: $color-primary;
-    }
-
-    input:checked + label span {
-        left: calc(100% - 2px);
-        transform: translateX(-100%);
-    }
-
-    .label:active span {
-        background: $color-primary;
-        width: $height;
-    }
 }

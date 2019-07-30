@@ -23,7 +23,6 @@ if (process.env.NODE_ENV === 'development') {
     topLevelOptions = {
         serve: {
             port: 3000,
-            host: '0.0.0.0',
             hot: {
                 port: 3001,
             }
