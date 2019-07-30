@@ -1,0 +1,14 @@
+{
+  "headline": "cookie情報の利用について",
+  "bodyParagraphs": [
+    "FANDOMおよびパートナーは当サイトでcookieなどの技術を、コンテンツや広告のユーザーに合わせたカスタマイズ、ソーシャルメディア機能の提供やトラフィックの分析に使用しています。",
+    "この機能はアクセス動向の把握による、ユーザーの目を引く、よりカスタマイズされた広告の表示を目的とするものです。 FANDOMとパートナーがこうしたcookie（広告用cookie）を使用するのは、ユーザーが下の「広告用cookieを許可する」をクリックして、同意した場合のみになります。 なお拒否を選択した場合に、関連性の低い広告が表示される可能性や当サイトの一部の機能が正常に動作しない場合がありますのでご注意ください。 ",
+    "この設定はプライバシー・ポリシーのページにアクセスして、後からいつでも変更可能です。 FANDOMとパートナーが使用するcookieについて詳しくは、プライバシー・ポリシーをご覧ください。 また、このサイトで広告用Cookieを使用しているFANDOMのパートナーについて詳しくは、下記のパートナー・リストをご覧ください。"
+  ],
+  "buttonAccept": "広告用cookieを許可",
+  "buttonReject": "広告用cookieを拒否",
+  "privacyLinkText": "FANDOMプライバシー・ポリシー",
+  "privacyLink": "http://www.wikia.com/Privacy_Policy",
+  "partnerLinkText": "パートナー・リスト",
+  "partnerLink": "http://fandom.wikia.com/partner-list"
+}
