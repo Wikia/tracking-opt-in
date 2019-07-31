@@ -86,8 +86,6 @@ class App extends Component {
     };
 
     render({ options, content }, { dialog }) {
-        let bodyParagraphText = this.state.isScreenOne ? content.bodyParagraphScreenOne : content.bodyPargraphScreenTwo;
-
         return (
             <div
                 data-tracking-opt-in-overlay="true"
@@ -97,7 +95,7 @@ class App extends Component {
                 }}
             >
                 <div className={styles.container}>
-                    {this.state.isScreenOne && <ScreenOne content={content} text={bodyParagraphText} />}
+                    {this.state.isScreenOne && <ScreenOne content={content} text={content.bodyParagraphs} />}
                     <div className={styles.footer}>
                         <div className={`${styles.links} ${styles.desktop}`}>
                             <a href={content.privacyLink} onClick={() => { this.track(ACTION_CLICK, 'privacy_policy'); }}>{content.privacyLinkText}</a>
