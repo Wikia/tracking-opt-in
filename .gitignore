@@ -2,6 +2,7 @@ node_modules/
 dist/
 .idea/
 .cache/
+.DS_Store
 yarn-error.log
 package-lock.json
 local.log
