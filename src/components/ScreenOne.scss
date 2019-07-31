@@ -1,7 +1,9 @@
 @import "./consts.scss";
 
 .screenOne {
-    margin-bottom: 62px;
+    @media #{$mobile-devices} {
+        margin-bottom: 62px;
+    }
 }
 
 .content {

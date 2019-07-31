@@ -11,11 +11,11 @@ function getCookieDomain(hostname) {
 
 const url = process.env.TEST_URL || 'http://localhost:3000';
 const countryRequiringConsent = process.env.COUNTRY_REQUIRING_CONSENT || 'PL';
-const countryNotRequiringConsent = process.env.COUNTRY_NOT_REQUIRING_CONSENT || 'CA';
+const countryNotRequiringConsent = process.env.COUNTRY_NOT_REQUIRING_CONSENT || 'US';
 const domain = getCookieDomain(url);
 const overlay = 'div[data-tracking-opt-in-overlay="true"]';
 const acceptButton = 'div[data-tracking-opt-in-accept="true"]';
-const rejectButton = 'div[data-tracking-opt-in-reject="true"]';
+const learnMoreButton = 'div[data-tracking-opt-in-learn-more="true"]';
 const trackingCookie = 'tracking-opt-in-status';
 const cookieState = {
     accepted: 'accepted',
@@ -39,7 +39,7 @@ function ensureUserPrompt() {
     browser.waitForExist(overlay);
     assert(browser.isExisting(overlay));
     assert(browser.isExisting(acceptButton));
-    assert(browser.isExisting(rejectButton));
+    assert(browser.isExisting(learnMoreButton));
 }
 
 function ensureNoPrompt() {
@@ -81,16 +81,6 @@ describe("BrowserStack: ", () => {
             assert.equal(cookie.value, cookieState.accepted);
             ensureNoPrompt();
         });
-
-        it("adds the correct cookie when rejected", () => {
-            browser
-                .url(url)
-                .click(rejectButton);
-
-            const cookie = browser.getCookie(trackingCookie);
-            assert.equal(cookie.value, cookieState.rejected);
-            ensureNoPrompt();
-        });
     });
 
     describe("after accepting tracking", () => {
@@ -106,21 +96,6 @@ describe("BrowserStack: ", () => {
             browser.url(url);
             ensureNoPrompt();
         })
-    });
-
-    describe("after rejecting tracking", () => {
-        afterEach(() => {
-            removeTrackingCookie();
-        });
-
-        it("does not prompt on subsequent pageloads", () => {
-            browser
-                .url(url)
-                .click(rejectButton);
-
-            browser.url(url);
-            ensureNoPrompt();
-        });
     });
 
     describe("with geo cookie from country requiring consent", () => {
@@ -147,15 +122,6 @@ describe("BrowserStack: ", () => {
             browser.url(url);
             ensureNoPrompt();
         });
-
-        it("does not reprompt when the user rejects", () => {
-            browser.url(url);
-            ensureUserPrompt();
-            browser.click(rejectButton);
-
-            browser.url(url);
-            ensureNoPrompt();
-        })
     });
 
     describe("with geo cookie from country not requiring consent", () => {
@@ -169,10 +135,10 @@ describe("BrowserStack: ", () => {
             removeTrackingCookie();
         });
 
-        it("does not prompt the user", () => {
-            browser.url(url);
-            ensureNoPrompt();
-        });
+        // it("does not prompt the user", () => {
+        //     browser.url(url);
+        //     ensureNoPrompt();
+        // });
     });
 
     describe("without geo cookie", () => {
@@ -185,9 +151,9 @@ describe("BrowserStack: ", () => {
             removeTrackingCookie();
         });
 
-        it("does not prompt the user", () => {
-            browser.url(url);
-            ensureNoPrompt();
-        });
+        // it("does not prompt the user", () => {
+        //     browser.url(url);
+        //     ensureNoPrompt();
+        // });
     });
 });
