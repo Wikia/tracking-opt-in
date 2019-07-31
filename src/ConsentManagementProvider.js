@@ -209,6 +209,7 @@ class ConsentManagementProvider {
             consentScreen
         } = this.options;
 
+        debugger;
         this.vendorConsent = createConsent(
             this.getVendorConsentCookie(),
             this.vendorList,

@@ -6,6 +6,11 @@ const ACTION_IMPRESSION = 'Impression';
 const ACTION_CLICK = 'Click';
 
 class App extends Component {
+    state = {
+        enabledVendors: [],
+        enabledPurposes: [],
+    };
+
     componentDidMount() {
         this.track(ACTION_IMPRESSION, 'modal-view');
         this.preventScroll();
@@ -54,7 +59,7 @@ class App extends Component {
         this.track(ACTION_CLICK, 'accept-screen-1');
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
-        this.props.onAcceptTracking();
+        this.props.onAcceptTracking(this.state.enabledVendors, this.state.enabledPurposes);
     };
 
     reject = () => {
@@ -62,6 +67,11 @@ class App extends Component {
         this.props.optInManager.setTrackingRejected();
         this.props.onRequestAppRemove();
         this.props.onRejectTracking();
+    };
+
+    // this will need to be be called in a sub component to update the state
+    updatePurposes = (vendorIds, purposeIds) => {
+        this.setState({enabledVendors: vendorIds, enabledPurposes: purposeIds});
     };
 
     render({ options, content }, { dialog }) {
