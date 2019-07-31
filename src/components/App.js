@@ -138,7 +138,6 @@ class App extends Component {
                                     {content.buttonSave}
                                 </div>
                             }
-
                         </div>
                     </div>
                 </div>

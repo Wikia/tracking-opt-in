@@ -16,7 +16,6 @@ const domain = getCookieDomain(url);
 const overlay = 'div[data-tracking-opt-in-overlay="true"]';
 const acceptButton = 'div[data-tracking-opt-in-accept="true"]';
 const learnMoreButton = 'div[data-tracking-opt-in-learn-more="true"]';
-const rejectButton = 'div[data-tracking-opt-in-reject="true"]';
 const trackingCookie = 'tracking-opt-in-status';
 const cookieState = {
     accepted: 'accepted',
@@ -80,20 +79,6 @@ describe("BrowserStack: ", () => {
 
             const cookie = browser.getCookie(trackingCookie);
             assert.equal(cookie.value, cookieState.accepted);
-            ensureNoPrompt();
-        });
-
-        it("adds the correct cookie when rejected", () => {
-            // click learn more button to view reject button
-            browser
-                .url(url)
-                .click(learnMoreButton);
-
-            browser.waitForExist(rejectButton);
-            browser.click(rejectButton);
-
-            const cookie = browser.getCookie(trackingCookie);
-            assert.equal(cookie.value, cookieState.rejected);
             ensureNoPrompt();
         });
     });
