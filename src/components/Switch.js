@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 
-import styles from './styles.scss';
+import styles from './Switch.scss';
 
 class Switch extends Component {
     onChange = (e) => {

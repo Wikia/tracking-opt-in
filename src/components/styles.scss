@@ -1,8 +1,4 @@
-$breakpoint: 768px;
-$mobile-devices: "only screen and (max-width: #{$breakpoint - 1})";
-$desktop-devices: "only screen and (min-width: #{$breakpoint})";
-$color-primary: #00acac;
-$color-text: #002a32;
+@import "./consts.scss";
 
 .withTrackingOptInDialogShown {
   overflow: hidden;
@@ -41,44 +37,24 @@ $color-text: #002a32;
   }
 }
 
-.screenOne {
-
-}
-
 .background {
   position: absolute;
 }
 
-.usesCookiesText {
-  color: $color-text;
-  font-weight: bold;
-  margin-bottom: 11px;
-  text-align: center;
+.footer {
+    background-color: #fff;
+    bottom: 0;
+    box-shadow: 0 0 6px 0 rgba(195, 195, 195, 0.5);
+    display: flex;
+    justify-content: center;
+    left: 0;
+    padding: 12px 27px 12px 34px;
+    position: absolute;
+    right: 0;
 
-  @media #{$desktop-devices} {
-    margin-bottom: 22px;
-  }
-}
-
-.content {
-  line-height: 1.43 !important;
-
-  @media #{$mobile-devices} {
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 10px;
-    padding-right: 10px;
-    text-align: center;
-  }
-
-  @media #{$desktop-devices} {
-    line-height: 1.57;
-    padding-bottom: 29px;
-  }
-
-  p {
-    font-size: 14px;
-  }
+    @media #{$desktop-devices} {
+        justify-content: flex-end;
+    }
 }
 
 .buttons {
@@ -134,116 +110,11 @@ $color-text: #002a32;
   }
 }
 
-.screenOne {
-    margin-bottom: 62px;
-}
-
 a.links {
     color: $color-primary;
     font-size: 12px;
     font-weight: 500;
     text-decoration: none;
-}
-
-.bodyParagraphsContainer {
-  font-size: 11px;
-  line-height: 1.73;
-  margin: 0 -10px;
-  max-height: 383px;
-  overflow-y: auto;
-  padding: 0 10px;
-
-  @media #{$mobile-devices} {
-    overflow: auto;
-    padding-left: 0;
-  }
-
-  @media #{$desktop-devices} {
-    line-height: 2;
-    margin-right: 22px;
-    max-height: 176px;
-    padding-bottom: 0;
-  }
-
-  p:first-child {
-    margin-top: 0;
-  }
-
-  p:last-child {
-    margin-bottom: 0;
-  }
-}
-
-.switch {
-    $width: 50px;
-    $height: 30px;
-    $animation-speed: .2s;
-
-    display: inline-flex;
-
-    input {
-        height: 0;
-        visibility: hidden;
-        width: 0;
-    }
-
-    label {
-        align-items: center;
-        background: $color-text;
-        border-radius: $width;
-        cursor: pointer;
-        display: flex;
-        height: $height;
-        justify-content: space-between;
-        position: relative;
-        transition: background-color $animation-speed;
-        width: $width;
-    }
-
-    label span {
-        $size: $height - 4px;
-
-        background: #fff;
-        border-radius: $size;
-        box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
-        content: '';
-        height: $size;
-        left: 2px;
-        position: absolute;
-        top: 2px;
-        transition: $animation-speed;
-        width: $size;
-    }
-
-    input:checked + label {
-        background-color: $color-primary;
-    }
-
-    input:checked + label span {
-        left: calc(100% - 2px);
-        transform: translateX(-100%);
-    }
-
-    .label:active span {
-        background: $color-primary;
-        width: $height;
-    }
-}
-
-.footer {
-    background-color: #fff;
-    bottom: 0;
-    box-shadow: 0 0 6px 0 rgba(195, 195, 195, 0.5);
-    display: flex;
-    justify-content: center;
-    left: 0;
-    padding: 12px 27px 12px 34px;
-    position: absolute;
-    right: 0;
-
-    @media #{$desktop-devices} {
-        justify-content: flex-end;
-    }
 }
 
 .preferencesSection {

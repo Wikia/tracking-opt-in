@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import styles from './styles.scss';
+import styles from './ScreenOne.scss';
 
 class ScreenOne extends Component {
     render({ content, text }) {
