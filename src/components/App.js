@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import { DEFAULT_OPTIONS} from './../index';
 import styles from './styles.scss';
 
 import Switch from './Switch';
@@ -9,8 +10,8 @@ const ACTION_CLICK = 'Click';
 
 class App extends Component {
     state = {
-        enabledVendors: [],
-        enabledPurposes: [],
+        enabledVendors: DEFAULT_OPTIONS.enabledVendors,
+        enabledPurposes: DEFAULT_OPTIONS.enabledVendorPurposes,
     };
 
     componentDidMount() {
