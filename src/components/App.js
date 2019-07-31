@@ -1,6 +1,8 @@
 import { h, Component } from 'preact';
 import styles from './styles.scss';
 
+import ScreenOne from './ScreenOne';
+
 const TRACKING_CATEGORY = 'gdpr-modal';
 const ACTION_IMPRESSION = 'Impression';
 const ACTION_CLICK = 'Click';
@@ -71,11 +73,16 @@ class App extends Component {
         this.forceUpdate();
     };
 
-    reject = () => {
-        this.track(ACTION_CLICK, 'reject');
-        this.props.optInManager.setTrackingRejected();
-        this.props.onRequestAppRemove();
-        this.props.onRejectTracking();
+    back = () => {
+        this.track(ACTION_CLICK, 'back');
+        this.setState({ isScreenOne: true });
+        this.forceUpdate;
+    }
+
+    save = () => {
+        this.track(ACTION_CLICK, 'save');
+        // save and continue logic goes here
+        console.log('Save and Continue')
     };
 
     render({ options, content }, { dialog }) {
@@ -90,45 +97,51 @@ class App extends Component {
                 }}
             >
                 <div className={styles.container}>
-                    <div className={styles.content}>
-                        <div className={styles.usesCookiesText}> {content.headline} </div>
-                        <div className={styles.bodyParagraphsContainer}>
-                          {bodyParagraphText.map((paragraph) =>
-                              <p>{paragraph}</p>
-                          )}
+                    {this.state.isScreenOne && <ScreenOne content={content} text={bodyParagraphText} />}
+                    <div className={styles.footer}>
+                        <div className={`${styles.links} ${styles.desktop}`}>
+                            <a href={content.privacyLink} onClick={() => { this.track(ACTION_CLICK, 'privacy_policy'); }}>{content.privacyLinkText}</a>
+                            <a href={content.partnerLink} onClick={() => { this.track(ACTION_CLICK, 'partner_list'); }}>{content.partnerLinkText}</a>
                         </div>
-                    </div>
-                    <div className={styles.buttons}>
-                        <div
-                            data-tracking-opt-in-accept="true"
-                            className={styles.acceptButton}
-                            onClick={this.accept}
-                            key="accept"
-                        >
-                            {content.buttonAccept}
+                        <div className={styles.buttons}>
+                            {this.state.isScreenOne ?
+                              <div
+                                  data-tracking-opt-in-learn-more="true"
+                                  className={styles.learnMoreButton}
+                                  onClick={this.learnMore}
+                                  key="learn"
+                              >
+                                  {content.buttonLearnMore}
+                              </div> :
+                              <div
+                                  data-tracking-opt-in-back="true"
+                                  className={styles.backButton}
+                                  onClick={this.back}
+                                  key="back"
+                              >
+                                  {content.buttonBack}
+                              </div>
+                            }
+                            {this.state.isScreenOne ?
+                                <div
+                                    data-tracking-opt-in-accept="true"
+                                    className={styles.acceptButton}
+                                    onClick={this.accept}
+                                    key="accept"
+                                >
+                                    {content.buttonAccept}
+                                </div> :
+                                <div
+                                    data-tracking-opt-in-save="true"
+                                    className={styles.saveButton}
+                                    onClick={this.save}
+                                    key="save"
+                                >
+                                    {content.buttonSave}
+                                </div>
+                            }
+
                         </div>
-                        {this.state.isScreenOne ?
-                          <div
-                              data-tracking-opt-in-learn-more="true"
-                              className={styles.learnMoreButton}
-                              onClick={this.learnMore}
-                              key="learn"
-                          >
-                              {content.buttonLearnMore}
-                          </div> :
-                          <div
-                              data-tracking-opt-in-reject="true"
-                              className={styles.rejectButton}
-                              onClick={this.reject}
-                              key="reject"
-                          >
-                              {content.buttonReject}
-                          </div>
-                        }
-                    </div>
-                    <div className={styles.links}>
-                        <a href={content.privacyLink} onClick={() => { this.track(ACTION_CLICK, 'privacy_policy'); }}>{content.privacyLinkText}</a>
-                        <a href={content.partnerLink} onClick={() => { this.track(ACTION_CLICK, 'partner_list'); }}>{content.partnerLinkText}</a>
                     </div>
                 </div>
             </div>

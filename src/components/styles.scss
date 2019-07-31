@@ -35,8 +35,12 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 
   @media #{$desktop-devices} {
     overflow-y: auto;
-    padding: 34px;
+    padding: 31px 27px 62px 34px;
   }
+}
+
+.screenOne {
+
 }
 
 .background {
@@ -45,18 +49,17 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 
 .usesCookiesText {
   color: #002a32;
-  font-size: 14px;
   font-weight: bold;
   margin-bottom: 11px;
+  text-align: center;
 
   @media #{$desktop-devices} {
-    margin-bottom: 13px;
+    margin-bottom: 22px;
   }
 }
 
 .content {
   line-height: 1.43 !important;
-  margin-bottom: 17px;
 
   @media #{$mobile-devices} {
     margin-left: auto;
@@ -68,7 +71,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 
   @media #{$desktop-devices} {
     line-height: 1.57;
-    margin-bottom: 20px;
+    padding-bottom: 29px;
   }
 
   p {
@@ -79,21 +82,19 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 .buttons {
   align-items: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   margin: 0 auto auto;
 
   @media #{$desktop-devices} {
-    align-items: center;
-    flex-direction: row;
+    align-items: flex-end;
     justify-content: flex-start;
-    margin: 0 0 auto;
+    margin: 0 auto;
   }
 }
 
 .acceptButton,
-.rejectButton,
-.learnMoreButton {
+.saveButton {
   background-color: #00cdd0;
   border-radius: 3px;
   color: #0e191a;
@@ -115,19 +116,36 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   @media #{$mobile-devices} {
     margin-bottom: 24px;
   }
+}
 
-  @media #{$desktop-devices} {
-    margin-right: 27px;
+.learnMoreButton,
+.backButton {
+  border-radius: 3px;
+  border: 1px solid #5f7a7b;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  margin-right: 18px;
+  padding: 12px 18px;
+  text-align: center;
+
+  &:hover {
+    cursor: pointer;
   }
 }
 
 .links {
   display: flex;
+  flex: 1;
+  font-weight: bold;
   justify-content: space-evenly;
-  margin-top: 29px;
+  margin-bottom: 40px;
+  padding: 22px 0 18px;
 
   @media #{$desktop-devices} {
     justify-content: flex-start;
+    margin-bottom: 0;
+    padding: 0;
   }
 
   a {
@@ -140,13 +158,25 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
       margin-right: 30px;
     }
   }
+
+  &.mobile {
+      @media #{$desktop-devices} {
+        display: none;
+      }
+  }
+
+  &.desktop {
+      @media #{$mobile-devices} {
+        display: none;
+      }
+  }
 }
 
 .bodyParagraphsContainer {
   font-size: 11px;
   line-height: 1.73;
   margin: 0 -10px;
-  max-height: 96px;
+  max-height: 383px;
   overflow-y: auto;
   padding: 0 10px;
 
@@ -158,7 +188,8 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 
   @media #{$desktop-devices} {
     line-height: 2;
-    max-height: 62px;
+    margin-right: 22px;
+    max-height: 176px;
     padding-bottom: 0;
   }
 
@@ -169,4 +200,16 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   p:last-child {
     margin-bottom: 0;
   }
+}
+
+.footer {
+    align-items: center;
+    background-color: #fff;
+    bottom: 0;
+    box-shadow: 0 0 6px 0 rgba(195, 195, 195, 0.5);
+    display: flex;
+    left: 0;
+    padding: 12px 27px 12px 34px;
+    position: absolute;
+    right: 0;
 }
