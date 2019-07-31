@@ -1,6 +1,8 @@
 $breakpoint: 768px;
 $mobile-devices: "only screen and (max-width: #{$breakpoint - 1})";
 $desktop-devices: "only screen and (min-width: #{$breakpoint})";
+$color-primary: $color-primary;
+$color-text: $color-text;
 
 .withTrackingOptInDialogShown {
   overflow: hidden;
@@ -10,7 +12,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   align-items: flex-end;
   background-color: rgba(0, 0, 0, .5);
   bottom: 0;
-  color: #002a32;
+  color: $color-text;
   display: flex;
   justify-content: center;
   left: 0;
@@ -48,7 +50,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 }
 
 .usesCookiesText {
-  color: #002a32;
+  color: $color-text;
   font-weight: bold;
   margin-bottom: 11px;
   text-align: center;
@@ -149,7 +151,7 @@ $desktop-devices: "only screen and (min-width: #{$breakpoint})";
   }
 
   a {
-    color: #00acac;
+    color: $color-primary;
     font-size: 12px;
     font-weight: 500;
     text-decoration: none;
