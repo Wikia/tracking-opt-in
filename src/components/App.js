@@ -1,7 +1,9 @@
 import { h, Component } from 'preact';
-import styles from './styles.scss';
 
+import Preferences from './Preferences';
 import Switch from './Switch';
+
+import styles from './styles.scss';
 
 const TRACKING_CATEGORY = 'gdpr-modal';
 const ACTION_IMPRESSION = 'Impression';
@@ -14,6 +16,10 @@ class App extends Component {
     };
 
     componentDidMount() {
+        // XXX
+        addEventListener('unhandledrejection', e => {
+            console.warn('Unhandled rejection', e);
+          });
         this.track(ACTION_IMPRESSION, 'modal-view');
         this.preventScroll();
         this.checkForCookie();
@@ -77,6 +83,9 @@ class App extends Component {
     };
 
     render({ options, content }, { dialog }) {
+        return (
+            <Preferences appOptions={options} />
+        );
         return (
             <div
                 data-tracking-opt-in-overlay="true"
