@@ -3,6 +3,7 @@ import { expect, assert } from 'chai';
 import { createStubInstance, stub }  from 'sinon';
 import App from './App';
 import styles from './styles.scss';
+import stylesScreenOne from './ScreenOne.scss';
 import ContentManager from "../ContentManager";
 import Tracker from '../Tracker';
 import OptInManager from "../OptInManager";
@@ -60,9 +61,9 @@ describe('App', () => {
         expect(container).to.not.equal(null);
         expect(container.className).to.equal(styles.container);
 
-        const content = findByClass(wrapper, styles.content);
+        const content = findByClass(wrapper, stylesScreenOne.content);
         expect(content).to.not.equal(null);
-        expect(content.className).to.equal(styles.content);
+        expect(content.className).to.equal(stylesScreenOne.content);
     });
 
     it('calls the appropriate funcs on accept button click', () => {
@@ -70,7 +71,7 @@ describe('App', () => {
         const onRequestAppRemove = stub();
 
         const wrapper = renderApp({ onAcceptTracking, onRequestAppRemove });
-        const acceptButton = findByClass(wrapper, styles.buttonPrimary);
+        const acceptButton = findByClass(wrapper, styles.acceptButton);
         expect(acceptButton).to.not.equal(null);
         acceptButton.click();
 
@@ -78,21 +79,6 @@ describe('App', () => {
         assert.isOk(onRequestAppRemove.called);
         assert.isOk(tracker.track.called);
         assert.isOk(optInManager.setTrackingAccepted.called);
-    });
-
-    it('calls the appropriate funcs on reject button click', () => {
-        const onRejectTracking = stub();
-        const onRequestAppRemove = stub();
-
-        const wrapper = renderApp({ onRejectTracking, onRequestAppRemove });
-        const rejectButton = findByClass(wrapper, styles.buttonSecondary);
-        expect(rejectButton).to.not.equal(null);
-        rejectButton.click();
-
-        assert.isOk(onRejectTracking.called);
-        assert.isOk(onRequestAppRemove.called);
-        assert.isOk(tracker.track.called);
-        assert.isOk(optInManager.setTrackingRejected.called);
     });
 
     describe('with preventScrollOn', () => {
