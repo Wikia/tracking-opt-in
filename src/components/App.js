@@ -65,7 +65,7 @@ class App extends Component {
         this.forceUpdate();
     };
 
-    goBack = () => {
+    back = () => {
         this.props.tracker.trackBackClick();
         this.setState({ isScreenOne: true });
         this.forceUpdate;
@@ -103,7 +103,7 @@ class App extends Component {
                     consentedPurposes={this.state.consentedPurposes}
                     consentedVendors={this.state.consentedVendors}
                     updatePurposes={this.updatePurposes}
-                    clickBack={this.goBack}
+                    clickBack={this.back}
                     clickSave={this.save}
                 />
             );
