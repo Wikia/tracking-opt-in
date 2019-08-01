@@ -19,8 +19,15 @@ export function getCookieDomain(hostname) {
     return `.${parts[parts.length - 2]}.${parts[parts.length - 1]}`;
 }
 
-export function getJSON(url) {
+const cachedJson = {};
+
+export function getJSON(url, useCache = true) {
     return new Promise((resolve, reject) => {
+        if (useCache && cachedJson[url]) {
+            resolve(cachedJson[url]);
+            return;
+        }
+
         const req = new XMLHttpRequest();
 
         req.open('GET', url, true);
@@ -29,6 +36,7 @@ export function getJSON(url) {
 
             try {
                 response = JSON.parse(this.responseText);
+                cachedJson[url] = response;
             } catch (e) {
                 response = null;
             }
@@ -40,4 +48,8 @@ export function getJSON(url) {
         };
         req.send(null);
     });
+}
+
+export function getVendorList() {
+    return getJSON('https://vendorlist.consensu.org/vendorlist.json');
 }

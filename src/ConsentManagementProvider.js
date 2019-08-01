@@ -62,14 +62,6 @@ function toAllowedMap(array, predicate = () => false) {
     return map;
 }
 
-export function fetchVendorList(version) {
-    return getJSON(`https://vendorlist.consensu.org/${version ? `v-${version}/` : ''}vendorlist.json`);
-}
-
-export function fetchPurposesList(language, version) {
-    return getJSON(`https://vendorlist.consensu.org/${version ? `v-${version}/` : ''}purposes-${language}.json`);
-}
-
 class ConsentManagementProvider {
     static installStub(gdprAppliesGlobally = false) {
         const queue = [];
@@ -151,6 +143,14 @@ class ConsentManagementProvider {
 
     configure(options) {
         Object.assign(this.options, options);
+    }
+
+    fetchVendorList(version) {
+        return getJSON(`https://vendorlist.consensu.org/${version ? `v-${version}/` : ''}vendorlist.json`);
+    }
+
+    fetchPurposesList(language, version) {
+        return getJSON(`https://vendorlist.consensu.org/${version ? `v-${version}/` : ''}purposes-${language}.json`);
     }
 
     getCommonCmpProperties() {
@@ -269,7 +269,7 @@ class ConsentManagementProvider {
             return Promise.resolve();
         }
 
-        return fetchVendorList(vendorListVersion)
+        return this.fetchVendorList(vendorListVersion)
             .then((vendorList) => {
                 this.vendorList = vendorList;
                 this.createConsents();
@@ -354,7 +354,7 @@ class ConsentManagementProvider {
     }
 
     getVendorList(version) {
-        return fetchVendorList(version);
+        return this.fetchVendorList(version);
     }
 }
 
