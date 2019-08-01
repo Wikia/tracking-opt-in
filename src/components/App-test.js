@@ -81,21 +81,6 @@ describe('App', () => {
         assert.isOk(optInManager.setTrackingAccepted.called);
     });
 
-    // it('calls the appropriate funcs on reject button click', () => {
-    //     const onRejectTracking = stub();
-    //     const onRequestAppRemove = stub();
-    //
-    //     const wrapper = renderApp({ onRejectTracking, onRequestAppRemove });
-    //     const rejectButton = findByClass(wrapper, styles.buttonSecondary);
-    //     expect(rejectButton).to.not.equal(null);
-    //     rejectButton.click();
-    //
-    //     assert.isOk(onRejectTracking.called);
-    //     assert.isOk(onRequestAppRemove.called);
-    //     assert.isOk(tracker.track.called);
-    //     assert.isOk(optInManager.setTrackingRejected.called);
-    // });
-
     describe('with preventScrollOn', () => {
         it('adds a class to the body element and removes it when unmounted', () => {
             renderApp({}, 'body');

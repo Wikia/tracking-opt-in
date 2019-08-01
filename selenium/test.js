@@ -135,10 +135,10 @@ describe("BrowserStack: ", () => {
             removeTrackingCookie();
         });
 
-        // it("does not prompt the user", () => {
-        //     browser.url(url);
-        //     ensureNoPrompt();
-        // });
+        it("does not prompt the user", () => {
+            browser.url(url);
+            ensureNoPrompt();
+        });
     });
 
     describe("without geo cookie", () => {
@@ -151,9 +151,9 @@ describe("BrowserStack: ", () => {
             removeTrackingCookie();
         });
 
-        // it("does not prompt the user", () => {
-        //     browser.url(url);
-        //     ensureNoPrompt();
-        // });
+        it("does not prompt the user", () => {
+            browser.url(url);
+            ensureNoPrompt();
+        });
     });
 });
