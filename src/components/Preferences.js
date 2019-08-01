@@ -1,12 +1,56 @@
 import { h, Component } from 'preact';
+import { fetchVendorList } from '../ConsentManagementProvider';
 import PreferencesSection from './PreferencesSection';
 
 import globalStyles from './styles.scss';
 import styles from './Preferences.scss';
 
 class Preferences extends Component {
+    state = {
+        purposes: null,
+    };
+
+    componentWillMount() {
+        if (!this.state.purposes) {
+            fetchVendorList().then((json) => {
+                // Filter purposes to those used by Fandom
+                const purposes = json.purposes.filter(purpose => (this.props.allPurposes.indexOf(purpose.id) >= 0));
+                // Filter vendors to those used by Fandom
+                const vendors = json.vendors.filter(vendor => (this.props.allVendors.indexOf(vendor.id) >= 0));
+                this.setState({ purposes });
+                this.forceUpdate();
+            });
+        }
+    }
+
+    togglePurpose(isEnabled) {
+        // TODO this.props.updatePurposes()
+    }
+
+    toggleVendor(purpose, isEnabled) {
+        // TODO this.props.updatePurposes()
+    }
+
+    renderPreferenceSections(purposes) {
+        if (!purposes) {
+            return null;
+        }
+        const toRender = purposes.map((purpose) => (
+            <PreferencesSection
+                heading={purpose.name}
+                description={purpose.description}
+                onTogglePurpose={this.togglePurpose}
+                onToggleVendor={this.toggleVendor}
+                isEnabled={this.props.consentedPurposes.indexOf(purpose.id) >= 0}
+            />
+        ));
+        return toRender;
+    }
+
     render(props, state) {
         const { appOptions } = props;
+        const { purposes } = state;
+
         return (
             <div
                 className={globalStyles.overlay}
@@ -17,11 +61,12 @@ class Preferences extends Component {
                 <div className={globalStyles.container}>
                     <h2 className={`${styles.heading} ${styles.preferencesHeading}`}>Preference Settings</h2>
                     <div className={styles.preferencesDescription}>
-                        Fandom engages in certain interest-based advertising activities in order to support this site and to provide personalized ad experiences. By clicking / tapping "ACCEPT", you consent to this activity. If you are under the age of consent in your jurisdiction for data processing purposes, or if you wish to deny consent, please click / tap “REJECT”. For more information about the cookies we use, please see our Privacy Policy. For information about our partners using advertising cookies on our site, please see the Partner List below.
+                        Fandom and its partners use cookies to store and collect information from your browser to personalize content and ads, provide social media features, and analyze our traffic. You can define your preferences and give or modify your consent for the purposes and vendors listed below.  In addition, as indicated below, some companies collect information without your consent based on their or our legitimate interest (such as to aid us in website traffic analysis and to inform improvements to our site). You can access their privacy policies for more information.
+                        <br/><br/>
+                        For more information about the cookies we use, please see our [Privacy Policy]. For information about our partners using cookies on our site, please see the [Partner List].
                     </div>
                     <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>Our Partners' Purposes</h2>
-                    <PreferencesSection heading="Information storage and usage" isEnabled={true} />
-                    <PreferencesSection heading="Personalization" isEnabled={true} />
+                    {this.renderPreferenceSections(purposes)}
                 </div>
             </div>
         );

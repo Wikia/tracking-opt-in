@@ -11,15 +11,11 @@ const ACTION_CLICK = 'Click';
 
 class App extends Component {
     state = {
-        enabledVendors: [],
-        enabledPurposes: [],
+        consentedVendors: this.props.options.enabledVendors,
+        consentedPurposes: this.props.options.enabledPurposes,
     };
 
     componentDidMount() {
-        // XXX
-        addEventListener('unhandledrejection', e => {
-            console.warn('Unhandled rejection', e);
-          });
         this.track(ACTION_IMPRESSION, 'modal-view');
         this.preventScroll();
         this.checkForCookie();
@@ -67,7 +63,7 @@ class App extends Component {
         this.track(ACTION_CLICK, 'accept-screen-1');
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
-        this.props.onAcceptTracking(this.state.enabledVendors, this.state.enabledPurposes);
+        this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
     };
 
     reject = () => {
@@ -79,12 +75,19 @@ class App extends Component {
 
     // this will need to be be called in a sub component to update the state
     updatePurposes = (vendorIds, purposeIds) => {
-        this.setState({enabledVendors: vendorIds, enabledPurposes: purposeIds});
+        this.setState({consentedVendors: vendorIds, consentedPurposes: purposeIds});
     };
 
-    render({ options, content }, { dialog }) {
+    render({ options, content }) {
         return (
-            <Preferences appOptions={options} />
+            <Preferences
+                appOptions={options}
+                allPurposes={options.enabledPurposes}
+                allVendors={options.enabledVendors}
+                consentedPurposes={this.state.consentedPurposes}
+                consentedVendors={this.state.consentedVendors}
+                updatePurposes={this.updatePurposes}
+            />
         );
         return (
             <div
