@@ -4,10 +4,6 @@ import styles from './styles.scss';
 import Switch from './Switch';
 import ScreenOne from './ScreenOne';
 
-const TRACKING_CATEGORY = 'gdpr-modal';
-const ACTION_IMPRESSION = 'Impression';
-const ACTION_CLICK = 'Click';
-
 class App extends Component {
     state = {
         enabledVendors: [],
@@ -16,7 +12,7 @@ class App extends Component {
     };
 
     componentDidMount() {
-        this.track(ACTION_IMPRESSION, 'modal-view');
+        this.props.tracker.trackViewImpression();
         this.preventScroll();
         this.checkForCookie();
     }
@@ -45,41 +41,37 @@ class App extends Component {
         }
 
         return typeof this.props.options.preventScrollOn === 'string' ?
-               document.querySelector(this.props.options.preventScrollOn) :
-               this.props.options.preventScrollOn;
+            document.querySelector(this.props.options.preventScrollOn) :
+            this.props.options.preventScrollOn;
     }
 
     checkForCookie() {
         if(!this.props.geoManager.hasGeoCookie()) {
-            this.track(ACTION_IMPRESSION, 'no-cookie');
+            this.tracker.trackNoCookieImpression();
         }
     }
 
-    track(action, label) {
-        this.props.tracker.track(TRACKING_CATEGORY, action, label);
-    }
-
     accept = () => {
-        this.track(ACTION_CLICK, 'accept-screen-1');
+        this.tracker.trackAcceptClick();
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
         this.props.onAcceptTracking(this.state.enabledVendors, this.state.enabledPurposes);
     };
 
     learnMore = () => {
-        this.track(ACTION_CLICK, 'learn-more');
+        this.tracker.trackLearnMoreClick();
         this.setState({ isScreenOne: false });
         this.forceUpdate();
     };
 
     back = () => {
-        this.track(ACTION_CLICK, 'back');
+        this.tracker.trackBackClick();
         this.setState({ isScreenOne: true });
         this.forceUpdate;
     }
 
     save = () => {
-        this.track(ACTION_CLICK, 'save');
+        this.tracker.trackSaveClick();
         // save and continue logic goes here
         console.log('Save and Continue')
     };
@@ -103,22 +95,22 @@ class App extends Component {
                     <div className={styles.footer}>
                         <div className={styles.buttons}>
                             {this.state.isScreenOne ?
-                              <div
-                                  data-tracking-opt-in-learn-more="true"
-                                  className={styles.learnMoreButton}
-                                  onClick={this.learnMore}
-                                  key="learn"
-                              >
-                                  {content.buttonLearnMore}
-                              </div> :
-                              <div
-                                  data-tracking-opt-in-back="true"
-                                  className={styles.backButton}
-                                  onClick={this.back}
-                                  key="back"
-                              >
-                                  {content.buttonBack}
-                              </div>
+                                <div
+                                    data-tracking-opt-in-learn-more="true"
+                                    className={styles.learnMoreButton}
+                                    onClick={this.learnMore}
+                                    key="learn"
+                                >
+                                    {content.buttonLearnMore}
+                                </div> :
+                                <div
+                                    data-tracking-opt-in-back="true"
+                                    className={styles.backButton}
+                                    onClick={this.back}
+                                    key="back"
+                                >
+                                    {content.buttonBack}
+                                </div>
                             }
                             {this.state.isScreenOne ?
                                 <div

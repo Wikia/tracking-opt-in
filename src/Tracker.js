@@ -12,6 +12,10 @@ const TRACK_PARAMS = {
 };
 const TRACK_TIMEOUT = 3000;
 
+const TRACKING_CATEGORY = 'gdpr-modal';
+const ACTION_IMPRESSION = 'Impression';
+const ACTION_CLICK = 'Click';
+
 function getBeaconFromCookie(cookieName) {
     return Cookies.get(cookieName || DEFAULT_BEACON_COOKIE_NAME);
 }
@@ -76,6 +80,96 @@ class Tracker {
                 script.onload(true);
             }
         }, TRACK_TIMEOUT);
+    }
+    /**
+     * Shortcuts
+     */
+    trackImpression(label) {
+        this.track(TRACKING_CATEGORY, ACTION_IMPRESSION, label);
+    }
+
+    trackClick(label) {
+        this.track(TRACKING_CATEGORY, ACTION_CLICK, label);
+    }
+
+    /**
+     * All tracking events
+     * @see https://docs.google.com/spreadsheets/d/1SdKVYFpAcW4xnLDOhLmpZ1h-Kr8Dq2a0tk-fb_GEEms/edit#gid=0
+     */
+    trackViewImpression() {
+        this.trackImpression('modal-view');
+    }
+
+    trackNoCookieImpression() {
+        this.trackImpression('no-coolor');
+    }
+
+    trackPrivacyPolicyClick() {
+        this.trackClick('privacy-policy');
+    }
+
+    trackPartnerListClick() {
+        this.trackClick('partner-list');
+    }
+
+    trackLearnMoreClick() {
+        this.trackClick('learn-more');
+    }
+
+    trackVendorExpandClick() {
+        this.trackClick('vendor-expand');
+    }
+
+    trackAcceptClick() {
+        this.trackClick('accept');
+    }
+
+    trackBackClick() {
+        this.trackClick('back');
+    }
+
+    trackSaveClick() {
+        this.trackClick('save');
+    }
+
+    trackPurposeInformationToggleClick() {
+        this.trackClick('purpose-information-toggle');
+    }
+
+    trackPurposeInformationExpandClick() {
+        this.trackClick('purpose-information-expand');
+    }
+
+    trackPurposePersonalizationToggleClick() {
+        this.trackClick('purpose-personalization-toggle');
+    }
+
+    trackPurposePersonalizationExpandClick() {
+        this.trackClick('purpose-personalization-expand');
+    }
+
+    trackPurposeContentToggleClick() {
+        this.trackClick('purpose-content-toggle');
+    }
+
+    trackPurposeContentExpandClick() {
+        this.trackClick('purpose-content-expand');
+    }
+
+    trackPurposeMeasurementToggleClick() {
+        this.trackClick('purpose-measurement-toggle');
+    }
+
+    trackPurposeMeasurementExpandClick() {
+        this.trackClick('purpose-measurement-expand');
+    }
+
+    trackPurposeAdToggleClick() {
+        this.trackClick('purpose-ad-toggle');
+    }
+
+    trackPurposeAdExpandClick() {
+        this.trackClick('purpose-ad-expand');
     }
 }
 
