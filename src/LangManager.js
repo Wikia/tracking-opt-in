@@ -3,6 +3,8 @@ import { langToContent } from './ContentManager';
 export const DEFAULT_LANG = 'en';
 export const DEFAULT_BROWSER_LANG = 'en-us';
 
+const urlParams = new URLSearchParams(window.location.search);
+
 // https://developer.mozilla.org/en-US/docs/Web/API/NavigatorLanguage/language
 const getBrowserLang = () =>  window.navigator && window.navigator.language
     ? window.navigator.language : DEFAULT_BROWSER_LANG;
@@ -19,7 +21,7 @@ const browserLangToLang = (browserLang) => {
 
 export default class LangManager {
     constructor(browserLang) {
-        this.browserLang = (browserLang || getBrowserLang()).toLowerCase();
+        this.browserLang = (urlParams.get('uselang') || browserLang || getBrowserLang()).toLowerCase();
         this.lang = browserLangToLang(this.browserLang);
     }
 }

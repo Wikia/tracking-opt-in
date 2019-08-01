@@ -2,7 +2,7 @@ import { h, render } from 'preact';
 import { expect, assert } from 'chai';
 import { createStubInstance, stub } from 'sinon';
 import Switch from './Switch';
-import styles from './styles.scss';
+import styles from './Switch.scss';
 
 const document = global.document;
 

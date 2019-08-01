@@ -1,14 +1,17 @@
 {
-  "headline": "This site uses cookies",
-  "bodyParagraphs": [
-    "FANDOM and our partners use technology such as cookies on our site to personalize content and ads, provide social media features, and analyze our traffic.",
-    "In particular, we want to draw your attention to cookies which are used to market to you, or provide personalized ads to you. Where we use these cookies (“advertising cookies”), we do so only where you have consented to our use of such cookies by ticking \"ACCEPT ADVERTISING COOKIES\" below. Note that if you select reject, you may see ads that are less relevant to you and certain features of the site may not work as intended.",
-    "You can change your mind and revisit your consent choices at any time by visiting our privacy policy. For more information about the cookies we use, please see our Privacy Policy. For information about our partners using advertising cookies on our site, please see the Partner List below."
-  ],
-  "buttonAccept": "ACCEPT ADVERTISING COOKIES",
-  "buttonReject": "REJECT ADVERTISING COOKIES",
-  "privacyLinkText": "FANDOM Privacy Policy",
-  "privacyLink": "http://www.wikia.com/Privacy_Policy",
-  "partnerLinkText": "Partner List",
-  "partnerLink": "http://fandom.wikia.com/partner-list"
+"headline": "This Site Uses Cookies",
+"bodyParagraphs": [
+    "Fandom and our partners use technology such as cookies on our site to personalize content and ads, provide social media features, and analyze our traffic. In particular, we want to draw your attention to cookies which are used to market to you, or provide personalized ads to you.",
+    "Where we use these cookies, we do so only where you have consented to our use of such cookies by clicking / tapping \"ACCEPT\" below. This allows our partners to collect information such as your visits and IP addresses to our site to provide ads that are aligned to your interests.",
+    "For additional options, please select \"LEARN MORE.\" Note that if you do not accept, you may see ads that are less relevant to you and certain features of the site may not work as intended. You can change your mind and revisit your consent choices at any time by visiting our ",
+    ". For information about our partners using advertising cookies on our site, please see the "
+],
+"buttonAccept": "ACCEPT",
+"buttonBack": "BACK",
+"buttonLearnMore": "LEARN MORE",
+"buttonSave": "SAVE AND CONTINUE",
+"privacyLinkText": "Privacy Policy",
+"privacyLink": "https://www.fandom.com/privacy-policy",
+"partnerLinkText": "Partner List",
+"partnerLink": "https://www.fandom.com/partner-list"
 }
