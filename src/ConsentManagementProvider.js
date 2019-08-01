@@ -354,7 +354,7 @@ class ConsentManagementProvider {
     }
 
     getVendorList(version) {
-        return this.fetchVendorList(version);
+        return this.fetchVendorList(Number(version));
     }
 }
 
