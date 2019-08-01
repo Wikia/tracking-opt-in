@@ -6,7 +6,7 @@ import GeoManager from "./GeoManager";
 import TrackingOptIn from './TrackingOptIn';
 import ConsentManagementProvider from "./ConsentManagementProvider";
 
-const DEFAULT_OPTIONS = {
+export const DEFAULT_OPTIONS = {
     beaconCookieName: null,
     cookieName: null, // use default cookie name
     cookieExpiration: null, // use default
