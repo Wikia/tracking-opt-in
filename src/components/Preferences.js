@@ -67,6 +67,26 @@ class Preferences extends Component {
                     </div>
                     <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>Our Partners' Purposes</h2>
                     {this.renderPreferenceSections(purposes)}
+                    <div className={globalStyles.footer}>
+                        <div className={globalStyles.buttons}>
+                            <div
+                                data-tracking-opt-in-back="true"
+                                className={globalStyles.backButton}
+                                onClick={this.back}
+                                key="back"
+                            >
+                                {content.buttonBack}
+                            </div>
+                            <div
+                                data-tracking-opt-in-save="true"
+                                className={globalStyles.saveButton}
+                                onClick={this.save}
+                                key="save"
+                            >
+                                {content.buttonSave}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
