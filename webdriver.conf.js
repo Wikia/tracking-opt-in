@@ -81,71 +81,71 @@ const commonCapabilities = {
 const failedTests = [];
 
 const capabilities = [
-    // {
-    //     ...ios10_3Device,
-    //     ...commonCapabilities,
-    //     browser: 'safari',
-    // },
-    // {
-    //     ...ios11Device,
-    //     ...commonCapabilities,
-    //     browser: 'safari',
-    // },
-    // {
-    //     ...ios11_2Device,
-    //     ...commonCapabilities,
-    //     browser: 'safari',
-    // },
-    // {
-    //     ...android4_4Device,
-    //     ...commonCapabilities,
-    //     browser: 'chrome',
-    // },
-    // {
-    //     ...android5Device,
-    //     ...commonCapabilities,
-    //     browser: 'chrome',
-    // },
-    // {
-    //     ...android6Device,
-    //     ...commonCapabilities,
-    //     browser: 'chrome',
-    // },
-    // {
-    //     ...android7Device,
-    //     ...commonCapabilities,
-    //     browser: 'chrome',
-    // },
-    // {
-    //     ...android8Device,
-    //     ...commonCapabilities,
-    //     browser: 'chrome',
-    // },
-    // {
-    //     ...windows10Device,
-    //     ...commonCapabilities,
-    //     browser: 'chrome',
-    // },
-    // {
-    //     ...windows10Device,
-    //     ...commonCapabilities,
-    //     browser: 'firefox',
-    // },
-    // {
-    //     ...windows10Device,
-    //     ...commonCapabilities,
-    //     browser: 'edge',
-    // },
-    // {
-    //     ...macOsDevice,
-    //     ...commonCapabilities,
-    //     browser: 'firefox',
-    // },
-    // {
-    //     ...macOsDevice,
-    //     ...commonCapabilities,
-    //     browser: 'safari',
-    // },
+    {
+        ...ios10_3Device,
+        ...commonCapabilities,
+        browser: 'safari',
+    },
+    {
+        ...ios11Device,
+        ...commonCapabilities,
+        browser: 'safari',
+    },
+    {
+        ...ios11_2Device,
+        ...commonCapabilities,
+        browser: 'safari',
+    },
+    {
+        ...android4_4Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...android5Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...android6Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...android7Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...android8Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...windows10Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...windows10Device,
+        ...commonCapabilities,
+        browser: 'firefox',
+    },
+    {
+        ...windows10Device,
+        ...commonCapabilities,
+        browser: 'edge',
+    },
+    {
+        ...macOsDevice,
+        ...commonCapabilities,
+        browser: 'firefox',
+    },
+    {
+        ...macOsDevice,
+        ...commonCapabilities,
+        browser: 'safari',
+    },
     {
         ...macOsDevice,
         ...commonCapabilities,
