@@ -67,7 +67,7 @@ describe('Utils', () => {
                 };
             };
 
-            utils.getJSON('http://foo.bar')
+            utils.getJSON('http://foo.bar', false)
                 .then((json) => {
                     assert.deepEqual(json, response);
                     done();
@@ -82,7 +82,7 @@ describe('Utils', () => {
                 };
             };
 
-            utils.getJSON('http://foo.bar')
+            utils.getJSON('http://foo.bar', false)
                 .catch((error) => {
                     assert.instanceOf(error, Error);
                     done();
@@ -99,7 +99,7 @@ describe('Utils', () => {
                 };
             };
 
-            utils.getJSON('http://foo.bar')
+            utils.getJSON('http://foo.bar', false)
                 .then((json) => {
                     assert.equal(json, null);
                     done();

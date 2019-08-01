@@ -1,14 +1,14 @@
 import { h, Component } from 'preact';
-import { DEFAULT_OPTIONS} from './../index';
-import styles from './styles.scss';
 
-import Switch from './Switch';
+import Preferences from './Preferences';
 import ScreenOne from './ScreenOne';
+
+import styles from './styles.scss';
 
 class App extends Component {
     state = {
-        enabledVendors: DEFAULT_OPTIONS.enabledVendors,
-        enabledPurposes: DEFAULT_OPTIONS.enabledVendorPurposes,
+        consentedVendors: this.props.options.enabledVendors,
+        consentedPurposes: this.props.options.enabledPurposes,
         isScreenOne: true,
     };
 
@@ -56,7 +56,7 @@ class App extends Component {
         this.props.tracker.trackAcceptClick();
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
-        this.props.onAcceptTracking(this.state.enabledVendors, this.state.enabledPurposes);
+        this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
     };
 
     learnMore = () => {
@@ -79,63 +79,35 @@ class App extends Component {
 
     // this will need to be be called in a sub component to update the state
     updatePurposes = (vendorIds, purposeIds) => {
-        this.setState({enabledVendors: vendorIds, enabledPurposes: purposeIds});
+        this.setState({consentedVendors: vendorIds, consentedPurposes: purposeIds});
     };
 
-    render({ options, content }, { dialog }) {
-        return (
-            <div
-                data-tracking-opt-in-overlay="true"
-                className={styles.overlay}
-                style={{
-                    zIndex: options.zIndex,
-                }}
-            >
-                <div className={styles.container}>
-                    {this.state.isScreenOne && <ScreenOne content={content} text={content.bodyParagraphs} />}
-                    <div className={styles.footer}>
-                        <div className={styles.buttons}>
-                            {this.state.isScreenOne ?
-                                <div
-                                    data-tracking-opt-in-learn-more="true"
-                                    className={styles.learnMoreButton}
-                                    onClick={this.learnMore}
-                                    key="learn"
-                                >
-                                    {content.buttonLearnMore}
-                                </div> :
-                                <div
-                                    data-tracking-opt-in-back="true"
-                                    className={styles.backButton}
-                                    onClick={this.back}
-                                    key="back"
-                                >
-                                    {content.buttonBack}
-                                </div>
-                            }
-                            {this.state.isScreenOne ?
-                                <div
-                                    data-tracking-opt-in-accept="true"
-                                    className={styles.acceptButton}
-                                    onClick={this.accept}
-                                    key="accept"
-                                >
-                                    {content.buttonAccept}
-                                </div> :
-                                <div
-                                    data-tracking-opt-in-save="true"
-                                    className={styles.saveButton}
-                                    onClick={this.save}
-                                    key="save"
-                                >
-                                    {content.buttonSave}
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
+    render({ options, content }) {
+        if (this.state.isScreenOne) {
+            return (
+                <ScreenOne
+                    appOptions={options}
+                    content={content}
+                    text={content.bodyParagraphs}
+                    clickLearnMore={this.learnMore}
+                    clickAccept={this.accept}
+                />
+            );
+        } else {
+            return (
+                <Preferences
+                    appOptions={options}
+                    content={content}
+                    allPurposes={options.enabledPurposes}
+                    allVendors={options.enabledVendors}
+                    consentedPurposes={this.state.consentedPurposes}
+                    consentedVendors={this.state.consentedVendors}
+                    updatePurposes={this.updatePurposes}
+                    clickBack={this.back}
+                    clickSave={this.save}
+                />
+            );
+        }
     }
 }
 

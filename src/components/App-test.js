@@ -4,15 +4,15 @@ import { createStubInstance, stub }  from 'sinon';
 import App from './App';
 import styles from './styles.scss';
 import stylesScreenOne from './ScreenOne.scss';
-import ContentManager from "../ContentManager";
+import ContentManager from '../ContentManager';
 import Tracker from '../Tracker';
-import OptInManager from "../OptInManager";
-import GeoManager from "../GeoManager";
+import OptInManager from '../OptInManager';
+import GeoManager from '../GeoManager';
 
 const document = global.document;
 
 function findByClass(wrapper, className) {
-    return wrapper.getElementsByClassName(className).item(0) || new HTMLElement();
+    return wrapper.getElementsByClassName(className).item(0) || document.createElement('div');
 }
 
 function noop() {}
@@ -37,7 +37,10 @@ describe('App', () => {
             onRejectTracking: callbacks.onRejectTracking || noop,
             content: (new ContentManager('en')).content,
             options: {
-                preventScrollOn
+                enabledPurposes: [],
+                enabledVendors: [],
+                preventScrollOn,
+                zIndex: 1,
             },
         }), document.body);
     }
@@ -52,13 +55,13 @@ describe('App', () => {
         removeApp();
     });
 
-    it('renders the modal', () => {
+    it('renders ScreenOne by default', () => {
         const wrapper = renderApp();
         expect(wrapper.className).to.equal(styles.overlay);
 
-        const container = findByClass(wrapper, styles.container);
+        const container = findByClass(wrapper, styles.dialog);
         expect(container).to.not.equal(null);
-        expect(container.className).to.equal(styles.container);
+        expect(container.className.split(' ')).to.include(styles.dialog);
 
         const content = findByClass(wrapper, stylesScreenOne.content);
         expect(content).to.not.equal(null);

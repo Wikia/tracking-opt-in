@@ -108,8 +108,10 @@ class TrackingOptIn {
         }
 
         const options = {
+            enabledPurposes: this.options.enabledVendorPurposes,
+            enabledVendors: this.options.enabledVendors,
             zIndex: this.options.zIndex,
-            preventScrollOn: this.options.preventScrollOn
+            preventScrollOn: this.options.preventScrollOn,
         };
 
 
