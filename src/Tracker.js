@@ -36,17 +36,19 @@ class Tracker {
 
     // largely taken from https://github.com/Wikia/app/blob/a34191d/resources/wikia/modules/tracker.js
     track(category, action, label, onComplete = () => {}) {
-        if (!this.enable) {
-            return;
-        }
-
-        const container = document.head || document.getElementsByTagName( 'head' )[ 0 ] || document.documentElement;
         const params = {
             ...this.defaultParams,
             [TRACK_PARAMS.CATEGORY]: category,
             [TRACK_PARAMS.ACTION]: action,
             [TRACK_PARAMS.LABEL]: label,
         };
+
+        if (!this.enable) {
+            console.log('Fake Tracking Event', params);
+            return;
+        }
+
+        const container = document.head || document.getElementsByTagName( 'head' )[ 0 ] || document.documentElement;
         const requestParams = [];
 
         for (const p in params) {
