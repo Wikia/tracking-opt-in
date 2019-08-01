@@ -13,8 +13,8 @@ const TRACK_PARAMS = {
 const TRACK_TIMEOUT = 3000;
 
 const TRACKING_CATEGORY = 'gdpr-modal';
-const ACTION_IMPRESSION = 'Impression';
-const ACTION_CLICK = 'Click';
+const ACTION_IMPRESSION = 'impression';
+const ACTION_CLICK = 'click';
 
 function getBeaconFromCookie(cookieName) {
     return Cookies.get(cookieName || DEFAULT_BEACON_COOKIE_NAME);
@@ -103,7 +103,7 @@ class Tracker {
     }
 
     trackNoCookieImpression() {
-        this.trackImpression('no-coolor');
+        this.trackImpression('no-cookie');
     }
 
     trackPrivacyPolicyClick() {
