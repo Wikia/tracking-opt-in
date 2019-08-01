@@ -47,31 +47,31 @@ class App extends Component {
 
     checkForCookie() {
         if(!this.props.geoManager.hasGeoCookie()) {
-            this.tracker.trackNoCookieImpression();
+            this.props.tracker.trackNoCookieImpression();
         }
     }
 
     accept = () => {
-        this.tracker.trackAcceptClick();
+        this.props.tracker.trackAcceptClick();
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
         this.props.onAcceptTracking(this.state.enabledVendors, this.state.enabledPurposes);
     };
 
     learnMore = () => {
-        this.tracker.trackLearnMoreClick();
+        this.props.tracker.trackLearnMoreClick();
         this.setState({ isScreenOne: false });
         this.forceUpdate();
     };
 
     back = () => {
-        this.tracker.trackBackClick();
+        this.props.tracker.trackBackClick();
         this.setState({ isScreenOne: true });
         this.forceUpdate;
     }
 
     save = () => {
-        this.tracker.trackSaveClick();
+        this.props.tracker.trackSaveClick();
         // save and continue logic goes here
         console.log('Save and Continue')
     };
