@@ -11,10 +11,10 @@ class ScreenOne extends Component {
                         <p>{text[0]}</p>
                         <p>{text[1]}</p>
                         <p>
-                          {text[2]}
-                          <a href={content.privacyLink} className={styles.links} onClick={() => { this.track(ACTION_CLICK, 'privacy_policy'); }}>{content.privacyLinkText}</a>
-                          {text[3]}
-                          <a href={content.partnerLink} className={styles.links} onClick={() => { this.track(ACTION_CLICK, 'partner_list'); }}>{content.partnerLinkText}</a>.
+                            {text[2]}
+                            <a href={content.privacyLink} className={styles.links} onClick={() => { this.track(ACTION_CLICK, 'privacy_policy'); }}>{content.privacyLinkText}</a>
+                            {text[3]}
+                            <a href={content.partnerLink} className={styles.links} onClick={() => { this.track(ACTION_CLICK, 'partner_list'); }}>{content.partnerLinkText}</a>.
                         </p>
                     </div>
                 </div>
