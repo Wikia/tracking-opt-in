@@ -1,4 +1,4 @@
-import { Component } from 'preact';
+import { h, Component } from 'preact';
 import Switch from './Switch';
 
 import styles from './PreferencesSection.scss';

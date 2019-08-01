@@ -1,4 +1,4 @@
-import { Component } from 'preact';
+import { h, Component } from 'preact';
 
 import Preferences from './Preferences';
 import ScreenOne from './ScreenOne';

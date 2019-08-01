@@ -1,4 +1,4 @@
-import { Component } from 'preact';
+import { h, Component } from 'preact';
 
 import globalStyles from './styles.scss';
 import styles from './ScreenOne.scss';

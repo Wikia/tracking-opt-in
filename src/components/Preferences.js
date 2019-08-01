@@ -1,4 +1,4 @@
-import { Component } from 'preact';
+import { h, Component } from 'preact';
 import { getVendorList } from '../utils';
 import PreferencesSection from './PreferencesSection';
 
