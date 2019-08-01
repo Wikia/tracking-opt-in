@@ -4,7 +4,7 @@ import globalStyles from './styles.scss';
 import styles from './ScreenOne.scss';
 
 class ScreenOne extends Component {
-    render({ content, text, appOptions }) {
+    render({ appOptions, content, text, clickLearnMore, clickAccept }) {
         return (
             <div
                 data-tracking-opt-in-overlay="true"
@@ -13,7 +13,7 @@ class ScreenOne extends Component {
                     zIndex: appOptions.zIndex,
                 }}
             >
-                <div className={globalStyles.container}>
+                <div className={`${globalStyles.dialog} ${styles.dialog}`}>
                     <div className={styles.screenOne}>
                         <div className={styles.content}>
                             <div className={styles.usesCookiesText}> {content.headline} </div>
@@ -34,7 +34,7 @@ class ScreenOne extends Component {
                             <div
                                 data-tracking-opt-in-learn-more="true"
                                 className={globalStyles.learnMoreButton}
-                                onClick={this.learnMore}
+                                onClick={clickLearnMore}
                                 key="learn"
                             >
                                 {content.buttonLearnMore}
@@ -42,7 +42,7 @@ class ScreenOne extends Component {
                             <div
                                 data-tracking-opt-in-accept="true"
                                 className={globalStyles.acceptButton}
-                                onClick={this.accept}
+                                onClick={clickAccept}
                                 key="accept"
                             >
                                 {content.buttonAccept}

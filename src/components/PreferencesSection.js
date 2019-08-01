@@ -14,19 +14,41 @@ class PreferencesSection extends Component {
         this.forceUpdate();
     }
 
+    renderVendors() {
+        const { vendors } = this.props;
+        if (!vendors) {
+            return null;
+        }
+        const toRender = vendors.map((vendor) => (
+            <div>{vendor.name}</div>
+        ));
+        return toRender;
+    }
+
     render(props, state) {
-		const { heading, isEnabled } = props;
-        const { isExpanded } = this.state;
+		const {
+            heading,
+            description,
+            vendors,
+            onTogglePurpose,
+            onToggleVendor,
+            isEnabled,
+        } = props;
+        const { isExpanded } = state;
 
 		return (
             <div className={styles.section}>
-                <div>
-                    <div className={styles.heading}>{heading}</div>
-                    <div className={styles.preferencesSectionExpand} onClick={() => this.toggleIsExpanded()}>
-                        {isExpanded ? 'Hide Preferences' : 'Show Preferences'} [ICON_HERE]
+                <div className={styles.flex}>
+                    <div>
+                        <div className={styles.heading}>{heading}</div>
+                        <div className={styles.preferencesSectionExpand} onClick={() => this.toggleIsExpanded()}>
+                            {isExpanded ? 'Hide Preferences' : 'Show Preferences'} [ICON_HERE]
+                        </div>
                     </div>
+                    <Switch isOn={isEnabled} onChange={onTogglePurpose} />
                 </div>
-                <Switch isOn={isEnabled} />
+                {isExpanded && <div className={styles.description}>{description}</div>}
+                {isExpanded && <div className={styles.vendorList}>{this.renderVendors()}</div>}
             </div>
         );
     }

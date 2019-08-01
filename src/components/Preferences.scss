@@ -1,3 +1,23 @@
+@import "./consts.scss";
+
+.dialog {
+    height: 90%;
+    margin-left: 10px;
+    margin-right: 10px;
+    max-height: 85vh;
+    width: 90%;
+
+    @media #{$desktop-devices} {
+        height: 600px;
+        max-height: 90vh;
+        width: 650px;
+    }
+}
+
+.content {
+    padding: 10px;
+}
+
 .heading {
     color: #002a32;
     font-size: 16px;

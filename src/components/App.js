@@ -74,7 +74,7 @@ class App extends Component {
         this.forceUpdate();
     };
 
-    back = () => {
+    goBack = () => {
         this.track(ACTION_CLICK, 'back');
         this.setState({ isScreenOne: true });
         this.forceUpdate;
@@ -93,16 +93,27 @@ class App extends Component {
 
     render({ options, content }) {
         if (this.state.isScreenOne) {
-            return <ScreenOne content={content} text={content.bodyParagraphs} appOptions={options} />;
+            return (
+                <ScreenOne
+                    appOptions={options}
+                    content={content}
+                    text={content.bodyParagraphs}
+                    clickLearnMore={this.learnMore}
+                    clickAccept={this.accept}
+                />
+            );
         } else {
             return (
                 <Preferences
                     appOptions={options}
+                    content={content}
                     allPurposes={options.enabledPurposes}
                     allVendors={options.enabledVendors}
                     consentedPurposes={this.state.consentedPurposes}
                     consentedVendors={this.state.consentedVendors}
                     updatePurposes={this.updatePurposes}
+                    clickBack={this.goBack}
+                    clickSave={this.save}
                 />
             );
         }
