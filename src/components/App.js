@@ -1,14 +1,9 @@
-import { h, Component } from 'preact';
+import { Component } from 'preact';
 
 import Preferences from './Preferences';
-import Switch from './Switch';
 import ScreenOne from './ScreenOne';
 
 import styles from './styles.scss';
-
-const TRACKING_CATEGORY = 'gdpr-modal';
-const ACTION_IMPRESSION = 'Impression';
-const ACTION_CLICK = 'Click';
 
 class App extends Component {
     state = {
@@ -18,7 +13,7 @@ class App extends Component {
     };
 
     componentDidMount() {
-        this.track(ACTION_IMPRESSION, 'modal-view');
+        this.props.tracker.trackViewImpression();
         this.preventScroll();
         this.checkForCookie();
     }
@@ -47,41 +42,37 @@ class App extends Component {
         }
 
         return typeof this.props.options.preventScrollOn === 'string' ?
-               document.querySelector(this.props.options.preventScrollOn) :
-               this.props.options.preventScrollOn;
+            document.querySelector(this.props.options.preventScrollOn) :
+            this.props.options.preventScrollOn;
     }
 
     checkForCookie() {
         if(!this.props.geoManager.hasGeoCookie()) {
-            this.track(ACTION_IMPRESSION, 'no-cookie');
+            this.props.tracker.trackNoCookieImpression();
         }
     }
 
-    track(action, label) {
-        this.props.tracker.track(TRACKING_CATEGORY, action, label);
-    }
-
     accept = () => {
-        this.track(ACTION_CLICK, 'accept-screen-1');
+        this.props.tracker.trackAcceptClick();
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
         this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
     };
 
     learnMore = () => {
-        this.track(ACTION_CLICK, 'learn-more');
+        this.props.tracker.trackLearnMoreClick();
         this.setState({ isScreenOne: false });
         this.forceUpdate();
     };
 
     goBack = () => {
-        this.track(ACTION_CLICK, 'back');
+        this.props.tracker.trackBackClick();
         this.setState({ isScreenOne: true });
         this.forceUpdate;
     }
 
     save = () => {
-        this.track(ACTION_CLICK, 'save');
+        this.props.tracker.trackSaveClick();
         // save and continue logic goes here
         console.log('Save and Continue')
     };

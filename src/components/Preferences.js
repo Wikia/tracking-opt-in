@@ -1,11 +1,9 @@
-import { h, Component } from 'preact';
+import { Component } from 'preact';
 import { getVendorList } from '../utils';
 import PreferencesSection from './PreferencesSection';
 
 import globalStyles from './styles.scss';
 import styles from './Preferences.scss';
-
-
 
 class Preferences extends Component {
     state = {
@@ -14,7 +12,6 @@ class Preferences extends Component {
 
     componentWillMount() {
         if (!this.state.purposes) {
-console.log('FETCHING VENDOR LIST');
             getVendorList().then((json) => {
                 // Filter purposes to those used by Fandom
                 const purposes = json.purposes.filter(purpose => (this.props.allPurposes.indexOf(purpose.id) >= 0));

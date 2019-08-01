@@ -18,13 +18,13 @@ function findByClass(wrapper, className) {
 function noop() {}
 
 describe('App', () => {
-    let tracker;
+    const tracker = new Tracker('en', 'geo', 'beacon', true);
+    stub(Tracker.prototype, 'track').callsFake((...a) => console.debug('Track', a));
     let optInManager;
     let geoManager;
     let wrapper;
 
     function renderApp(callbacks = {}, preventScrollOn = null) {
-        tracker = createStubInstance(Tracker);
         optInManager = createStubInstance(OptInManager);
         geoManager = createStubInstance(GeoManager);
 
@@ -47,7 +47,6 @@ describe('App', () => {
     }
 
     afterEach(() => {
-        tracker = null;
         optInManager = null;
         wrapper = null;
         removeApp();
