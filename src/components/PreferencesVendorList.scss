@@ -1,3 +1,5 @@
+@import "./consts.scss";
+
 .vendorList {
     border: 1px solid #5f7a7b;
     margin-top: 24px;
@@ -48,7 +50,17 @@
 
 .vendorDetail {
     border-top: 1px solid #7f9998;
-    display: flex;
-    justify-content: space-between;
     padding: 8px 10px;
+}
+
+.featureDescription {
+    font-style: italic;
+    margin-top: 12px;
+}
+
+.link {
+    color: $color-link;
+    font-size: 10px;
+    font-weight: bold;
+    text-decoration: none;
 }

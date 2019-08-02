@@ -8,10 +8,11 @@ import styles from './Preferences.scss';
 class Preferences extends Component {
     state = {
         purposes: null,
+        features: null,
     };
 
     componentWillMount() {
-        if (!this.state.purposes) {
+        if (!this.state.purposes && !this.state.features) {
             getVendorList().then((json) => {
                 // Filter purposes to those used by Fandom
                 const purposes = json.purposes.filter(purpose => (this.props.allPurposes.indexOf(purpose.id) >= 0));
@@ -21,7 +22,10 @@ class Preferences extends Component {
                     purpose.vendors = vendors.filter(vendor => (vendor.purposeIds.indexOf(purpose.id) >= 0));
                     return purpose;
                 });
-                this.setState({ purposes: purposesWithVendors });
+                this.setState({
+                    purposes: purposesWithVendors,
+                    features: json.features,
+                });
                 this.forceUpdate();
             });
         }
@@ -65,6 +69,7 @@ console.log('TOGGLE PURPOSE', this.props);
                 onTogglePurpose={this.togglePurpose}
                 onToggleVendor={this.toggleVendor}
                 allPurposes={purposes}
+                allFeatures={this.state.features}
                 consentedPurposes={consentedPurposes}
                 consentedVendors={consentedVendors}
             />
