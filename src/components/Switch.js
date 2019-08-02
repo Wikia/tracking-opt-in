@@ -7,7 +7,7 @@ class Switch extends Component {
         e.preventDefault();
 
         this.props.onChange(e.target.checked);
-    }
+    };
 
     render({ isOn }) {
         const id =  `switch_${Math.floor(Math.random() * 10000)}`;

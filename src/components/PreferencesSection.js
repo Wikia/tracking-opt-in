@@ -20,10 +20,28 @@ class PreferencesSection extends Component {
         this.forceUpdate();
     }
 
+<<<<<<< HEAD
     render(props, state) {
 		const {
             content,
             purpose,
+=======
+    renderVendors() {
+        const { vendors } = this.props;
+        if (!vendors) {
+            return null;
+        }
+        return vendors.map((vendor) => (
+            <div>{vendor.name}</div>
+        ));
+    }
+
+    render(props, state) {
+        const {
+            heading,
+            description,
+            vendors,
+>>>>>>> :rotating_light: IDE Recommended fixes
             onTogglePurpose,
             onToggleVendor,
             allPurposes,
@@ -34,7 +52,7 @@ class PreferencesSection extends Component {
         const { isExpanded } = state;
         const purposeIsEnabled = this.isConsentedPurpose(purpose.id);
 
-		return (
+        return (
             <div className={styles.section}>
                 <div className={styles.flex}>
                     <div>
