@@ -71,8 +71,4 @@ export default class ContentManager {
 
         this.content = content;
     }
-
-    t(key) {
-        
-    }
 }
