@@ -1,0 +1,54 @@
+.vendorList {
+    border: 1px solid #5f7a7b;
+    margin-top: 24px;
+}
+
+.header {
+    background-color: #5f7a7b;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 4px 12px;
+}
+
+.subheader {
+    background-color: #7f9998;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 10px;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.vendor {
+    border-top: 1px solid #5f7a7b;
+    font-size: 10px;
+    padding: 12px;
+}
+
+.vendorName {
+    color: #000;
+    font-weight: 500;
+}
+
+.vendorExpand {
+    color: #5f7a7b;
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+.vendorDetails {
+    border: 1px solid #7f9998;
+    margin-top: 12px;
+}
+
+.vendorDetail {
+    border-top: 1px solid #7f9998;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 10px;
+}

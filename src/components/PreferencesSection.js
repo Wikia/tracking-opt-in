@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import PreferencesVendorList from './PreferencesVendorList';
 import Switch from './Switch';
 
 import styles from './PreferencesSection.scss';
@@ -8,54 +9,52 @@ class PreferencesSection extends Component {
         isExpanded: false,
     };
 
+    isConsentedPurpose(purposeId) {
+        return this.props.consentedPurposes.indexOf(purposeId) >= 0;
+    }
+
     toggleIsExpanded() {
         const { isExpanded } = this.state;
         this.setState({ isExpanded: !isExpanded });
         this.forceUpdate();
     }
 
-    renderVendors() {
-        const { vendors } = this.props;
-        if (!vendors) {
-            return null;
-        }
-        const toRender = vendors.map((vendor) => (
-            <div>{vendor.name}</div>
-        ));
-        return toRender;
-    }
-
     render(props, state) {
 		const {
-            heading,
-            description,
-            vendors,
+            purpose,
             onTogglePurpose,
             onToggleVendor,
-            isEnabled,
+            allPurposes,
+            consentedVendors,
         } = props;
         const { isExpanded } = state;
+        const purposeIsEnabled = this.isConsentedPurpose(purpose.id);
 
 		return (
             <div className={styles.section}>
                 <div className={styles.flex}>
                     <div>
-                        <div className={styles.heading}>{heading}</div>
-                        <div className={styles.preferencesSectionExpand} onClick={() => this.toggleIsExpanded()}>
+                        <div className={styles.heading}>{purpose.name}</div>
+                        <div className={styles.sectionExpand} onClick={() => this.toggleIsExpanded()}>
                             {isExpanded ? 'Hide Preferences' : 'Show Preferences'} [ICON_HERE]
                         </div>
                     </div>
-                    <Switch isOn={isEnabled} onChange={onTogglePurpose} />
+                    <Switch isOn={purposeIsEnabled} onChange={() => onTogglePurpose(purpose.id, !purposeIsEnabled)} />
                 </div>
-                {isExpanded && <div className={styles.description}>{description}</div>}
-                {isExpanded && <div className={styles.vendorList}>{this.renderVendors()}</div>}
+                {isExpanded && (
+                    <div>
+                        <div className={styles.description}>{purpose.description}</div>
+                        <PreferencesVendorList
+                            vendors={purpose.vendors}
+                            onToggleVendor={onToggleVendor}
+                            allPurposes={allPurposes}
+                            consentedVendors={consentedVendors}
+                        />
+                    </div>
+                )}
             </div>
         );
     }
 }
-
-PreferencesSection.defaultProps = {
-    isEnabled: true,
-};
 
 export default PreferencesSection;

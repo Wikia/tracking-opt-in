@@ -27,28 +27,46 @@ class Preferences extends Component {
         }
     }
 
-    togglePurpose(isEnabled) {
-        const { consentedPurposes, consentedVendors } = this.props;
-        // TODO this.props.updatePurposes()
+    togglePurpose(purposeId, isEnabled) {
+console.log('TOGGLE PURPOSE', this.props);
+        const { consentedPurposes, consentedVendors, updatePurposes } = this.props;
+        if (isEnabled) {
+            if (consentedVendors.indexOf(purposeId) < 0) {
+                consentedVendors.push(puposeId);
+                updatePurposes(consentedVendors, consentedPurposes);
+            }
+        } else {
+            consentedVendors.filter(id => (purposeId !== id));
+            updatePurposes(consentedVendors, consentedPurposes);
+        }
     }
 
-    toggleVendor(purpose, isEnabled) {
-        const { consentedPurposes, consentedVendors } = this.props;
-        // TODO this.props.updatePurposes()
+    toggleVendor(vendorId, isEnabled) {
+        const { consentedPurposes, consentedVendors, updatePurposes } = this.props;
+        if (isEnabled) {
+            if (consentedVendors.indexOf(vendorId) < 0) {
+                consentedVendors.push(vendorId);
+                updatePurposes(consentedVendors, consentedPurposes);
+            }
+        } else {
+            consentedVendors.filter(id => (vendorId !== id));
+            updatePurposes(consentedVendors, consentedPurposes);
+        }
     }
 
     renderPreferenceSections(purposes) {
         if (!purposes) {
             return null;
         }
+        const { consentedPurposes, consentedVendors } = this.props;
         const toRender = purposes.map((purpose) => (
             <PreferencesSection
-                heading={purpose.name}
-                description={purpose.description}
-                vendors={purpose.vendors}
+                purpose={purpose}
                 onTogglePurpose={this.togglePurpose}
                 onToggleVendor={this.toggleVendor}
-                isEnabled={this.props.consentedPurposes.indexOf(purpose.id) >= 0}
+                allPurposes={purposes}
+                consentedPurposes={consentedPurposes}
+                consentedVendors={consentedVendors}
             />
         ));
         return toRender;
