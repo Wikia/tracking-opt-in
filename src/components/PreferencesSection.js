@@ -38,7 +38,7 @@ class PreferencesSection extends Component {
                     <div>
                         <div className={styles.heading}>{purpose.name}</div>
                         <div className={styles.sectionExpand} onClick={() => this.toggleIsExpanded()}>
-                            {isExpanded ? 'Hide Preferences' : 'Show Preferences'} [ICON_TODO]
+                            {isExpanded ? content.hidePurposeDetailsButton : content.showPurposeDetailsButton} [ICON_TODO]
                         </div>
                     </div>
                     <Switch isOn={purposeIsEnabled} onChange={() => onTogglePurpose(purpose.id, !purposeIsEnabled)} />

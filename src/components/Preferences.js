@@ -5,6 +5,23 @@ import PreferencesSection from './PreferencesSection';
 import globalStyles from './styles.scss';
 import styles from './Preferences.scss';
 
+function getParagraphs(blockOfText, content) {
+    const replaceKeysInText = text => text.replace(/%([a-zA-Z]+)%/g, (match, key) => {
+        if (content[key]) {
+            return content[key];
+        }
+        if (key === 'privacyPolicy') {
+            return `<a href=${content.privacyPolicyUrl} class=${globalStyles.link}>${content.privacyPolicyButton}</a>`;
+        }
+        if (key === 'partnerList') {
+            return `<a href=${content.partnerListUrl} class=${globalStyles.link}>${content.partnerListButton}</a>`;
+        }
+        return match;
+    });
+
+    return blockOfText.map(line => <p dangerouslySetInnerHTML={{ __html: replaceKeysInText(line) }} />);
+}
+
 class Preferences extends Component {
     state = {
         purposes: null,
@@ -32,7 +49,6 @@ class Preferences extends Component {
     }
 
     togglePurpose(purposeId, isEnabled) {
-console.log('TOGGLE PURPOSE', this.props);
         const { consentedPurposes, consentedVendors, updatePurposes } = this.props;
         if (isEnabled) {
             if (consentedVendors.indexOf(purposeId) < 0) {
@@ -92,13 +108,11 @@ console.log('TOGGLE PURPOSE', this.props);
             >
                 <div className={`${globalStyles.dialog} ${styles.dialog}`}>
                     <div className={styles.content}>
-                        <h2 className={`${styles.heading} ${styles.preferencesHeading}`}>Preference Settings</h2>
+                        <h2 className={`${styles.heading} ${styles.preferencesHeading}`}>{content.preferencesHeadline}</h2>
                         <div className={styles.preferencesDescription}>
-                            Fandom and its partners use cookies to store and collect information from your browser to personalize content and ads, provide social media features, and analyze our traffic. You can define your preferences and give or modify your consent for the purposes and vendors listed below.  In addition, as indicated below, some companies collect information without your consent based on their or our legitimate interest (such as to aid us in website traffic analysis and to inform improvements to our site). You can access their privacy policies for more information.
-                            <br/><br/>
-                            For more information about the cookies we use, please see our [Privacy Policy]. For information about our partners using cookies on our site, please see the [Partner List].
+                            {getParagraphs(content.preferencesBody, content)}
                         </div>
-                        <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>Our Partners' Purposes</h2>
+                        <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.purposesHeader}</h2>
                         {this.renderPreferenceSections(purposes)}
                     </div>
                     <div className={globalStyles.footer}>
@@ -109,7 +123,7 @@ console.log('TOGGLE PURPOSE', this.props);
                                 onClick={clickBack}
                                 key="back"
                             >
-                                {content.buttonBack}
+                                {content.backButton}
                             </div>
                             <div
                                 data-tracking-opt-in-save="true"
@@ -117,7 +131,7 @@ console.log('TOGGLE PURPOSE', this.props);
                                 onClick={clickSave}
                                 key="save"
                             >
-                                {content.buttonSave}
+                                {content.saveButton}
                             </div>
                         </div>
                     </div>
