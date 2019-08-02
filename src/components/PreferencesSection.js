@@ -1,7 +1,7 @@
-import { h, Component } from 'preact';
-import Switch from './Switch';
+import { Component } from 'preact';
 
 import styles from './PreferencesSection.scss';
+import Switch from './Switch';
 
 class PreferencesSection extends Component {
     state = {
@@ -19,14 +19,13 @@ class PreferencesSection extends Component {
         if (!vendors) {
             return null;
         }
-        const toRender = vendors.map((vendor) => (
+        return vendors.map((vendor) => (
             <div>{vendor.name}</div>
         ));
-        return toRender;
     }
 
     render(props, state) {
-		const {
+        const {
             heading,
             description,
             vendors,
@@ -37,7 +36,7 @@ class PreferencesSection extends Component {
         } = props;
         const { isExpanded } = state;
 
-		return (
+        return (
             <div className={styles.section}>
                 <div className={styles.flex}>
                     <div>
