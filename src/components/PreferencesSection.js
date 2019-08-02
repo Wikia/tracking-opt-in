@@ -27,6 +27,7 @@ class PreferencesSection extends Component {
             onToggleVendor,
             allPurposes,
             allFeatures,
+            consentedPurposes,
             consentedVendors,
         } = props;
         const { isExpanded } = state;
@@ -52,6 +53,7 @@ class PreferencesSection extends Component {
                             onToggleVendor={onToggleVendor}
                             allPurposes={allPurposes}
                             allFeatures={allFeatures}
+                            consentedPurposes={consentedPurposes}
                             consentedVendors={consentedVendors}
                         />
                     </div>

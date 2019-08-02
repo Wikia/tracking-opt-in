@@ -79,7 +79,6 @@ class Preferences extends Component {
             return null;
         }
         const { consentedPurposes, consentedVendors, content } = this.props;
-        const { allFeatures } = this.state.features;
         const toRender = purposes.map((purpose) => (
             <PreferencesSection
                 content={content}
@@ -87,7 +86,7 @@ class Preferences extends Component {
                 onTogglePurpose={this.togglePurpose}
                 onToggleVendor={this.toggleVendor}
                 allPurposes={purposes}
-                allFeatures={allFeatures}
+                allFeatures={this.state.features}
                 consentedPurposes={consentedPurposes}
                 consentedVendors={consentedVendors}
             />

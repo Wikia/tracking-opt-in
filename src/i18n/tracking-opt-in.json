@@ -27,5 +27,9 @@
     "disallowedButton": "Disallowed",
     "acceptedButton": "Accepted",
     "rejectedButton": "Rejected",
-    "privacyPolicyLinkButton": "Link to Privacy Policy"
+    "privacyPolicyLinkButton": "Link to Privacy Policy",
+    "purposesHeading": "Purposes",
+    "purposesLegitimateInterestHeading": "Purposes of legitimate interest",
+    "featuresHeading": "Features",
+    "privacyPolicyHeading": "Privacy policy"
 }

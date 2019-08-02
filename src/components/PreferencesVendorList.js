@@ -11,6 +11,10 @@ class PreferencesVendorList extends Component {
         }),
     };
 
+    isConsentedPurpose(purposeId) {
+        return this.props.consentedPurposes.indexOf(purposeId) >= 0;
+    }
+
     isConsentedVendor(vendorId) {
         return this.props.consentedVendors.indexOf(vendorId) >= 0;
     }
@@ -35,17 +39,21 @@ class PreferencesVendorList extends Component {
     }
 
     renderVendorDetails(vendor) {
+        const { content } = this.props;
+
         return (
             <div className={styles.vendorDetails}>
                 {vendor.purposeIds.length > 0 && (
                     <div>{/* fragment */}
                         <div className={styles.subheader}>
-                            Purposes
+                            {content.purposesHeading}
                         </div>
                         {vendor.purposeIds.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`}>
                                 <span>{this.getPurposeById(purposeId).name}</span>
-                                <span classname={styles.TODO}>Allowed</span>
+                                <span classname={styles.allowed}>
+                                    {this.isConsentedPurpose(purposeId) ? content.allowedButton : content.disallowedButton}
+                                </span>
                             </div>
                         ))}
                     </div>
@@ -53,12 +61,14 @@ class PreferencesVendorList extends Component {
                 {vendor.legIntPurposeIds.length > 0 && (
                     <div>{/* fragment */}
                         <div className={styles.subheader}>
-                            Purposes of legitimate interest
+                            {content.purposesLegitimateInterestHeading}
                         </div>
                         {vendor.legIntPurposeIds.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`}>
                                 <span>{this.getPurposeById(purposeId).name}</span>
-                                <a href={vendor.policyUrl} className={styles.link} target="_blank">Find out more</a>
+                                <a href={vendor.policyUrl} className={styles.link} target="_blank">
+                                    {content.findOutMoreButton}
+                                </a>
                             </div>
                         ))}
                     </div>
@@ -66,13 +76,15 @@ class PreferencesVendorList extends Component {
                 {vendor.featureIds.length > 0 && (
                     <div>{/* fragment */}
                         <div className={styles.subheader}>
-                            Features
+                            {content.featuresHeading}
                         </div>
                         {vendor.featureIds.map((featureId) => (
                             <div className={styles.vendorDetail}>
                                 <div className={styles.flex}>
                                     <span>{this.getFeatureById(featureId).name}</span>
-                                    <a href={vendor.policyUrl} className={styles.link} target="_blank">Find out more</a>
+                                    <a href={vendor.policyUrl} className={styles.link} target="_blank">
+                                        {content.findOutMoreButton}
+                                    </a>
                                 </div>
                                 <div className={styles.featureDescription}>
                                     {this.getFeatureById(featureId).description}
@@ -84,10 +96,12 @@ class PreferencesVendorList extends Component {
                 {vendor.policyUrl && (
                     <div>{/* fragment */}
                         <div className={styles.subheader}>
-                            Privacy policy
+                            {content.privacyPolicyHeading}
                         </div>
                         <div className={styles.vendorDetail}>
-                            <a href={vendor.policyUrl} className={styles.link} target="_blank">Link to Privacy Policy</a>
+                            <a href={vendor.policyUrl} className={styles.link} target="_blank">
+                                {content.privacyPolicyLinkButton}
+                            </a>
                         </div>
                     </div>
                 )}
@@ -96,7 +110,7 @@ class PreferencesVendorList extends Component {
     }
 
     renderVendors() {
-        const { vendors, allPurposes, consentedVendors, onToggleVendor } = this.props;
+        const { content, vendors, onToggleVendor } = this.props;
 
         if (!vendors) {
             return null;
@@ -110,7 +124,7 @@ class PreferencesVendorList extends Component {
                     <div>
                         <div className={styles.vendorName}>{vendor.name}</div>
                         <div className={styles.vendorExpand} onClick={() => this.toggleIsExpanded(vendor.id)}>
-                            {vendor.isExpanded ? 'Hide Details' : 'Show Details'} [ICON_TODO]
+                            {vendor.isExpanded ? content.hideVendorDetailsButton : content.showVendorDetailsButton} [ICON_TODO]
                         </div>
                     </div>
                     <Switch isOn={vendorIsEnabled} onChange={() => onToggleVendor(vendor.id, !vendorIsEnabled)} />
@@ -121,10 +135,12 @@ class PreferencesVendorList extends Component {
         return toRender;
     }
 
-    render(props, state) {
-		return (
+    render(props) {
+        const { content } = props;
+
+        return (
             <div className={styles.vendorList}>
-                <div className={styles.header}>Our Partners</div>
+                <div className={styles.header}>{content.vendorsHeader}</div>
                 {this.renderVendors()}
             </div>
         );
