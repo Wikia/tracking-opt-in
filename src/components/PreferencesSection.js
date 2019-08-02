@@ -33,6 +33,7 @@ class PreferencesSection extends Component {
             onTogglePurpose,
             onToggleVendor,
             isEnabled,
+            content,
         } = props;
         const { isExpanded } = state;
 
@@ -42,7 +43,7 @@ class PreferencesSection extends Component {
                     <div>
                         <div className={styles.heading}>{heading}</div>
                         <div className={styles.preferencesSectionExpand} onClick={() => this.toggleIsExpanded()}>
-                            {isExpanded ? 'Hide Preferences' : 'Show Preferences'} [ICON_HERE]
+                            {isExpanded ? content.hidePurposeDetailsButton : content.showPurposeDetailsButton} [ICON_HERE]
                         </div>
                     </div>
                     <Switch isOn={isEnabled} onChange={onTogglePurpose} />

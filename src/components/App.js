@@ -88,7 +88,6 @@ class App extends Component {
                 <ScreenOne
                     appOptions={options}
                     content={content}
-                    text={content.bodyParagraphs}
                     clickLearnMore={this.learnMore}
                     clickAccept={this.accept}
                 />
