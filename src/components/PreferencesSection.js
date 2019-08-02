@@ -21,6 +21,7 @@ class PreferencesSection extends Component {
 
     render(props, state) {
 		const {
+            content,
             purpose,
             onTogglePurpose,
             onToggleVendor,
@@ -46,6 +47,7 @@ class PreferencesSection extends Component {
                     <div>
                         <div className={styles.description}>{purpose.description}</div>
                         <PreferencesVendorList
+                            content={content}
                             vendors={purpose.vendors}
                             onToggleVendor={onToggleVendor}
                             allPurposes={allPurposes}

@@ -62,14 +62,16 @@ console.log('TOGGLE PURPOSE', this.props);
         if (!purposes) {
             return null;
         }
-        const { consentedPurposes, consentedVendors } = this.props;
+        const { consentedPurposes, consentedVendors, content } = this.props;
+        const { allFeatures } = this.state.features;
         const toRender = purposes.map((purpose) => (
             <PreferencesSection
+                content={content}
                 purpose={purpose}
                 onTogglePurpose={this.togglePurpose}
                 onToggleVendor={this.toggleVendor}
                 allPurposes={purposes}
-                allFeatures={this.state.features}
+                allFeatures={allFeatures}
                 consentedPurposes={consentedPurposes}
                 consentedVendors={consentedVendors}
             />
