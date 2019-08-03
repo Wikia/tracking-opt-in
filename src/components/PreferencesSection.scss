@@ -1,5 +1,7 @@
+@import "./consts.scss";
+
 .section {
-    border-top: 1px solid #5f7a7b;
+    border-top: 1px solid $color-dark-gray;
     padding: 20px 0;
 }
 
@@ -15,7 +17,7 @@
 }
 
 .sectionExpand {
-    color: #7f9998;
+    color: $color-middle-gray;
     cursor: pointer;
     font-size: 12px;
     margin-top: 14px;

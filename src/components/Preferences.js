@@ -51,13 +51,15 @@ class Preferences extends Component {
     togglePurpose(purposeId, isEnabled) {
         const { consentedPurposes, consentedVendors, updatePurposes } = this.props;
         if (isEnabled) {
-            if (consentedVendors.indexOf(purposeId) < 0) {
-                consentedVendors.push(puposeId);
-                updatePurposes(consentedVendors, consentedPurposes);
+            if (consentedPurposes.indexOf(purposeId) < 0) {
+                const newConsentedPurposes = consentedPurposes;
+                newConsentedPurposes.push(puposeId);
+                updatePurposes(consentedVendors, newConsentedPurposes);
             }
         } else {
-            consentedVendors.filter(id => (purposeId !== id));
-            updatePurposes(consentedVendors, consentedPurposes);
+            const newConsentedPurposes = consentedPurposes;
+            newConsentedPurposes.filter(id => (purposeId !== id));
+            updatePurposes(consentedVendors, newConsentedPurposes);
         }
     }
 
@@ -65,12 +67,14 @@ class Preferences extends Component {
         const { consentedPurposes, consentedVendors, updatePurposes } = this.props;
         if (isEnabled) {
             if (consentedVendors.indexOf(vendorId) < 0) {
-                consentedVendors.push(vendorId);
-                updatePurposes(consentedVendors, consentedPurposes);
+                const newConsentedVendors = consentedVendors;
+                newConsentedVendors.push(vendorId);
+                updatePurposes(newConsentedVendors, consentedPurposes);
             }
         } else {
-            consentedVendors.filter(id => (vendorId !== id));
-            updatePurposes(consentedVendors, consentedPurposes);
+            const newConsentedVendors = consentedVendors;
+            newConsentedVendors.filter(id => (vendorId !== id));
+            updatePurposes(newConsentedVendors, consentedPurposes);
         }
     }
 

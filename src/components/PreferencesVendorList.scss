@@ -1,12 +1,12 @@
 @import "./consts.scss";
 
 .vendorList {
-    border: 1px solid #5f7a7b;
+    border: 1px solid $color-dark-gray;
     margin-top: 24px;
 }
 
 .header {
-    background-color: #5f7a7b;
+    background-color: $color-dark-gray;
     color: #fff;
     font-size: 14px;
     font-weight: 500;
@@ -14,7 +14,7 @@
 }
 
 .subheader {
-    background-color: #7f9998;
+    background-color: $color-middle-gray;
     color: #fff;
     font-size: 10px;
     font-weight: bold;
@@ -27,7 +27,7 @@
 }
 
 .vendor {
-    border-top: 1px solid #5f7a7b;
+    border-top: 1px solid $color-dark-gray;
     font-size: 10px;
     padding: 12px;
 }
@@ -38,13 +38,13 @@
 }
 
 .vendorExpand {
-    color: #5f7a7b;
+    color: $color-dark-gray;
     cursor: pointer;
     margin-top: 6px;
 }
 
 .vendorDetails {
-    border: 1px solid #7f9998;
+    border: 1px solid $color-middle-gray;
     margin-top: 12px;
 }
 
@@ -53,7 +53,7 @@
 }
 
 .vendorDetail {
-    border-top: 1px solid #7f9998;
+    border-top: 1px solid $color-middle-gray;
     padding: 8px 10px;
 }
 
