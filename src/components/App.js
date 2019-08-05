@@ -73,8 +73,9 @@ class App extends Component {
 
     save = () => {
         this.props.tracker.trackSaveClick();
-        // save and continue logic goes here
-        console.log('Save and Continue')
+        this.props.optInManager.setTrackingAccepted();
+        this.props.onRequestAppRemove();
+        this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
     };
 
     // this will need to be be called in a sub component to update the state
