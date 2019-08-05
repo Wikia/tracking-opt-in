@@ -12,7 +12,8 @@
     @media #{$desktop-devices} {
         height: 600px;
         max-height: 90vh;
-        top: auto;
+        top: 50%;
+        transform: translateY(-50%);
         width: 650px;
     }
 }
