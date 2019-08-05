@@ -11,10 +11,10 @@ function getParagraphs(blockOfText, content) {
             return content[key];
         }
         if (key === 'privacyPolicy') {
-            return `<a href=${content.privacyPolicyUrl} class=${globalStyles.link}>${content.privacyPolicyButton}</a>`;
+            return `<a href="${content.privacyPolicyUrl}" class="${globalStyles.link}" data-privacy-policy="true">${content.privacyPolicyButton}</a>`;
         }
         if (key === 'partnerList') {
-            return `<a href=${content.partnerListUrl} class=${globalStyles.link}>${content.partnerListButton}</a>`;
+            return `<a href="${content.partnerListUrl}" class="${globalStyles.link}" data-partner-list="true">${content.partnerListButton}</a>`;
         }
         return match;
     });
@@ -49,7 +49,7 @@ class Preferences extends Component {
     }
 
     togglePurpose(purposeId, isEnabled) {
-        const { consentedPurposes, consentedVendors, updatePurposes } = this.props;
+        const { consentedPurposes, consentedVendors, updatePurposes, tracker } = this.props;
         if (isEnabled) {
             if (consentedPurposes.indexOf(purposeId) < 0) {
                 const newConsentedPurposes = consentedPurposes;
@@ -59,6 +59,23 @@ class Preferences extends Component {
         } else {
             const newConsentedPurposes = consentedPurposes.filter(id => (purposeId !== id));
             updatePurposes(consentedVendors, newConsentedPurposes);
+        }
+
+        switch (purposeId) {
+            case 1:
+                tracker.trackPurposeInformationToggleClick();
+                break;
+            case 2:
+                tracker.trackPurposePersonalizationToggleClick();
+                break;
+            case 3:
+                tracker.trackPurposeAdToggleClick();
+                break;
+            case 4:
+                tracker.trackPurposeContentToggleClick();
+                break;
+            case 5:
+                tracker.trackPurposeMeasurementToggleClick();
         }
     }
 
@@ -76,11 +93,22 @@ class Preferences extends Component {
         }
     }
 
+    clickDescription(event) {
+        if (event.target.dataset) {
+            const { tracker } = this.props;
+            if (event.target.dataset['privacyPolicy']) {
+                tracker.trackPrivacyPolicyClick();
+            } else if (event.target.dataset['partnerList']) {
+                tracker.trackPartnerListClick();
+            }
+        }
+    }
+
     renderPreferenceSections(purposes) {
         if (!purposes) {
             return null;
         }
-        const { consentedPurposes, consentedVendors, content } = this.props;
+        const { consentedPurposes, consentedVendors, content, tracker } = this.props;
         const toRender = purposes.map((purpose) => (
             <PreferencesSection
                 content={content}
@@ -91,6 +119,7 @@ class Preferences extends Component {
                 allFeatures={this.state.features}
                 consentedPurposes={consentedPurposes}
                 consentedVendors={consentedVendors}
+                tracker={tracker}
             />
         ));
         return toRender;
@@ -110,7 +139,7 @@ class Preferences extends Component {
                 <div className={`${globalStyles.dialog} ${styles.dialog}`}>
                     <div className={styles.content}>
                         <h2 className={`${styles.heading} ${styles.preferencesHeading}`}>{content.preferencesHeadline}</h2>
-                        <div className={styles.preferencesDescription}>
+                        <div className={styles.preferencesDescription} onClick={(e) => this.clickDescription(e)}>
                             {getParagraphs(content.preferencesBody, content)}
                         </div>
                         <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.purposesHeader}</h2>

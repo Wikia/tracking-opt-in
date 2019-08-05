@@ -15,9 +15,27 @@ class PreferencesSection extends Component {
     }
 
     toggleIsExpanded() {
+        const { purpose, tracker } = this.props;
         const { isExpanded } = this.state;
         this.setState({ isExpanded: !isExpanded });
         this.forceUpdate();
+
+        switch (purpose.id) {
+            case 1:
+                tracker.trackPurposeInformationExpandClick();
+                break;
+            case 2:
+                tracker.trackPurposePersonalizationExpandClick();
+                break;
+            case 3:
+                tracker.trackPurposeAdExpandClick();
+                break;
+            case 4:
+                tracker.trackPurposeContentExpandClick();
+                break;
+            case 5:
+                tracker.trackPurposeMeasurementExpandClick();
+        }
     }
 
 <<<<<<< HEAD
@@ -48,6 +66,7 @@ class PreferencesSection extends Component {
             allFeatures,
             consentedPurposes,
             consentedVendors,
+            tracker,
         } = props;
         const { isExpanded } = state;
         const purposeIsEnabled = this.isConsentedPurpose(purpose.id);
@@ -77,6 +96,7 @@ class PreferencesSection extends Component {
                             allFeatures={allFeatures}
                             consentedPurposes={consentedPurposes}
                             consentedVendors={consentedVendors}
+                            tracker={tracker}
                         />
                     </div>
                 )}
