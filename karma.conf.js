@@ -4,6 +4,12 @@ const path = require('path');
 // Generated on Mon May 07 2018 11:09:08 GMT-0500 (CDT)
 module.exports = function(config) {
   config.set({
+      client: {
+          captureConsole: true,
+          mocha: {
+              bail: true
+          }
+      },
       // base path that will be used to resolve all patterns (eg. files, exclude)
       basePath: '',
 
@@ -96,7 +102,7 @@ module.exports = function(config) {
       // test results reporter to use
       // possible values: 'dots', 'progress'
       // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-      reporters: ['mocha', 'coverage', 'junit', 'allure'],
+      reporters: ['mocha', 'coverage', 'junit', 'allure', 'verbose'],
 
       coverageReporter: {
           type : 'html',
@@ -123,7 +129,7 @@ module.exports = function(config) {
 
       // level of logging
       // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-      logLevel: config.LOG_INFO,
+      logLevel: config.LOG_DEBUG,
 
       // start these browsers
       // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher

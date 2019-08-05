@@ -91,6 +91,7 @@ class GeoManager {
     constructor(country, countriesRequiringPrompt) {
         this.countriesRequiringPrompt = (countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT).map(country => country.toLowerCase());
         this.country = (country || getCountryFromCookie() || MISSING_COOKIE_NAME).toLowerCase();
+        console.log('GEOMANAGER', this);
     }
 
     needsTrackingPrompt() {
