@@ -81,7 +81,7 @@
 .learnMoreButton,
 .backButton {
     border-radius: 3px;
-    border: 1px solid #5f7a7b;
+    border: 1px solid $color-dark-gray;
     font-size: 12px;
     font-weight: bold;
     line-height: 1;
@@ -95,8 +95,20 @@
 }
 
 .link {
-    color: $color-primary;
+    color: $color-link;
     font-size: 12px;
     font-weight: 500;
     text-decoration: none;
+}
+
+.chevron {
+    fill: $color-middle-gray;
+    height: 12px;
+    margin-bottom: -2px;
+    margin-left: 10px;
+    width: 12px;
+}
+
+.chevronExpanded {
+    transform: rotate(180deg);
 }

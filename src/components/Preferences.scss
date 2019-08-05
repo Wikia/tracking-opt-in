@@ -1,15 +1,18 @@
 @import "./consts.scss";
 
 .dialog {
-    height: 90%;
-    margin-left: 10px;
-    margin-right: 10px;
-    max-height: 85vh;
-    width: 90%;
+    position: absolute;
+
+    @media #{$mobile-devices} {
+        height: calc(100vh - 55px);
+        top: 55px;
+        width: 100vw;
+    }
 
     @media #{$desktop-devices} {
         height: 600px;
         max-height: 90vh;
+        top: auto;
         width: 650px;
     }
 }

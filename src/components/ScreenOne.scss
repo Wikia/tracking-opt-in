@@ -9,10 +9,11 @@
 .dialog {
     display: flex;
     flex-direction: column;
-    width: 100%;
 
     @media #{$mobile-devices} {
-        max-height: 75vh;
+        max-height: calc(100vh - 55px);
+        position: absolute;
+        width: 100vw;
     }
 
     @media #{$desktop-devices} {
@@ -81,7 +82,7 @@
 }
 
 .links {
-    color: $color-primary;
+    color: $color-link;
     font-size: 12px;
     font-weight: 500;
     text-decoration: none;

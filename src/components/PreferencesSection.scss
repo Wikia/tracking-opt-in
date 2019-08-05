@@ -1,5 +1,7 @@
+@import "./consts.scss";
+
 .section {
-    border-top: 1px solid #5f7a7b;
+    border-top: 1px solid $color-dark-gray;
     padding: 20px 0;
 }
 
@@ -12,4 +14,18 @@
     color: #000;
     font-size: 14px;
     font-weight: 500;
+}
+
+.sectionExpand {
+    color: $color-middle-gray;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 14px;
+}
+
+.description {
+    font-size: 10px;
+    line-height: 1.6;
+    margin-top: 24px;
 }

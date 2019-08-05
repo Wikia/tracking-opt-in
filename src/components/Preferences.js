@@ -25,10 +25,11 @@ function getParagraphs(blockOfText, content) {
 class Preferences extends Component {
     state = {
         purposes: null,
+        features: null,
     };
 
     componentWillMount() {
-        if (!this.state.purposes) {
+        if (!this.state.purposes && !this.state.features) {
             getVendorList().then((json) => {
                 // Filter purposes to those used by Fandom
                 const purposes = json.purposes.filter(purpose => (this.props.allPurposes.indexOf(purpose.id) >= 0));
@@ -38,35 +39,58 @@ class Preferences extends Component {
                     purpose.vendors = vendors.filter(vendor => (vendor.purposeIds.indexOf(purpose.id) >= 0));
                     return purpose;
                 });
-                this.setState({ purposes: purposesWithVendors });
+                this.setState({
+                    purposes: purposesWithVendors,
+                    features: json.features,
+                });
                 this.forceUpdate();
             });
         }
     }
 
-    togglePurpose(isEnabled) {
-        const { consentedPurposes, consentedVendors } = this.props;
-        // TODO this.props.updatePurposes()
+    togglePurpose(purposeId, isEnabled) {
+        const { consentedPurposes, consentedVendors, updatePurposes } = this.props;
+        if (isEnabled) {
+            if (consentedPurposes.indexOf(purposeId) < 0) {
+                const newConsentedPurposes = consentedPurposes;
+                newConsentedPurposes.push(purposeId);
+                updatePurposes(consentedVendors, newConsentedPurposes);
+            }
+        } else {
+            const newConsentedPurposes = consentedPurposes.filter(id => (purposeId !== id));
+            updatePurposes(consentedVendors, newConsentedPurposes);
+        }
     }
 
-    toggleVendor(purpose, isEnabled) {
-        const { consentedPurposes, consentedVendors } = this.props;
-        // TODO this.props.updatePurposes()
+    toggleVendor(vendorId, isEnabled) {
+        const { consentedPurposes, consentedVendors, updatePurposes } = this.props;
+        if (isEnabled) {
+            if (consentedVendors.indexOf(vendorId) < 0) {
+                const newConsentedVendors = consentedVendors;
+                newConsentedVendors.push(vendorId);
+                updatePurposes(newConsentedVendors, consentedPurposes);
+            }
+        } else {
+            const newConsentedVendors = consentedVendors.filter(id => (vendorId !== id));
+            updatePurposes(newConsentedVendors, consentedPurposes);
+        }
     }
 
     renderPreferenceSections(purposes) {
         if (!purposes) {
             return null;
         }
+        const { consentedPurposes, consentedVendors, content } = this.props;
         const toRender = purposes.map((purpose) => (
             <PreferencesSection
-                heading={purpose.name}
-                description={purpose.description}
-                vendors={purpose.vendors}
-                content={this.props.content}
-                onTogglePurpose={this.togglePurpose}
-                onToggleVendor={this.toggleVendor}
-                isEnabled={this.props.consentedPurposes.indexOf(purpose.id) >= 0}
+                content={content}
+                purpose={purpose}
+                onTogglePurpose={(purposeId, isEnabled) => this.togglePurpose(purposeId, isEnabled)}
+                onToggleVendor={(vendorId, isEnabled) => this.toggleVendor(vendorId, isEnabled)}
+                allPurposes={purposes}
+                allFeatures={this.state.features}
+                consentedPurposes={consentedPurposes}
+                consentedVendors={consentedVendors}
             />
         ));
         return toRender;

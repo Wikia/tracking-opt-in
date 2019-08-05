@@ -1,0 +1,71 @@
+@import "./consts.scss";
+
+.vendorList {
+    border: 1px solid $color-dark-gray;
+    margin-top: 24px;
+}
+
+.header {
+    background-color: $color-dark-gray;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 4px 12px;
+}
+
+.subheader {
+    background-color: $color-middle-gray;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 10px;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.vendor {
+    border-top: 1px solid $color-dark-gray;
+    font-size: 10px;
+    padding: 12px;
+}
+
+.vendorName {
+    color: #000;
+    font-weight: 500;
+}
+
+.vendorExpand {
+    color: $color-dark-gray;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 6px;
+}
+
+.vendorDetails {
+    border: 1px solid $color-middle-gray;
+    margin-top: 12px;
+}
+
+.allowed {
+    color: #000;
+}
+
+.vendorDetail {
+    border-top: 1px solid $color-middle-gray;
+    padding: 8px 10px;
+}
+
+.featureDescription {
+    font-style: italic;
+    margin-top: 12px;
+}
+
+.link {
+    color: $color-link;
+    font-size: 10px;
+    font-weight: bold;
+    text-decoration: none;
+}
