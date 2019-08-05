@@ -29,6 +29,7 @@ class PreferencesVendorList extends Component {
     }
 
     toggleIsExpanded(vendorId) {
+        const { tracker } = this.props;
         const { vendors } = this.state;
         vendors.forEach((vendor) => {
             if (vendor.id === vendorId) {
@@ -37,6 +38,8 @@ class PreferencesVendorList extends Component {
         });
         this.setState({ vendors });
         this.forceUpdate();
+
+        tracker.trackVendorExpandClick();
     }
 
     renderVendorDetails(vendor) {

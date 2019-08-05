@@ -82,7 +82,7 @@ class App extends Component {
         this.setState({consentedVendors: vendorIds, consentedPurposes: purposeIds});
     };
 
-    render({ options, content }) {
+    render({ options, content, tracker }) {
         if (this.state.isScreenOne) {
             return (
                 <ScreenOne
@@ -104,6 +104,7 @@ class App extends Component {
                     updatePurposes={this.updatePurposes}
                     clickBack={this.back}
                     clickSave={this.save}
+                    tracker={tracker}
                 />
             );
         }
