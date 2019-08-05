@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { getVendorList } from '../utils';
+import { getVendorList, PURPOSES } from '../utils';
 import PreferencesSection from './PreferencesSection';
 
 import globalStyles from './styles.scss';
@@ -62,19 +62,19 @@ class Preferences extends Component {
         }
 
         switch (purposeId) {
-            case 1:
+            case PURPOSES.INFORMATION:
                 tracker.trackPurposeInformationToggleClick();
                 break;
-            case 2:
+            case PURPOSES.PERSONALIZATION:
                 tracker.trackPurposePersonalizationToggleClick();
                 break;
-            case 3:
+            case PURPOSES.AD:
                 tracker.trackPurposeAdToggleClick();
                 break;
-            case 4:
+            case PURPOSES.CONTENT:
                 tracker.trackPurposeContentToggleClick();
                 break;
-            case 5:
+            case PURPOSES.MEASUREMENT:
                 tracker.trackPurposeMeasurementToggleClick();
         }
     }

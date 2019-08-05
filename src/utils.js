@@ -1,5 +1,35 @@
 import { Promise } from 'es6-promise';
 
+export const PURPOSES = {
+    INFORMATION: 1,
+    PERSONALIZATION: 2,
+    AD: 3,
+    CONTENT: 3,
+    MEASUREMENT: 3,
+};
+
+export const FEATURES = {
+    MATCHING_DATA: 1,
+    LINKING_DEVICES: 2,
+    GEOLOCATION: 3,
+};
+
+export function getPurposeTitle(content, index) {
+    return content[`purpose${index}Title`];
+}
+
+export function getPurposeBody(content, index) {
+    return content[`purpose${index}Body`];
+}
+
+export function getFeatureTitle(content, index) {
+    return content[`feature${index}Title`];
+}
+
+export function getFeatureBody(content, index) {
+    return content[`feature${index}Body`];
+}
+
 export function isParameterSet(param) {
     return window.location.href.indexOf(`${param}=true`) !== -1;
 }
