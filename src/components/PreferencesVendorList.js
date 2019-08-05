@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import { getPurposeTitle, getPurposeBody, getFeatureTitle, getFeatureBody } from '../utils';
 import Switch from './Switch';
 
 import globalStyles from './styles.scss';
@@ -54,7 +55,7 @@ class PreferencesVendorList extends Component {
                         </div>
                         {vendor.purposeIds.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`}>
-                                <span>{this.getPurposeById(purposeId).name}</span>
+                                <span>{getPurposeTitle(content, purposeId)}</span>
                                 <span classname={styles.allowed}>
                                     {this.isConsentedPurpose(purposeId) ? content.allowedButton : content.disallowedButton}
                                 </span>
@@ -69,7 +70,7 @@ class PreferencesVendorList extends Component {
                         </div>
                         {vendor.legIntPurposeIds.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`}>
-                                <span>{this.getPurposeById(purposeId).name}</span>
+                                <span>{getPurposeTitle(content, purposeId)}</span>
                                 <a href={vendor.policyUrl} className={styles.link} target="_blank">
                                     {content.findOutMoreButton}
                                 </a>
@@ -85,13 +86,13 @@ class PreferencesVendorList extends Component {
                         {vendor.featureIds.map((featureId) => (
                             <div className={styles.vendorDetail}>
                                 <div className={styles.flex}>
-                                    <span>{this.getFeatureById(featureId).name}</span>
+                                    <span>{getFeatureTitle(content, featureId)}</span>
                                     <a href={vendor.policyUrl} className={styles.link} target="_blank">
                                         {content.findOutMoreButton}
                                     </a>
                                 </div>
                                 <div className={styles.featureDescription}>
-                                    {this.getFeatureById(featureId).description}
+                                    {getFeatureBody(content, featureId)}
                                 </div>
                             </div>
                         ))}

@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import { PURPOSES, getPurposeTitle, getPurposeBody } from '../utils';
 import PreferencesVendorList from './PreferencesVendorList';
 import Switch from './Switch';
 
@@ -21,19 +22,19 @@ class PreferencesSection extends Component {
         this.forceUpdate();
 
         switch (purpose.id) {
-            case 1:
+            case PURPOSES.INFORMATION:
                 tracker.trackPurposeInformationExpandClick();
                 break;
-            case 2:
+            case PURPOSES.PERSONALIZATION:
                 tracker.trackPurposePersonalizationExpandClick();
                 break;
-            case 3:
+            case PURPOSES.AD:
                 tracker.trackPurposeAdExpandClick();
                 break;
-            case 4:
+            case PURPOSES.CONTENT:
                 tracker.trackPurposeContentExpandClick();
                 break;
-            case 5:
+            case PURPOSES.MEASUREMENT:
                 tracker.trackPurposeMeasurementExpandClick();
         }
     }
@@ -75,7 +76,7 @@ class PreferencesSection extends Component {
             <div className={styles.section}>
                 <div className={styles.flex}>
                     <div>
-                        <div className={styles.heading}>{purpose.name}</div>
+                        <div className={styles.heading}>{getPurposeTitle(content, purpose.id)}</div>
                         <div className={styles.sectionExpand} onClick={() => this.toggleIsExpanded()}>
                             {isExpanded ? content.hidePurposeDetailsButton : content.showPurposeDetailsButton}
                             <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" className={`${globalStyles.chevron} ${isExpanded ? globalStyles.chevronExpanded : ''}`}>
@@ -87,7 +88,7 @@ class PreferencesSection extends Component {
                 </div>
                 {isExpanded && (
                     <div>
-                        <div className={styles.description}>{purpose.description}</div>
+                        <div className={styles.description}>{getPurposeBody(content, purpose.id)}</div>
                         <PreferencesVendorList
                             content={content}
                             vendors={purpose.vendors}
