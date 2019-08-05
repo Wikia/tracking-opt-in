@@ -57,8 +57,8 @@ class Preferences extends Component {
                 updatePurposes(consentedVendors, newConsentedPurposes);
             }
         } else {
-            const newConsentedPurposes = consentedPurposes;
-            newConsentedPurposes.filter(id => (purposeId !== id));
+            let newConsentedPurposes = consentedPurposes;
+            newConsentedPurposes = newConsentedPurposes.filter(id => (purposeId !== id));
             updatePurposes(consentedVendors, newConsentedPurposes);
         }
     }
@@ -72,8 +72,8 @@ class Preferences extends Component {
                 updatePurposes(newConsentedVendors, consentedPurposes);
             }
         } else {
-            const newConsentedVendors = consentedVendors;
-            newConsentedVendors.filter(id => (vendorId !== id));
+            let newConsentedVendors = consentedVendors;
+            newConsentedVendors = newConsentedVendors.filter(id => (vendorId !== id));
             updatePurposes(newConsentedVendors, consentedPurposes);
         }
     }
@@ -87,8 +87,8 @@ class Preferences extends Component {
             <PreferencesSection
                 content={content}
                 purpose={purpose}
-                onTogglePurpose={this.togglePurpose}
-                onToggleVendor={this.toggleVendor}
+                onTogglePurpose={(purposeId, isEnabled) => this.togglePurpose(purposeId, isEnabled)}
+                onToggleVendor={(vendorId, isEnabled) => this.toggleVendor(vendorId, isEnabled)}
                 allPurposes={purposes}
                 allFeatures={this.state.features}
                 consentedPurposes={consentedPurposes}
