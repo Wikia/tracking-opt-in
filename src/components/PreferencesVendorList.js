@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import Switch from './Switch';
 
+import globalStyles from './styles.scss';
 import styles from './PreferencesVendorList.scss';
 
 class PreferencesVendorList extends Component {
@@ -124,7 +125,10 @@ class PreferencesVendorList extends Component {
                     <div>
                         <div className={styles.vendorName}>{vendor.name}</div>
                         <div className={styles.vendorExpand} onClick={() => this.toggleIsExpanded(vendor.id)}>
-                            {vendor.isExpanded ? content.hideVendorDetailsButton : content.showVendorDetailsButton} [ICON_TODO]
+                            {vendor.isExpanded ? content.hideVendorDetailsButton : content.showVendorDetailsButton}
+                            <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" className={`${globalStyles.chevron} ${vendor.isExpanded ? globalStyles.chevronExpanded : ''}`}>
+                                <path d="M11.707 3.293a.999.999 0 0 0-1.414 0L6 7.586 1.707 3.293A.999.999 0 1 0 .293 4.707l5 5a.997.997 0 0 0 1.414 0l5-5a.999.999 0 0 0 0-1.414" fill-rule="evenodd"/>
+                            </svg>
                         </div>
                     </div>
                     <Switch isOn={vendorIsEnabled} onChange={() => onToggleVendor(vendor.id, !vendorIsEnabled)} />

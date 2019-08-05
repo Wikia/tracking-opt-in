@@ -53,12 +53,11 @@ class Preferences extends Component {
         if (isEnabled) {
             if (consentedPurposes.indexOf(purposeId) < 0) {
                 const newConsentedPurposes = consentedPurposes;
-                newConsentedPurposes.push(puposeId);
+                newConsentedPurposes.push(purposeId);
                 updatePurposes(consentedVendors, newConsentedPurposes);
             }
         } else {
-            let newConsentedPurposes = consentedPurposes;
-            newConsentedPurposes = newConsentedPurposes.filter(id => (purposeId !== id));
+            const newConsentedPurposes = consentedPurposes.filter(id => (purposeId !== id));
             updatePurposes(consentedVendors, newConsentedPurposes);
         }
     }
@@ -72,8 +71,7 @@ class Preferences extends Component {
                 updatePurposes(newConsentedVendors, consentedPurposes);
             }
         } else {
-            let newConsentedVendors = consentedVendors;
-            newConsentedVendors = newConsentedVendors.filter(id => (vendorId !== id));
+            const newConsentedVendors = consentedVendors.filter(id => (vendorId !== id));
             updatePurposes(newConsentedVendors, consentedPurposes);
         }
     }

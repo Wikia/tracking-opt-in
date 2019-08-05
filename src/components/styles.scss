@@ -100,3 +100,15 @@
     font-weight: 500;
     text-decoration: none;
 }
+
+.chevron {
+    fill: $color-middle-gray;
+    height: 12px;
+    margin-bottom: -2px;
+    margin-left: 10px;
+    width: 12px;
+}
+
+.chevronExpanded {
+    transform: rotate(180deg);
+}
