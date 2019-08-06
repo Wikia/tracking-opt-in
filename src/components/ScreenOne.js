@@ -8,6 +8,12 @@ function getParagraphs(blockOfText, content) {
         if (content[key]) {
             return content[key];
         }
+        if (key === 'privacyPolicy') {
+            return `<a href="${content.privacyPolicyUrl}" class="${globalStyles.link}" target="_blank" data-privacy-policy="true">${content.privacyPolicyButton}</a>`;
+        }
+        if (key === 'partnerList') {
+            return `<a href="${content.partnerListUrl}" class="${globalStyles.link}" target="_blank" data-partner-list="true">${content.partnerListButton}</a>`;
+        }
         return match;
     });
 
@@ -15,6 +21,17 @@ function getParagraphs(blockOfText, content) {
 }
 
 class ScreenOne extends Component {
+    clickDescription(event) {
+        if (event.target.dataset) {
+            const { tracker } = this.props;
+            if (event.target.dataset['privacyPolicy']) {
+                tracker.trackPrivacyPolicyClick();
+            } else if (event.target.dataset['partnerList']) {
+                tracker.trackPartnerListClick();
+            }
+        }
+    }
+
     render({ appOptions, content, clickLearnMore, clickAccept }) {
         return (
             <div
@@ -28,30 +45,28 @@ class ScreenOne extends Component {
                     <div className={styles.screenOne}>
                         <div className={styles.content}>
                             <div className={styles.usesCookiesText}> {content.mainHeadline} </div>
-                            <div className={styles.bodyParagraphsContainer}>
+                            <div className={styles.bodyParagraphsContainer} onClick={(e) => this.clickDescription(e)}>
                                 {getParagraphs(content.mainBody, content)}
                             </div>
                         </div>
                     </div>
                     <div className={globalStyles.footer}>
-                        <div className={globalStyles.buttons}>
-                            <div
-                                data-tracking-opt-in-learn-more="true"
-                                className={globalStyles.learnMoreButton}
-                                onClick={clickLearnMore}
-                                key="learn"
-                            >
-                                {content.learnMoreButton}
-                            </div>
-                            <div
-                                data-tracking-opt-in-accept="true"
-                                className={globalStyles.acceptButton}
-                                onClick={clickAccept}
-                                key="accept"
-                            >
-                                {content.acceptButton}
-                            </div>
-                        </div>
+                        <button
+                            data-tracking-opt-in-learn-more="true"
+                            className={globalStyles.learnMoreButton}
+                            onClick={clickLearnMore}
+                            key="learn"
+                        >
+                            {content.learnMoreButton}
+                        </button>
+                        <button
+                            data-tracking-opt-in-accept="true"
+                            className={globalStyles.acceptButton}
+                            onClick={clickAccept}
+                            key="accept"
+                        >
+                            {content.acceptButton}
+                        </button>
                     </div>
                 </div>
             </div>

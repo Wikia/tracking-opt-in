@@ -14,12 +14,13 @@
         max-height: 90vh;
         top: 50%;
         transform: translateY(-50%);
-        width: 650px;
+        max-width: 768px;
     }
 }
 
 .content {
     padding: 10px;
+    overflow-y: auto;
 }
 
 .heading {

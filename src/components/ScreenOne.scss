@@ -33,7 +33,7 @@
 
     @media #{$desktop-devices} {
         line-height: 1.57;
-        padding: 31px 27px 62px 34px;
+        padding: 30px;
     }
 
     p {
@@ -44,17 +44,13 @@
 .usesCookiesText {
     color: $color-text;
     font-weight: bold;
-    margin-bottom: 11px;
+    margin-bottom: 12px;
     text-align: center;
-
-    @media #{$desktop-devices} {
-        margin-bottom: 22px;
-    }
 }
 
 .bodyParagraphsContainer {
     font-size: 11px;
-    line-height: 1.73;
+    line-height: 22px;
     margin: 0 -10px;
     max-height: 383px;
     overflow-y: auto;
@@ -66,8 +62,6 @@
     }
 
     @media #{$desktop-devices} {
-        line-height: 2;
-        margin-right: 22px;
         max-height: 176px;
         padding-bottom: 0;
     }

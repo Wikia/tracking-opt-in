@@ -11,10 +11,10 @@ function getParagraphs(blockOfText, content) {
             return content[key];
         }
         if (key === 'privacyPolicy') {
-            return `<a href="${content.privacyPolicyUrl}" class="${globalStyles.link}" data-privacy-policy="true">${content.privacyPolicyButton}</a>`;
+            return `<a href="${content.privacyPolicyUrl}" class="${globalStyles.link}" target="_blank" data-privacy-policy="true">${content.privacyPolicyButton}</a>`;
         }
         if (key === 'partnerList') {
-            return `<a href="${content.partnerListUrl}" class="${globalStyles.link}" data-partner-list="true">${content.partnerListButton}</a>`;
+            return `<a href="${content.partnerListUrl}" class="${globalStyles.link}" target="_blank" data-partner-list="true">${content.partnerListButton}</a>`;
         }
         return match;
     });
@@ -147,22 +147,22 @@ class Preferences extends Component {
                     </div>
                     <div className={globalStyles.footer}>
                         <div className={globalStyles.buttons}>
-                            <div
+                            <button
                                 data-tracking-opt-in-back="true"
                                 className={globalStyles.backButton}
                                 onClick={clickBack}
                                 key="back"
                             >
                                 {content.backButton}
-                            </div>
-                            <div
+                            </button>
+                            <button
                                 data-tracking-opt-in-save="true"
                                 className={globalStyles.saveButton}
                                 onClick={clickSave}
                                 key="save"
                             >
                                 {content.saveButton}
-                            </div>
+                            </button>
                         </div>
                     </div>
                 </div>
