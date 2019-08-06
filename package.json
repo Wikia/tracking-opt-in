@@ -56,9 +56,9 @@
     "webpack-serve": "^0.3.2"
   },
   "scripts": {
-    "start": "yarn clean && yarn dev",
-    "nohup": "yarn clean && nohup yarn dev &",
-    "dev": "cross-env NODE_ENV=development webpack-serve ./webpack.config.js",
+    "dev": "NODE_ENV=development cross-env webpack-serve ./webpack.config.js",
+    "start:dev": "yarn clean && yarn dev",
+    "start:prod": "NODE_ENV=productiion cross-env webpack-serve ./webpack.config.js",
     "build": "yarn build:webpack",
     "build:webpack": "cross-env NODE_ENV=production webpack",
     "build:babel": "babel src --out-dir dist/src --ignore index-dev.js",
