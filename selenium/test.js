@@ -25,31 +25,32 @@ const cookieState = {
 // windows needs the geo cookie set to something
 function removeTrackingCookie() {
     // driver for MS Edge browser crashes on browser.deleteCookie()
-    browser.setCookie({ name: trackingCookie, value: 'unknown', domain: domain });
+    browser.setCookies({ name: trackingCookie, value: 'unknown', domain: domain });
 }
 
 function setGeoCookie(country) {
-    browser.setCookie({ name: 'Geo', value: `{%22region%22:%22CA%22%2C%22country%22:%22${country}%22%2C%22continent%22:%22NA%22}` });
+    browser.setCookies({ name: 'Geo', value: `{%22region%22:%22CA%22%2C%22country%22:%22${country}%22%2C%22continent%22:%22NA%22}` });
 }
 
 // windows needs the geo cookie set to something
 function removeGeoCookie(country) {
-    browser.setCookie({ name: 'Geo', value: '{' });
+    browser.setCookies({ name: 'Geo', value: '{' });
 }
 
 function ensureUserPrompt() {
-    browser.waitForExist(overlay);
-    assert(browser.isExisting(overlay));
-    assert(browser.isExisting(acceptButton));
-    assert(browser.isExisting(learnMoreButton));
+    browser.$('html').waitForExist(overlay);
+    assert(browser.$('html').isExisting(overlay));
+    assert(browser.$('html').isExisting(acceptButton));
+    assert(browser.$('html').isExisting(learnMoreButton));
 }
 
 function ensureNoPrompt() {
-    browser.waitForExist('html')
-    assert.equal(browser.isExisting(overlay), false);
+    browser.$('html').waitForExist('html')
+    assert.equal(browser.$('html').isExisting(overlay), false);
 }
 
 describe("BrowserStack: ", () => {
+
 
     before(() =>{
         browser.url(url);

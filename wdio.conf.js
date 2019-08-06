@@ -9,6 +9,11 @@ const useTunnel = !!process.env.USE_TUNNEL;
 const build = process.env.BUILD_ID || 'local-test';
 const maxInstances = process.env.MAX_INSTANCES || 3;
 
+const failedTests = [];
+
+const capabilities = [];
+
+
 exports.config = {
     //
     // ====================
@@ -20,7 +25,7 @@ exports.config = {
     runner: 'local',
     //
     // Override default path ('/wd/hub') for chromedriver service.
-    path: '/',
+    // path: '/',
     // port: 9515,
     //
     // =================
@@ -30,8 +35,8 @@ exports.config = {
     // should work too though). These services define specific user and key (or access key)
     // values you need to put in here in order to connect to these services.
     //
-    user: process.env.BROWSERSTACK_USERNAME,
-    key: process.env.BROWSERSTACK_KEY,
+    user: user,
+    key: key,
     //
     // If you run your tests on SauceLabs you can specify the region you want to run your tests
     // in via the `region` property. Available short handles for regions are `us` (default) and `eu`.
@@ -80,9 +85,10 @@ exports.config = {
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
-        maxInstances: 5,
+        maxInstances: 3,
         //
         browserName: 'chrome',
+        browser: 'chrome',
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
@@ -94,6 +100,8 @@ exports.config = {
         'browserstack.local': useTunnel,
         'browserstack.debug': true,
         'browserstack.console': 'warnings',
+        'browserstack.user': user,
+        'browserstack.key': key,
     }],
     browserstackLocal: true,
     //
@@ -143,7 +151,7 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['chromedriver'],
+    services: ['browserstack'],
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -245,8 +253,11 @@ exports.config = {
      * Function to be executed after a test (in Mocha/Jasmine) or a step (in Cucumber) starts.
      * @param {Object} test test details
      */
-    // afterTest: function (test) {
-    // },
+    afterTest: function (test) {
+        if (!test.passed) {
+            failedTests.push(test.fullTitle);
+        }
+    },
     /**
      * Hook that gets executed after the suite has ended
      * @param {Object} suite suite details

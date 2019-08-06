@@ -50,7 +50,6 @@
     "sass-loader": "^7.0.1",
     "sinon": "^5.0.7",
     "style-loader": "^0.21.0",
-    "webdriverio": "^5.11.13",
     "webpack": "^4.6.0",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^2.1.2",
