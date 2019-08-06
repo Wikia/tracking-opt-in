@@ -54,7 +54,7 @@ class PreferencesSection extends Component {
         const { isExpanded } = state;
         const purposeIsEnabled = this.isConsentedPurpose(purpose.id);
 
-		return (
+        return (
             <div className={styles.section}>
                 <div className={styles.flex}>
                     <div>
