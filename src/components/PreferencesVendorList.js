@@ -57,7 +57,7 @@ class PreferencesVendorList extends Component {
                             <div className={`${styles.vendorDetail} ${styles.flex}`}>
                                 <span>{getPurposeTitle(content, purposeId)}</span>
                                 <span classname={styles.allowed}>
-                                    {this.isConsentedPurpose(purposeId) ? content.allowedButton : content.disallowedButton}
+                                    {this.isConsentedVendor(vendor.id) && this.isConsentedPurpose(purposeId) ? content.allowedButton : content.disallowedButton}
                                 </span>
                             </div>
                         ))}
