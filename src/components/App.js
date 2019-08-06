@@ -68,7 +68,7 @@ class App extends Component {
     back = () => {
         this.props.tracker.trackBackClick();
         this.setState({ isScreenOne: true });
-        this.forceUpdate;
+        this.forceUpdate();
     };
 
     save = () => {
