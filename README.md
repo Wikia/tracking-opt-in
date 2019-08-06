@@ -82,7 +82,7 @@ $> yarn install
 ```
 ### Running demo site
 ```
-$> yarn start
+$> yarn start:dev
 ```
 
 Open up http://localhost:3000. Webpack HMR should update the app as you develop.
@@ -102,4 +102,6 @@ $> yarn test:watch
 
 ### Selenium Testing
 FANDOM uses BrowserStack to assist our automated testing efforts. [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=ZXArSDQvQlk4VjBaOStIcmszYXRuaXpISDAxUHpFanRnSHl5K04va3dMTT0tLVRmblMvY1NEY3JUQTJ3WkhKaE82a3c9PQ==--24c381c7955b4e15f80c34c5b7870490500f5c5b)](https://www.browserstack.com/automate/public-build/ZXArSDQvQlk4VjBaOStIcmszYXRuaXpISDAxUHpFanRnSHl5K04va3dMTT0tLVRmblMvY1NEY3JUQTJ3WkhKaE82a3c9PQ==--24c381c7955b4e15f80c34c5b7870490500f5c5b)<a href="http://www.browserstack.com"><img valign="middle" width="150" src="https://bstacksupport.zendesk.com/attachments/token/ojYZjNWZsYGIGhzwWlxeeoEPT/?name=browserstack-logo-600x315.png"></a>
+
+To run the selenium tests locally run `yarn start:prod` in one terminal then run `BROWSERSTACK_KEY=<browser-stack> BROWSERSTACK_USERNAME=<username>  USE_TUNNEL=true yarn test:selenium`
 
