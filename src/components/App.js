@@ -68,13 +68,14 @@ class App extends Component {
     back = () => {
         this.props.tracker.trackBackClick();
         this.setState({ isScreenOne: true });
-        this.forceUpdate;
-    };
+        this.forceUpdate();
+    }
 
     save = () => {
         this.props.tracker.trackSaveClick();
-        // save and continue logic goes here
-        console.log('Save and Continue')
+        this.props.optInManager.setTrackingAccepted();
+        this.props.onRequestAppRemove();
+        this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
     };
 
     // this will need to be be called in a sub component to update the state
@@ -82,7 +83,7 @@ class App extends Component {
         this.setState({consentedVendors: vendorIds, consentedPurposes: purposeIds});
     };
 
-    render({ options, content }) {
+    render({ options, content, tracker }) {
         if (this.state.isScreenOne) {
             return (
                 <ScreenOne
@@ -104,6 +105,7 @@ class App extends Component {
                     updatePurposes={this.updatePurposes}
                     clickBack={this.back}
                     clickSave={this.save}
+                    tracker={tracker}
                 />
             );
         }

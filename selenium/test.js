@@ -11,7 +11,7 @@ function getCookieDomain(hostname) {
 
 const url = process.env.TEST_URL || 'http://localhost:3000';
 const countryRequiringConsent = process.env.COUNTRY_REQUIRING_CONSENT || 'PL';
-const countryNotRequiringConsent = process.env.COUNTRY_NOT_REQUIRING_CONSENT || 'US';
+const countryNotRequiringConsent = process.env.COUNTRY_NOT_REQUIRING_CONSENT || 'CA';
 const domain = getCookieDomain(url);
 const overlay = 'div[data-tracking-opt-in-overlay="true"]';
 const acceptButton = 'div[data-tracking-opt-in-accept="true"]';
