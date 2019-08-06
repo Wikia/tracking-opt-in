@@ -22,7 +22,6 @@ describe('App', () => {
     stub(Tracker.prototype, 'track').callsFake((...a) => console.debug('Track', a));
     let optInManager;
     let geoManager;
-    let wrapper;
 
     function renderApp(callbacks = {}, preventScrollOn = null) {
         optInManager = createStubInstance(OptInManager);
@@ -51,7 +50,6 @@ describe('App', () => {
 
     afterEach(() => {
         optInManager = null;
-        wrapper = null;
         removeApp();
     });
 
