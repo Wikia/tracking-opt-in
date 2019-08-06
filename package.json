@@ -59,7 +59,7 @@
   "scripts": {
     "dev": "NODE_ENV=development cross-env webpack-serve ./webpack.config.js",
     "start:dev": "yarn clean && yarn dev",
-    "start:prod": "NODE_ENV=productiion cross-env webpack-serve ./webpack.config.js",
+    "start:prod": "NODE_ENV=production cross-env webpack-serve ./webpack.config.js",
     "build": "yarn build:webpack",
     "build:webpack": "cross-env NODE_ENV=production webpack",
     "build:babel": "babel src --out-dir dist/src --ignore index-dev.js",
