@@ -42,12 +42,10 @@ class ScreenOne extends Component {
                 }}
             >
                 <div className={`${globalStyles.dialog} ${styles.dialog}`}>
-                    <div className={styles.screenOne}>
-                        <div className={styles.content}>
-                            <div className={styles.usesCookiesText}> {content.mainHeadline} </div>
-                            <div className={styles.bodyParagraphsContainer} onClick={(e) => this.clickDescription(e)}>
-                                {getParagraphs(content.mainBody, content)}
-                            </div>
+                    <div className={styles.content}>
+                        <div className={styles.usesCookiesText}> {content.mainHeadline} </div>
+                        <div className={styles.bodyParagraphsContainer} onClick={(e) => this.clickDescription(e)}>
+                            {getParagraphs(content.mainBody, content)}
                         </div>
                     </div>
                     <div className={globalStyles.footer}>
