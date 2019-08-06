@@ -5,7 +5,6 @@ import Switch from './Switch';
 
 import globalStyles from './styles.scss';
 import styles from './PreferencesSection.scss';
-import Switch from './Switch';
 
 class PreferencesSection extends Component {
     state = {
