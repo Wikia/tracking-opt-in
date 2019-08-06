@@ -57,34 +57,34 @@ describe("BrowserStack: ", () => {
         setGeoCookie(countryRequiringConsent);
     });
 
-    // describe("without any relevant cookies", () => {
-    //     afterEach(() => {
-    //         removeTrackingCookie();
-    //     });
-    //
-    //     it("prompts the user", () => {
-    //         browser.url(url);
-    //         ensureUserPrompt();
-    //     });
-    //
-    //     it("prompts the user on subsequent pages if they do not interact with the modal", () => {
-    //         browser.url(url);
-    //         ensureUserPrompt();
-    //
-    //         browser.url(url);
-    //         ensureUserPrompt();
-    //     });
-    //
-    //     it("adds the correct cookie when accepted on initial modal", () => {
-    //         browser
-    //             .url(url)
-    //             .click(acceptButton);
-    //
-    //         const cookie = browser.getCookie(trackingCookie);
-    //         assert.equal(cookie.value, cookieState.accepted);
-    //         ensureNoPrompt();
-    //     });
-    // });
+    describe("without any relevant cookies", () => {
+        afterEach(() => {
+            removeTrackingCookie();
+        });
+
+        it("prompts the user", () => {
+            browser.url(url);
+            ensureUserPrompt();
+        });
+
+        it("prompts the user on subsequent pages if they do not interact with the modal", () => {
+            browser.url(url);
+            ensureUserPrompt();
+
+            browser.url(url);
+            ensureUserPrompt();
+        });
+
+        it("adds the correct cookie when accepted on initial modal", () => {
+            browser
+                .url(url)
+                .click(acceptButton);
+
+            const cookie = browser.getCookie(trackingCookie);
+            assert.equal(cookie.value, cookieState.accepted);
+            ensureNoPrompt();
+        });
+    });
     //
     // describe("after accepting tracking", () => {
     //     afterEach(() => {
