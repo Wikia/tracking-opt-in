@@ -5,22 +5,7 @@ import PreferencesSection from './PreferencesSection';
 import globalStyles from './styles.scss';
 import styles from './Preferences.scss';
 
-function getParagraphs(blockOfText, content) {
-    const replaceKeysInText = text => text.replace(/%([a-zA-Z]+)%/g, (match, key) => {
-        if (content[key]) {
-            return content[key];
-        }
-        if (key === 'privacyPolicy') {
-            return `<a href="${content.privacyPolicyUrl}" class="${globalStyles.link}" data-privacy-policy="true">${content.privacyPolicyButton}</a>`;
-        }
-        if (key === 'partnerList') {
-            return `<a href="${content.partnerListUrl}" class="${globalStyles.link}" data-partner-list="true">${content.partnerListButton}</a>`;
-        }
-        return match;
-    });
-
-    return blockOfText.map(line => <p dangerouslySetInnerHTML={{ __html: replaceKeysInText(line) }} />);
-}
+import getParagraphs from '../utils/getParagraphs';
 
 class Preferences extends Component {
     state = {
@@ -147,22 +132,22 @@ class Preferences extends Component {
                     </div>
                     <div className={globalStyles.footer}>
                         <div className={globalStyles.buttons}>
-                            <div
+                            <button
                                 data-tracking-opt-in-back="true"
                                 className={globalStyles.backButton}
                                 onClick={clickBack}
                                 key="back"
                             >
                                 {content.backButton}
-                            </div>
-                            <div
+                            </button>
+                            <button
                                 data-tracking-opt-in-save="true"
                                 className={globalStyles.saveButton}
                                 onClick={clickSave}
                                 key="save"
                             >
                                 {content.saveButton}
-                            </div>
+                            </button>
                         </div>
                     </div>
                 </div>

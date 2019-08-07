@@ -3,7 +3,7 @@ import { Promise } from 'es6-promise';
 import Cookies from 'js-cookie';
 import { getCookieDomain, getJSON } from './utils';
 
-export const CMP_VERSION = 3; // Increment to force modal again
+export const CMP_VERSION = 2; // Increment to force modal again
 const CMP_ID = 141;
 const CMP_DEFAULT_LANGUAGE = 'en';
 const VENDOR_CONSENT_COOKIE_NAME = 'euconsent';

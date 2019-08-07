@@ -21,8 +21,9 @@
     background-color: white;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
+    display: flex;
+    flex-direction: column;
     font-family: $font-family !important;
-    overflow-y: auto;
 }
 
 .background {
@@ -30,74 +31,50 @@
 }
 
 .footer {
+    background-color: #fff;
     box-shadow: 0 0 6px 0 rgba(195, 195, 195, 0.5);
-    display: flex;
-    justify-content: center;
-    padding: 12px 27px 12px 34px;
+    box-sizing: border-box;
+    height: 60px;
+    padding: 12px 27px;
+    text-align: center;
 
     @media #{$desktop-devices} {
-        justify-content: flex-end;
+        text-align: right;
     }
-}
 
-.buttons {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    text-transform: uppercase;
+    & button {
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: bold;
+        height: 36px;
+        outline: none;
+        padding: 0 18px;
+        text-transform: uppercase;
 
-    @media #{$desktop-devices} {
-        align-items: flex-end;
-        justify-content: flex-start;
+        &:first-child {
+            margin-right: 18px;
+        }
     }
 }
 
 .acceptButton,
 .saveButton {
     background-color: #00cdd0;
-    border-radius: 3px;
+    border: 1px solid #fff;
     color: #0e191a;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 1;
-    padding: 12px 18px;
-    text-align: center;
-    width: fit-content;
-
-    &:last-child {
-        margin-bottom: 0;
-    }
-
-    &:hover {
-        cursor: pointer;
-    }
-
-    @media #{$mobile-devices} {
-        margin-bottom: 24px;
-    }
 }
 
 .learnMoreButton,
 .backButton {
-    border-radius: 3px;
+    background-color: #fff;
     border: 1px solid $color-dark-gray;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 1;
-    margin-right: 18px;
-    padding: 12px 18px;
-    text-align: center;
-
-    &:hover {
-        cursor: pointer;
-    }
 }
 
 .link {
     color: $color-link;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: bold;
     text-decoration: none;
 }
 
