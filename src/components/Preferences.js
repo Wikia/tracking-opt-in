@@ -5,22 +5,7 @@ import PreferencesSection from './PreferencesSection';
 import globalStyles from './styles.scss';
 import styles from './Preferences.scss';
 
-function getParagraphs(blockOfText, content) {
-    const replaceKeysInText = text => text.replace(/%([a-zA-Z]+)%/g, (match, key) => {
-        if (content[key]) {
-            return content[key];
-        }
-        if (key === 'privacyPolicy') {
-            return `<a href="${content.privacyPolicyUrl}" class="${globalStyles.link}" target="_blank" data-privacy-policy="true">${content.privacyPolicyButton}</a>`;
-        }
-        if (key === 'partnerList') {
-            return `<a href="${content.partnerListUrl}" class="${globalStyles.link}" target="_blank" data-partner-list="true">${content.partnerListButton}</a>`;
-        }
-        return match;
-    });
-
-    return blockOfText.map(line => <p dangerouslySetInnerHTML={{ __html: replaceKeysInText(line) }} />);
-}
+import getParagraphs from '../utils/getParagraphs';
 
 class Preferences extends Component {
     state = {
