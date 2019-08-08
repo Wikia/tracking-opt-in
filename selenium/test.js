@@ -13,42 +13,43 @@ const url = process.env.TEST_URL || 'http://localhost:3000';
 const countryRequiringConsent = process.env.COUNTRY_REQUIRING_CONSENT || 'PL';
 const countryNotRequiringConsent = process.env.COUNTRY_NOT_REQUIRING_CONSENT || 'CA';
 const domain = getCookieDomain(url);
-const overlay = 'div[data-tracking-opt-in-overlay="true"]';
-const acceptButton = 'div[data-tracking-opt-in-accept="true"]';
-const learnMoreButton = 'div[data-tracking-opt-in-learn-more="true"]';
+const overlay = '[data-tracking-opt-in-overlay="true"]';
+const acceptButton = '[data-tracking-opt-in-accept="true"]';
+const learnMoreButton = '[data-tracking-opt-in-learn-more="true"]';
 const trackingCookie = 'tracking-opt-in-status';
 const cookieState = {
     accepted: 'accepted',
     rejected: 'rejected',
 };
 
+// windows needs the geo cookie set to something
 function removeTrackingCookie() {
     // driver for MS Edge browser crashes on browser.deleteCookie()
-    browser.setCookie({ name: trackingCookie, value: 'unknown', domain: domain });
+    browser.setCookies({ name: trackingCookie, value: 'unknown', domain: domain });
 }
 
 function setGeoCookie(country) {
-    browser.setCookie({ name: 'Geo', value: `{%22region%22:%22CA%22%2C%22country%22:%22${country}%22%2C%22continent%22:%22NA%22}` });
+    browser.setCookies({ name: 'Geo', value: `{%22region%22:%22CA%22%2C%22country%22:%22${country}%22%2C%22continent%22:%22NA%22}` });
 }
 
+// windows needs the geo cookie set to something
 function removeGeoCookie(country) {
-    browser.setCookie({ name: 'Geo', value: '{' });
+    browser.setCookies({ name: 'Geo', value: '{' });
 }
 
 function ensureUserPrompt() {
-    browser.waitForExist(overlay);
-    assert(browser.isExisting(overlay));
-    assert(browser.isExisting(acceptButton));
-    assert(browser.isExisting(learnMoreButton));
+    $(overlay).waitForExist();
+    assert($(overlay).isExisting());
+    assert($(acceptButton).isExisting());
+    assert($(learnMoreButton).isExisting());
 }
 
 function ensureNoPrompt() {
-    browser.waitForExist('html')
-    assert.equal(browser.isExisting(overlay), false);
+    $('html').waitForExist();
+    assert.equal($(overlay).isExisting(), false);
 }
 
 describe("BrowserStack: ", () => {
-
     before(() =>{
         browser.url(url);
         setGeoCookie(countryRequiringConsent);
@@ -56,6 +57,7 @@ describe("BrowserStack: ", () => {
 
     describe("without any relevant cookies", () => {
         afterEach(() => {
+            console.log('removing tracking cookie');
             removeTrackingCookie();
         });
 
@@ -73,12 +75,12 @@ describe("BrowserStack: ", () => {
         });
 
         it("adds the correct cookie when accepted on initial modal", () => {
-            browser
-                .url(url)
-                .click(acceptButton);
+            browser.url(url);
+            $(acceptButton).click();
 
-            const cookie = browser.getCookie(trackingCookie);
-            assert.equal(cookie.value, cookieState.accepted);
+            const cookie = browser.getCookies([trackingCookie]);
+            console.log('tites', cookie);
+            assert.equal(cookie[0].value, cookieState.accepted);
             ensureNoPrompt();
         });
     });
@@ -89,9 +91,8 @@ describe("BrowserStack: ", () => {
         });
 
         it("does not prompt on subsequent pageloads", () => {
-            browser
-                .url(url)
-                .click(acceptButton);
+            browser.url(url);
+            $(acceptButton).click();
 
             browser.url(url);
             ensureNoPrompt();
@@ -117,7 +118,7 @@ describe("BrowserStack: ", () => {
         it("does not reprompt when the user accepts", () => {
             browser.url(url);
             ensureUserPrompt();
-            browser.click(acceptButton);
+            $(acceptButton).click();
 
             browser.url(url);
             ensureNoPrompt();
@@ -152,6 +153,7 @@ describe("BrowserStack: ", () => {
         });
 
         it("does not prompt the user", () => {
+            removeGeoCookie();
             browser.url(url);
             ensureNoPrompt();
         });
