@@ -61,11 +61,6 @@ pipeline {
     }
 
     stage('release') {
-      when {
-        expression {
-          return params.pipeline == 'release' && params.branch == 'master'
-        }
-      }
       steps {
         sshagent(credentials: ["$CREDENTIAL_ID"]) {
           sh "git checkout ${params.branch}"
