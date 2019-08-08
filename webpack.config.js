@@ -19,7 +19,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 
 let topLevelOptions = {};
 
-if (process.env.NODE_ENV === 'development' || process.env.SERVE) {
+if (process.env.NODE_ENV === 'development' || process.env.SERVE === 'true') {
     topLevelOptions = {
         serve: {
             port: 3000,
