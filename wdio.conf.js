@@ -11,8 +11,144 @@ const maxInstances = process.env.MAX_INSTANCES || 3;
 
 const failedTests = [];
 
-const capabilities = [];
+const windows10Device = {
+    os: 'Windows',
+    os_version: '10',
+};
+const macOsDevice = {
+    os: 'OS X',
+    os_version: 'High Sierra',
+};
+const android4_4Device = {
+    os: 'Android',
+    device: 'Google Nexus 5',
+    os_version: '4.4',
+    realMobile: true,
+};
+const android5Device = {
+    os: 'Android',
+    device: 'Samsung Galaxy S6',
+    os_version: '5.0',
+    realMobile: true,
+};
+const android6Device = {
+    os: 'Android',
+    device: 'Samsung Galaxy S7',
+    os_version: '6.0',
+    realMobile: true,
+};
+const android7Device = {
+    os: 'Android',
+    device: 'Samsung Galaxy S8',
+    os_version: '7.0',
+    realMobile: true,
+};
+const android8Device = {
+    os: 'Android',
+    device: 'Google Pixel',
+    os_version: '8.0',
+    realMobile: true,
+};
+const ios10_3Device = {
+    os: 'iOS',
+    device: 'iPhone 7',
+    os_version: '10.3',
+    realMobile: true,
+};
+const ios11Device = {
+    os: 'iOS',
+    device: 'iPhone 8',
+    os_version: '11.0',
+    realMobile: true,
+};
+const ios11_2Device = {
+    os: 'iOS',
+    device: 'iPhone SE',
+    os_version: '11.2',
+    realMobile: true,
+};
+const commonCapabilities = {
+    build,
+    project: projectName,
+    'browserstack.local': useTunnel,
+    'browserstack.debug': true,
+    'browserstack.console': 'verbose',
+    'browserstack.user': user,
+    'browserstack.key': key,
+};
 
+const capabilities = [
+    // {
+    //     ...ios10_3Device,
+    //     ...commonCapabilities,
+    //     browser: 'safari',
+    // },
+    // {
+    //     ...ios11Device,
+    //     ...commonCapabilities,
+    //     browser: 'safari',
+    // },
+    // {
+    //     ...ios11_2Device,
+    //     ...commonCapabilities,
+    //     browser: 'safari',
+    // },
+    {
+        ...android4_4Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...android5Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...android6Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...android7Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...android8Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...windows10Device,
+        ...commonCapabilities,
+        browser: 'chrome',
+    },
+    {
+        ...windows10Device,
+        ...commonCapabilities,
+        browser: 'firefox',
+    },
+    {
+        ...windows10Device,
+        ...commonCapabilities,
+        browser: 'edge',
+    },
+    {
+        ...macOsDevice,
+        ...commonCapabilities,
+        browser: 'firefox',
+    },
+    {
+        ...macOsDevice,
+        ...commonCapabilities,
+        browser: 'safari',
+    },
+    {
+        ...macOsDevice,
+        ...commonCapabilities,
+        browser: 'chrome',
+    }
+];
 
 exports.config = {
     //
@@ -81,28 +217,7 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
-    capabilities: [{
-        // maxInstances can get overwritten per capability. So if you have an in-house Selenium
-        // grid with only 5 firefox instances available you can make sure that not more than
-        // 5 instances get started at a time.
-        maxInstances: 3,
-        //
-        browserName: 'chrome',
-        browser: 'chrome',
-        // If outputDir is provided WebdriverIO can capture driver session logs
-        // it is possible to configure which logTypes to include/exclude.
-        // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
-        // excludeDriverLogs: ['bugreport', 'server'],
-        os: 'OS X',
-        os_version: 'High Sierra',
-        build,
-        project: projectName,
-        'browserstack.local': useTunnel,
-        'browserstack.debug': true,
-        'browserstack.console': 'warnings',
-        'browserstack.user': user,
-        'browserstack.key': key,
-    }],
+    capabilities: capabilities,
     browserstackLocal: true,
     //
     // ===================

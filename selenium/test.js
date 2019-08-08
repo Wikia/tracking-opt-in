@@ -38,20 +38,18 @@ function removeGeoCookie(country) {
 }
 
 function ensureUserPrompt() {
-    browser.$('html').waitForExist(overlay);
-    assert(browser.$('html').isExisting(overlay));
-    assert(browser.$('html').isExisting(acceptButton));
-    assert(browser.$('html').isExisting(learnMoreButton));
+    $(overlay).waitForExist();
+    assert($(overlay).isExisting());
+    assert($(acceptButton).isExisting());
+    assert($(learnMoreButton).isExisting());
 }
 
 function ensureNoPrompt() {
-    browser.$('html').waitForExist('html')
-    assert.equal(browser.$('html').isExisting(overlay), false);
+    $('html').waitForExist();
+    assert.equal($(overlay).isExisting(), false);
 }
 
 describe("BrowserStack: ", () => {
-
-
     before(() =>{
         browser.url(url);
         setGeoCookie(countryRequiringConsent);
@@ -59,6 +57,7 @@ describe("BrowserStack: ", () => {
 
     describe("without any relevant cookies", () => {
         afterEach(() => {
+            console.log('removing tracking cookie');
             removeTrackingCookie();
         });
 
@@ -76,56 +75,55 @@ describe("BrowserStack: ", () => {
         });
 
         it("adds the correct cookie when accepted on initial modal", () => {
-            browser
-                .url(url)
-                .click(acceptButton);
+            browser.url(url);
+            $(acceptButton).click();
 
-            const cookie = browser.getCookie(trackingCookie);
-            assert.equal(cookie.value, cookieState.accepted);
+            const cookie = browser.getCookies([trackingCookie]);
+            console.log('tites', cookie);
+            assert.equal(cookie[0].value, cookieState.accepted);
             ensureNoPrompt();
         });
     });
-    //
-    // describe("after accepting tracking", () => {
-    //     afterEach(() => {
-    //         removeTrackingCookie();
-    //     });
-    //
-    //     it("does not prompt on subsequent pageloads", () => {
-    //         browser
-    //             .url(url)
-    //             .click(acceptButton);
-    //
-    //         browser.url(url);
-    //         ensureNoPrompt();
-    //     })
-    // });
-    //
-    // describe("with geo cookie from country requiring consent", () => {
-    //     before(() => {
-    //         browser.url(url);
-    //         removeTrackingCookie();
-    //         setGeoCookie(countryRequiringConsent)
-    //     });
-    //
-    //     afterEach(() => {
-    //         removeTrackingCookie();
-    //     });
-    //
-    //     it("prompts the user", () => {
-    //         browser.url(url);
-    //         ensureUserPrompt();
-    //     });
-    //
-    //     it("does not reprompt when the user accepts", () => {
-    //         browser.url(url);
-    //         ensureUserPrompt();
-    //         browser.click(acceptButton);
-    //
-    //         browser.url(url);
-    //         ensureNoPrompt();
-    //     });
-    // });
+
+    describe("after accepting tracking", () => {
+        afterEach(() => {
+            removeTrackingCookie();
+        });
+
+        it("does not prompt on subsequent pageloads", () => {
+            browser.url(url);
+            $(acceptButton).click();
+
+            browser.url(url);
+            ensureNoPrompt();
+        })
+    });
+
+    describe("with geo cookie from country requiring consent", () => {
+        before(() => {
+            browser.url(url);
+            removeTrackingCookie();
+            setGeoCookie(countryRequiringConsent)
+        });
+
+        afterEach(() => {
+            removeTrackingCookie();
+        });
+
+        it("prompts the user", () => {
+            browser.url(url);
+            ensureUserPrompt();
+        });
+
+        it("does not reprompt when the user accepts", () => {
+            browser.url(url);
+            ensureUserPrompt();
+            $(acceptButton).click();
+
+            browser.url(url);
+            ensureNoPrompt();
+        });
+    });
 
     describe("with geo cookie from country not requiring consent", () => {
         before(() => {
@@ -155,6 +153,7 @@ describe("BrowserStack: ", () => {
         });
 
         it("does not prompt the user", () => {
+            removeGeoCookie();
             browser.url(url);
             ensureNoPrompt();
         });
