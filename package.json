@@ -1,6 +1,6 @@
 {
     "name": "@wikia/tracking-opt-in",
-    "version": "2.0.0-pre1",
+    "version": "2.0.0-pre3",
     "main": "dist/tracking-opt-in.min.js",
     "license": "Apache-2.0",
     "repository": {
@@ -53,11 +53,11 @@
         "sass-loader": "^7.0.1",
         "sinon": "^5.0.7",
         "style-loader": "^0.21.0",
+        "wdio": "^3.0.3",
         "webpack": "^4.6.0",
         "webpack-bundle-analyzer": "^2.13.1",
         "webpack-cli": "^2.1.2",
-        "webpack-serve": "^0.3.2",
-        "wdio": "^3.0.3"
+        "webpack-serve": "^0.3.2"
     },
     "scripts": {
         "nohup:dev": "yarn clean && nohup yarn start:dev &",
