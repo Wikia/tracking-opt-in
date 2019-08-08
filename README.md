@@ -41,6 +41,7 @@ Invocation of the exported function returns an instance of `TrackingOptIn`. See 
 
 ### Options
 The following options are accepted:
+
 - `beaconCookieName` - The name of the beacon cookie that will be added to tracking calls
 - `cookieName` - The name of the cookie used for the user's tracking consent status. Should only be changed for development purposes. defaults to `tracking-opt-in-status`.
 - `cookieExpiration` - How long the consent cookie should last when the user accepts consent. Defaults to 50 years.
@@ -56,18 +57,18 @@ The following options are accepted:
 - `zIndex` - Useful if elements on the app are appearing above the overlay/modal. Defaults to `1000`.
 - `onAcceptTracking` - The callback fired when:
   - the user's geo does not require tracking consent
-  - the user accepts tracking
+  - the user clicks "Accept" in the dialog
   - the user has already accepted tracking (subsequent page load)
-- `onRejectTracking` - (Deprecated as of v2.0.0) The callback fired when:
-  - the user rejects tracking
-  - the user has already rejected tracking (subsequent page load)
+- `onRejectTracking` - (Deprecated as of v2.0.0) This callback is no longer used.
 
 #### Notes
-- `onAcceptTracking` and `onRejectTracking` are the key options that should be overridden by each app to either initialize their respective trackers or to somehow react to the user's rejection of tracking.
+- `onAcceptTracking` is the key option that should be used by each app if you need to react to the user's acceptance of third party tracking.
+- As of v2.0.0, accepting tracking should not affect any GA or internal tracking unrelated to advertising.
 - Country codes are in [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1) format.
 
 ### TrackingOptIn class
 Calling the exported function returns an instance of the [`TrackingOptIn`](https://github.com/Wikia/tracking-opt-in/blob/master/src/TrackingOptIn.js) class. The class has the following functions:
+
 - `hasUserConsented()` - Returns `true` if the user has accepted tracking (or does not need to based on their geo), `false` if they have explicitly rejected tracking, and `undefined` if the user has neither accepted nor rejected tracking.
 - `geoRequiresTrackingConsent()` - Returns `true` if the user's geo requires consent, `false` otherwise.
 - `reset()` - Clears the opt-in cookie and runs through the rendering rules again.
@@ -101,7 +102,9 @@ $> yarn test:watch
 ```
 
 ### Selenium Testing
-FANDOM uses BrowserStack to assist our automated testing efforts. [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=ZXArSDQvQlk4VjBaOStIcmszYXRuaXpISDAxUHpFanRnSHl5K04va3dMTT0tLVRmblMvY1NEY3JUQTJ3WkhKaE82a3c9PQ==--24c381c7955b4e15f80c34c5b7870490500f5c5b)](https://www.browserstack.com/automate/public-build/ZXArSDQvQlk4VjBaOStIcmszYXRuaXpISDAxUHpFanRnSHl5K04va3dMTT0tLVRmblMvY1NEY3JUQTJ3WkhKaE82a3c9PQ==--24c381c7955b4e15f80c34c5b7870490500f5c5b)<a href="http://www.browserstack.com"><img valign="middle" width="150" src="https://bstacksupport.zendesk.com/attachments/token/ojYZjNWZsYGIGhzwWlxeeoEPT/?name=browserstack-logo-600x315.png"></a>
+FANDOM uses BrowserStack to assist our automated testing efforts.
+[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=ZXArSDQvQlk4VjBaOStIcmszYXRuaXpISDAxUHpFanRnSHl5K04va3dMTT0tLVRmblMvY1NEY3JUQTJ3WkhKaE82a3c9PQ==--24c381c7955b4e15f80c34c5b7870490500f5c5b)](https://www.browserstack.com/automate/public-build/ZXArSDQvQlk4VjBaOStIcmszYXRuaXpISDAxUHpFanRnSHl5K04va3dMTT0tLVRmblMvY1NEY3JUQTJ3WkhKaE82a3c9PQ==--24c381c7955b4e15f80c34c5b7870490500f5c5b)<a href="http://www.browserstack.com"><img valign="middle" width="150" src="https://bstacksupport.zendesk.com/attachments/token/ojYZjNWZsYGIGhzwWlxeeoEPT/?name=browserstack-logo-600x315.png"></a>
 
-To run the selenium tests locally first run `yarn start:prod` in one terminal then, in a separate terminal, run `BROWSERSTACK_KEY=<browser-stack> BROWSERSTACK_USERNAME=<username>  USE_TUNNEL=true yarn test:selenium`
+To run the selenium tests locally first run `yarn start:prod` in one terminal then, in a separate terminal, run `BROWSERSTACK_KEY=<browser-stack> BROWSERSTACK_USERNAME=<username> USE_TUNNEL=true yarn test:selenium`
+
 
