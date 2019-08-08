@@ -41,24 +41,24 @@ Invocation of the exported function returns an instance of `TrackingOptIn`. See 
 
 ### Options
 The following options are accepted:
-- `beaconCookieName` - The name of the beacon cookie that'll be added to tracking calls
+- `beaconCookieName` - The name of the beacon cookie that will be added to tracking calls
 - `cookieName` - The name of the cookie used for the user's tracking consent status. Should only be changed for development purposes. defaults to `tracking-opt-in-status`.
 - `cookieExpiration` - How long the consent cookie should last when the user accepts consent. Defaults to 50 years.
 - `cookieRejectExpiration` - How long the reject cookie should last when the user rejects. Defaults to 1 days.
 - `country` - Override the country code for determining the country the user is visiting from. Defaults to reading from the `Geo` cookie that should be available in all of our web apps.
-- `countriesRequiringPrompt` - array of country codes that require tracking opt-in. See [`GeoManager`](https://github.com/Wikia/tracking-opt-in/blob/master/src/GeoManager.js) for the defaults.
+- `countriesRequiringPrompt` - Array of country codes that require tracking opt-in. See [`GeoManager`](https://github.com/Wikia/tracking-opt-in/blob/master/src/GeoManager.js) for the defaults.
 - `enabledVendorPurposes` - Array of purpose IDs to be allowed on opt-in. See the [IAB CMP specification](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/CMP%20JS%20API%20v1.1%20Final.md) for details. Defaults to all standard purposes.
-- `enabledVendors` - Array of vendor IDs to be allowed on opt-in. See the [IAB CMP specification](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/CMP%20JS%20API%20v1.1%20Final.md) for details. Defaults to `[10, 11, 32, 52, 69, 76]`.
+- `enabledVendors` - Array of vendor IDs to be allowed on opt-in. See the [IAB CMP specification](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/CMP%20JS%20API%20v1.1%20Final.md) for details. Defaults to a list of all of Fandom's vendors who are partnered with IAB.
 - `language` - Override the language used to display the dialog text. Defaults to `window.navigator.language` if available, otherwise to `en`.
 - `preventScrollOn` - Prevent scrolling on the specified element when the dialog is shown. Can be either an element or query selector passed to `document.querySelector`. Defaults to `'body'`, set to `null` to prevent this behavior.
 - `queryParam` - The name of the query param to forcefully set the accepted status. Defaults to `tracking-opt-in-status` and accepts the string values `true` or `false` (e.g `http://starwars.wikia.com/?tracking-opt-in-status=true`)
-- `track` - whether to track impressions and user consent/rejections. Defaults to `true`.
+- `track` - Whether to track impressions and user consent/rejections. Defaults to `true`.
 - `zIndex` - Useful if elements on the app are appearing above the overlay/modal. Defaults to `1000`.
 - `onAcceptTracking` - The callback fired when:
   - the user's geo does not require tracking consent
   - the user accepts tracking
   - the user has already accepted tracking (subsequent page load)
-- `onRejectTracking` - the callback fired when:
+- `onRejectTracking` - (Deprecated as of v2.0.0) The callback fired when:
   - the user rejects tracking
   - the user has already rejected tracking (subsequent page load)
 
@@ -68,11 +68,11 @@ The following options are accepted:
 
 ### TrackingOptIn class
 Calling the exported function returns an instance of the [`TrackingOptIn`](https://github.com/Wikia/tracking-opt-in/blob/master/src/TrackingOptIn.js) class. The class has the following functions:
-- `hasUserConsented()` - returns `true` if the user has accepted tracking (or does not need to based on their geo), `false` if they have explicitly rejected tracking, and `undefined` if the user has neither consented or rejected tracking.
-- `geoRequiresTrackingConsent()` - returns `true` if the user's geo requires consent, `false` otherwise.
-- `reset()` - clears the opt-in cookie and runs through the rendering rules again.
-- `clear()` - clears the opt-in cookie
-- `render()` - runs through the rendering rules and either renders the opt-in prompt or calls the appropriate `onAcceptTracking`/`onRejectTracking` callbacks.
+- `hasUserConsented()` - Returns `true` if the user has accepted tracking (or does not need to based on their geo), `false` if they have explicitly rejected tracking, and `undefined` if the user has neither accepted nor rejected tracking.
+- `geoRequiresTrackingConsent()` - Returns `true` if the user's geo requires consent, `false` otherwise.
+- `reset()` - Clears the opt-in cookie and runs through the rendering rules again.
+- `clear()` - Clears the opt-in cookie
+- `render()` - Runs through the rendering rules and either renders the opt-in prompt or calls the appropriate `onAcceptTracking`/`onRejectTracking` callbacks.
 
 
 ## Local Development
