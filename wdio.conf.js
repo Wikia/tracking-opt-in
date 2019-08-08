@@ -78,6 +78,8 @@ const commonCapabilities = {
 };
 
 const capabilities = [
+    // iOS devices are not properly executed on browserstack
+    // @see CAKE-5051
     // {
     //     ...ios10_3Device,
     //     ...commonCapabilities,
