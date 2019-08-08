@@ -9,7 +9,7 @@ function getCookieDomain(hostname) {
     return `.${parts[parts.length - 2]}.${parts[parts.length - 1]}`;
 }
 
-const url = process.env.TEST_URL || 'http://localhost:3000';
+const url = (process.env.TEST_URL || 'http://localhost:3000').replace(/\/$/, '');
 const countryRequiringConsent = process.env.COUNTRY_REQUIRING_CONSENT || 'PL';
 const countryNotRequiringConsent = process.env.COUNTRY_NOT_REQUIRING_CONSENT || 'CA';
 const domain = getCookieDomain(url);
