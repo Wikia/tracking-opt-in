@@ -8,6 +8,9 @@
         "url": "https://github.com/Wikia/tracking-opt-in"
     },
     "devDependencies": {
+        "@wdio/browserstack-service": "^5.11.8",
+        "@wdio/cli": "^5.11.13",
+        "@wdio/local-runner": "^5.11.13",
         "@wdio/mocha-framework": "^5.11.0",
         "@wdio/spec-reporter": "^5.11.7",
         "@wdio/sync": "^5.11.13",
@@ -53,7 +56,8 @@
         "webpack": "^4.6.0",
         "webpack-bundle-analyzer": "^2.13.1",
         "webpack-cli": "^2.1.2",
-        "webpack-serve": "^0.3.2"
+        "webpack-serve": "^0.3.2",
+        "wdio": "^3.0.3"
     },
     "scripts": {
         "nohup:dev": "yarn clean && nohup yarn start:dev &",
@@ -70,11 +74,5 @@
         "test:watch": "rimraf reports/karma && karma start --auto-watch --no-single-run",
         "test:selenium": "rimraf reports/webdriver && wdio wdio.conf.js",
         "validate-jenkins": "sh release/scripts/validate-jenkins-files.sh"
-    },
-    "dependencies": {
-        "@wdio/browserstack-service": "^5.11.8",
-        "@wdio/cli": "^5.11.13",
-        "@wdio/local-runner": "^5.11.13",
-        "wdio": "^3.0.3"
     }
 }
