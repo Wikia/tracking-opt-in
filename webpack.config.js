@@ -17,14 +17,20 @@ const autoprefixerPlugin = autoprefixer({
 });
 const isDevelopment = process.env.NODE_ENV === 'development';
 
-module.exports = {
-    serve: {
-        port: 3000,
-        host: '0.0.0.0',
-        hot: {
-            port: 3001,
+let topLevelOptions = {};
+
+if (process.env.NODE_ENV === 'development' || process.env.SERVE === 'true') {
+    topLevelOptions = {
+        serve: {
+            port: 3000,
+            hot: {
+                port: 3001,
+            }
         }
-    },
+    };
+}
+
+module.exports = {
     mode: process.env.NODE_ENV,
     entry: isDevelopment ? './src/index.js' : './src/index-dev.js',
     output: {
@@ -90,4 +96,5 @@ module.exports = {
             openAnalyzer: false,
         }),
     ],
+    ...topLevelOptions,
 };
