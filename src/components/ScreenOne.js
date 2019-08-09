@@ -34,22 +34,23 @@ class ScreenOne extends Component {
                         </div>
                     </div>
                     <div className={globalStyles.footer}>
-                        <button
+                        {/* These buttons are divs so that their styles aren't overridden */}
+                        <div
                             data-tracking-opt-in-learn-more="true"
-                            className={globalStyles.learnMoreButton}
+                            className={`${globalStyles.learnMoreButton} ${globalStyles.footerButton}`}
                             onClick={clickLearnMore}
                             key="learn"
                         >
                             {content.learnMoreButton}
-                        </button>
-                        <button
+                        </div>
+                        <div
                             data-tracking-opt-in-accept="true"
-                            className={globalStyles.acceptButton}
+                            className={`${globalStyles.acceptButton} ${globalStyles.footerButton}`}
                             onClick={clickAccept}
                             key="accept"
                         >
                             {content.acceptButton}
-                        </button>
+                        </div>
                     </div>
                 </div>
             </div>

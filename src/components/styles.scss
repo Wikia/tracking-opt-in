@@ -41,20 +41,20 @@
     @media #{$desktop-devices} {
         text-align: right;
     }
+}
 
-    & button {
-        border-radius: 3px;
-        cursor: pointer;
-        font-size: 12px;
-        font-weight: bold;
-        height: 36px;
-        outline: none;
-        padding: 0 18px;
-        text-transform: uppercase;
+.footerButton {
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    outline: none;
+    padding: 10px 18px;
+    text-transform: uppercase;
 
-        &:first-child {
-            margin-right: 18px;
-        }
+    &:first-child {
+        margin-right: 18px;
     }
 }
 
@@ -72,7 +72,7 @@
 }
 
 .link {
-    color: $color-link;
+    color: $color-link !important;
     font-size: 12px;
     font-weight: bold;
     text-decoration: none;
