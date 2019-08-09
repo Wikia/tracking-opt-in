@@ -45,12 +45,14 @@
 
 .footerButton {
     border-radius: 3px;
+    box-sizing: border-box;
     cursor: pointer;
     display: inline-block;
     font-size: 12px;
     font-weight: bold;
+    line-height: 1;
     outline: none;
-    padding: 10px 18px;
+    padding: 11px 18px;
     text-transform: uppercase;
 
     &:first-child {
@@ -69,6 +71,7 @@
 .backButton {
     background-color: #fff;
     border: 1px solid $color-dark-gray;
+    color: $color-dark-gray;
 }
 
 .link {
