@@ -55,6 +55,11 @@ pipeline {
     }
 
     stage('BrowserStack') {
+      when {
+        expression {
+            return params.skipTests != true
+        }
+      }
       steps {
         sh "BUILD_ID=${currentCommit} TEST_URL=${params.testUrl ?: "http://${appHost}"} yarn test:selenium"
       }
