@@ -64,12 +64,12 @@ describe('Preferences', () => {
         const clickSave = stub();
         const wrapper = renderComponent({ clickBack, clickSave });
 
-        const backButton = findByQuery(wrapper, `button[class="${globalStyles.backButton}"]`);
+        const backButton = findByQuery(wrapper, '[data-tracking-opt-in-back="true"]');
         expect(backButton).to.not.equal(null);
         backButton.click();
         assert.isOk(clickBack.called);
 
-        const saveButton = findByQuery(wrapper, `button[class="${globalStyles.saveButton}"]`);
+        const saveButton = findByQuery(wrapper, '[data-tracking-opt-in-save="true"]');
         expect(saveButton).to.not.equal(null);
         saveButton.click();
         assert.isOk(clickSave.called);

@@ -131,23 +131,22 @@ class Preferences extends Component {
                         {this.renderPreferenceSections(purposes)}
                     </div>
                     <div className={globalStyles.footer}>
-                        <div className={globalStyles.buttons}>
-                            <button
-                                data-tracking-opt-in-back="true"
-                                className={globalStyles.backButton}
-                                onClick={clickBack}
-                                key="back"
-                            >
-                                {content.backButton}
-                            </button>
-                            <button
-                                data-tracking-opt-in-save="true"
-                                className={globalStyles.saveButton}
-                                onClick={clickSave}
-                                key="save"
-                            >
-                                {content.saveButton}
-                            </button>
+                        {/* These buttons are divs so that their styles aren't overridden */}
+                        <div
+                            data-tracking-opt-in-back="true"
+                            className={`${globalStyles.backButton} ${globalStyles.footerButton}`}
+                            onClick={clickBack}
+                            key="back"
+                        >
+                            {content.backButton}
+                        </div>
+                        <div
+                            data-tracking-opt-in-save="true"
+                            className={`${globalStyles.saveButton} ${globalStyles.footerButton}`}
+                            onClick={clickSave}
+                            key="save"
+                        >
+                            {content.saveButton}
                         </div>
                     </div>
                 </div>
