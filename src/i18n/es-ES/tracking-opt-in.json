@@ -7,14 +7,14 @@
     ],
     "acceptButton": "ACEPTAR",
     "backButton": "Volver",
-    "learnMoreButton": "PARA SABER MÁS",
+    "learnMoreButton": "MÁS INFORMACIÓN",
     "saveButton": "Guardar y cerrar",
     "privacyPolicyButton": "Política de privacidad",
     "partnerListButton": "Lista de socios",
     "preferencesHeadline": "Configuración de preferencias",
     "preferencesBody": [
         "Fandom y sus socios usan cookies para almacenar y recopilar información de tu navegador para personalizar el contenido y los anuncios, proporcionar funcionalidades de redes sociales y analizar nuestro tráfico. Puedes definir tus preferencias y dar o modificar tu consentimiento para los fines y proveedores que se enumeran a continuación. Además, como se indica a continuación, algunas empresas recopilan información sin tu consentimiento en función de su legítimo interés o el nuestro (como para ayudarnos en el análisis del tráfico del sitio web y para analizar mejoras en nuestro sitio). Puedes acceder a sus políticas de privacidad para obtener más información. ",
-        "Para obtener más información sobre las cookies que usamos, consulte nuestra %privacyPolicy%. Para obtener información sobre los socios que usan cookies en nuestro sitio, consulta %partnerList%."
+        "Para obtener más información sobre las cookies que usamos, consulta nuestra %privacyPolicy%. Para obtener información sobre los socios que usan cookies en nuestro sitio, consulta %partnerList%."
     ],
     "purposesHeader": "Propósitos de nuestros socios",
     "vendorsHeader": "Nuestros socios",
@@ -41,7 +41,7 @@
     "purpose4Title": "Selección de contenido, entrega y notificaciones",
     "purpose4Body": "La recopilación de información, y la combinación con información recopilada previamente, para seleccionar y entregar contenido para ti, y para analizar la entrega y la efectividad de dicho contenido. Esto incluye el uso de información recopilada previamente sobre tus intereses para elegir el contenido, el procesamiento de datos sobre qué contenido se mostró, con qué frecuencia o durante cuánto tiempo se mostró, cuándo y dónde se mostró, y si tomó alguna medida relacionada con el contenido, incluido, por ejemplo, hacer clic en el contenido. Esto no incluye la personalización, que es la recopilación y el procesamiento de información sobre el uso de este servicio para personalizar posteriormente el contenido y/o publicidad para ti en otros contextos, como sitios web o aplicaciones, a lo largo del tiempo.",
     "purpose5Title": "Análisis",
-    "purpose5Body": "La recopilación de información sobre tu uso del contenido, y la combinación con información recopilada previamente, usada para medir, comprender e informar sobre tu uso del servicio. Esto no incluye la personalización, la recopilación de información sobre el uso de este servicio para personalizar posteriormente el contenido y/o publicidad para ti en otros contextos, es decir, en otro servicio, como sitios web o aplicaciones, a lo largo del tiempo.",
+    "purpose5Body": "La recopilación de información sobre tu uso del contenido, y la combinación con información recopilada previamente, usada para medir, comprender e informar sobre tu uso del servicio. Esto no incluye la personalización, la recopilación de información sobre el uso de este servicio para personalizar posteriormente el contenido y/o publicidad para ti en otros contextos; por ejemplo, en otro servicio, como sitios web o aplicaciones, a lo largo del tiempo.",
     "feature1Title": "Sincronización de datos con fuentes sin conexión",
     "feature1Body": "Combinar la información de fuentes sin conexión recopiladas inicialmente en otros contextos.",
     "feature2Title": "Enlazar dispositivos",

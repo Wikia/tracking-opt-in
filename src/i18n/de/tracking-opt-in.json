@@ -2,19 +2,19 @@
     "mainHeadline": "Diese Website verwendet Cookies",
     "mainBody": [
         "Fandom und unsere Partner verwenden auf unserer Website Technologien wie z. B. Cookies, um Informationen aus deinem Browser zu sammeln und zu speichern und somit Inhalte und Werbung zu personalisieren, Social-Media-Funktionen bereitzustellen und unseren Website-Verkehr zu analysieren.",
-        "Wie in unserer Datenschutzerklärung dargelegt, setzen wir diese Cookies nur dort ein, wo (a) aufgrund unserer berechtigten Interessen Informationen gesammelt werden können oder (b) du durch Anklicken/Antippen der Schaltfläche „%acceptButton%“ unserer Verwendung dieser Cookies zugestimmt hast. Durch deine Zustimmung gestattest du es uns und unseren Partnern, Informationen wie z. B. deinen Browserverlauf auf unserer Website und deine IP-Adresse zu erfassen und dir somit Werbung zu präsentieren, die auf deine Interessen zugeschnitten ist.",
-        "Weitere Optionen findest Du, wenn du auf „%learnMoreButton%\" klickst. Bitte beachte, dass wenn du die Verwendung von Cookies ablehnst, du Werbung siehst, die für dich weniger relevant ist und bestimmte Funktionen der Website möglicherweise nicht wie beabsichtigt funktionieren. Du kannst deine Meinung jederzeit ändern und deine Auswahl in der %privacyPolicy% entsprechend anpassen. Informationen über unsere Partner, die Cookies auf unserer Website einsetzen, findest du in der %partnerList%."
+        "Wie in unserer Datenschutzerklärung dargelegt, setzen wir diese Cookies nur dort ein, wo (a) aufgrund unserer berechtigten Interessen Informationen gesammelt werden können oder (b) du durch Anklicken/Antippen der Schaltfläche „%acceptButton%“ unserer Verwendung dieser Cookies zugestimmt hast. Durch deine Zustimmung gestattest du es uns und unseren Partnern, Informationen wie z. B. deinen Verlauf auf unserer Website und deine IP-Adresse zu erfassen und dir somit Werbung zu präsentieren, die auf deine Interessen zugeschnitten ist.",
+        "Weitere Optionen findest du, wenn du auf „%learnMoreButton%\" klickst. Bitte beachte, dass du, wenn du die Verwendung von Cookies ablehnst, Werbung siehst, die für dich weniger relevant ist und bestimmte Funktionen der Website möglicherweise nicht wie beabsichtigt funktionieren. Du kannst deine Meinung jederzeit ändern und deine Auswahl in der %privacyPolicy% entsprechend anpassen. Informationen über unsere Partner, die Cookies auf unserer Website benutzen, findest du in der %partnerList%."
     ],
     "acceptButton": "ANNEHMEN",
     "backButton": "Zurück",
-    "learnMoreButton": "WEITERE INFORMATIONEN",
+    "learnMoreButton": "MEHR ERFAHREN",
     "saveButton": "Speichern und schließen",
-    "privacyPolicyButton": "Datenschutz",
+    "privacyPolicyButton": "Datenschutzerklärung",
     "partnerListButton": "Partnerliste",
     "preferencesHeadline": "Persönliche Einstellungen",
     "preferencesBody": [
-        "Fandom und unsere Partner verwenden Cookies, um Informationen aus deinem Browser zu sammeln und zu speichern  und somit Inhalte und Werbung zu personalisieren, Social-Media-Funktionen bereitzustellen und unseren Website-Traffic zu analysieren. Du kannst deine Präferenzen definieren und deine Zustimmung zu den unten aufgeführten Zwecken und Anbietern erteilen oder ändern. Darüber hinaus sammeln einige Unternehmen, wie unten angegeben, Informationen ohne dein Einverständnis, basierend auf ihrem oder unserem berechtigten Interesse (z. B. um uns bei der Analyse des Website-Verkehrs zu unterstützen und Verbesserungen an unserer Website mit fundierten Informationen zu untermauern). Du kannst auf deren Datenschutzerklärungen zugreifen, um weitere Informationen zu erhalten. ",
-        "Weitere Informationen zu den von uns verwendeten Cookies findest du in unserer %privacyPolicy%. Informationen über unsere Partner, die Werbe-Cookies auf unserer Website einsetzen, findest du in der %partnerList%."
+        "Fandom und unsere Partner verwenden Cookies, um Informationen aus deinem Browser zu sammeln und zu speichern und somit Inhalte und Werbung zu personalisieren, Social-Media-Funktionen bereitzustellen und unseren Website-Traffic zu analysieren. Du kannst deine Präferenzen definieren und deine Zustimmung zu den unten aufgeführten Zwecken und Anbietern erteilen oder ändern. Darüber hinaus sammeln einige Unternehmen, wie unten angegeben, Informationen ohne dein Einverständnis, basierend auf ihrem oder unserem berechtigten Interesse (z. B. um uns bei der Analyse des Website-Verkehrs zu unterstützen und Verbesserungen an unserer Website mit fundierten Informationen zu untermauern). Du kannst auf deren Datenschutzerklärungen zugreifen, um weitere Informationen zu erhalten. ",
+        "Weitere Informationen zu den von uns verwendeten Cookies findest du in unserer %privacyPolicy%. Informationen über Partner, die Cookies auf unserer Website nutzen, findest du in der %partnerList%."
     ],
     "purposesHeader": "Verwendungszwecke unserer Partner",
     "vendorsHeader": "Unsere Partner",
@@ -29,8 +29,8 @@
     "rejectedButton": "Abgelehnt",
     "privacyPolicyLinkButton": "Link zur Datenschutzerklärung",
     "purposesHeading": "Verwendungszwecke",
-    "purposesLegitimateInterestHeading": "Berechtigtes Interesse",
-    "featuresHeading": "Wiki-Funktionen",
+    "purposesLegitimateInterestHeading": "Zwecke des berechtigten Interesses",
+    "featuresHeading": "Funktionen",
     "privacyPolicyHeading": "Datenschutzerklärung",
     "purpose1Title": "Informationsspeicherung und -zugriff",
     "purpose1Body": "Die Speicherung von Informationen oder der Zugriff auf bereits gespeicherte Informationen auf deinem Gerät, wie beispielsweise Werbekennungen, Gerätekennungen, Cookies und ähnliche Technologien.",
@@ -41,7 +41,7 @@
     "purpose4Title": "Auswahl von Inhalten, Bereitstellung und Auswertung",
     "purpose4Body": "Das Sammeln von Informationen und die Kombination mit zuvor gesammelten Informationen, um Inhalte für dich auszuwählen und dir zu präsentieren und um die Leistung und Effektivität solcher Inhalte zu messen. Dazu gehören bei der Auswahl von Inhalten die Verwendung zuvor gesammelter Informationen über deine Interessen, die Verarbeitung der Daten darüber, welche Inhalte gezeigt wurden, wie oft oder wie lange sie gezeigt wurden, wann und wo sie gezeigt wurden und ob du irgendwelche Maßnahmen im Zusammenhang mit den Inhalten ergriffen hast, einschließlich z. B. das Anklicken von Inhalten oder den Abschluss eines Kaufs. Dies schließt nicht die Personalisierung ein, d. h. die Erfassung und Verarbeitung von Informationen zu deiner Nutzung dieses Dienstes, um anschließend über einen gewissen Zeitraum hinweg Werbung und/oder Inhalte in anderen Kontexten, wie beispielsweise auf anderen Websites oder Apps gezielt für dich zur Verfügung zu stellen.",
     "purpose5Title": "Messung",
-    "purpose5Body": "Das Sammeln von Informationen über deine Nutzung der Inhalte und die Kombination mit zuvor gesammelten Daten, die verwendet werden, um deine Nutzung der Dienste zu messen, zu verstehen und auszuwerten. Dies schließt nicht die Personalisierung und das Sammeln von Daten zu deiner Nutzung dieses Dienstes ein, um dir anschließend über einen bestimmten Zeitraum hinweg personalisierte Inhalte und/oder Werbung in einem anderen Kontext, d. h. bei anderen Diensten, wie beispielsweiseWebsites oder Apps zu präsentieren.",
+    "purpose5Body": "Das Sammeln von Informationen über deine Nutzung der Inhalte und die Kombination mit zuvor gesammelten Daten, die verwendet werden, um deine Nutzung der Dienste zu messen, zu verstehen und auszuwerten. Dies schließt nicht die Personalisierung und das Sammeln von Daten zu deiner Nutzung dieses Dienstes ein, um dir anschließend über einen bestimmten Zeitraum hinweg personalisierte Inhalte und/oder Werbung in einem anderen Kontext, d. h. bei anderen Diensten, wie beispielsweise Websites oder Apps zu präsentieren.",
     "feature1Title": "Abgleich von Daten mit Offline-Quellen",
     "feature1Body": "Kombination von Daten aus Offline-Quellen, die ursprünglich in anderen Kontexten gesammelt wurden.",
     "feature2Title": "Verknüpfung von Geräten",
