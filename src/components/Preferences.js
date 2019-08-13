@@ -111,7 +111,7 @@ class Preferences extends Component {
     }
 
     render(props, state) {
-        const { appOptions, content, clickBack, clickSave, onRejectNonIab } = props;
+        const { appOptions, content, clickBack, clickSave, setNonIabConsentStatus } = props;
         const { purposes } = state;
 
         return (

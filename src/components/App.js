@@ -10,6 +10,7 @@ class App extends Component {
         consentedVendors: this.props.options.enabledVendors,
         consentedPurposes: this.props.options.enabledPurposes,
         isScreenOne: true,
+        nonIabConsentStatus: true,
     };
 
     componentDidMount() {
@@ -59,8 +60,9 @@ class App extends Component {
         this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
     };
 
-    rejectNonIab = () => {
-        this.props.optInManager.setTrackingRejected();
+    setNonIabConsentStatus = (status) => {
+        this.setState({nonIabConsentStatus: status});
+        // this.props.optInManager.setTrackingRejected();
     };
 
     learnMore = () => {
@@ -77,7 +79,11 @@ class App extends Component {
 
     save = () => {
         this.props.tracker.trackSaveClick();
-        this.props.optInManager.setTrackingAccepted();
+        if (this.state.nonIabConsentStatus === true) {
+            this.props.optInManager.setTrackingAccepted();
+        } else {
+            this.props.optInManager.setTrackingRejected();
+        }
         this.props.onRequestAppRemove();
         this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
     };
@@ -108,7 +114,7 @@ class App extends Component {
                     consentedPurposes={this.state.consentedPurposes}
                     consentedVendors={this.state.consentedVendors}
                     content={content}
-                    onRejectNonIab={this.rejectNonIab}
+                    setNonIabConsentStatus={this.setNonIabConsentStatus}
                     tracker={tracker}
                     updatePurposes={this.updatePurposes}
                 />
