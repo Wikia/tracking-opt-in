@@ -96,14 +96,14 @@ class Preferences extends Component {
         const { consentedPurposes, consentedVendors, content, tracker } = this.props;
         const toRender = purposes.map((purpose) => (
             <PreferencesSection
-                content={content}
-                purpose={purpose}
-                onTogglePurpose={(purposeId, isEnabled) => this.togglePurpose(purposeId, isEnabled)}
-                onToggleVendor={(vendorId, isEnabled) => this.toggleVendor(vendorId, isEnabled)}
-                allPurposes={purposes}
                 allFeatures={this.state.features}
+                allPurposes={purposes}
                 consentedPurposes={consentedPurposes}
                 consentedVendors={consentedVendors}
+                content={content}
+                onTogglePurpose={(purposeId, isEnabled) => this.togglePurpose(purposeId, isEnabled)}
+                onToggleVendor={(vendorId, isEnabled) => this.toggleVendor(vendorId, isEnabled)}
+                purpose={purpose}
                 tracker={tracker}
             />
         ));
@@ -111,7 +111,7 @@ class Preferences extends Component {
     }
 
     render(props, state) {
-        const { appOptions, content, clickBack, clickSave } = props;
+        const { appOptions, content, clickBack, clickSave, setNonIabConsentStatus } = props;
         const { purposes } = state;
 
         return (

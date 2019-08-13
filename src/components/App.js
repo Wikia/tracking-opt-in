@@ -10,6 +10,7 @@ class App extends Component {
         consentedVendors: this.props.options.enabledVendors,
         consentedPurposes: this.props.options.enabledPurposes,
         isScreenOne: true,
+        nonIabConsentStatus: true,
     };
 
     componentDidMount() {
@@ -59,6 +60,11 @@ class App extends Component {
         this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
     };
 
+    setNonIabConsentStatus = (status) => {
+        this.setState({nonIabConsentStatus: status});
+        // this.props.optInManager.setTrackingRejected();
+    };
+
     learnMore = () => {
         this.props.tracker.trackLearnMoreClick();
         this.setState({ isScreenOne: false });
@@ -73,7 +79,11 @@ class App extends Component {
 
     save = () => {
         this.props.tracker.trackSaveClick();
-        this.props.optInManager.setTrackingAccepted();
+        if (this.state.nonIabConsentStatus === true) {
+            this.props.optInManager.setTrackingAccepted();
+        } else {
+            this.props.optInManager.setTrackingRejected();
+        }
         this.props.onRequestAppRemove();
         this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
     };
@@ -96,16 +106,17 @@ class App extends Component {
         } else {
             return (
                 <Preferences
-                    appOptions={options}
-                    content={content}
                     allPurposes={options.enabledPurposes}
                     allVendors={options.enabledVendors}
-                    consentedPurposes={this.state.consentedPurposes}
-                    consentedVendors={this.state.consentedVendors}
-                    updatePurposes={this.updatePurposes}
+                    appOptions={options}
                     clickBack={this.back}
                     clickSave={this.save}
+                    consentedPurposes={this.state.consentedPurposes}
+                    consentedVendors={this.state.consentedVendors}
+                    content={content}
+                    setNonIabConsentStatus={this.setNonIabConsentStatus}
                     tracker={tracker}
+                    updatePurposes={this.updatePurposes}
                 />
             );
         }
