@@ -31,14 +31,23 @@
 }
 
 .preferencesHeading {
+    font-size: 14px;
     margin: 20px auto;
     text-align: center;
+
+    @media #{$desktop-devices} {
+        font-size: 16px;
+    }
 }
 
 .preferencesDescription {
     font-size: 12px;
     line-height: 20px;
     margin-bottom: 20px;
+
+    p {
+        margin: 1em 0;
+    }
 }
 
 .preferencesSubheading {
