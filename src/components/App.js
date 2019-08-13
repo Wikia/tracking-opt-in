@@ -7,8 +7,8 @@ import styles from './styles.scss';
 
 class App extends Component {
     state = {
-        consentedVendors: this.props.options.enabledVendors,
         consentedPurposes: this.props.options.enabledPurposes,
+        consentedVendors: this.props.options.enabledVendors,
         isScreenOne: true,
         nonIabConsentStatus: true,
     };
@@ -62,7 +62,6 @@ class App extends Component {
 
     setNonIabConsentStatus = (status) => {
         this.setState({nonIabConsentStatus: status});
-        // this.props.optInManager.setTrackingRejected();
     };
 
     learnMore = () => {
