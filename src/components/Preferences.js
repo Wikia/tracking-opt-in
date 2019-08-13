@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import { getVendorList, PURPOSES } from '../utils';
+import OtherPartners from './OtherPartners';
 import PreferencesSection from './PreferencesSection';
 
 import globalStyles from './styles.scss';
@@ -111,7 +112,7 @@ class Preferences extends Component {
     }
 
     render(props, state) {
-        const { appOptions, content, clickBack, clickSave, setNonIabConsentStatus } = props;
+        const { appOptions, content, clickBack, clickSave, nonIabConsented, setNonIabConsented, tracker } = props;
         const { purposes } = state;
 
         return (
@@ -129,6 +130,12 @@ class Preferences extends Component {
                         </div>
                         <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.purposesHeader}</h2>
                         {this.renderPreferenceSections(purposes)}
+                        <OtherPartners
+                            content={content}
+                            nonIabConsented={nonIabConsented}
+                            onToggle={setNonIabConsented}
+                            tracker={tracker}
+                        />
                     </div>
                     <div className={globalStyles.footer}>
                         {/* These buttons are divs so that their styles aren't overridden */}

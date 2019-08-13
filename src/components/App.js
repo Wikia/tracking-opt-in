@@ -10,7 +10,7 @@ class App extends Component {
         consentedVendors: this.props.options.enabledVendors,
         consentedPurposes: this.props.options.enabledPurposes,
         isScreenOne: true,
-        nonIabConsentStatus: true,
+        nonIabConsented: true,
     };
 
     componentDidMount() {
@@ -54,15 +54,16 @@ class App extends Component {
     }
 
     accept = () => {
+        // This method accepts all tracking, regardless of preferences set by the user
         this.props.tracker.trackAcceptClick();
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
-        this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
+        // Pass in all originally enabled vendors and purposes
+        this.props.onAcceptTracking(this.props.options.enabledVendors, this.props.options.enabledPurposes);
     };
 
-    setNonIabConsentStatus = (status) => {
-        this.setState({nonIabConsentStatus: status});
-        // this.props.optInManager.setTrackingRejected();
+    setNonIabConsented = (isConsented) => {
+        this.setState({nonIabConsented: isConsented});
     };
 
     learnMore = () => {
@@ -78,23 +79,28 @@ class App extends Component {
     }
 
     save = () => {
+        // Unlike the "Accept" button, this method saves the preferences set for each vendor
         this.props.tracker.trackSaveClick();
-        if (this.state.nonIabConsentStatus === true) {
+        if (this.state.nonIabConsented === true) {
             this.props.optInManager.setTrackingAccepted();
         } else {
             this.props.optInManager.setTrackingRejected();
         }
         this.props.onRequestAppRemove();
+        // Pass in only those vendors and purposes the user left enabled in the preferences
         this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
     };
 
-    // this will need to be be called in a sub component to update the state
+    // This is called in sub components to update the state
     updatePurposes = (vendorIds, purposeIds) => {
         this.setState({consentedVendors: vendorIds, consentedPurposes: purposeIds});
     };
 
-    render({ options, content, tracker }) {
-        if (this.state.isScreenOne) {
+    render(props, state) {
+        const { options, content, tracker } = props;
+        const { isScreenOne, consentedPurposes, consentedVendors, nonIabConsented } = state;
+
+        if (isScreenOne) {
             return (
                 <ScreenOne
                     appOptions={options}
@@ -111,10 +117,11 @@ class App extends Component {
                     appOptions={options}
                     clickBack={this.back}
                     clickSave={this.save}
-                    consentedPurposes={this.state.consentedPurposes}
-                    consentedVendors={this.state.consentedVendors}
+                    consentedPurposes={consentedPurposes}
+                    consentedVendors={consentedVendors}
                     content={content}
-                    setNonIabConsentStatus={this.setNonIabConsentStatus}
+                    nonIabConsented={nonIabConsented}
+                    setNonIabConsented={this.setNonIabConsented}
                     tracker={tracker}
                     updatePurposes={this.updatePurposes}
                 />
