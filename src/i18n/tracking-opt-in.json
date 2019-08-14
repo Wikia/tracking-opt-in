@@ -47,5 +47,6 @@
     "feature2Title": "Linking Devices",
     "feature2Body": "Allow processing of a user's data to connect such user across multiple devices.",
     "feature3Title": "Precise Geographic Location Data",
-    "feature3Body": "Allow processing of a user's precise geographic location data in support of a purpose for which that certain third party has consent."
+    "feature3Body": "Allow processing of a user's precise geographic location data in support of a purpose for which that certain third party has consent.",
+    "otherPartnersHeading": "Other Partners"
 }

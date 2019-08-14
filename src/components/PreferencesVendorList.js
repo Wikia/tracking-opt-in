@@ -54,7 +54,7 @@ class PreferencesVendorList extends Component {
                             {content.purposesHeading}
                         </div>
                         {vendor.purposeIds.map((purposeId) => (
-                            <div className={`${styles.vendorDetail} ${styles.flex}`}>
+                            <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
                                 <span>{getPurposeTitle(content, purposeId)}</span>
                                 <span classname={styles.allowed}>
                                     {this.isConsentedVendor(vendor.id) && this.isConsentedPurpose(purposeId) ? content.allowedButton : content.disallowedButton}
@@ -69,7 +69,7 @@ class PreferencesVendorList extends Component {
                             {content.purposesLegitimateInterestHeading}
                         </div>
                         {vendor.legIntPurposeIds.map((purposeId) => (
-                            <div className={`${styles.vendorDetail} ${styles.flex}`}>
+                            <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
                                 <span>{getPurposeTitle(content, purposeId)}</span>
                                 <a href={vendor.policyUrl} className={styles.link} target="_blank">
                                     {content.findOutMoreButton}
@@ -84,7 +84,7 @@ class PreferencesVendorList extends Component {
                             {content.featuresHeading}
                         </div>
                         {vendor.featureIds.map((featureId) => (
-                            <div className={styles.vendorDetail}>
+                            <div className={styles.vendorDetail} key={`${vendor.id}_${featureId}`}>
                                 <div className={styles.flex}>
                                     <span>{getFeatureTitle(content, featureId)}</span>
                                     <a href={vendor.policyUrl} className={styles.link} target="_blank">
@@ -124,22 +124,23 @@ class PreferencesVendorList extends Component {
             const vendorIsEnabled = this.isConsentedVendor(vendor.id);
 
             return (
-            <div className={styles.vendor}>
-                <div className={styles.flex}>
-                    <div>
-                        <div className={styles.vendorName}>{vendor.name}</div>
-                        <div className={styles.vendorExpand} onClick={() => this.toggleIsExpanded(vendor.id)}>
-                            {vendor.isExpanded ? content.hideVendorDetailsButton : content.showVendorDetailsButton}
-                            <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" className={`${globalStyles.chevron} ${vendor.isExpanded ? globalStyles.chevronExpanded : ''}`}>
-                                <path d="M11.707 3.293a.999.999 0 0 0-1.414 0L6 7.586 1.707 3.293A.999.999 0 1 0 .293 4.707l5 5a.997.997 0 0 0 1.414 0l5-5a.999.999 0 0 0 0-1.414" fill-rule="evenodd"/>
-                            </svg>
+                <div className={styles.vendor} key={vendor.name}>
+                    <div className={styles.flex}>
+                        <div>
+                            <div className={styles.vendorName}>{vendor.name}</div>
+                            <div className={styles.vendorExpand} onClick={() => this.toggleIsExpanded(vendor.id)}>
+                                {vendor.isExpanded ? content.hideVendorDetailsButton : content.showVendorDetailsButton}
+                                <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" className={`${globalStyles.chevron} ${vendor.isExpanded ? globalStyles.chevronExpanded : ''}`}>
+                                    <path d="M11.707 3.293a.999.999 0 0 0-1.414 0L6 7.586 1.707 3.293A.999.999 0 1 0 .293 4.707l5 5a.997.997 0 0 0 1.414 0l5-5a.999.999 0 0 0 0-1.414" fill-rule="evenodd"/>
+                                </svg>
+                            </div>
                         </div>
+                        <Switch isOn={vendorIsEnabled} onChange={() => onToggleVendor(vendor.id, !vendorIsEnabled)} />
                     </div>
-                    <Switch isOn={vendorIsEnabled} onChange={() => onToggleVendor(vendor.id, !vendorIsEnabled)} />
+                    {vendor.isExpanded && this.renderVendorDetails(vendor)}
                 </div>
-                {vendor.isExpanded && this.renderVendorDetails(vendor)}
-            </div>
-        )});
+            );
+        });
         return toRender;
     }
 

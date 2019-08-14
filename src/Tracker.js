@@ -173,6 +173,14 @@ class Tracker {
     trackPurposeAdExpandClick() {
         this.trackClick('purpose-ad-expand');
     }
+
+    trackOtherPartnersToggleClick() {
+        this.trackClick('other-partners-toggle');
+    }
+
+    trackOtherPartnersExpandClick() {
+        this.trackClick('other-partners-expand');
+    }
 }
 
 export default Tracker;
