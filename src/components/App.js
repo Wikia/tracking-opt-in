@@ -76,7 +76,7 @@ class App extends Component {
         this.props.tracker.trackBackClick();
         this.setState({ isScreenOne: true });
         this.forceUpdate();
-    }
+    };
 
     save = () => {
         // Unlike the "Accept" button, this method saves the preferences set for each vendor
