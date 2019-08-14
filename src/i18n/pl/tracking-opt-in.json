@@ -47,5 +47,6 @@
     "feature2Title": "Powiązywanie urządzeń",
     "feature2Body": "Pozwala na przetwarzanie danych użytkownika, aby połączyć takiego użytkownika w ramach wielu urządzeń.",
     "feature3Title": "Dokładne dane lokalizacji geograficznej",
-    "feature3Body": "Pozwalają na przetwarzanie dokładnych danych lokalizacji geograficznej użytkownika, aby wspierać cel, dla którego konkretna strona trzecia uzyskała zgodę."
+    "feature3Body": "Pozwalają na przetwarzanie dokładnych danych lokalizacji geograficznej użytkownika, aby wspierać cel, dla którego konkretna strona trzecia uzyskała zgodę.",
+    "otherPartnersHeading": "Inni partnerzy"
 }
