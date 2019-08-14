@@ -47,5 +47,6 @@
     "feature2Title": "Dispositifs Techniques de Liaison",
     "feature2Body": "Permet le traitement des données d'un utilisateur pour se connecter en tant que tel sur plusieurs appareils.",
     "feature3Title": "Données de localisation géographique précise",
-    "feature3Body": "Permet le traitement des données de localisation géographique précise de l'utilisateur dans un but pour lequel une tierce partie a donné son accord."
+    "feature3Body": "Permet le traitement des données de localisation géographique précise de l'utilisateur dans un but pour lequel une tierce partie a donné son accord.",
+    "otherPartnersHeading": "Autres partenaires"
 }

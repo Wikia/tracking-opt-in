@@ -47,5 +47,6 @@
     "feature2Title": "Dispositivi collegati",
     "feature2Body": "Consentire l'elaborazione dei dati di un utente per collegare tale utente attraverso dispositivi multipli.",
     "feature3Title": "Dati precisi sulla locazione geografica",
-    "feature3Body": "Consentire l'elaborazione dei dati precisi sulla locazione geografica di un utente in supporto ad uno scopo per il quale quella terza parte ha il permesso."
+    "feature3Body": "Consentire l'elaborazione dei dati precisi sulla locazione geografica di un utente in supporto ad uno scopo per il quale quella terza parte ha il permesso.",
+    "otherPartnersHeading": "Altri partner"
 }

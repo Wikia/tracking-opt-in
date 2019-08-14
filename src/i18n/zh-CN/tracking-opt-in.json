@@ -47,5 +47,6 @@
     "feature2Title": "链接设备",
     "feature2Body": "允许处理用户数据，以便在多个设备上连接此用户。",
     "feature3Title": "精确的地理位置数据",
-    "feature3Body": "允许处理用户的精确地理位置数据，以支持第三方同意的条款内容。"
+    "feature3Body": "允许处理用户的精确地理位置数据，以支持第三方同意的条款内容。",
+    "otherPartnersHeading": "其它合作商"
 }

@@ -47,5 +47,6 @@
     "feature2Title": "連結裝置",
     "feature2Body": "允許處理用戶數據，以便在多個裝置上連接此用戶。",
     "feature3Title": "精確的地理位置數據",
-    "feature3Body": "允許處理用戶的精確地理位置訊息，以支援第三方同意的條款內容。"
+    "feature3Body": "允許處理用戶的精確地理位置訊息，以支援第三方同意的條款內容。",
+    "otherPartnersHeading": "其他合作夥伴"
 }

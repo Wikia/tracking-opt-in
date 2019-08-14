@@ -47,5 +47,6 @@
     "feature2Title": "Enlazar dispositivos",
     "feature2Body": "Permitir el procesamiento de los datos de un usuario para conectar a dicho usuario a través de múltiples dispositivos.",
     "feature3Title": "Datos precisos de ubicación geográfica",
-    "feature3Body": "Permitir el procesamiento de los datos precisos de ubicación geográfica de un usuario para ayudar al propósito de un tercero que tenga consentimiento."
+    "feature3Body": "Permitir el procesamiento de los datos precisos de ubicación geográfica de un usuario para ayudar al propósito de un tercero que tenga consentimiento.",
+    "otherPartnersHeading": "Otros socios"
 }
