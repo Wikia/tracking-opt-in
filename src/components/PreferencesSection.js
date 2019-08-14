@@ -55,7 +55,7 @@ class PreferencesSection extends Component {
         const purposeIsEnabled = this.isConsentedPurpose(purpose.id);
 
         return (
-            <div className={styles.section}>
+            <div className={styles.section} key={purpose.id}>
                 <div className={styles.flex}>
                     <div>
                         <div className={styles.heading}>{getPurposeTitle(content, purpose.id)}</div>

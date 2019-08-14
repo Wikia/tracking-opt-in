@@ -33,7 +33,7 @@ class OtherPartners extends Component {
 
         const toRender = NON_IAB_VENDORS.map((vendor) => {
             return (
-            <div className={vendorListStyles.vendor}>
+            <div className={vendorListStyles.vendor} key={vendor.name}>
                 <div className={vendorListStyles.flex}>
                     <div className={vendorListStyles.vendorName}>{vendor.name}</div>
                     <div>
