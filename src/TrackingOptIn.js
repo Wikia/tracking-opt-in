@@ -41,9 +41,6 @@ class TrackingOptIn {
     };
 
     onRejectTracking = () => {
-        // DEPRECATED
-        // With the introduction of the two-screen dialog (2.0.0), this function is no
-        // longer called from the UI. It could be used again in the future, however.
         this.consentManagementProvider.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
             allowedVendors: [],

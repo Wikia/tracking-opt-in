@@ -38,7 +38,7 @@ class Preferences extends Component {
         const { consentedPurposes, consentedVendors, updatePurposes, tracker } = this.props;
         if (isEnabled) {
             if (consentedPurposes.indexOf(purposeId) < 0) {
-                const newConsentedPurposes = consentedPurposes;
+                const newConsentedPurposes = consentedPurposes.slice(0);
                 newConsentedPurposes.push(purposeId);
                 updatePurposes(consentedVendors, newConsentedPurposes);
             }
@@ -69,7 +69,7 @@ class Preferences extends Component {
         const { consentedPurposes, consentedVendors, updatePurposes } = this.props;
         if (isEnabled) {
             if (consentedVendors.indexOf(vendorId) < 0) {
-                const newConsentedVendors = consentedVendors;
+                const newConsentedVendors = consentedVendors.slice(0);
                 newConsentedVendors.push(vendorId);
                 updatePurposes(newConsentedVendors, consentedPurposes);
             }
