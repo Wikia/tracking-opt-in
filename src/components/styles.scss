@@ -1,173 +1,95 @@
-$breakpoint: 768px;
-$mobile-devices: "only screen and (max-width: #{$breakpoint - 1})";
-$desktop-devices: "only screen and (min-width: #{$breakpoint})";
+@import "./consts.scss";
 
 .withTrackingOptInDialogShown {
-  overflow: hidden;
+    overflow: hidden;
 }
 
 .overlay {
-  align-items: center;
-  background-color: rgba(0, 0, 0, .5);
-  bottom: 0;
-  color: #002a32;
-  display: flex;
-  justify-content: center;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
+    align-items: flex-end;
+    background-color: rgba(0, 0, 0, .5);
+    bottom: 0;
+    color: $color-text;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
 }
 
-.container {
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  font-family: Rubik, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  padding: 10px 10px;
-  border-bottom: 10px solid #fff;
-  border-top: 10px solid #fff;
-
-  @media #{$mobile-devices} {
-    height: 90%;
-    margin-left: 10px;
-    margin-right: 10px;
-    max-height: 85vh;
-    width: 90%;
-  }
-
-  @media #{$desktop-devices} {
-    height: 600px;
-    width: 650px;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
+.dialog {
+    background-color: white;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    font-family: $font-family !important;
+    font-weight: normal;
 }
 
 .background {
-  position: absolute;
+    position: absolute;
 }
 
-.logo {
-  height: 50px;
-  width: 150px;
-  margin: auto;
+.footer {
+    background-color: #fff;
+    box-shadow: 0 0 6px 0 rgba(195, 195, 195, 0.5);
+    box-sizing: border-box;
+    height: 60px;
+    padding: 12px 27px;
+    text-align: center;
 
-  @media #{$desktop-devices} {
-    margin-top: 40px;
-    width: 250px;
-  }
+    @media #{$desktop-devices} {
+        text-align: right;
+    }
 }
 
-.usesCookiesText {
-  color: #002a32;
-  font-weight: bold;
-  margin-bottom: 5px;
-  text-transform: uppercase;
-}
-
-.content {
-  line-height: 1.43 !important;
-  margin-bottom: 20px;
-  text-align: center;
-  overflow-y: auto;
-
-  @media #{$mobile-devices} {
-    height: 200px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  @media #{$desktop-devices} {
-    line-height: 1.57;
-    margin: 30px auto;
-    max-width: 650px;
-    padding-left: 45px;
-    padding-right: 45px;
-  }
-
-  p {
-    font-size: 14px;
-  }
-}
-
-.buttons {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: auto;
-
-  @media #{$desktop-devices} {
-    align-items: center;
-    flex-direction: row;
-    justify-content: center;
-  }
-}
-
-.buttonPrimary {
-  background-color: #00acac;
-  border-radius: 3px;
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  line-height: 1;
-  padding: 12px 18px;
-  text-align: center;
-
-  &:hover {
+.footerButton {
+    border-radius: 3px;
+    box-sizing: border-box;
     cursor: pointer;
-  }
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    outline: none;
+    padding: 11px 18px;
+    text-transform: uppercase;
 
-  @media #{$mobile-devices} {
-    margin-bottom: 15px;
-  }
-
-  @media #{$desktop-devices} {
-    margin-right: 20px;
-  }
+    &:first-child {
+        margin-right: 18px;
+    }
 }
 
-.buttonSecondary {
-  border-radius: 3px;
-  border: none;
-  font-size: 12px;
-  font-weight: bold;
-  line-height: 1;
-  padding: 12px 18px;
-  text-align: center;
-
-  &:hover {
-    cursor: pointer;
-  }
+.acceptButton,
+.saveButton {
+    background-color: #00cdd0;
+    border: 1px solid #fff;
+    color: #0e191a;
 }
 
-.links {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-
-  @media #{$desktop-devices} {
-    margin-top: 57px;
-  }
-
-  a {
-    color: #002a32;
-    display: block;
-    font-size: 10px;
-    padding-right: 10px;
-  }
+.learnMoreButton,
+.backButton {
+    background-color: #fff;
+    border: 1px solid $color-dark-gray;
+    color: $color-dark-gray;
 }
 
-.bodyParagraphsContainer {
-  p {
-    margin-top: 14px;
-    margin-bottom: 14px;
-    line-height: 1.57;
-  }
+.link {
+    color: $color-link !important;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+}
 
-  p:last-of-type {
-    margin-bottom: 0; // save some space to prevent scroll bars
-  }
+.chevron {
+    fill: $color-middle-gray;
+    height: 12px;
+    margin-bottom: -2px;
+    margin-left: 10px;
+    width: 12px;
+}
+
+.chevronExpanded {
+    transform: rotate(180deg);
 }

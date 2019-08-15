@@ -3,27 +3,27 @@ import { expect, assert } from 'chai';
 import { createStubInstance, stub }  from 'sinon';
 import App from './App';
 import styles from './styles.scss';
-import ContentManager from "../ContentManager";
+import stylesScreenOne from './ScreenOne.scss';
+import ContentManager from '../ContentManager';
 import Tracker from '../Tracker';
-import OptInManager from "../OptInManager";
-import GeoManager from "../GeoManager";
+import OptInManager from '../OptInManager';
+import GeoManager from '../GeoManager';
 
 const document = global.document;
 
 function findByClass(wrapper, className) {
-    return wrapper.getElementsByClassName(className).item(0) || new HTMLElement();
+    return wrapper.getElementsByClassName(className).item(0) || document.createElement('div');
 }
 
 function noop() {}
 
 describe('App', () => {
-    let tracker;
+    const tracker = new Tracker('en', 'geo', 'beacon', true);
+    stub(Tracker.prototype, 'track').callsFake((...a) => console.debug('Track', a));
     let optInManager;
     let geoManager;
-    let wrapper;
 
     function renderApp(callbacks = {}, preventScrollOn = null) {
-        tracker = createStubInstance(Tracker);
         optInManager = createStubInstance(OptInManager);
         geoManager = createStubInstance(GeoManager);
 
@@ -36,7 +36,10 @@ describe('App', () => {
             onRejectTracking: callbacks.onRejectTracking || noop,
             content: (new ContentManager('en')).content,
             options: {
-                preventScrollOn
+                enabledPurposes: [],
+                enabledVendors: [],
+                preventScrollOn,
+                zIndex: 1,
             },
         }), document.body);
     }
@@ -46,23 +49,21 @@ describe('App', () => {
     }
 
     afterEach(() => {
-        tracker = null;
         optInManager = null;
-        wrapper = null;
         removeApp();
     });
 
-    it('renders the modal', () => {
+    it('renders ScreenOne by default', () => {
         const wrapper = renderApp();
         expect(wrapper.className).to.equal(styles.overlay);
 
-        const container = findByClass(wrapper, styles.container);
+        const container = findByClass(wrapper, styles.dialog);
         expect(container).to.not.equal(null);
-        expect(container.className).to.equal(styles.container);
+        expect(container.className.split(' ')).to.include(styles.dialog);
 
-        const content = findByClass(wrapper, styles.content);
+        const content = findByClass(wrapper, stylesScreenOne.content);
         expect(content).to.not.equal(null);
-        expect(content.className).to.equal(styles.content);
+        expect(content.className).to.equal(stylesScreenOne.content);
     });
 
     it('calls the appropriate funcs on accept button click', () => {
@@ -70,7 +71,7 @@ describe('App', () => {
         const onRequestAppRemove = stub();
 
         const wrapper = renderApp({ onAcceptTracking, onRequestAppRemove });
-        const acceptButton = findByClass(wrapper, styles.buttonPrimary);
+        const acceptButton = findByClass(wrapper, styles.acceptButton);
         expect(acceptButton).to.not.equal(null);
         acceptButton.click();
 
@@ -78,21 +79,6 @@ describe('App', () => {
         assert.isOk(onRequestAppRemove.called);
         assert.isOk(tracker.track.called);
         assert.isOk(optInManager.setTrackingAccepted.called);
-    });
-
-    it('calls the appropriate funcs on reject button click', () => {
-        const onRejectTracking = stub();
-        const onRequestAppRemove = stub();
-
-        const wrapper = renderApp({ onRejectTracking, onRequestAppRemove });
-        const rejectButton = findByClass(wrapper, styles.buttonSecondary);
-        expect(rejectButton).to.not.equal(null);
-        rejectButton.click();
-
-        assert.isOk(onRejectTracking.called);
-        assert.isOk(onRequestAppRemove.called);
-        assert.isOk(tracker.track.called);
-        assert.isOk(optInManager.setTrackingRejected.called);
     });
 
     describe('with preventScrollOn', () => {

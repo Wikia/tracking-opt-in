@@ -336,11 +336,11 @@ class ConsentManagementProvider {
             consents = {
                 metadata: this.vendorConsent.getMetadataString(),
                 purposeConsents: toAllowedMap(
-                    createIdArray(1, MAX_STANDARD_PURPOSE_ID),
+                    createIdArray(1, MAX_STANDARD_PURPOSE_ID), // get from user
                     (id) => this.vendorConsent.isPurposeAllowed(id)
                 ),
                 vendorConsents: toAllowedMap(
-                    vendorIds,
+                    vendorIds, // get from user
                     (id) => this.vendorConsent.isVendorAllowed(id)
                 )
             };

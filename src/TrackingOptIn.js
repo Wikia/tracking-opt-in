@@ -30,11 +30,11 @@ class TrackingOptIn {
         }
     };
 
-    onAcceptTracking = () => {
+    onAcceptTracking = (enabledVendors, enabledPurposes) => {
         this.consentManagementProvider.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
-            allowedVendors: this.options.enabledVendors,
-            allowedVendorPurposes: this.options.enabledVendorPurposes
+            allowedVendors: enabledVendors,
+            allowedVendorPurposes: enabledPurposes
         });
         this.consentManagementProvider.install();
         this.options.onAcceptTracking();
@@ -72,9 +72,9 @@ class TrackingOptIn {
         }
 
         const {host, pathname} = this.location;
-        const {privacyLink, partnerLink} = this.contentManager.content;
-        const privacyParsedUrl = parseUrl(privacyLink);
-        const partnerParsedUrl = parseUrl(partnerLink);
+        const {content} = this.contentManager;
+        const privacyParsedUrl = parseUrl(content.privacyPolicyUrl);
+        const partnerParsedUrl = parseUrl(content.partnerListUrl);
 
         if (privacyParsedUrl.hostname === host && pathname === privacyParsedUrl.pathname) {
             return true;
@@ -108,10 +108,11 @@ class TrackingOptIn {
         }
 
         const options = {
+            enabledPurposes: this.options.enabledVendorPurposes,
+            enabledVendors: this.options.enabledVendors,
             zIndex: this.options.zIndex,
-            preventScrollOn: this.options.preventScrollOn
+            preventScrollOn: this.options.preventScrollOn,
         };
-
 
         switch (this.hasUserConsented()) {
             case true:

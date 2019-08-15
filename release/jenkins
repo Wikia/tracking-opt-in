@@ -55,28 +55,28 @@ pipeline {
     }
 
     stage('BrowserStack') {
+      when {
+        expression {
+            return params.skipTests != true
+        }
+      }
       steps {
         sh "BUILD_ID=${currentCommit} TEST_URL=${params.testUrl ?: "http://${appHost}"} yarn test:selenium"
       }
     }
 
     stage('release') {
-      when {
-        expression {
-          return params.pipeline == 'release' && params.branch == 'master'
-        }
-      }
       steps {
         sshagent(credentials: ["$CREDENTIAL_ID"]) {
           sh "git checkout ${params.branch}"
           sh "npm config set '//registry.npmjs.org/:_authToken' ${env.NPM_TOKEN}"
-          sh "yarn version --loose-semver --new-version patch"
+          sh "yarn version --new-version ${params.version}"
           sh "npm publish"
           sh "git push origin ${params.branch}"
           sh "git push origin --tags"
 
           slackSend (
-            channel: '#gdpr_engineering',
+            channel: '#cake-team-tech',
             color: 'good',
             failOnError: true,
             message: ":checkmark: new version of tracking-opt-in has been released to https://www.npmjs.com/package/@wikia/tracking-opt-in"

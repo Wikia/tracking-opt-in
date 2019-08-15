@@ -19,6 +19,14 @@ class OptInManager {
         this.rejectExpiration = rejectExpiration || DEFAULT_REJECT_COOKIE_EXPIRATION;
         this.domain = getCookieDomain(hostname || window.location.hostname);
         this.queryParam = queryParam || DEFAULT_QUERY_PARAM_NAME;
+
+        this.vendorIds = [];
+        this.purposeIds = [];
+    }
+
+    setVendorsPurposes(vendorIds, purposeIds) {
+        this.vendorIds = vendorIds;
+        this.purposeIds = purposeIds;
     }
 
     checkCookieVersion() {
