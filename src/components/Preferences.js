@@ -117,6 +117,7 @@ class Preferences extends Component {
 
         return (
             <div
+                data-tracking-opt-in-overlay="true"
                 className={globalStyles.overlay}
                 style={{
                     zIndex: appOptions.zIndex,
