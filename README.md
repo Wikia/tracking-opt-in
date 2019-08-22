@@ -57,20 +57,21 @@ The following options are accepted:
 - `zIndex` - Useful if elements on the app are appearing above the overlay/modal. Defaults to `1000`.
 - `onAcceptTracking` - The callback fired when:
   - the user's geo does not require tracking consent
-  - the user clicks "Accept" in the dialog
+  - the user accepts non-IAB vendor tracking
   - the user has already accepted tracking (subsequent page load)
-  There are 3 arguments passed to this callback, in order: (1) allowed IAB vendor IDs, (2) allowed IAB purpose IDs, (3) true/false whether the user allowed non-IAB vendor tracking
-- `onRejectTracking` - (Deprecated as of v2.0.0) This callback is no longer used.
+- `onRejectTracking` - The callback fired when:
+  - the user rejects non-IAB vendor tracking
+  - the user has already rejected tracking (subsequent page load)
 
 #### Notes
-- `onAcceptTracking` is the key option that should be used by each app if you need to react to the user's acceptance of third party tracking.
-- As of v2.0.0, accepting tracking should not affect any GA or internal tracking unrelated to advertising.
+- `onAcceptTracking` and `onRejectTracking` are the key options that should be overridden by each app to either initialize their respective trackers or to somehow react to the user's rejection of tracking.
+- As of v2.0.0, accepting or rejecting _vendor tracking_ should not affect any GA or internal tracking unrelated to advertising.
 - Country codes are in [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1) format.
 
 ### TrackingOptIn class
 Calling the exported function returns an instance of the [`TrackingOptIn`](https://github.com/Wikia/tracking-opt-in/blob/master/src/TrackingOptIn.js) class. The class has the following functions:
 
-- `hasUserConsented()` - Returns `true` if the user has accepted tracking (or does not need to based on their geo), `false` if they have explicitly rejected tracking, and `undefined` if the user has neither accepted nor rejected tracking.
+- `hasUserConsented()` - Returns `true` if the user has accepted _non-IAB_ vendor tracking (or does not need to based on their geo), `false` if they have explicitly rejected tracking, and `undefined` if the user has neither accepted nor rejected tracking.
 - `geoRequiresTrackingConsent()` - Returns `true` if the user's geo requires consent, `false` otherwise.
 - `reset()` - Clears the opt-in cookie and runs through the rendering rules again.
 - `clear()` - Clears the opt-in cookie

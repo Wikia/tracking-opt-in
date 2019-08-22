@@ -30,24 +30,26 @@ class TrackingOptIn {
         }
     };
 
-    onAcceptTracking = (allowedVendors, allowedPurposes, didAllowNonIab) => {
+    // Non-IAB tracking is accepted. Some or all IAB vendors or purposes _may_ be accepted
+    onAcceptTracking = (allowedVendors, allowedPurposes) => {
         this.consentManagementProvider.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
             allowedVendors: allowedVendors,
             allowedVendorPurposes: allowedPurposes
         });
         this.consentManagementProvider.install();
-        this.options.onAcceptTracking(allowedVendors, allowedPurposes, didAllowNonIab);
+        this.options.onAcceptTracking(allowedVendors, allowedPurposes);
     };
 
-    onRejectTracking = () => {
+    // Non-IAB tracking is rejected. Some or all IAB vendors or purposes _may_ be accepted
+    onRejectTracking = (allowedVendors, allowedPurposes) => {
         this.consentManagementProvider.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
-            allowedVendors: [],
-            allowedVendorPurposes: []
+            allowedVendors: allowedVendors,
+            allowedVendorPurposes: allowedPurposes
         });
         this.consentManagementProvider.install();
-        this.options.onRejectTracking();
+        this.options.onRejectTracking(allowedVendors, allowedPurposes);
     };
 
     hasUserConsented() {

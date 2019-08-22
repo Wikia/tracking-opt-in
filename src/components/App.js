@@ -59,7 +59,7 @@ class App extends Component {
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
         // Pass in all originally enabled vendors and purposes
-        this.props.onAcceptTracking(this.props.options.enabledVendors, this.props.options.enabledPurposes, true);
+        this.props.onAcceptTracking(this.props.options.enabledVendors, this.props.options.enabledPurposes);
     };
 
     setNonIabConsented = (isConsented) => {
@@ -81,14 +81,16 @@ class App extends Component {
     save = () => {
         // Unlike the "Accept" button, this method saves the preferences set for each vendor
         this.props.tracker.trackSaveClick();
+        this.props.onRequestAppRemove();
+
+        // Pass in only those vendors and purposes the user left enabled in the preferences
         if (this.state.nonIabConsented === true) {
             this.props.optInManager.setTrackingAccepted();
+            this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
         } else {
             this.props.optInManager.setTrackingRejected();
+            this.props.onRejectTracking(this.state.consentedVendors, this.state.consentedPurposes);
         }
-        this.props.onRequestAppRemove();
-        // Pass in only those vendors and purposes the user left enabled in the preferences
-        this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes, this.state.nonIabConsented);
     };
 
     // This is called in sub components to update the state
