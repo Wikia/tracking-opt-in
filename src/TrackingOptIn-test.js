@@ -105,8 +105,9 @@ describe('TrackingOptIn', () => {
 
         assert.isNotOk(modalIsShown());
         assert.isOk(consentManagementProvider.install.called);
-        // TODO assert function called after promise
-        // assert.isOk(onAcceptTracking.called);
+        consentManagementProvider.install().then(() => {
+            assert.isOk(onAcceptTracking.called);
+        });
     });
 
     it('calls reject callback when the user has already rejected', () => {
@@ -119,8 +120,9 @@ describe('TrackingOptIn', () => {
 
         assert.isNotOk(modalIsShown());
         assert.isOk(consentManagementProvider.install.called);
-        // TODO assert function called after promise
-        // assert.isOk(onRejectTracking.called);
+        consentManagementProvider.install().then(() => {
+            assert.isOk(onRejectTracking.called);
+        });
     });
 
     it('re-renders on reset()', () => {
