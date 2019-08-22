@@ -34,7 +34,7 @@ function setGeoCookie(country) {
 
 // windows needs the geo cookie set to something
 function removeGeoCookie(country) {
-    browser.setCookies({ name: 'Geo', value: '{' });
+    browser.setCookies({ name: 'Geo', value: '{}' });
 }
 
 function ensureUserPrompt() {
