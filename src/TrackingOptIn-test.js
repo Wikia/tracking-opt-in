@@ -30,7 +30,7 @@ describe('TrackingOptIn', () => {
         optInManager = createStubInstance(OptInManager);
         geoManager = createStubInstance(GeoManager);
         consentManagementProvider = createStubInstance(ConsentManagementProvider);
-        consentManagementProvider.install = spy(function() { return Promise.resolve(); });
+        consentManagementProvider.install.returns(Promise.resolve());
         contentManager = new ContentManager('en');
         onAcceptTracking = stub();
         onRejectTracking = stub();
@@ -107,7 +107,7 @@ describe('TrackingOptIn', () => {
         assert.isOk(consentManagementProvider.install.called);
         consentManagementProvider.install().then(() => {
             assert.isOk(onAcceptTracking.called);
-        });
+        }).catch(() => { /* nothing to do here */ });
     });
 
     it('calls reject callback when the user has already rejected', () => {
@@ -122,7 +122,7 @@ describe('TrackingOptIn', () => {
         assert.isOk(consentManagementProvider.install.called);
         consentManagementProvider.install().then(() => {
             assert.isOk(onRejectTracking.called);
-        });
+        }).catch(() => { /* nothing to do here */ });
     });
 
     it('re-renders on reset()', () => {
