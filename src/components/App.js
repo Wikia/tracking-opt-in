@@ -59,7 +59,7 @@ class App extends Component {
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
         // Pass in all originally enabled vendors and purposes
-        this.props.onAcceptTracking(this.props.options.enabledVendors, this.props.options.enabledPurposes);
+        this.props.onAcceptTracking(this.props.options.enabledVendors, this.props.options.enabledPurposes, true);
     };
 
     setNonIabConsented = (isConsented) => {
@@ -88,7 +88,7 @@ class App extends Component {
         }
         this.props.onRequestAppRemove();
         // Pass in only those vendors and purposes the user left enabled in the preferences
-        this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
+        this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes, this.state.nonIabConsented);
     };
 
     // This is called in sub components to update the state

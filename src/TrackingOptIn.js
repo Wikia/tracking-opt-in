@@ -30,14 +30,14 @@ class TrackingOptIn {
         }
     };
 
-    onAcceptTracking = (enabledVendors, enabledPurposes) => {
+    onAcceptTracking = (allowedVendors, allowedPurposes, didAllowNonIab) => {
         this.consentManagementProvider.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
-            allowedVendors: enabledVendors,
-            allowedVendorPurposes: enabledPurposes
+            allowedVendors: allowedVendors,
+            allowedVendorPurposes: allowedPurposes
         });
         this.consentManagementProvider.install();
-        this.options.onAcceptTracking();
+        this.options.onAcceptTracking(allowedVendors, allowedPurposes, didAllowNonIab);
     };
 
     onRejectTracking = () => {

@@ -59,6 +59,7 @@ The following options are accepted:
   - the user's geo does not require tracking consent
   - the user clicks "Accept" in the dialog
   - the user has already accepted tracking (subsequent page load)
+  There are 3 arguments passed to this callback, in order: (1) allowed IAB vendor IDs, (2) allowed IAB purpose IDs, (3) true/false whether the user allowed non-IAB vendor tracking
 - `onRejectTracking` - (Deprecated as of v2.0.0) This callback is no longer used.
 
 #### Notes
