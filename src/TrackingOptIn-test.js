@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { stub, createStubInstance, spy } from 'sinon';
+import { stub, createStubInstance } from 'sinon';
 import TrackingOptIn from './TrackingOptIn';
 import OptInManager from './OptInManager';
 import GeoManager from './GeoManager';
