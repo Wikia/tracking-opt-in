@@ -105,7 +105,6 @@ describe('TrackingOptIn', () => {
 
         assert.isNotOk(modalIsShown());
         assert.isOk(consentManagementProvider.install.called);
-        assert.isOk(consentManagementProvider.install.called);
         // TODO assert function called after promise
         // assert.isOk(onAcceptTracking.called);
     });
