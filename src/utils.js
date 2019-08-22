@@ -34,6 +34,20 @@ export function isParameterSet(param) {
     return window.location.href.indexOf(`${param}=true`) !== -1;
 }
 
+export function getUrlParameter(paramName) {
+    const paramList = window.location.search.slice(1).split('&');
+    paramList.forEach((param) => {
+        if (param.length > 0) {
+            const keyValue = param.split('=');
+            if (keyValue[0] === paramName) {
+                // May return undefined
+                return keyValue[1];
+            }
+        }
+    });
+    return null;
+};
+
 export function parseUrl(url) {
     const parser = document.createElement('a');
     parser.href = url;
