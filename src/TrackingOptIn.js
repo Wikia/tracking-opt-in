@@ -37,8 +37,9 @@ class TrackingOptIn {
             allowedVendors: allowedVendors,
             allowedVendorPurposes: allowedPurposes
         });
-        this.consentManagementProvider.install();
-        this.options.onAcceptTracking(allowedVendors, allowedPurposes);
+        this.consentManagementProvider.install().then(() => {
+            this.options.onAcceptTracking(allowedVendors, allowedPurposes);
+        });
     };
 
     // Non-IAB tracking is rejected. Some or all IAB vendors or purposes _may_ be accepted
@@ -48,8 +49,9 @@ class TrackingOptIn {
             allowedVendors: allowedVendors,
             allowedVendorPurposes: allowedPurposes
         });
-        this.consentManagementProvider.install();
-        this.options.onRejectTracking(allowedVendors, allowedPurposes);
+        this.consentManagementProvider.install().then(() => {
+            this.options.onRejectTracking(allowedVendors, allowedPurposes);
+        });
     };
 
     hasUserConsented() {
