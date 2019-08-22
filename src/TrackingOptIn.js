@@ -118,6 +118,7 @@ class TrackingOptIn {
             preventScrollOn: this.options.preventScrollOn,
         };
 
+console.log('HERE 1', this.hasUserConsented());
         switch (this.hasUserConsented()) {
             case true:
                 this.onAcceptTracking();
