@@ -18,9 +18,11 @@ const getDefaultOptions = () => ({
     allowedVendorPurposes: null,
     allowedVendors: null,
     cookieAttributes: getDefaultCookieAttributes(),
+    disableConsentQueue: false,
     gdprApplies: false,
     gdprAppliesGlobally: false,
     hasGlobalScope: false,
+    mounted: false,
     language: CMP_DEFAULT_LANGUAGE,
     vendorList: null
 });
@@ -244,23 +246,38 @@ class ConsentManagementProvider {
     mount() {
         const cmp = this.cmp.bind(this);
 
-        try {
-            window.__cmp('getQueue', null, (queue) => {
-                window.__cmp = cmp;
-                queue.forEach((args) => cmp(...args));
-            });
-        } catch (error) {
-            void(error);
+        if (this.options.disableConsentQueue) {
             window.__cmp = cmp;
-            console.error(new Error('incompatible stub, cannot run queue'));
+        } else {
+            try {
+                window.__cmp('getQueue', null, (queue) => {
+                    window.__cmp = cmp;
+                    queue.forEach((args) => cmp(...args));
+                });
+            } catch (error) {
+                void(error);
+                window.__cmp = cmp;
+                console.error(new Error('incompatible stub, cannot run queue'));
+            }
         }
+
+        this.options.mounted = true;
+    }
+
+    unmount() {
+        this.setVendorConsentCookie(null);
+        delete window.__cmp;
     }
 
     install() {
-        const {vendorList} = this.options;
+        const vendorList = this.options.vendorList || this.vendorList;
         const {gdprApplies} = this.getCommonCmpProperties();
         const vendorListVersion = isNaN(Number(vendorList)) ? null : Number(vendorList);
         const hasData = (this.hasUserConsent() || vendorList && !vendorListVersion);
+
+        if (this.options.mounted) {
+            this.unmount();
+        }
 
         if (hasData || !gdprApplies) {
             this.vendorList = vendorList;
