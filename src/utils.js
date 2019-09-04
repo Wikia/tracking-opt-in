@@ -61,7 +61,20 @@ export function getCookieDomain(hostname) {
         return undefined;
     }
 
-    return `.${parts[parts.length - 2]}.${parts[parts.length - 1]}`;
+    let cookieDomain = `.${parts[parts.length - 2]}.${parts[parts.length - 1]}`;
+    // These exceptions require a third part for a valid cookie domain. This isn't
+    // a definitive list but rather the most likely domains on which Fandom would
+    // host a site.
+    const exceptions = [
+        '.co.jp',
+        '.co.nz',
+        '.co.uk',
+    ];
+    if (exceptions.indexOf(cookieDomain) >= 0) {
+        cookieDomain = `.${parts[parts.length - 3]}${cookieDomain}`;
+    }
+
+    return cookieDomain;
 }
 
 const cachedJson = {};

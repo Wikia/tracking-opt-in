@@ -38,6 +38,16 @@ describe('Utils', () => {
 
             assert.equal(domain, '.fandom.com');
         });
+
+        it('handles .co country-code domains', () => {
+            let domain = utils.getCookieDomain('somethingbritish.co.uk');
+
+            assert.equal(domain, '.somethingbritish.co.uk');
+
+            domain = utils.getCookieDomain('somethingkiwi.co.nz');
+
+            assert.equal(domain, '.somethingkiwi.co.nz');
+        });
     });
 
     context('getJSON', () => {
