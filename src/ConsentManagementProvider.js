@@ -22,7 +22,6 @@ const getDefaultOptions = () => ({
     gdprApplies: false,
     gdprAppliesGlobally: false,
     hasGlobalScope: false,
-    mounted: false,
     language: CMP_DEFAULT_LANGUAGE,
     vendorList: null
 });
@@ -65,6 +64,8 @@ function toAllowedMap(array, predicate = () => false) {
 }
 
 class ConsentManagementProvider {
+    mounted = false;
+
     static installStub(gdprAppliesGlobally = false) {
         const queue = [];
 
@@ -261,12 +262,13 @@ class ConsentManagementProvider {
             }
         }
 
-        this.options.mounted = true;
+        this.mounted = true;
     }
 
     unmount() {
         this.setVendorConsentCookie(null);
         delete window.__cmp;
+        this.mounted = false;
     }
 
     install() {
@@ -275,7 +277,7 @@ class ConsentManagementProvider {
         const vendorListVersion = isNaN(Number(vendorList)) ? null : Number(vendorList);
         const hasData = (this.hasUserConsent() || vendorList && !vendorListVersion);
 
-        if (this.options.mounted) {
+        if (this.mounted) {
             this.unmount();
         }
 
