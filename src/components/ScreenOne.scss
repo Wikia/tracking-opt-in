@@ -1,13 +1,15 @@
 @import "./consts.scss";
 
 .dialog {
+    bottom: 0px;
     display: flex;
     flex-direction: column;
+    position: fixed;
+    width: 100vw;
 
     @media #{$mobile-devices} {
         max-height: calc(100vh - 55px);
         position: absolute;
-        width: 100vw;
     }
 }
 
