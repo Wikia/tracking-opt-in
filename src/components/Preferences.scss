@@ -4,16 +4,17 @@
     position: absolute;
 
     @media #{$mobile-devices} {
-        height: calc(100vh - 55px);
+        height: calc(100% - 55px);
         top: 55px;
         width: 100vw;
     }
 
     @media #{$desktop-devices} {
         height: 600px;
+        left: 50%;
         max-height: 90vh;
         top: 50%;
-        transform: translateY(-50%);
+        transform: translate(-50%, -50%);
         max-width: 768px;
     }
 }
