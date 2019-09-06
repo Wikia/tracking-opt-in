@@ -8,7 +8,7 @@
     width: 100vw;
 
     @media #{$mobile-devices} {
-        max-height: calc(100vh - 55px);
+        max-height: calc(100% - 55px);
         position: absolute;
     }
 }
