@@ -48,6 +48,7 @@ The following options are accepted:
 - `cookieRejectExpiration` - How long the reject cookie should last when the user rejects. Defaults to 1 days.
 - `country` - Override the country code for determining the country the user is visiting from. Defaults to reading from the `Geo` cookie that should be available in all of our web apps.
 - `countriesRequiringPrompt` - Array of country codes that require tracking opt-in. See [`GeoManager`](https://github.com/Wikia/tracking-opt-in/blob/master/src/GeoManager.js) for the defaults.
+- `disableConsentQueue` - If true then CMP will return fully opted-out consent string before user accept or reject the modal without queuing the commands
 - `enabledVendorPurposes` - Array of purpose IDs to be allowed on opt-in. See the [IAB CMP specification](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/CMP%20JS%20API%20v1.1%20Final.md) for details. Defaults to all standard purposes.
 - `enabledVendors` - Array of vendor IDs to be allowed on opt-in. See the [IAB CMP specification](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/CMP%20JS%20API%20v1.1%20Final.md) for details. Defaults to a list of all of Fandom's vendors who are partnered with IAB.
 - `language` - Override the language used to display the dialog text. Defaults to `window.navigator.language` if available, otherwise to `en`.

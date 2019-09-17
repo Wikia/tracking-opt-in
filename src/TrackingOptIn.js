@@ -54,6 +54,16 @@ class TrackingOptIn {
         });
     };
 
+    // Opt-out everything before use clicks anything in modal
+    rejectBeforeConsent = () => {
+        this.consentManagementProvider.configure({
+            gdprApplies: this.geoRequiresTrackingConsent(),
+            allowedVendors: [],
+            allowedVendorPurposes: []
+        });
+        this.consentManagementProvider.install();
+    };
+
     hasUserConsented() {
         if (this.isOnWhiteListedPage()) {
             return false;
@@ -127,6 +137,10 @@ class TrackingOptIn {
                 break;
             default:
                 if (!isParameterSet('mobile-app')) {
+                    if (this.options.disableConsentQueue) {
+                        this.rejectBeforeConsent();
+                    }
+
                     render(
                         <App
                             onRequestAppRemove={this.removeApp}
