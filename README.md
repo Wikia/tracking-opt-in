@@ -8,6 +8,9 @@ Using yarn:
 yarn add @wikia/tracking-opt-in
 ```
 
+## Access npmjs
+Access the npmjs.com UI through [vault](https://wikia-inc.atlassian.net/wiki/spaces/OPS/pages/132317429/Vault+For+Engineers) key `vault read secret/app/npmjs`. 
+
 ## Usage
 The library exports one function that can be invoked to kickoff the process of showing the modal, or calling the appropriate callbacks if the user has already accepted or rejected tracking. The library is built using webpack's [`libraryTarget: "umd"`](https://webpack.js.org/configuration/output/#module-definition-systems) option, so it should be usable in any of our projects.
 
