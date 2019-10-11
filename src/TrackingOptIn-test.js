@@ -26,7 +26,7 @@ describe('TrackingOptIn', () => {
     }
 
     function isCurseUrl() {
-        return document.querySelector('a[href*=curse]');
+        return document.querySelector('a[href*=curse-privacy-policy]');
     }
 
     beforeEach(() => {
