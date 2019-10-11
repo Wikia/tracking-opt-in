@@ -126,6 +126,7 @@ class TrackingOptIn {
             enabledVendors: this.options.enabledVendors,
             zIndex: this.options.zIndex,
             preventScrollOn: this.options.preventScrollOn,
+            isCurse: true,
         };
 
         switch (this.hasUserConsented()) {

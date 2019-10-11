@@ -127,7 +127,7 @@ class Preferences extends Component {
                     <div className={styles.content}>
                         <h2 className={`${styles.heading} ${styles.preferencesHeading}`}>{content.preferencesHeadline}</h2>
                         <div className={styles.preferencesDescription} onClick={(e) => this.clickDescription(e)}>
-                            {getParagraphs(content.preferencesBody, content)}
+                            {getParagraphs(content.preferencesBody, content, appOptions.isCurse)}
                         </div>
                         <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.purposesHeader}</h2>
                         {this.renderPreferenceSections(purposes)}
