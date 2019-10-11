@@ -25,6 +25,10 @@ describe('TrackingOptIn', () => {
         return document.querySelector(`.${styles.overlay}`);
     }
 
+    function isCurseUrl() {
+        return document.querySelector('a[href*=curse]');
+    }
+
     beforeEach(() => {
         tracker = createStubInstance(Tracker);
         optInManager = createStubInstance(OptInManager);
@@ -167,5 +171,18 @@ describe('TrackingOptIn', () => {
 
         trackingOptIn.reset();
         assert.isOk(modalIsShown());
+    });
+
+    it('displays curse link', () => {
+        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider, Object.assign({isCurse: true}, options), {host: 'www.fandom.com', pathname: '/hello-world'});
+        geoManager.needsTrackingPrompt.withArgs().returns(true);
+        geoManager.hasGeoCookie.withArgs().returns(true);
+        optInManager.hasAcceptedTracking.withArgs().returns(false);
+        optInManager.hasRejectedTracking.withArgs().returns(false);
+
+        trackingOptIn.render();
+
+        assert.isOk(isCurseUrl());
     })
+
 });
