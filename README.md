@@ -66,6 +66,7 @@ The following options are accepted:
 - `onRejectTracking` - The callback fired when:
   - the user rejects non-IAB vendor tracking
   - the user has already rejected tracking (subsequent page load)
+- `isCurse` - Optional boolean that generates a different privacy link on curse products
 
 #### Notes
 - `onAcceptTracking` and `onRejectTracking` are the key options that should be overridden by each app to either initialize their respective trackers or to somehow react to the user's rejection of tracking.
