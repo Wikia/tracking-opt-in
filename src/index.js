@@ -38,6 +38,7 @@ export default function main(options) {
         preventScrollOn,
         enabledVendorPurposes,
         enabledVendors,
+        isCurse,
         ...depOptions
     } = Object.assign({}, DEFAULT_OPTIONS, options);
     const langManager = new LanguageManager(depOptions.language);
@@ -78,6 +79,7 @@ export default function main(options) {
             onAcceptTracking,
             onRejectTracking,
             disableConsentQueue,
+            isCurse,
         },
         window.location,
     );

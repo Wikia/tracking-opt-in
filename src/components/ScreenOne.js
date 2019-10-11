@@ -30,7 +30,7 @@ class ScreenOne extends Component {
                     <div className={styles.content}>
                         <div className={styles.usesCookiesText}> {content.mainHeadline} </div>
                         <div className={styles.bodyParagraphsContainer} onClick={(e) => this.clickDescription(e)}>
-                            {getParagraphs(content.mainBody, content)}
+                            {getParagraphs(content.mainBody, content, appOptions.isCurse)}
                         </div>
                     </div>
                     <div className={globalStyles.footer}>
