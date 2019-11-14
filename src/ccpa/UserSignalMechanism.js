@@ -12,7 +12,7 @@ const USP_VALUES = {
 
 const getDefaultCookieAttributes = () => ({
     domain: getCookieDomain(window.location.hostname),
-    expires: 1825 // 5 years
+    expires: 365 // 1 year
 });
 const getDefaultOptions = () => ({
     cookieAttributes: getDefaultCookieAttributes(),
@@ -28,6 +28,8 @@ class UserSignalMechanism {
 
     static installStub() {
         const queue = [];
+
+        console.log('CCPA: installing API stub');
 
         window.__uspapi = (commandName, version, callback = console.log) => {
             if (commandName === 'ping') {
@@ -52,6 +54,8 @@ class UserSignalMechanism {
         if (window.__uspapi === undefined) {
             this.installStub();
         }
+
+        console.log('CCPA: User Signal Mechanism initialized');
     }
 
     install() {
@@ -61,6 +65,8 @@ class UserSignalMechanism {
 
         this.createUserSignal();
         this.mount();
+
+        console.log('CCPA: User Signal Mechanism installed');
     }
 
     installStub(...args) {
@@ -118,17 +124,19 @@ class UserSignalMechanism {
         let privacyString = null;
 
         if (!this.options.ccpaApplies) {
-            console.log('geo does not require CCPA API');
+            console.log('CCPA: geo does not require API');
 
             privacyString = createPrivacyString();
         } else {
-            console.log('geo requires CCPA API');
+            console.log('CCPA: geo requires API');
 
             if (this.hasUserSignal()) {
                 privacyString = this.getPrivacyStringCookie();
             } else {
                 privacyString = createPrivacyString(USP_VALUES.no, USP_VALUES.no);
             }
+
+            console.log('CCPA: Privacy String cookie created');
 
             this.setPrivacyStringCookie(privacyString);
         }
