@@ -109,10 +109,13 @@ function initializeCCPA(options) {
     });
 
     userSignalMechanism.install();
+
+    return userSignalMechanism;
 }
 
 export default function main(options) {
-    initializeCCPA(options);
-
-    return initializeGDPR(options);
+    return {
+        gdpr: initializeGDPR(options),
+        ccpa: initializeCCPA(options),
+    };
 }

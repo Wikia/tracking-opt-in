@@ -148,6 +148,12 @@ class UserSignalMechanism {
         return !!this.getPrivacyStringCookie();
     }
 
+    hasUserProvidedSignal() {
+        const signalSplit = this.userSignal.split('');
+
+        return signalSplit[1] === USP_VALUES.yes || signalSplit[2] === USP_VALUES.yes;
+    }
+
     getPrivacyStringCookie() {
         return Cookies.get(PRIVACY_STRING_COOKIE_NAME) || '';
     }
