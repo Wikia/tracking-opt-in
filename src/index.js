@@ -1,11 +1,11 @@
-import LanguageManager from "./LangManager";
-import OptInManager from "./OptInManager";
-import Tracker from "./Tracker";
-import ContentManager from "./ContentManager";
-import GeoManager from "./GeoManager";
-import TrackingOptIn from './TrackingOptIn';
-import ConsentManagementProvider from "./ConsentManagementProvider";
-import { IAB_VENDORS } from './consts';
+import LanguageManager from "./shared/LangManager";
+import OptInManager from "./gdpr/OptInManager";
+import Tracker from "./gdpr/Tracker";
+import ContentManager from "./shared/ContentManager";
+import GeoManager from "./shared/GeoManager";
+import TrackingOptIn from './gdpr/TrackingOptIn';
+import ConsentManagementProvider from "./gdpr/ConsentManagementProvider";
+import { IAB_VENDORS } from './shared/consts';
 
 export const DEFAULT_OPTIONS = {
     beaconCookieName: null,
@@ -30,7 +30,11 @@ export const DEFAULT_OPTIONS = {
     },
 };
 
-export default function main(options) {
+export const DEFAULT_CCPA_OPTIONS = {
+    //aa
+};
+
+function initializeGDPR(options) {
     const {
         zIndex,
         onAcceptTracking,
@@ -86,4 +90,14 @@ export default function main(options) {
     instance.render();
 
     return instance;
+}
+
+function initializeCCPA(options) {
+
+}
+
+export default function main(options) {
+    initializeCCPA(options);
+
+    return initializeGDPR(options);
 }

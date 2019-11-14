@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import globalStyles from '../components/styles.scss';
+import globalStyles from '../styles.scss';
 
 function getParagraphs(blockOfText, content, isCurse = false) {
     const replaceKeysInText = text => text.replace(/%([a-zA-Z]+)%/g, (match, key) => {
@@ -18,6 +18,6 @@ function getParagraphs(blockOfText, content, isCurse = false) {
 
     // Used to prevent cross-site scripting (XSS) attacks
     return blockOfText.map(line => <p dangerouslySetInnerHTML={{ __html: replaceKeysInText(line) }} />);
-};
+}
 
 export default getParagraphs;

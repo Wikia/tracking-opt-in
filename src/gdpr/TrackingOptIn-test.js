@@ -2,11 +2,11 @@ import { assert } from 'chai';
 import { stub, createStubInstance } from 'sinon';
 import TrackingOptIn from './TrackingOptIn';
 import OptInManager from './OptInManager';
-import GeoManager from './GeoManager';
-import ContentManager from './ContentManager';
+import GeoManager from '../shared/GeoManager';
+import ContentManager from '../shared/ContentManager';
 import ConsentManagementProvider from './ConsentManagementProvider';
 import Tracker from './Tracker';
-import styles from './components/styles.scss';
+import styles from '../components/styles.scss';
 
 const document = global.document;
 

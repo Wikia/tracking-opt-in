@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { PURPOSES, getPurposeTitle, getPurposeBody } from '../utils';
+import { PURPOSES, getPurposeTitle, getPurposeBody } from '../shared/utils';
 import PreferencesVendorList from './PreferencesVendorList';
 import Switch from './Switch';
 

@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { getPurposeTitle, getPurposeBody, getFeatureTitle, getFeatureBody } from '../utils';
+import { getPurposeTitle, getPurposeBody, getFeatureTitle, getFeatureBody } from '../shared/utils';
 import Switch from './Switch';
 
 import globalStyles from './styles.scss';

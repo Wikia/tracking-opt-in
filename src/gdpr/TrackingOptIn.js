@@ -1,6 +1,6 @@
 import { h, render } from "preact/dist/preact";
-import App from "./components/App";
-import { isParameterSet, parseUrl } from "./utils";
+import App from "../components/App";
+import { isParameterSet, parseUrl } from "../shared/utils";
 
 class TrackingOptIn {
     constructor(

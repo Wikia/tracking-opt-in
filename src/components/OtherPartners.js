@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { NON_IAB_VENDORS } from '../consts';
+import { NON_IAB_VENDORS } from '../shared/consts';
 import PreferencesVendorList from './PreferencesVendorList';
 import Switch from './Switch';
 

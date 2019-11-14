@@ -1,12 +1,12 @@
 import { h, Component } from 'preact';
-import { getVendorList, PURPOSES } from '../utils';
+import { getVendorList, PURPOSES } from '../shared/utils';
 import OtherPartners from './OtherPartners';
 import PreferencesSection from './PreferencesSection';
 
 import globalStyles from './styles.scss';
 import styles from './Preferences.scss';
 
-import getParagraphs from '../utils/getParagraphs';
+import getParagraphs from './utils/getParagraphs';
 
 class Preferences extends Component {
     state = {

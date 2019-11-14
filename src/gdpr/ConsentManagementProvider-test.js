@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { spy, stub } from 'sinon';
 import Cookies from 'js-cookie';
 import ConsentManagementProvider from './ConsentManagementProvider';
-import { vendorList as vendorListMock } from './fixtures-test';
+import { vendorList as vendorListMock } from './ConsentManagementProvider-test-fixtures';
 import { setTimeout } from 'timers';
 
 describe('ConsentManagementProvider', () => {

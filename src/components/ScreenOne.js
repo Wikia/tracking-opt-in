@@ -3,7 +3,7 @@ import { h, Component } from 'preact';
 import globalStyles from './styles.scss';
 import styles from './ScreenOne.scss';
 
-import getParagraphs from '../utils/getParagraphs';
+import getParagraphs from './utils/getParagraphs';
 
 class ScreenOne extends Component {
     clickDescription(event) {

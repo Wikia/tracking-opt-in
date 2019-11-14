@@ -2,7 +2,7 @@ import { h, render } from 'preact';
 import { expect, assert } from 'chai';
 import { stub } from 'sinon';
 
-import Tracker from '../Tracker';
+import Tracker from '../gdpr/Tracker';
 import * as i18nContent from '../i18n/tracking-opt-in.json';
 import Preferences from './Preferences';
 import globalStyles from './styles.scss';
