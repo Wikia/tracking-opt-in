@@ -48,8 +48,9 @@
 <script type="text/javascript">
     {{#if htmlWebpackPlugin.options.isDevelopment}}
         var optIn = trackingOptIn.default({
-            countriesRequiringPrompt: ['us'],
+            countriesRequiringPrompt: ['us', 'us-ca'],
             country: 'us',
+            region: 'ca',
             language: 'en',
             track: false,
             isCurse: false,

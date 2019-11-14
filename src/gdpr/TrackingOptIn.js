@@ -73,7 +73,7 @@ class TrackingOptIn {
             return true;
         } else if (this.optInManager.hasRejectedTracking()) {
             return false;
-        } else if(!this.geoManager.hasGeoCookie()) {
+        } else if (!this.geoManager.hasGeoCookie()) {
             return false;
         }
 

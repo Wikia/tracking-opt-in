@@ -1,11 +1,14 @@
-import LanguageManager from "./shared/LangManager";
-import OptInManager from "./gdpr/OptInManager";
-import Tracker from "./gdpr/Tracker";
-import ContentManager from "./shared/ContentManager";
-import GeoManager from "./shared/GeoManager";
-import TrackingOptIn from './gdpr/TrackingOptIn';
-import ConsentManagementProvider from "./gdpr/ConsentManagementProvider";
 import { IAB_VENDORS } from './shared/consts';
+import ContentManager from './shared/ContentManager';
+import GeoManager from './shared/GeoManager';
+import LanguageManager from './shared/LangManager';
+
+import ConsentManagementProvider from './gdpr/ConsentManagementProvider';
+import OptInManager from './gdpr/OptInManager';
+import Tracker from './gdpr/Tracker';
+import TrackingOptIn from './gdpr/TrackingOptIn';
+
+import UserSignalMechanism from './ccpa/UserSignalMechanism';
 
 export const DEFAULT_OPTIONS = {
     beaconCookieName: null,
@@ -31,7 +34,9 @@ export const DEFAULT_OPTIONS = {
 };
 
 export const DEFAULT_CCPA_OPTIONS = {
-    //aa
+    country: null, // country code
+    region: null, // region code
+    countriesRequiringPrompt: ['us-ca'], // array of lower case country codes
 };
 
 function initializeGDPR(options) {
@@ -46,7 +51,7 @@ function initializeGDPR(options) {
         ...depOptions
     } = Object.assign({}, DEFAULT_OPTIONS, options);
     const langManager = new LanguageManager(depOptions.language);
-    const geoManager = new GeoManager(depOptions.country, depOptions.countriesRequiringPrompt);
+    const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
     const disableConsentQueue = !!depOptions.disableConsentQueue;
     const consentManagementProvider = new ConsentManagementProvider({
@@ -93,7 +98,17 @@ function initializeGDPR(options) {
 }
 
 function initializeCCPA(options) {
+    const {
+        test,
+        ...depOptions
+    } = Object.assign({}, DEFAULT_CCPA_OPTIONS, options);
 
+    const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
+    const userSignalMechanism = new UserSignalMechanism({
+        ccpaApplies: geoManager.needsUserSignal(),
+    });
+
+    userSignalMechanism.install();
 }
 
 export default function main(options) {
