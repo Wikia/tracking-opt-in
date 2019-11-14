@@ -154,6 +154,10 @@ class UserSignalMechanism {
         return signalSplit[1] === USP_VALUES.yes || signalSplit[2] === USP_VALUES.yes;
     }
 
+    geoRequiresUserSignal() {
+        return this.options.ccpaApplies;
+    }
+
     getPrivacyStringCookie() {
         return Cookies.get(PRIVACY_STRING_COOKIE_NAME) || '';
     }
