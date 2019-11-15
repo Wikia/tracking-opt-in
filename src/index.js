@@ -18,6 +18,7 @@ export const DEFAULT_OPTIONS = {
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
     disableConsentQueue: false,
+    enableCCPAinit: false,
     enabledVendorPurposes: [1, 2, 3, 4, 5], // array of IAB CMP purpose IDs
     enabledVendors: IAB_VENDORS, // array of IAB CMP vendor IDs
     language: null,
@@ -102,6 +103,10 @@ function initializeCCPA(options) {
         test,
         ...depOptions
     } = Object.assign({}, DEFAULT_CCPA_OPTIONS, options);
+
+    if (!depOptions.enableCCPAinit) {
+        return null;
+    }
 
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const userSignalMechanism = new UserSignalMechanism({
