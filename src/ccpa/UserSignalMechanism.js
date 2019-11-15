@@ -58,6 +58,10 @@ class UserSignalMechanism {
         console.log('CCPA: User Signal Mechanism initialized');
     }
 
+    configure(options) {
+        Object.assign(this.options, options);
+    }
+
     install() {
         if (this.mounted) {
             this.unmount();
