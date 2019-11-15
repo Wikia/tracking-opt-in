@@ -149,6 +149,10 @@ class UserSignalMechanism {
     }
 
     hasUserProvidedSignal() {
+        if (!this.userSignal) {
+            return undefined;
+        }
+
         const signalSplit = this.userSignal.split('');
 
         return signalSplit[1] === USP_VALUES.yes || signalSplit[2] === USP_VALUES.yes;
