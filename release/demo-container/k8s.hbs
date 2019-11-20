@@ -22,6 +22,9 @@ metadata:
   namespace: {{namespace}}
 spec:
   replicas: {{instances}}
+  selector:
+    matchLabels:
+      app: {{serviceName}}
   template:
     metadata:
       labels:
