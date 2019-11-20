@@ -17,7 +17,6 @@ const browserLangToLang = (browserLang) => {
     return browserLang.substring(0,2);
 };
 
-
 export default class LangManager {
     constructor(browserLang) {
         this.browserLang = (getUrlParameter('uselang') || browserLang || getBrowserLang()).toLowerCase();

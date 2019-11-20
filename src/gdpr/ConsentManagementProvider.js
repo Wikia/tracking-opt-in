@@ -1,7 +1,7 @@
 import { ConsentString } from 'consent-string';
 import { Promise } from 'es6-promise';
 import Cookies from 'js-cookie';
-import { getCookieDomain, getJSON } from './utils';
+import { getCookieDomain, getJSON } from '../shared/utils';
 
 export const CMP_VERSION = 2; // Increment to force modal again
 const CMP_ID = 141;

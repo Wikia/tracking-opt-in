@@ -1,11 +1,14 @@
-import LanguageManager from "./LangManager";
-import OptInManager from "./OptInManager";
-import Tracker from "./Tracker";
-import ContentManager from "./ContentManager";
-import GeoManager from "./GeoManager";
-import TrackingOptIn from './TrackingOptIn';
-import ConsentManagementProvider from "./ConsentManagementProvider";
-import { IAB_VENDORS } from './consts';
+import { IAB_VENDORS } from './shared/consts';
+import ContentManager from './shared/ContentManager';
+import GeoManager from './shared/GeoManager';
+import LanguageManager from './shared/LangManager';
+
+import ConsentManagementProvider from './gdpr/ConsentManagementProvider';
+import OptInManager from './gdpr/OptInManager';
+import Tracker from './gdpr/Tracker';
+import TrackingOptIn from './gdpr/TrackingOptIn';
+
+import UserSignalMechanism from './ccpa/UserSignalMechanism';
 
 export const DEFAULT_OPTIONS = {
     beaconCookieName: null,
@@ -15,6 +18,7 @@ export const DEFAULT_OPTIONS = {
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
     disableConsentQueue: false,
+    enableCCPAinit: false,
     enabledVendorPurposes: [1, 2, 3, 4, 5], // array of IAB CMP purpose IDs
     enabledVendors: IAB_VENDORS, // array of IAB CMP vendor IDs
     language: null,
@@ -30,7 +34,13 @@ export const DEFAULT_OPTIONS = {
     },
 };
 
-export default function main(options) {
+export const DEFAULT_CCPA_OPTIONS = {
+    country: null, // country code
+    region: null, // region code
+    countriesRequiringPrompt: ['us-ca'], // array of lower case country codes
+};
+
+function initializeGDPR(options) {
     const {
         zIndex,
         onAcceptTracking,
@@ -42,7 +52,7 @@ export default function main(options) {
         ...depOptions
     } = Object.assign({}, DEFAULT_OPTIONS, options);
     const langManager = new LanguageManager(depOptions.language);
-    const geoManager = new GeoManager(depOptions.country, depOptions.countriesRequiringPrompt);
+    const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
     const disableConsentQueue = !!depOptions.disableConsentQueue;
     const consentManagementProvider = new ConsentManagementProvider({
@@ -86,4 +96,31 @@ export default function main(options) {
     instance.render();
 
     return instance;
+}
+
+function initializeCCPA(options) {
+    const {
+        test,
+        ...depOptions
+    } = Object.assign({}, DEFAULT_CCPA_OPTIONS, options);
+
+    if (!depOptions.enableCCPAinit) {
+        return null;
+    }
+
+    const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
+    const userSignalMechanism = new UserSignalMechanism({
+        ccpaApplies: geoManager.needsUserSignal(),
+    });
+
+    userSignalMechanism.install();
+
+    return userSignalMechanism;
+}
+
+export default function main(options) {
+    return {
+        gdpr: initializeGDPR(options),
+        ccpa: initializeCCPA(options),
+    };
 }

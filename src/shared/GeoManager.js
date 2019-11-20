@@ -71,12 +71,12 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'wf', // Wallis-et-Futuna
 ];
 
-function getCountryFromCookie() {
+function getGeoDataFromCookie(type = 'country') {
     const cookie = Cookies.get(COUNTRY_COOKIE_NAME);
     if (cookie) {
         try {
             const obj = JSON.parse(cookie);
-            return obj.country;
+            return obj[type];
         } catch (e) {
             console.error('error parsing geo cookie', cookie);
         }
@@ -88,17 +88,26 @@ function getCountryFromCookie() {
 }
 
 class GeoManager {
-    constructor(country, countriesRequiringPrompt) {
-        this.countriesRequiringPrompt = (countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT).map(country => country.toLowerCase());
-        this.country = (country || getCountryFromCookie() || MISSING_COOKIE_NAME).toLowerCase();
+    constructor(country, region, countriesRequiringPrompt) {
+        this.geosRequiringPrompt = (countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT).map(country => country.toLowerCase());
+        this.country = (country || getGeoDataFromCookie('country') || MISSING_COOKIE_NAME).toLowerCase();
+        this.region = (region || getGeoDataFromCookie('region') || MISSING_COOKIE_NAME).toLowerCase();
     }
 
     needsTrackingPrompt() {
-        return this.countriesRequiringPrompt.indexOf(this.country) !== -1;
+        return this.geosRequiringPrompt.indexOf(this.country) !== -1;
+    }
+
+    needsUserSignal() {
+        return this.geosRequiringPrompt.indexOf(this.getDetectedRegion()) !== -1;
     }
 
     getDetectedGeo() {
         return this.country;
+    }
+
+    getDetectedRegion() {
+        return `${this.country}-${this.region}`;
     }
 
     hasGeoCookie() {

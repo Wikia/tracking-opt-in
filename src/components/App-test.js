@@ -4,10 +4,10 @@ import { createStubInstance, stub }  from 'sinon';
 import App from './App';
 import styles from './styles.scss';
 import stylesScreenOne from './ScreenOne.scss';
-import ContentManager from '../ContentManager';
-import Tracker from '../Tracker';
-import OptInManager from '../OptInManager';
-import GeoManager from '../GeoManager';
+import ContentManager from '../shared/ContentManager';
+import Tracker from '../gdpr/Tracker';
+import OptInManager from '../gdpr/OptInManager';
+import GeoManager from '../shared/GeoManager';
 
 const document = global.document;
 

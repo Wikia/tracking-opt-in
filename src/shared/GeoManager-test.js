@@ -16,12 +16,12 @@ function setGeoCookie(country) {
 describe('GeoManager', () => {
     describe('with provided options', () => {
         it('indicates consent is required', () => {
-            const geoManager = new GeoManager(countryRequiringPrompt, [countryRequiringPrompt]);
+            const geoManager = new GeoManager(countryRequiringPrompt, null, [countryRequiringPrompt]);
             assert.isOk(geoManager.needsTrackingPrompt());
         });
 
         it('indicates consent is not required', () => {
-            const geoManager = new GeoManager(countryNotRequiringPrompt, [countryRequiringPrompt]);
+            const geoManager = new GeoManager(countryNotRequiringPrompt, null, [countryRequiringPrompt]);
             assert.isNotOk(geoManager.needsTrackingPrompt());
         });
     });

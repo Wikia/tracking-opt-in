@@ -47,7 +47,7 @@ export function getUrlParameter(paramName) {
         }
     });
     return paramValue;
-};
+}
 
 export function parseUrl(url) {
     const parser = document.createElement('a');

@@ -1,6 +1,6 @@
 import { h, render } from "preact/dist/preact";
-import App from "./components/App";
-import { isParameterSet, parseUrl } from "./utils";
+import App from "../components/App";
+import { isParameterSet, parseUrl } from "../shared/utils";
 
 class TrackingOptIn {
     constructor(
@@ -73,7 +73,7 @@ class TrackingOptIn {
             return true;
         } else if (this.optInManager.hasRejectedTracking()) {
             return false;
-        } else if(!this.geoManager.hasGeoCookie()) {
+        } else if (!this.geoManager.hasGeoCookie()) {
             return false;
         }
 
