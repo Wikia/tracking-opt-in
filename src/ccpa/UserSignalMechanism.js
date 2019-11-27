@@ -64,6 +64,51 @@ class UserSignalMechanism {
                 queue.push([commandName, version, callback]);
             }
         };
+
+        UserSignalMechanism.addLocatorFrame();
+    }
+
+    static addLocatorFrame() {
+        const name = '__uspapi';
+
+        if (window.frames[name]) {
+            return;
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => UserSignalMechanism.addLocatorFrame());
+            return;
+        }
+
+        const iframe = document.createElement('iframe');
+
+        iframe.name = name;
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+
+        window.addEventListener('message', (event) => {
+            let call = null;
+
+            try {
+                const data = (typeof event.data === 'string') ? JSON.parse(event.data) : event.data;
+                call = data.__uspapiCall;
+            } catch (error) {
+                void(error);
+            }
+
+            if (call) {
+                window.__uspapi(call.command, call.version, function (returnValue, success) {
+                    const returnMsg = {
+                        __uspapiReturn: {
+                            returnValue,
+                            success,
+                            callId: call.callId
+                        }
+                    };
+                    event.source.postMessage(returnMsg, '*');
+                });
+            }
+        }, false);
     }
 
     constructor(options) {
