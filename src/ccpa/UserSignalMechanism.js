@@ -9,6 +9,7 @@ const USP_VALUES = {
     no: 'N',
     na: '-',
 };
+const EXPLICIT_NOTICE = USP_VALUES.no;
 let LSPA_SUPPORT = USP_VALUES.no;
 
 const getDefaultCookieAttributes = () => ({
@@ -20,8 +21,8 @@ const getDefaultOptions = () => ({
     ccpaApplies: false,
 });
 
-function createPrivacyString(explicitNotice = USP_VALUES.na, optOutSale = USP_VALUES.na) {
-    return `${USP_VERSION}${explicitNotice}${optOutSale}${LSPA_SUPPORT}`;
+function createPrivacyString(optOutSale = USP_VALUES.na) {
+    return `${USP_VERSION}${EXPLICIT_NOTICE}${optOutSale}${LSPA_SUPPORT}`;
 }
 
 class UserSignalMechanism {
@@ -141,14 +142,14 @@ class UserSignalMechanism {
             const qsParam = window && window.location && window.location.search && window.location.search.split('setCCPA=');
             const qsValues = qsParam && qsParam[1] && qsParam[1].split('');
 
-            if (this.isValidCharacter(qsValues[0]) && this.isValidCharacter(qsValues[1])) {
-                privacyString = createPrivacyString(qsValues[0], qsValues[1]);
+            if (this.isValidCharacter(qsValues[0])) {
+                privacyString = createPrivacyString(qsValues[0]);
 
                 console.log(`CCPA: Privacy String saved via url parameter: ${privacyString}`);
             } else if (this.hasUserSignal()) {
                 privacyString = this.getPrivacyStringCookie();
             } else {
-                privacyString = createPrivacyString(USP_VALUES.no, USP_VALUES.no);
+                privacyString = createPrivacyString(USP_VALUES.no);
             }
 
             console.log('CCPA: Privacy String cookie created');
@@ -224,9 +225,9 @@ class UserSignalMechanism {
         return char === USP_VALUES.yes || char === USP_VALUES.no || char === USP_VALUES.na;
     }
 
-    saveUserSignal(explicitNotice, optOutSale) {
-        if (this.isValidCharacter(explicitNotice) && this.isValidCharacter(optOutSale)) {
-            const privacyString = createPrivacyString(explicitNotice, optOutSale);
+    saveUserSignal(optOutSale) {
+        if (this.isValidCharacter(optOutSale)) {
+            const privacyString = createPrivacyString(optOutSale);
 
             console.log(`CCPA: Privacy String saved via console: ${privacyString}`);
 
@@ -237,20 +238,16 @@ class UserSignalMechanism {
 
     showConsentTool(value) {
         return new Promise((resolve) => {
-            if (value && value.explicitNotice && value.optOutSale) {
-                this.saveUserSignal(value.explicitNotice, value.optOutSale);
+            if (value !== undefined) {
+                this.saveUserSignal(value ? USP_VALUES.yes : USP_VALUES.no);
             } else {
-                const input = (prompt(
+                const optOut = confirm(
                     'CCPA prompt - please provide user signal:\n' +
-                    '- NN: Explicit Notice is NO, Opt Out Sale is NO\n' +
-                    '- YN: Explicit Notice is YES, Opt Out Sale is NO\n' +
-                    '- NY: Explicit Notice is NO, Opt Out Sale is YES\n' +
-                    '- YY: Explicit Notice is YES, Opt Out Sale is YES'
-                ) || '').split('');
+                    '- OK: Opt Out Sale is YES\n' +
+                    '- Cancel: Opt Out Sale is NO'
+                );
 
-                if (input && input[0] && input[1]) {
-                    this.saveUserSignal(input[0], input[1]);
-                }
+                this.saveUserSignal(optOut ? USP_VALUES.yes : USP_VALUES.no);
             }
 
             resolve();
