@@ -86,7 +86,7 @@ describe('UserSignalMechanism', () => {
                 assert.equal(uspData.version, USP_VERSION);
                 assert.isString(uspData.uspString);
                 assert.notEqual(uspData.uspString, 0);
-                assert.equal(uspData.uspString, `${USP_VERSION}NN`);
+                assert.equal(uspData.uspString, `${USP_VERSION}NNN`);
                 assert.isTrue(success);
                 done();
             });
