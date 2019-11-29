@@ -43,6 +43,7 @@ function createPrivacyString(optOutSale) {
 
     return `${USP_VERSION}${EXPLICIT_NOTICE}${OPT_OUT_SALE}${LSPA_SUPPORT}`;
 }
+
 function isValidCharacter(char) {
     return char === USP_VALUES.yes || char === USP_VALUES.no || char === USP_VALUES.na;
 }
