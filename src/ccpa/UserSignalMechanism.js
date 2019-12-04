@@ -2,13 +2,17 @@ import Cookies from 'js-cookie';
 import { Promise } from 'es6-promise';
 import { getCookieDomain } from '../shared/utils';
 
-export const USP_VERSION = 1;
 const PRIVACY_STRING_COOKIE_NAME = 'usprivacy';
+const LOG_GROUP = 'CCPA:';
 const USP_VALUES = {
     yes: 'Y',
     no: 'N',
     na: '-',
 };
+
+export const USP_VERSION = 1;
+let EXPLICIT_NOTICE = USP_VALUES.no;
+let OPT_OUT_SALE = USP_VALUES.no;
 let LSPA_SUPPORT = USP_VALUES.no;
 
 const getDefaultCookieAttributes = () => ({
@@ -19,18 +23,36 @@ const getDefaultOptions = () => ({
     cookieAttributes: getDefaultCookieAttributes(),
     ccpaApplies: false,
 });
+const getUSPValue = (value) => {
+    if (value === undefined) {
+        return USP_VALUES.na;
+    }
 
-function createPrivacyString(explicitNotice = USP_VALUES.na, optOutSale = USP_VALUES.na) {
-    return `${USP_VERSION}${explicitNotice}${optOutSale}${LSPA_SUPPORT}`;
+    return value ? USP_VALUES.yes : USP_VALUES.no;
+};
+
+function createPrivacyString(optOutSale) {
+    if (optOutSale !== undefined) {
+        if (optOutSale === USP_VALUES.na) {
+            EXPLICIT_NOTICE = USP_VALUES.na;
+            LSPA_SUPPORT = USP_VALUES.na;
+        }
+
+        OPT_OUT_SALE = optOutSale;
+    }
+
+    return `${USP_VERSION}${EXPLICIT_NOTICE}${OPT_OUT_SALE}${LSPA_SUPPORT}`;
+}
+
+function isValidCharacter(char) {
+    return char === USP_VALUES.yes || char === USP_VALUES.no || char === USP_VALUES.na;
 }
 
 class UserSignalMechanism {
-    mounted = false;
-
     static installStub() {
         const queue = [];
 
-        console.log('CCPA: installing API stub');
+        console.log(LOG_GROUP, 'Installing API stub');
 
         window.__uspapi = (commandName, version, callback = console.log) => {
             if (commandName === 'ping') {
@@ -43,6 +65,51 @@ class UserSignalMechanism {
                 queue.push([commandName, version, callback]);
             }
         };
+
+        UserSignalMechanism.addLocatorFrame();
+    }
+
+    static addLocatorFrame() {
+        const name = '__uspapi';
+
+        if (window.frames[name]) {
+            return;
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => UserSignalMechanism.addLocatorFrame());
+            return;
+        }
+
+        const iframe = document.createElement('iframe');
+
+        iframe.name = name;
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+
+        window.addEventListener('message', (event) => {
+            let call = null;
+
+            try {
+                const data = (typeof event.data === 'string') ? JSON.parse(event.data) : event.data;
+                call = data.__uspapiCall;
+            } catch (error) {
+                void(error);
+            }
+
+            if (call) {
+                window.__uspapi(call.command, call.version, function (returnValue, success) {
+                    const returnMsg = {
+                        __uspapiReturn: {
+                            returnValue,
+                            success,
+                            callId: call.callId
+                        }
+                    };
+                    event.source.postMessage(returnMsg, '*');
+                });
+            }
+        }, false);
     }
 
     constructor(options) {
@@ -57,7 +124,7 @@ class UserSignalMechanism {
             this.installStub();
         }
 
-        console.log('CCPA: User Signal Mechanism initialized');
+        console.log(LOG_GROUP, 'User Signal Mechanism initialized');
     }
 
     configure(options) {
@@ -65,14 +132,10 @@ class UserSignalMechanism {
     }
 
     install() {
-        if (this.mounted) {
-            this.unmount();
-        }
-
         this.createUserSignal();
         this.mount();
 
-        console.log('CCPA: User Signal Mechanism installed');
+        console.log(LOG_GROUP, 'User Signal Mechanism installed');
     }
 
     installStub(...args) {
@@ -96,16 +159,8 @@ class UserSignalMechanism {
         } catch (error) {
             void(error);
             window.__uspapi = uspapi;
-            console.error(new Error('incompatible stub, cannot run queue'));
+            console.error(new Error(`${LOG_GROUP} Incompatible stub - cannot run queue`));
         }
-
-        this.mounted = true;
-    }
-
-    unmount() {
-        this.setPrivacyStringCookie(null);
-        delete window.__uspapi;
-        this.mounted = false;
     }
 
     isUspapiCommand(commandName) {
@@ -122,7 +177,7 @@ class UserSignalMechanism {
                 });
         } else {
             callback(null, false);
-            throw new Error('command does not exist');
+            throw new Error(`${LOG_GROUP} Command does not exist`);
         }
     }
 
@@ -130,28 +185,35 @@ class UserSignalMechanism {
         let privacyString = null;
 
         if (!this.options.ccpaApplies) {
-            console.log('CCPA: geo does not require API');
+            console.log(LOG_GROUP, 'Geo does not require API');
 
-            LSPA_SUPPORT = USP_VALUES.na;
-
-            privacyString = createPrivacyString();
+            privacyString = createPrivacyString(getUSPValue());
         } else {
-            console.log('CCPA: geo requires API');
+            console.log(LOG_GROUP, 'Geo requires API');
 
-            const qsParam = window && window.location && window.location.search && window.location.search.split('setCCPA=');
-            const qsValues = qsParam && qsParam[1] && qsParam[1].split('');
+            const queryStringOverride =
+                window &&
+                window.location &&
+                window.location.search &&
+                window.location.search.includes('optOutSale=true');
 
-            if (this.isValidCharacter(qsValues[0]) && this.isValidCharacter(qsValues[1])) {
-                privacyString = createPrivacyString(qsValues[0], qsValues[1]);
+            if (queryStringOverride) {
+                privacyString = createPrivacyString(getUSPValue(true));
 
-                console.log(`CCPA: Privacy String saved via url parameter: ${privacyString}`);
+                console.log(LOG_GROUP, `Privacy String updated via URL parameter: ${privacyString}`);
             } else if (this.hasUserSignal()) {
-                privacyString = this.getPrivacyStringCookie();
+                const cookieOptOut = this.getPrivacyStringCookie().split('')[2];
+
+                if (!isValidCharacter(cookieOptOut)) {
+                    privacyString = createPrivacyString(getUSPValue(false));
+                } else {
+                    privacyString = createPrivacyString(cookieOptOut);
+                }
             } else {
-                privacyString = createPrivacyString(USP_VALUES.no, USP_VALUES.no);
+                privacyString = createPrivacyString(USP_VALUES.no);
             }
 
-            console.log('CCPA: Privacy String cookie created');
+            console.log(LOG_GROUP, `Privacy String cookie: ${privacyString}`);
 
             this.setPrivacyStringCookie(privacyString);
         }
@@ -168,9 +230,7 @@ class UserSignalMechanism {
             return undefined;
         }
 
-        const signalSplit = this.userSignal.split('');
-
-        return signalSplit[1] === USP_VALUES.yes || signalSplit[2] === USP_VALUES.yes;
+        return OPT_OUT_SALE === getUSPValue(true);
     }
 
     geoRequiresUserSignal() {
@@ -211,46 +271,36 @@ class UserSignalMechanism {
         return new Promise((resolve, reject) => {
             if (isCorrectVersion) {
                 resolve({
-                    version: version || USP_VERSION,
+                    version,
                     uspString,
                 });
             } else {
-                reject(new Error('consent string version mismatch'));
+                reject(new Error(`${LOG_GROUP} Privacy String version mismatch`));
             }
         });
     }
 
-    isValidCharacter(char) {
-        return char === USP_VALUES.yes || char === USP_VALUES.no || char === USP_VALUES.na;
-    }
+    saveUserSignal(optOutSale) {
+        const privacyString = createPrivacyString(optOutSale);
 
-    saveUserSignal(explicitNotice, optOutSale) {
-        if (this.isValidCharacter(explicitNotice) && this.isValidCharacter(optOutSale)) {
-            const privacyString = createPrivacyString(explicitNotice, optOutSale);
+        console.log(LOG_GROUP, `Privacy String saved via console: ${privacyString}`);
 
-            console.log(`CCPA: Privacy String saved via console: ${privacyString}`);
-
-            this.setPrivacyStringCookie(privacyString);
-            this.userSignal = privacyString;
-        }
+        this.setPrivacyStringCookie(privacyString);
+        this.userSignal = privacyString;
     }
 
     showConsentTool(value) {
         return new Promise((resolve) => {
-            if (value && value.explicitNotice && value.optOutSale) {
-                this.saveUserSignal(value.explicitNotice, value.optOutSale);
+            if (value !== undefined) {
+                this.saveUserSignal(getUSPValue(value));
             } else {
-                const input = (prompt(
+                const optOut = confirm(
                     'CCPA prompt - please provide user signal:\n' +
-                    '- NN: Explicit Notice is NO, Opt Out Sale is NO\n' +
-                    '- YN: Explicit Notice is YES, Opt Out Sale is NO\n' +
-                    '- NY: Explicit Notice is NO, Opt Out Sale is YES\n' +
-                    '- YY: Explicit Notice is YES, Opt Out Sale is YES'
-                ) || '').split('');
+                    '- [OK] = Opt Out Sale is YES\n' +
+                    '- [Cancel] = Opt Out Sale is NO'
+                );
 
-                if (input && input[0] && input[1]) {
-                    this.saveUserSignal(input[0], input[1]);
-                }
+                this.saveUserSignal(getUSPValue(optOut));
             }
 
             resolve();
