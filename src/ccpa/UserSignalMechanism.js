@@ -271,7 +271,7 @@ class UserSignalMechanism {
         return new Promise((resolve, reject) => {
             if (isCorrectVersion) {
                 resolve({
-                    version,
+                    version: version || USP_VERSION,
                     uspString,
                 });
             } else {
