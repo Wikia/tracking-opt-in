@@ -119,8 +119,22 @@ function initializeCCPA(options) {
 }
 
 export default function main(options) {
-    return {
-        gdpr: initializeGDPR(options),
-        ccpa: initializeCCPA(options),
-    };
+    if (window.top !== window) {
+        // If app is run in iframe, then we only want to see if there is optOutSale=true param set
+        if (UserSignalMechanism.isCCPAQueryStringOverrideActive()) {
+            const userSignalMechanism = new UserSignalMechanism({});
+            const privacyString = UserSignalMechanism.createPrivacyString(UserSignalMechanism.getUSPValue(true));
+            userSignalMechanism.setPrivacyStringCookie(privacyString);
+        }
+
+        window.top.postMessage(
+            { type: '[TrackingOptIn] CCPA opt-out' },
+            '*',
+        );
+    } else {
+        return {
+            gdpr: initializeGDPR(options),
+            ccpa: initializeCCPA(options),
+        };
+    }
 }

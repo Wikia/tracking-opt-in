@@ -23,26 +23,6 @@ const getDefaultOptions = () => ({
     cookieAttributes: getDefaultCookieAttributes(),
     ccpaApplies: false,
 });
-const getUSPValue = (value) => {
-    if (value === undefined) {
-        return USP_VALUES.na;
-    }
-
-    return value ? USP_VALUES.yes : USP_VALUES.no;
-};
-
-function createPrivacyString(optOutSale) {
-    if (optOutSale !== undefined) {
-        if (optOutSale === USP_VALUES.na) {
-            EXPLICIT_NOTICE = USP_VALUES.na;
-            LSPA_SUPPORT = USP_VALUES.na;
-        }
-
-        OPT_OUT_SALE = optOutSale;
-    }
-
-    return `${USP_VERSION}${EXPLICIT_NOTICE}${OPT_OUT_SALE}${LSPA_SUPPORT}`;
-}
 
 function isValidCharacter(char) {
     return char === USP_VALUES.yes || char === USP_VALUES.no || char === USP_VALUES.na;
@@ -187,30 +167,24 @@ class UserSignalMechanism {
         if (!this.options.ccpaApplies) {
             console.log(LOG_GROUP, 'Geo does not require API');
 
-            privacyString = createPrivacyString(getUSPValue());
+            privacyString = UserSignalMechanism.createPrivacyString(UserSignalMechanism.getUSPValue());
         } else {
             console.log(LOG_GROUP, 'Geo requires API');
 
-            const queryStringOverride =
-                window &&
-                window.location &&
-                window.location.search &&
-                window.location.search.includes('optOutSale=true');
-
-            if (queryStringOverride) {
-                privacyString = createPrivacyString(getUSPValue(true));
+            if (UserSignalMechanism.isCCPAQueryStringOverrideActive()) {
+                privacyString = UserSignalMechanism.createPrivacyString(UserSignalMechanism.getUSPValue(true));
 
                 console.log(LOG_GROUP, `Privacy String updated via URL parameter: ${privacyString}`);
             } else if (this.hasUserSignal()) {
                 const cookieOptOut = this.getPrivacyStringCookie().split('')[2];
 
                 if (!isValidCharacter(cookieOptOut)) {
-                    privacyString = createPrivacyString(getUSPValue(false));
+                    privacyString = UserSignalMechanism.createPrivacyString(UserSignalMechanism.getUSPValue(false));
                 } else {
-                    privacyString = createPrivacyString(cookieOptOut);
+                    privacyString = UserSignalMechanism.createPrivacyString(cookieOptOut);
                 }
             } else {
-                privacyString = createPrivacyString(USP_VALUES.no);
+                privacyString = UserSignalMechanism.createPrivacyString(USP_VALUES.no);
             }
 
             console.log(LOG_GROUP, `Privacy String cookie: ${privacyString}`);
@@ -221,6 +195,27 @@ class UserSignalMechanism {
         this.userSignal = privacyString;
     }
 
+    static createPrivacyString(optOutSale) {
+        if (optOutSale !== undefined) {
+            if (optOutSale === USP_VALUES.na) {
+                EXPLICIT_NOTICE = USP_VALUES.na;
+                LSPA_SUPPORT = USP_VALUES.na;
+            }
+
+            OPT_OUT_SALE = optOutSale;
+        }
+
+        return `${USP_VERSION}${EXPLICIT_NOTICE}${OPT_OUT_SALE}${LSPA_SUPPORT}`;
+    }
+
+    static getUSPValue = (value) => {
+        if (value === undefined) {
+            return USP_VALUES.na;
+        }
+
+        return value ? USP_VALUES.yes : USP_VALUES.no;
+    };
+
     hasUserSignal() {
         return !!this.getPrivacyStringCookie();
     }
@@ -230,7 +225,7 @@ class UserSignalMechanism {
             return undefined;
         }
 
-        return OPT_OUT_SALE === getUSPValue(true);
+        return OPT_OUT_SALE === UserSignalMechanism.getUSPValue(true);
     }
 
     geoRequiresUserSignal() {
@@ -281,7 +276,7 @@ class UserSignalMechanism {
     }
 
     saveUserSignal(optOutSale) {
-        const privacyString = createPrivacyString(optOutSale);
+        const privacyString = UserSignalMechanism.createPrivacyString(optOutSale);
 
         console.log(LOG_GROUP, `Privacy String saved via console: ${privacyString}`);
 
@@ -292,7 +287,7 @@ class UserSignalMechanism {
     showConsentTool(value) {
         return new Promise((resolve) => {
             if (value !== undefined) {
-                this.saveUserSignal(getUSPValue(value));
+                this.saveUserSignal(UserSignalMechanism.getUSPValue(value));
             } else {
                 const optOut = confirm(
                     'CCPA prompt - please provide user signal:\n' +
@@ -300,11 +295,21 @@ class UserSignalMechanism {
                     '- [Cancel] = Opt Out Sale is NO'
                 );
 
-                this.saveUserSignal(getUSPValue(optOut));
+                this.saveUserSignal(UserSignalMechanism.getUSPValue(optOut));
             }
 
             resolve();
         });
+    }
+
+    static isCCPAQueryStringOverrideActive() {
+        const queryStringOverride =
+            window &&
+            window.location &&
+            window.location.search &&
+            window.location.search.includes('optOutSale=true');
+
+        return !!queryStringOverride;
     }
 }
 
