@@ -11,7 +11,7 @@ const USP_VALUES = {
 };
 
 export const USP_VERSION = 1;
-let EXPLICIT_NOTICE = USP_VALUES.no;
+let EXPLICIT_NOTICE = USP_VALUES.yes;
 let OPT_OUT_SALE = USP_VALUES.no;
 let LSPA_SUPPORT = USP_VALUES.no;
 
