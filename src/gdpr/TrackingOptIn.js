@@ -9,6 +9,7 @@ class TrackingOptIn {
         geoManager,
         contentManager,
         consentManagementProvider,
+        consentManagementProviderLegacy,
         options,
         location
     ) {
@@ -17,9 +18,12 @@ class TrackingOptIn {
         this.geoManager = geoManager;
         this.contentManager = contentManager;
         this.consentManagementProvider = consentManagementProvider;
+        this.consentManagementProviderLegacy = consentManagementProviderLegacy;
         this.options = options;
         this.location = location;
         this.isReset = false;
+
+        this.consentManagementProvider.install();
     }
 
     removeApp = () => {
@@ -32,36 +36,37 @@ class TrackingOptIn {
 
     // Non-IAB tracking is accepted. Some or all IAB vendors or purposes _may_ be accepted
     onAcceptTracking = (allowedVendors, allowedPurposes) => {
-        this.consentManagementProvider.configure({
+        this.consentManagementProviderLegacy.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
             allowedVendors: allowedVendors,
             allowedVendorPurposes: allowedPurposes
         });
-        this.consentManagementProvider.install().then(() => {
+        this.consentManagementProviderLegacy.install().then(() => {
             this.options.onAcceptTracking(allowedVendors, allowedPurposes);
         });
+        this.consentManagementProvider.run();
     };
 
     // Non-IAB tracking is rejected. Some or all IAB vendors or purposes _may_ be accepted
     onRejectTracking = (allowedVendors, allowedPurposes) => {
-        this.consentManagementProvider.configure({
+        this.consentManagementProviderLegacy.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
             allowedVendors: allowedVendors,
             allowedVendorPurposes: allowedPurposes
         });
-        this.consentManagementProvider.install().then(() => {
+        this.consentManagementProviderLegacy.install().then(() => {
             this.options.onRejectTracking(allowedVendors, allowedPurposes);
         });
     };
 
     // Opt-out everything before use clicks anything in modal
     rejectBeforeConsent = () => {
-        this.consentManagementProvider.configure({
+        this.consentManagementProviderLegacy.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
             allowedVendors: [],
             allowedVendorPurposes: []
         });
-        this.consentManagementProvider.install();
+        this.consentManagementProviderLegacy.install();
     };
 
     hasUserConsented() {
@@ -106,13 +111,13 @@ class TrackingOptIn {
     reset() {
         this.isReset = true;
         this.clear();
-        this.consentManagementProvider.installStub();
+        this.consentManagementProviderLegacy.installStub();
         this.render();
     }
 
     clear() {
         this.optInManager.clear();
-        this.consentManagementProvider.uninstall();
+        this.consentManagementProviderLegacy.uninstall();
     }
 
     render() {

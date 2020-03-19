@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import { getCookieDomain } from '../shared/utils';
-import { CMP_VERSION } from './ConsentManagementProvider';
+import { CMP_VERSION } from './ConsentManagementProviderLegacy';
 
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
 const DEFAULT_REJECT_COOKIE_EXPIRATION = 31;
@@ -19,14 +19,6 @@ class OptInManager {
         this.rejectExpiration = rejectExpiration || DEFAULT_REJECT_COOKIE_EXPIRATION;
         this.domain = getCookieDomain(hostname || window.location.hostname);
         this.queryParam = queryParam || DEFAULT_QUERY_PARAM_NAME;
-
-        this.vendorIds = [];
-        this.purposeIds = [];
-    }
-
-    setVendorsPurposes(vendorIds, purposeIds) {
-        this.vendorIds = vendorIds;
-        this.purposeIds = purposeIds;
     }
 
     checkCookieVersion() {

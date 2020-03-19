@@ -4,7 +4,7 @@ import TrackingOptIn from './TrackingOptIn';
 import OptInManager from './OptInManager';
 import GeoManager from '../shared/GeoManager';
 import ContentManager from '../shared/ContentManager';
-import ConsentManagementProvider from './ConsentManagementProvider';
+import ConsentManagementProviderLegacy from './ConsentManagementProviderLegacy';
 import Tracker from './Tracker';
 import styles from '../components/styles.scss';
 
@@ -33,7 +33,7 @@ describe('TrackingOptIn', () => {
         tracker = createStubInstance(Tracker);
         optInManager = createStubInstance(OptInManager);
         geoManager = createStubInstance(GeoManager);
-        consentManagementProvider = createStubInstance(ConsentManagementProvider);
+        consentManagementProvider = createStubInstance(ConsentManagementProviderLegacy);
         consentManagementProvider.install.returns(Promise.resolve());
         contentManager = new ContentManager('en');
         onAcceptTracking = stub();

@@ -2,8 +2,8 @@ import { IAB_VENDORS } from './shared/consts';
 import ContentManager from './shared/ContentManager';
 import GeoManager from './shared/GeoManager';
 import LanguageManager from './shared/LangManager';
-
 import ConsentManagementProvider from './gdpr/ConsentManagementProvider';
+import ConsentManagementProviderLegacy from './gdpr/ConsentManagementProviderLegacy';
 import OptInManager from './gdpr/OptInManager';
 import Tracker from './gdpr/Tracker';
 import TrackingOptIn from './gdpr/TrackingOptIn';
@@ -55,10 +55,16 @@ function initializeGDPR(options) {
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
     const disableConsentQueue = !!depOptions.disableConsentQueue;
+    // ToDo: cleanup TCF v1.1
+    const consentManagementProviderLegacy = new ConsentManagementProviderLegacy({
+        disableConsentQueue,
+        language: langManager.lang
+    });
     const consentManagementProvider = new ConsentManagementProvider({
         disableConsentQueue,
         language: langManager.lang
     });
+
     const optInManager = new OptInManager(
         window.location.hostname,
         depOptions.cookieName,
@@ -71,8 +77,7 @@ function initializeGDPR(options) {
     optInManager.setForcedStatusFromQueryParams(window.location.search);
 
     if (optInManager.checkCookieVersion()) {
-        consentManagementProvider.setVendorConsentCookie(null);
-        consentManagementProvider.setPublisherConsentCookie(null);
+        consentManagementProviderLegacy.setVendorConsentCookie(null);
     }
 
     const instance = new TrackingOptIn(
@@ -81,6 +86,7 @@ function initializeGDPR(options) {
         geoManager,
         contentManager,
         consentManagementProvider,
+        consentManagementProviderLegacy,
         {
             preventScrollOn,
             zIndex,

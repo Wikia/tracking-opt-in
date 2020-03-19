@@ -2,6 +2,25 @@
 # yarn lockfile v1
 
 
+"@iabtcf/cmpapi@^1.0.0-beta.20":
+  version "1.0.0-beta.20"
+  resolved "https://registry.yarnpkg.com/@iabtcf/cmpapi/-/cmpapi-1.0.0-beta.20.tgz#933ecffb4a1842bc45c427ee8f9977c9ef2ac277"
+  integrity sha512-9mAk1CuZJb4rNO2QfyYx9YonvN68nL2rzGTB4r0JOKK3SxtiZYkOG7eB2ZjLEgZGYk6HwyGuhOmvdN3J5BeTtg==
+  dependencies:
+    "@iabtcf/core" "1.0.0-beta.20"
+
+"@iabtcf/core@1.0.0-beta.20":
+  version "1.0.0-beta.20"
+  resolved "https://registry.yarnpkg.com/@iabtcf/core/-/core-1.0.0-beta.20.tgz#63e2acd4236e8bba1ac49d996f51c622fe5e6f7a"
+  integrity sha512-V5UVVgKSrtbm4uOvzfcXkHzPxMasEVJiJxze4sMr+4Tx/Qt1k0gGhLcGnkFL74rnhZkZF/FQ5NAcWKojnHl7ow==
+
+"@iabtcf/stub@^1.0.0-beta.20":
+  version "1.0.0-beta.20"
+  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.0.0-beta.20.tgz#bd8e53a2ee78298f58338aa3e154f474d6bc8f35"
+  integrity sha512-eLVjvZT0M3vIdmUVyTNo6F3XxWJLpOU1GHoRA58ghGwdt1Sy42t8WylDIHldTwd+5iwyyEI28sJymTpegFm+zg==
+  dependencies:
+    "@iabtcf/core" "1.0.0-beta.20"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
