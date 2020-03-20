@@ -152,7 +152,7 @@ class ConsentManagementProviderLegacy {
     }
 
     getCommonCmpProperties() {
-        const {gdprApplies, gdprAppliesGlobally, hasGlobalScope} = this.options;
+        const { gdprApplies, gdprAppliesGlobally, hasGlobalScope } = this.options;
 
         return {
             gdprApplies: !!gdprApplies || !!gdprAppliesGlobally,
@@ -254,7 +254,7 @@ class ConsentManagementProviderLegacy {
 
     install() {
         const vendorList = this.options.vendorList || this.vendorList;
-        const {gdprApplies} = this.getCommonCmpProperties();
+        const { gdprApplies } = this.getCommonCmpProperties();
         const vendorListVersion = isNaN(Number(vendorList)) ? null : Number(vendorList);
         const hasData = (this.hasUserConsent() || vendorList && !vendorListVersion);
 

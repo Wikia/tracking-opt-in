@@ -18,11 +18,15 @@ class TrackingOptIn {
         this.geoManager = geoManager;
         this.contentManager = contentManager;
         this.consentManagementProvider = consentManagementProvider;
+        // ToDo: cleanup TCF v1.1
         this.consentManagementProviderLegacy = consentManagementProviderLegacy;
         this.options = options;
         this.location = location;
         this.isReset = false;
 
+        this.consentManagementProvider.configure({
+            gdprApplies: this.geoRequiresTrackingConsent(),
+        });
         this.consentManagementProvider.install();
     }
 
@@ -36,11 +40,18 @@ class TrackingOptIn {
 
     // Non-IAB tracking is accepted. Some or all IAB vendors or purposes _may_ be accepted
     onAcceptTracking = (allowedVendors, allowedPurposes) => {
+        // ToDo: cleanup TCF v1.1
         this.consentManagementProviderLegacy.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
             allowedVendors: allowedVendors,
             allowedVendorPurposes: allowedPurposes
         });
+        this.consentManagementProvider.configure({
+            allowedVendors: allowedVendors,
+            allowedVendorPurposes: allowedPurposes
+        });
+console.log(allowedPurposes);
+        // ToDo: cleanup TCF v1.1
         this.consentManagementProviderLegacy.install().then(() => {
             this.options.onAcceptTracking(allowedVendors, allowedPurposes);
         });
@@ -49,11 +60,18 @@ class TrackingOptIn {
 
     // Non-IAB tracking is rejected. Some or all IAB vendors or purposes _may_ be accepted
     onRejectTracking = (allowedVendors, allowedPurposes) => {
+        // ToDo: cleanup TCF v1.1
         this.consentManagementProviderLegacy.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
             allowedVendors: allowedVendors,
             allowedVendorPurposes: allowedPurposes
         });
+        this.consentManagementProvider.configure({
+            allowedVendors: allowedVendors,
+            allowedVendorPurposes: allowedPurposes
+        });
+
+        // ToDo: cleanup TCF v1.1
         this.consentManagementProviderLegacy.install().then(() => {
             this.options.onRejectTracking(allowedVendors, allowedPurposes);
         });
@@ -61,11 +79,18 @@ class TrackingOptIn {
 
     // Opt-out everything before use clicks anything in modal
     rejectBeforeConsent = () => {
+        // ToDo: cleanup TCF v1.1
         this.consentManagementProviderLegacy.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
             allowedVendors: [],
             allowedVendorPurposes: []
         });
+        this.consentManagementProvider.configure({
+            allowedVendors: [],
+            allowedVendorPurposes: []
+        });
+
+        // ToDo: cleanup TCF v1.1
         this.consentManagementProviderLegacy.install();
     };
 
@@ -111,12 +136,16 @@ class TrackingOptIn {
     reset() {
         this.isReset = true;
         this.clear();
+        this.consentManagementProvider.installStub();
+        // ToDo: cleanup TCF v1.1
         this.consentManagementProviderLegacy.installStub();
         this.render();
     }
 
     clear() {
         this.optInManager.clear();
+        this.consentManagementProvider.uninstall();
+        // ToDo: cleanup TCF v1.1
         this.consentManagementProviderLegacy.uninstall();
     }
 
@@ -143,6 +172,8 @@ class TrackingOptIn {
                 break;
             default:
                 if (!isParameterSet('mobile-app')) {
+                    this.consentManagementProvider.communicateWithApi('ui-visible');
+
                     if (this.options.disableConsentQueue) {
                         this.rejectBeforeConsent();
                     }

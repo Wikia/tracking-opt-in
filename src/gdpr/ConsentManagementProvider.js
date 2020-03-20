@@ -3,6 +3,8 @@ import { GVL, TCModel, TCString } from '@iabtcf/core';
 import { default as installCMPStub } from '@iabtcf/stub';
 
 import { getCookieDomain, getJSON } from '../shared/utils';
+import Cookies from "js-cookie";
+import { Promise } from "es6-promise";
 
 export const CMP_VERSION = 2; // Increment to force modal again
 const CMP_ID = 141;
@@ -12,22 +14,21 @@ const VENDOR_CONSENT_COOKIE_NAME = 'euconsent-v2';
 const MAX_STANDARD_PURPOSE_ID = 24;
 const getDefaultCookieAttributes = () => ({
     domain: getCookieDomain(window.location.hostname),
-    expires: 365 // 1 year
+    expires: 390 // thirteen 30-day months
 });
 const getDefaultOptions = () => ({
-    allowedPublisherPurposes: null,
-    allowedVendorPurposes: null,
     allowedVendors: null,
+    allowedVendorPurposes: null,
     cookieAttributes: getDefaultCookieAttributes(),
     disableConsentQueue: false,
     gdprApplies: false,
-    gdprAppliesGlobally: false,
-    hasGlobalScope: false,
     language: CMP_DEFAULT_LANGUAGE,
-    vendorList: null
 });
 
 class ConsentManagementProvider {
+    loaded = null;
+    mounted = false;
+
     static installStub() {
         installCMPStub();
     }
@@ -39,6 +40,10 @@ class ConsentManagementProvider {
         if (window.__tcfapi === undefined) {
             this.installStub();
         }
+    }
+
+    configure(options) {
+        Object.assign(this.options, options);
     }
 
     fetchVendorList() {
@@ -62,38 +67,106 @@ class ConsentManagementProvider {
     install() {
         this.cmpApi = new CmpApi(CMP_ID, CMP_VERSION);
 
-        // ToDo: visible or not
-        this.cmpApi.uiVisible = true;
+        const { gdprApplies } = this.options;
+
+        if (gdprApplies && !this.vendorList) {
+            this.loaded = this.fetchVendorList()
+                .then((vendorListContent) => {
+                    this.vendorList = vendorListContent;
+                });
+        }
+    }
+
+    uninstall() {
+        this.options = getDefaultOptions();
+        this.setVendorConsentCookie(null);
+        delete window.__tcfapi;
+    }
+
+    unmount() {
+        this.setVendorConsentCookie(null);
+        delete window.__tcfapi;
+
+        this.install();
+
+        this.mounted = false;
+    }
+
+    communicateWithApi(event) {
+        switch (event) {
+            case 'ui-visible':
+                this.cmpApi.uiVisible = true;
+                break;
+
+            default:
+                break;
+        }
     }
 
     run() {
-        this.fetchVendorList()
-            .then((vendorList) => {
-                this.vendorList = vendorList;
-                this.gvl = new GVL(vendorList);
+        if (this.mounted) {
+            this.unmount();
+        }
 
-                // Create a TCModel
-                this.tcModel = new TCModel(this.gvl);
+        const { gdprApplies } = this.options;
+console.log(gdprApplies);
+        if (!gdprApplies) {
+            this.cmpApi.tcModel = null;
 
-                // Modify TCModel - set values on tcModel
-                // ToDo: fill all fields
-                const { allowedPurposes, allowedVendors, consentScreen, language } = this.options;
+            return Promise.resolve();
+        }
 
-                this.tcModel.cmpId = CMP_ID;
-                this.tcModel.cmpVersion = CMP_VERSION;
-                this.tcModel.consentScreen = Number(consentScreen) || 0;
-                this.tcModel.consentLanguage = String(language).toLowerCase() || CMP_DEFAULT_LANGUAGE;
-                this.tcModel.purposeConsents.set(Array.isArray(allowedPurposes) ? allowedPurposes : []);
-                this.tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
+        return this.loaded.then(() => {
+            this.tcModel = this.createConsent(this.getVendorConsentCookie(), this.vendorList);
+console.log('here');
+            if (!this.hasUserConsent()) {
+                this.setVendorConsentCookie(TCString.encode(this.tcModel));
+            }
 
-                const encodedString = TCString.encode(this.tcModel);
-                console.log(encodedString); // TC string encoded begins with 'C'
+            // Set the TCModel - must be a valid TCModel
+            this.cmpApi.tcModel = this.tcModel;
+            this.mounted = true;
+        });
+    }
 
-                // Set the TCModel - must be a valid TCModel
-                this.cmpApi.tcModel = this.tcModel;
+    createConsent(consentString, vendorList) {
+        if (consentString) {
+            return TCString.decode(consentString);
+        }
 
-                // Done
-            });
+        const { allowedPurposes, allowedVendors, consentScreen, language } = this.options;
+
+        // Create a TCModel
+        const gvList = new GVL(vendorList);
+        const tcModel = new TCModel(gvList);
+
+        // Modify TCModel - set values on tcModel
+        tcModel.cmpId = CMP_ID;
+        tcModel.cmpVersion = CMP_VERSION;
+        tcModel.consentScreen = Number(consentScreen) || 0;
+        tcModel.consentLanguage = String(language).toLowerCase() || CMP_DEFAULT_LANGUAGE;
+        tcModel.purposeConsents.set(Array.isArray(allowedPurposes) ? allowedPurposes : []);
+        tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
+
+        return tcModel;
+    }
+
+    getVendorConsentCookie() {
+        return Cookies.get(VENDOR_CONSENT_COOKIE_NAME) || '';
+    }
+
+    setVendorConsentCookie(consentString) {
+        const cookieAttributes = this.options.cookieAttributes;
+
+        if (consentString) {
+            Cookies.set(VENDOR_CONSENT_COOKIE_NAME, consentString, cookieAttributes);
+        } else {
+            Cookies.remove(VENDOR_CONSENT_COOKIE_NAME, cookieAttributes);
+        }
+    }
+
+    hasUserConsent() {
+        return !!this.getVendorConsentCookie();
     }
 }
 
