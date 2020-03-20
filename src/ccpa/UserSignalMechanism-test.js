@@ -103,4 +103,53 @@ describe('UserSignalMechanism', () => {
             assert.isNotOk(Cookies.get('usprivacy'));
         });
     });
+
+    context('createSignal', () => {
+        let config;
+        let uspapi;
+
+        beforeEach(() => {
+            cleanup();
+            config = {};
+        });
+
+        afterEach(cleanup);
+
+        it('sets user signal to 1--- and not set privacy cookie if options.ccpaApplies is false', () => {
+            const privacyString = '1---';
+            config.ccpaApplies = false;
+
+            uspapi = new UserSignalMechanism(config);
+
+            uspapi.createUserSignal();
+
+            assert.equal(uspapi.userSignal, privacyString);
+            assert.isUndefined(Cookies.get('usprivacy'));
+        });
+
+        it('sets user signal to 1--- and not set privacy cookie if options.ccpaApplies is undefined', () => {
+            const privacyString = '1---';
+
+            uspapi = new UserSignalMechanism(config);
+
+            uspapi.createUserSignal();
+
+            assert.equal(uspapi.userSignal, privacyString);
+            assert.isUndefined(Cookies.get('usprivacy'));
+        });
+
+        it('sets user signal and privacy cookie to 1YYN if options.isSubjectToCoppa is true', () => {
+            const privacyString = '1YYN';
+
+            config.ccpaApplies = true;
+            config.isSubjectToCoppa = true;
+
+            uspapi = new UserSignalMechanism(config);
+
+            uspapi.createUserSignal();
+
+            assert.equal(uspapi.userSignal, privacyString);
+            assert.equal(Cookies.get('usprivacy'), privacyString);
+        });
+    });
 });
