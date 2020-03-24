@@ -110,11 +110,16 @@ class ConsentManagementProvider {
         this.mounted = false;
     }
 
-    communicateWithApi(event) {
+    updateApi(event) {
         switch (event) {
-            case 'ui-visible':
-                this.cmpApi.uiVisible = true;
-                debug('UI displayed');
+            case 'ui-visible-new':
+                this.cmpApi.update('', true);
+                debug('UI displayed for the first time');
+                break;
+
+            case 'ui-visible-reset':
+                this.cmpApi.update(this.getVendorConsentCookie() || '', true);
+                debug('UI displayed after policy change');
                 break;
 
             default:
@@ -130,7 +135,7 @@ class ConsentManagementProvider {
         const { gdprApplies } = this.options;
 
         if (!gdprApplies) {
-            this.cmpApi.tcModel = null;
+            this.cmpApi.update(null);
 
             debug('Not applies');
 
@@ -138,28 +143,26 @@ class ConsentManagementProvider {
         }
 
         return this.loaded.then(() => {
-            this.tcModel = this.createConsent();
-
-            debug('Consent string created', TCString.encode(this.tcModel));
+            this.tcString = this.createConsent();
 
             if (!this.hasUserConsent()) {
                 debug('Cookie not found - saving');
 
-                this.setVendorConsentCookie(TCString.encode(this.tcModel));
+                this.setVendorConsentCookie(this.tcString);
             }
 
-            this.cmpApi.tcModel = this.tcModel;
+            this.cmpApi.update(this.tcString, false);
             this.mounted = true;
         });
     }
 
     createConsent() {
-        const tcString = this.getVendorConsentCookie();
+        let tcString = this.getVendorConsentCookie();
 
         if (tcString) {
             debug('TCString read from cookie', tcString);
 
-            return TCString.decode(tcString);
+            return tcString;
         }
 
         const gvList = new GVL(this.vendorList);
@@ -175,7 +178,11 @@ class ConsentManagementProvider {
 
         debug('Consent saved with vendors: ', allowedVendors, ' and purposes', allowedPurposes);
 
-        return tcModel;
+        tcString = TCString.encode(tcModel);
+
+        debug('Consent string created', tcString);
+
+        return tcString;
     }
 
     getVendorConsentCookie() {

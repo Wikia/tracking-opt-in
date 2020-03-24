@@ -2,24 +2,24 @@
 # yarn lockfile v1
 
 
-"@iabtcf/cmpapi@^1.0.0-beta.20":
-  version "1.0.0-beta.20"
-  resolved "https://registry.yarnpkg.com/@iabtcf/cmpapi/-/cmpapi-1.0.0-beta.20.tgz#933ecffb4a1842bc45c427ee8f9977c9ef2ac277"
-  integrity sha512-9mAk1CuZJb4rNO2QfyYx9YonvN68nL2rzGTB4r0JOKK3SxtiZYkOG7eB2ZjLEgZGYk6HwyGuhOmvdN3J5BeTtg==
+"@iabtcf/cmpapi@^1.0.0-beta.25":
+  version "1.0.0-beta.25"
+  resolved "https://registry.yarnpkg.com/@iabtcf/cmpapi/-/cmpapi-1.0.0-beta.25.tgz#9fd533c4372b38097b369ac89cd80ec8cb6f7df0"
+  integrity sha512-mJc1FnDHKXBULypV6dgwg/VQfKX/RJa69pvS4Pth5sI6ztzH2BTqou6fylxq2sybRhdljO7HeZD3X7iLNzmHuw==
   dependencies:
-    "@iabtcf/core" "1.0.0-beta.20"
+    "@iabtcf/core" "1.0.0-beta.25"
 
-"@iabtcf/core@1.0.0-beta.20":
-  version "1.0.0-beta.20"
-  resolved "https://registry.yarnpkg.com/@iabtcf/core/-/core-1.0.0-beta.20.tgz#63e2acd4236e8bba1ac49d996f51c622fe5e6f7a"
-  integrity sha512-V5UVVgKSrtbm4uOvzfcXkHzPxMasEVJiJxze4sMr+4Tx/Qt1k0gGhLcGnkFL74rnhZkZF/FQ5NAcWKojnHl7ow==
+"@iabtcf/core@1.0.0-beta.25", "@iabtcf/core@^1.0.0-beta.25":
+  version "1.0.0-beta.25"
+  resolved "https://registry.yarnpkg.com/@iabtcf/core/-/core-1.0.0-beta.25.tgz#a5846662d7d2132ed3855c6cd1ff184f49b39cc4"
+  integrity sha512-8sDodVM1PNDJQJ8y5M605kCij6/rGXBMfIXpPvqnmIbsAZ0Z0S9R5X9xzRPeXH0ruNbZjiC0WLj78V8wqtcU7w==
 
-"@iabtcf/stub@^1.0.0-beta.20":
-  version "1.0.0-beta.20"
-  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.0.0-beta.20.tgz#bd8e53a2ee78298f58338aa3e154f474d6bc8f35"
-  integrity sha512-eLVjvZT0M3vIdmUVyTNo6F3XxWJLpOU1GHoRA58ghGwdt1Sy42t8WylDIHldTwd+5iwyyEI28sJymTpegFm+zg==
+"@iabtcf/stub@^1.0.0-beta.25":
+  version "1.0.0-beta.25"
+  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.0.0-beta.25.tgz#8ca09bfd993790871a4be32ca55c17e3eecac53c"
+  integrity sha512-IXr+dGpk8lNRrNqEiseXJF2imT8ekWwEFax63ZGPCH8vQZmbVcITFi2urPT6hXS4YM/WuJO2tpMZPFSh8VswOw==
   dependencies:
-    "@iabtcf/core" "1.0.0-beta.20"
+    "@iabtcf/core" "1.0.0-beta.25"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"

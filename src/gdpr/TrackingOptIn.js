@@ -115,8 +115,8 @@ class TrackingOptIn {
             return false;
         }
 
-        const {host, pathname} = this.location;
-        const {content} = this.contentManager;
+        const { host, pathname } = this.location;
+        const { content } = this.contentManager;
         const privacyParsedUrl = parseUrl(content.privacyPolicyUrl);
         const partnerParsedUrl = parseUrl(content.partnerListUrl);
 
@@ -172,7 +172,7 @@ class TrackingOptIn {
                 break;
             default:
                 if (!isParameterSet('mobile-app')) {
-                    this.consentManagementProvider.communicateWithApi('ui-visible');
+                    this.consentManagementProvider.updateApi('ui-visible-new');
 
                     if (this.options.disableConsentQueue) {
                         this.rejectBeforeConsent();

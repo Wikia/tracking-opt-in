@@ -30,6 +30,14 @@ const getUSPValue = (value) => {
 
     return value ? USP_VALUES.yes : USP_VALUES.no;
 };
+const debug = (...args) => {
+    const debugQueryParam = 'tracking-opt-in-debug';
+    const isDebug = window.location.search.indexOf(`${debugQueryParam}=true`) !== -1;
+
+    if (isDebug) {
+        console.log('[DEBUG] CCPA: ', ...args);
+    }
+};
 
 function createPrivacyString(optOutSale) {
     if (optOutSale !== undefined) {
@@ -52,7 +60,7 @@ class UserSignalMechanism {
     static installStub() {
         const queue = [];
 
-        console.log(LOG_GROUP, 'Installing API stub');
+        debug('Installing API stub');
 
         window.__uspapi = (commandName, version, callback = console.log) => {
             if (commandName === 'ping') {
@@ -124,7 +132,7 @@ class UserSignalMechanism {
             this.installStub();
         }
 
-        console.log(LOG_GROUP, 'User Signal Mechanism initialized');
+        debug('User Signal Mechanism initialized');
     }
 
     configure(options) {
@@ -135,7 +143,7 @@ class UserSignalMechanism {
         this.createUserSignal();
         this.mount();
 
-        console.log(LOG_GROUP, 'User Signal Mechanism installed');
+        debug('User Signal Mechanism installed');
     }
 
     installStub(...args) {
@@ -185,11 +193,11 @@ class UserSignalMechanism {
         let privacyString = null;
 
         if (!this.options.ccpaApplies) {
-            console.log(LOG_GROUP, 'Geo does not require API');
+            debug('Geo does not require API');
 
             privacyString = createPrivacyString(getUSPValue());
         } else {
-            console.log(LOG_GROUP, 'Geo requires API');
+            debug('Geo requires API');
 
             const queryStringOverride =
                 window &&
@@ -200,7 +208,7 @@ class UserSignalMechanism {
             if (queryStringOverride) {
                 privacyString = createPrivacyString(getUSPValue(true));
 
-                console.log(LOG_GROUP, `Privacy String updated via URL parameter: ${privacyString}`);
+                debug(`Privacy String updated via URL parameter: ${privacyString}`);
             } else if (this.hasUserSignal()) {
                 const cookieOptOut = this.getPrivacyStringCookie().split('')[2];
 
@@ -213,7 +221,7 @@ class UserSignalMechanism {
                 privacyString = createPrivacyString(USP_VALUES.no);
             }
 
-            console.log(LOG_GROUP, `Privacy String cookie: ${privacyString}`);
+            debug(`Privacy String cookie: ${privacyString}`);
 
             this.setPrivacyStringCookie(privacyString);
         }
@@ -283,7 +291,7 @@ class UserSignalMechanism {
     saveUserSignal(optOutSale) {
         const privacyString = createPrivacyString(optOutSale);
 
-        console.log(LOG_GROUP, `Privacy String saved via console: ${privacyString}`);
+        debug(`Privacy String saved via console: ${privacyString}`);
 
         this.setPrivacyStringCookie(privacyString);
         this.userSignal = privacyString;
