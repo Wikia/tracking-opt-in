@@ -1,17 +1,19 @@
+import Cookies from 'js-cookie';
+import { Promise } from 'es6-promise';
+
 import { CmpApi } from '@iabtcf/cmpapi';
 import { GVL, TCModel, TCString } from '@iabtcf/core';
 import { default as installCMPStub } from '@iabtcf/stub';
 
 import { getCookieDomain, getJSON } from '../shared/utils';
-import Cookies from "js-cookie";
-import { Promise } from "es6-promise";
 
 export const CMP_VERSION = 2; // Increment to force modal again
 const CMP_ID = 141;
-const VENDOR_LIST_FORMAT = 'v2';
 const CMP_DEFAULT_LANGUAGE = 'en';
 const VENDOR_CONSENT_COOKIE_NAME = 'euconsent-v2';
-const MAX_STANDARD_PURPOSE_ID = 24;
+const VENDOR_LIST_URL_BASE = 'https://www.fandom.com/cmp/';
+const VENDOR_LIST_FILE_NAME = 'vendor-list.json';
+const VENDOR_LIST_VERSION_NAME = 'archives/vendor-list-v[VERSION].json';
 const getDefaultCookieAttributes = () => ({
     domain: getCookieDomain(window.location.hostname),
     expires: 390 // thirteen 30-day months
@@ -24,6 +26,14 @@ const getDefaultOptions = () => ({
     gdprApplies: false,
     language: CMP_DEFAULT_LANGUAGE,
 });
+const debug = (...args) => {
+    const debugQueryParam = 'tracking-opt-in-debug';
+    const isDebug = window.location.search.indexOf(`${debugQueryParam}=true`) !== -1;
+
+    if (isDebug) {
+        console.log('[DEBUG] GDPR: ', ...args);
+    }
+};
 
 class ConsentManagementProvider {
     loaded = null;
@@ -31,10 +41,16 @@ class ConsentManagementProvider {
 
     static installStub() {
         installCMPStub();
+
+        debug('Stub installed');
     }
 
     constructor(options) {
         this.options = Object.assign(getDefaultOptions(), options);
+
+        GVL.baseUrl = VENDOR_LIST_URL_BASE;
+        GVL.latestFilename = VENDOR_LIST_FILE_NAME;
+        GVL.versionedFilename = VENDOR_LIST_VERSION_NAME;
 
         // Install temporary stub until full CMP will be ready
         if (window.__tcfapi === undefined) {
@@ -44,20 +60,12 @@ class ConsentManagementProvider {
 
     configure(options) {
         Object.assign(this.options, options);
+
+        debug('Configured with params', options);
     }
 
     fetchVendorList() {
-        const vendorListUrlBase = `https://vendorlist.consensu.org/${VENDOR_LIST_FORMAT}/`;
-        const vendorListFileName = 'vendor-list.json';
-
-        // ToDo: resolve proxy problem
-        //GVL.baseUrl = vendorListUrlBase;
-        //GVL.latestFilename = vendorListFileName;
-
-        // ToDo: Fix CORS error:
-        // ToDo: "No 'Access-Control-Allow-Origin' header is present on the requested resource."
-        // return getJSON(`${vendorListUrlBase}${vendorListFileName}`);
-        return Promise.resolve(require('../assets/vendor-list'));
+        return getJSON(`${VENDOR_LIST_URL_BASE}${VENDOR_LIST_FILE_NAME}`);
     }
 
     installStub(...args) {
@@ -67,23 +75,33 @@ class ConsentManagementProvider {
     install() {
         this.cmpApi = new CmpApi(CMP_ID, CMP_VERSION);
 
+        debug('Installed with version', CMP_VERSION);
+
         const { gdprApplies } = this.options;
 
         if (gdprApplies && !this.vendorList) {
+            debug('Applies - fetching vendor list');
+
             this.loaded = this.fetchVendorList()
                 .then((vendorListContent) => {
                     this.vendorList = vendorListContent;
+
+                    debug('Vendor list fetched and saved', vendorListContent);
                 });
         }
     }
 
     uninstall() {
+        debug('Uninstalled');
+
         this.options = getDefaultOptions();
         this.setVendorConsentCookie(null);
         delete window.__tcfapi;
     }
 
     unmount() {
+        debug('Unmounted');
+
         this.setVendorConsentCookie(null);
         delete window.__tcfapi;
 
@@ -96,6 +114,7 @@ class ConsentManagementProvider {
         switch (event) {
             case 'ui-visible':
                 this.cmpApi.uiVisible = true;
+                debug('UI displayed');
                 break;
 
             default:
@@ -109,44 +128,52 @@ class ConsentManagementProvider {
         }
 
         const { gdprApplies } = this.options;
-console.log(gdprApplies);
+
         if (!gdprApplies) {
             this.cmpApi.tcModel = null;
+
+            debug('Not applies');
 
             return Promise.resolve();
         }
 
         return this.loaded.then(() => {
-            this.tcModel = this.createConsent(this.getVendorConsentCookie(), this.vendorList);
-console.log('here');
+            this.tcModel = this.createConsent();
+
+            debug('Consent string created', TCString.encode(this.tcModel));
+
             if (!this.hasUserConsent()) {
+                debug('Cookie not found - saving');
+
                 this.setVendorConsentCookie(TCString.encode(this.tcModel));
             }
 
-            // Set the TCModel - must be a valid TCModel
             this.cmpApi.tcModel = this.tcModel;
             this.mounted = true;
         });
     }
 
-    createConsent(consentString, vendorList) {
-        if (consentString) {
-            return TCString.decode(consentString);
+    createConsent() {
+        const tcString = this.getVendorConsentCookie();
+
+        if (tcString) {
+            debug('TCString read from cookie', tcString);
+
+            return TCString.decode(tcString);
         }
 
+        const gvList = new GVL(this.vendorList);
+        const tcModel = new TCModel(gvList);
         const { allowedPurposes, allowedVendors, consentScreen, language } = this.options;
 
-        // Create a TCModel
-        const gvList = new GVL(vendorList);
-        const tcModel = new TCModel(gvList);
-
-        // Modify TCModel - set values on tcModel
         tcModel.cmpId = CMP_ID;
         tcModel.cmpVersion = CMP_VERSION;
         tcModel.consentScreen = Number(consentScreen) || 0;
         tcModel.consentLanguage = String(language).toLowerCase() || CMP_DEFAULT_LANGUAGE;
         tcModel.purposeConsents.set(Array.isArray(allowedPurposes) ? allowedPurposes : []);
         tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
+
+        debug('Consent saved with vendors: ', allowedVendors, ' and purposes', allowedPurposes);
 
         return tcModel;
     }

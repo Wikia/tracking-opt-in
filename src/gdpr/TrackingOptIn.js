@@ -50,7 +50,7 @@ class TrackingOptIn {
             allowedVendors: allowedVendors,
             allowedVendorPurposes: allowedPurposes
         });
-console.log(allowedPurposes);
+
         // ToDo: cleanup TCF v1.1
         this.consentManagementProviderLegacy.install().then(() => {
             this.options.onAcceptTracking(allowedVendors, allowedPurposes);
