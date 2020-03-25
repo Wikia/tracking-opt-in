@@ -2,24 +2,20 @@
 # yarn lockfile v1
 
 
-"@iabtcf/cmpapi@^1.0.0-beta.25":
-  version "1.0.0-beta.25"
-  resolved "https://registry.yarnpkg.com/@iabtcf/cmpapi/-/cmpapi-1.0.0-beta.25.tgz#9fd533c4372b38097b369ac89cd80ec8cb6f7df0"
-  integrity sha512-mJc1FnDHKXBULypV6dgwg/VQfKX/RJa69pvS4Pth5sI6ztzH2BTqou6fylxq2sybRhdljO7HeZD3X7iLNzmHuw==
-  dependencies:
-    "@iabtcf/core" "1.0.0-beta.25"
+"@iabtcf/cmpapi@^1.0.0-beta.26":
+  version "1.0.0-beta.26"
+  resolved "https://registry.yarnpkg.com/@iabtcf/cmpapi/-/cmpapi-1.0.0-beta.26.tgz#a5d9b17dbef8dae2b4f34b3921eb1764c5082fad"
+  integrity sha512-h+BY6EkgU7WlDu1RtJhbXYkp2CoIbIUsXggqDckOMAJQbvqY9L9dVHU5x83i2hYMtNSv0HwTV7ve+XTvfoM+jA==
 
-"@iabtcf/core@1.0.0-beta.25", "@iabtcf/core@^1.0.0-beta.25":
-  version "1.0.0-beta.25"
-  resolved "https://registry.yarnpkg.com/@iabtcf/core/-/core-1.0.0-beta.25.tgz#a5846662d7d2132ed3855c6cd1ff184f49b39cc4"
-  integrity sha512-8sDodVM1PNDJQJ8y5M605kCij6/rGXBMfIXpPvqnmIbsAZ0Z0S9R5X9xzRPeXH0ruNbZjiC0WLj78V8wqtcU7w==
+"@iabtcf/core@^1.0.0-beta.26":
+  version "1.0.0-beta.26"
+  resolved "https://registry.yarnpkg.com/@iabtcf/core/-/core-1.0.0-beta.26.tgz#8a0bb7d12b05d61c3e84b4ae6ff8741e98c1ea6d"
+  integrity sha512-zmOz8Gk36dt0oY/s8zubE87sh2nkJOu9BguyZ7o8maDIoe8X9sODJbd+J8L1xlwkJbCK2HBpmyh38VZ9ZtjwRQ==
 
-"@iabtcf/stub@^1.0.0-beta.25":
-  version "1.0.0-beta.25"
-  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.0.0-beta.25.tgz#8ca09bfd993790871a4be32ca55c17e3eecac53c"
-  integrity sha512-IXr+dGpk8lNRrNqEiseXJF2imT8ekWwEFax63ZGPCH8vQZmbVcITFi2urPT6hXS4YM/WuJO2tpMZPFSh8VswOw==
-  dependencies:
-    "@iabtcf/core" "1.0.0-beta.25"
+"@iabtcf/stub@^1.0.0-beta.26":
+  version "1.0.0-beta.26"
+  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.0.0-beta.26.tgz#2d69849c135cae2fa22269dc371a3c6216b529d1"
+  integrity sha512-Gov1LaXTOIy/LNKtT0cyeqZSv4ihB/wRPub8QklZyxf5uQGtpBXuYHwmQoz41yeAbsG0SuZO9bCZ4hPQE0xxIw==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
