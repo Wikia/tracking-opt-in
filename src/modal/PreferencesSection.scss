@@ -1,0 +1,31 @@
+@import "./consts.scss";
+
+.section {
+    border-top: 1px solid $color-dark-gray;
+    padding: 20px 0;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.heading {
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.sectionExpand {
+    color: $color-middle-gray;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 14px;
+}
+
+.description {
+    font-size: 12px;
+    line-height: 1.6;
+    margin-top: 24px;
+}

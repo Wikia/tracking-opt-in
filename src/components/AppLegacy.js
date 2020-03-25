@@ -5,7 +5,7 @@ import ScreenOne from './ScreenOne';
 
 import styles from './styles.scss';
 
-class App extends Component {
+class AppLegacy extends Component {
     state = {
         consentedVendors: this.props.options.enabledVendors,
         consentedPurposes: this.props.options.enabledPurposes,
@@ -132,4 +132,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default AppLegacy;

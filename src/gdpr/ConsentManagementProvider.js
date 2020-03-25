@@ -87,6 +87,8 @@ class ConsentManagementProvider {
                     this.vendorList = vendorListContent;
 
                     debug('Vendor list fetched and saved', vendorListContent);
+                    // ToDo: remove this
+                    console.log('old vendor list', getJSON('https://vendorlist.consensu.org/vendorlist.json'))
                 });
         }
     }
@@ -120,6 +122,11 @@ class ConsentManagementProvider {
             case 'ui-visible-reset':
                 this.cmpApi.update(this.getVendorConsentCookie() || '', true);
                 debug('UI displayed after policy change');
+                break;
+
+            case 'disable':
+                this.cmpApi.disable();
+                debug('Unable to perform the operations in compliance with the TCF');
                 break;
 
             default:

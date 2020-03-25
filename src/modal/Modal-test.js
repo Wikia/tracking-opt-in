@@ -1,7 +1,7 @@
 import { h, render } from 'preact';
 import { expect, assert } from 'chai';
 import { createStubInstance, stub }  from 'sinon';
-import AppLegacy from './AppLegacy';
+import Modal from './Modal';
 import styles from './styles.scss';
 import stylesScreenOne from './ScreenOne.scss';
 import ContentManager from '../shared/ContentManager';
@@ -27,7 +27,7 @@ describe('App', () => {
         optInManager = createStubInstance(OptInManager);
         geoManager = createStubInstance(GeoManager);
 
-        return render(h(AppLegacy, {
+        return render(h(Modal, {
             tracker,
             optInManager,
             geoManager,
