@@ -160,23 +160,23 @@ class ConsentManagementProvider {
         let tcString = this.getVendorConsentCookie();
 
         if (tcString) {
-            debug('TCString read from cookie', tcString);
+            debug('TCString read from cookie', tcString, TCString.decode(tcString));
 
             return tcString;
         }
 
         const gvList = new GVL(this.vendorList);
         const tcModel = new TCModel(gvList);
-        const { allowedPurposes, allowedVendors, consentScreen, language } = this.options;
+        const { allowedVendorPurposes, allowedVendors, consentScreen, language } = this.options;
 
         tcModel.cmpId = CMP_ID;
         tcModel.cmpVersion = CMP_VERSION;
         tcModel.consentScreen = Number(consentScreen) || 0;
         tcModel.consentLanguage = String(language).toLowerCase() || CMP_DEFAULT_LANGUAGE;
-        tcModel.purposeConsents.set(Array.isArray(allowedPurposes) ? allowedPurposes : []);
+        tcModel.purposeConsents.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
         tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
 
-        debug('Consent saved with vendors: ', allowedVendors, ' and purposes', allowedPurposes);
+        debug('Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes);
 
         tcString = TCString.encode(tcModel);
 
