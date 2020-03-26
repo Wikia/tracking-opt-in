@@ -18,7 +18,8 @@ export const DEFAULT_OPTIONS = {
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
     disableConsentQueue: false,
-    enabledVendorPurposes: [1, 2, 3, 4, 5], // array of IAB CMP purpose IDs
+    // ToDo: unused in new modal
+    enabledVendorPurposes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // array of IAB CMP purpose IDs
     enabledVendors: IAB_VENDORS, // array of IAB CMP vendor IDs
     language: null,
     queryParamName: null,

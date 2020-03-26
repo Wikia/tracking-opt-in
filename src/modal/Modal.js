@@ -94,8 +94,8 @@ class Modal extends Component {
     };
 
     // This is called in sub components to update the state
-    updatePurposes = (vendorIds, purposeIds) => {
-        this.setState({consentedVendors: vendorIds, consentedPurposes: purposeIds});
+    updatePurposes = (vendors, purposes) => {
+        this.setState({consentedVendors: vendors, consentedPurposes: purposes});
     };
 
     render(props, state) {

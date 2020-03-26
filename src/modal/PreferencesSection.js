@@ -46,7 +46,9 @@ class PreferencesSection extends Component {
             onTogglePurpose,
             onToggleVendor,
             allPurposes,
+            allPurposesSpecial,
             allFeatures,
+            allFeaturesSpecial,
             consentedPurposes,
             consentedVendors,
             tracker,
@@ -76,7 +78,9 @@ class PreferencesSection extends Component {
                             vendors={purpose.vendors}
                             onToggleVendor={onToggleVendor}
                             allPurposes={allPurposes}
+                            allPurposesSpecial={allPurposesSpecial}
                             allFeatures={allFeatures}
+                            allFeaturesSpecial={allFeaturesSpecial}
                             consentedPurposes={consentedPurposes}
                             consentedVendors={consentedVendors}
                             tracker={tracker}

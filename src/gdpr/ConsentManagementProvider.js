@@ -45,6 +45,10 @@ class ConsentManagementProvider {
         debug('Stub installed');
     }
 
+    static fetchVendorList() {
+        return getJSON(`${VENDOR_LIST_URL_BASE}${VENDOR_LIST_FILE_NAME}`);
+    }
+
     constructor(options) {
         this.options = Object.assign(getDefaultOptions(), options);
 
@@ -64,10 +68,6 @@ class ConsentManagementProvider {
         debug('Configured with params', options);
     }
 
-    fetchVendorList() {
-        return getJSON(`${VENDOR_LIST_URL_BASE}${VENDOR_LIST_FILE_NAME}`);
-    }
-
     installStub(...args) {
         return ConsentManagementProvider.installStub(...args);
     }
@@ -82,7 +82,7 @@ class ConsentManagementProvider {
         if (gdprApplies && !this.vendorList) {
             debug('Applies - fetching vendor list');
 
-            this.loaded = this.fetchVendorList()
+            this.loaded = ConsentManagementProvider.fetchVendorList()
                 .then((vendorListContent) => {
                     this.vendorList = vendorListContent;
 

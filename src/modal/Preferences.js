@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { getVendorList, PURPOSES } from '../shared/utils';
+import { PURPOSES } from '../shared/utils';
 import OtherPartners from './OtherPartners';
 import PreferencesSection from './PreferencesSection';
 
@@ -7,27 +7,41 @@ import globalStyles from './styles.scss';
 import styles from './Preferences.scss';
 
 import getParagraphs from './utils/getParagraphs';
+import ConsentManagementProvider from '../gdpr/ConsentManagementProvider';
 
 class Preferences extends Component {
     state = {
         purposes: null,
+        specialPurposes: null,
         features: null,
+        specialFeatures: null,
     };
+
+    // ToDo: Rewrite the logic and get rid of this method
+    objectToArray(object) {
+        const array = [];
+
+        for (let [key, value] of Object.entries(object)) {
+            array[key] = value;
+        }
+
+        return array;
+    }
 
     componentWillMount() {
         if (!this.state.purposes && !this.state.features) {
-            getVendorList().then((json) => {
-                // Filter purposes to those used by Fandom
-                const purposes = json.purposes.filter(purpose => (this.props.allPurposes.indexOf(purpose.id) >= 0));
+            ConsentManagementProvider.fetchVendorList().then((json) => {
                 // Filter vendors to those used by Fandom
-                const vendors = json.vendors.filter(vendor => (this.props.allVendors.indexOf(vendor.id) >= 0));
-                const purposesWithVendors = purposes.map((purpose) => {
-                    purpose.vendors = vendors.filter(vendor => (vendor.purposeIds.indexOf(purpose.id) >= 0));
+                const vendors = this.objectToArray(json.vendors).filter(vendor => (this.props.allVendors.indexOf(vendor.id) >= 0));
+                const purposesWithVendors = this.objectToArray(json.purposes).map((purpose) => {
+                    purpose.vendors = vendors.filter(vendor => (vendor.purposes.indexOf(purpose.id) >= 0));
                     return purpose;
                 });
                 this.setState({
                     purposes: purposesWithVendors,
-                    features: json.features,
+                    specialPurposes: this.objectToArray(json.specialPurposes),
+                    features: this.objectToArray(json.features),
+                    specialFeatures: this.objectToArray(json.specialFeatures),
                 });
                 this.forceUpdate();
             });
@@ -98,7 +112,9 @@ class Preferences extends Component {
         const toRender = purposes.map((purpose) => (
             <PreferencesSection
                 allFeatures={this.state.features}
+                allFeaturesSpecial={this.state.specialFeatures}
                 allPurposes={purposes}
+                allPurposesSpecial={this.state.specialPurposes}
                 consentedPurposes={consentedPurposes}
                 consentedVendors={consentedVendors}
                 content={content}

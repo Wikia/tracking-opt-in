@@ -1,5 +1,4 @@
 import { h, Component } from 'preact';
-import { getPurposeTitle, getPurposeBody, getFeatureTitle, getFeatureBody } from '../shared/utils';
 import Switch from './Switch';
 
 import globalStyles from './styles.scss';
@@ -44,18 +43,18 @@ class PreferencesVendorList extends Component {
     }
 
     renderVendorDetails(vendor) {
-        const { content } = this.props;
+        const { content, allPurposes, allPurposesSpecial, allFeatures, allFeaturesSpecial } = this.props;
 
         return (
             <div className={styles.vendorDetails}>
-                {vendor.purposeIds.length > 0 && (
+                {vendor.purposes.length > 0 && (
                     <div>{/* fragment */}
                         <div className={styles.subheader}>
                             {content.purposesHeading}
                         </div>
-                        {vendor.purposeIds.map((purposeId) => (
+                        {vendor.purposes.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
-                                <span>{getPurposeTitle(content, purposeId)}</span>
+                                <span>{allPurposes[purposeId].name}</span>
                                 <span classname={styles.allowed}>
                                     {this.isConsentedVendor(vendor.id) && this.isConsentedPurpose(purposeId) ? content.allowedButton : content.disallowedButton}
                                 </span>
@@ -63,14 +62,14 @@ class PreferencesVendorList extends Component {
                         ))}
                     </div>
                 )}
-                {vendor.legIntPurposeIds.length > 0 && (
+                {vendor.specialPurposes.length > 0 && (
                     <div>{/* fragment */}
                         <div className={styles.subheader}>
-                            {content.purposesLegitimateInterestHeading}
+                            {content.purposesSpecialHeading}
                         </div>
-                        {vendor.legIntPurposeIds.map((purposeId) => (
+                        {vendor.specialPurposes.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
-                                <span>{getPurposeTitle(content, purposeId)}</span>
+                                <span>{allPurposesSpecial[purposeId].name}</span>
                                 <a href={vendor.policyUrl} className={styles.link} target="_blank">
                                     {content.findOutMoreButton}
                                 </a>
@@ -78,21 +77,71 @@ class PreferencesVendorList extends Component {
                         ))}
                     </div>
                 )}
-                {vendor.featureIds.length > 0 && (
+                {vendor.legIntPurposes.length > 0 && (
+                    <div>{/* fragment */}
+                        <div className={styles.subheader}>
+                            {content.purposesLegitimateInterestHeading}
+                        </div>
+                        {vendor.legIntPurposes.map((purposeId) => (
+                            <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
+                                <span>{allPurposes[purposeId].name}</span>
+                                <a href={vendor.policyUrl} className={styles.link} target="_blank">
+                                    {content.findOutMoreButton}
+                                </a>
+                            </div>
+                        ))}
+                    </div>
+                )}
+                {vendor.flexiblePurposes.length > 0 && (
+                    <div>{/* fragment */}
+                        <div className={styles.subheader}>
+                            {content.purposesFlexibleHeading}
+                        </div>
+                        {vendor.flexiblePurposes.map((purposeId) => (
+                            <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
+                                <span>{allPurposes[purposeId].name}</span>
+                                <a href={vendor.policyUrl} className={styles.link} target="_blank">
+                                    {content.findOutMoreButton}
+                                </a>
+                            </div>
+                        ))}
+                    </div>
+                )}
+                {vendor.features.length > 0 && (
                     <div>{/* fragment */}
                         <div className={styles.subheader}>
                             {content.featuresHeading}
                         </div>
-                        {vendor.featureIds.map((featureId) => (
+                        {vendor.features.map((featureId) => (
                             <div className={styles.vendorDetail} key={`${vendor.id}_${featureId}`}>
                                 <div className={styles.flex}>
-                                    <span>{getFeatureTitle(content, featureId)}</span>
+                                    <span>{allFeatures[featureId].name}</span>
                                     <a href={vendor.policyUrl} className={styles.link} target="_blank">
                                         {content.findOutMoreButton}
                                     </a>
                                 </div>
                                 <div className={styles.featureDescription}>
-                                    {getFeatureBody(content, featureId)}
+                                    {allFeatures[featureId].description}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+                {vendor.specialFeatures.length > 0 && (
+                    <div>{/* fragment */}
+                        <div className={styles.subheader}>
+                            {content.featuresSpecialHeading}
+                        </div>
+                        {vendor.specialFeatures.map((featureId) => (
+                            <div className={styles.vendorDetail} key={`${vendor.id}_${featureId}`}>
+                                <div className={styles.flex}>
+                                    <span>{allFeaturesSpecial[featureId].name}</span>
+                                    <a href={vendor.policyUrl} className={styles.link} target="_blank">
+                                        {content.findOutMoreButton}
+                                    </a>
+                                </div>
+                                <div className={styles.featureDescription}>
+                                    {allFeaturesSpecial[featureId].description}
                                 </div>
                             </div>
                         ))}

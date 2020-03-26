@@ -4,8 +4,8 @@ export const PURPOSES = {
     INFORMATION: 1,
     PERSONALIZATION: 2,
     AD: 3,
-    CONTENT: 3,
-    MEASUREMENT: 3,
+    CONTENT: 4,
+    MEASUREMENT: 5,
 };
 
 export const FEATURES = {
@@ -14,6 +14,7 @@ export const FEATURES = {
     GEOLOCATION: 3,
 };
 
+// ToDo: remove getters unused in new modal
 export function getPurposeTitle(content, index) {
     return content[`purpose${index}Title`];
 }
@@ -108,6 +109,7 @@ export function getJSON(url, useCache = true) {
     });
 }
 
+// ToDo: unused in new modal
 export function getVendorList() {
     return getJSON('https://vendorlist.consensu.org/vendorlist.json');
 }
