@@ -234,7 +234,7 @@ class UserSignalMechanism {
             return undefined;
         }
 
-        return OPT_OUT_SALE === getUSPValue(true);
+        return this.opt_out_sale === getUSPValue(true);
     }
 
     geoRequiresUserSignal() {
