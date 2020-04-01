@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { spy } from 'sinon';
 import Cookies from 'js-cookie';
-import UserSignalMechanism, { USP_VERSION } from './UserSignalMechanism';
+import UserSignalMechanism, { USP_VALUES, USP_VERSION } from './UserSignalMechanism';
 
 describe('UserSignalMechanism', () => {
     function cleanup() {
@@ -150,6 +150,32 @@ describe('UserSignalMechanism', () => {
 
             assert.equal(uspapi.userSignal, privacyString);
             assert.equal(Cookies.get('usprivacy'), privacyString);
+        });
+    });
+
+    context('saveUserSignal', () => {
+        const config = {
+            ccpaApplies: false,
+        };
+        let uspapi;
+
+        beforeEach(() => {
+            cleanup();
+            uspapi = new UserSignalMechanism(config);
+        });
+
+        afterEach(cleanup);
+
+        it('should set userSignal to 1YYN if called with "yes"', () => {
+            uspapi.saveUserSignal(USP_VALUES.yes);
+
+            assert.equal(uspapi.userSignal, '1YYN');
+        });
+
+        it('should set userSignal to 1YNN if called with "no"', () => {
+            uspapi.saveUserSignal(USP_VALUES.no);
+
+            assert.equal(uspapi.userSignal, '1YNN');
         });
     });
 });
