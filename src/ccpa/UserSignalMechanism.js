@@ -4,7 +4,7 @@ import { getCookieDomain } from '../shared/utils';
 
 const PRIVACY_STRING_COOKIE_NAME = 'usprivacy';
 const LOG_GROUP = 'CCPA:';
-const USP_VALUES = {
+export const USP_VALUES = {
     yes: 'Y',
     no: 'N',
     na: '-',
@@ -285,7 +285,7 @@ class UserSignalMechanism {
     }
 
     saveUserSignal(optOutSale) {
-        const privacyString = createPrivacyString(optOutSale);
+        const privacyString = this.createPrivacyString(optOutSale);
 
         console.log(LOG_GROUP, `Privacy String saved via console: ${privacyString}`);
 
