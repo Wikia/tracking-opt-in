@@ -138,11 +138,11 @@ describe('UserSignalMechanism', () => {
             assert.isUndefined(Cookies.get('usprivacy'));
         });
 
-        it('sets user signal and privacy cookie to 1YYN if options.isSubjectToCoppa is true', () => {
+        it('sets user signal and privacy cookie to 1YYN if options.isSubjectToCcpa is true', () => {
             const privacyString = '1YYN';
 
             config.ccpaApplies = true;
-            config.isSubjectToCoppa = true;
+            config.isSubjectToCcpa = true;
 
             uspapi = new UserSignalMechanism(config);
 

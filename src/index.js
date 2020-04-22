@@ -111,7 +111,7 @@ function initializeCCPA(options) {
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const userSignalMechanism = new UserSignalMechanism({
         ccpaApplies: geoManager.needsUserSignal(),
-        isSubjectToCoppa: options.isSubjectToCoppa,
+        isSubjectToCcpa: options.isSubjectToCcpa,
     });
 
     userSignalMechanism.install();
