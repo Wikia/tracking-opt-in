@@ -188,7 +188,7 @@ class UserSignalMechanism {
                 privacyString = this.createPrivacyString(getUSPValue(true));
 
                 console.log(LOG_GROUP, `Privacy String updated via URL parameter: ${privacyString}`);
-            } else if (this.options.isSubjectToCoppa) {
+            } else if (this.options.isSubjectToCcpa) {
                 privacyString = this.createPrivacyString(USP_VALUES.yes);
                 console.log(LOG_GROUP, 'Force opt-out because user is subject to COPPA.');
             } else if (this.hasUserSignal()) {

@@ -54,7 +54,8 @@ The following options are accepted:
 - `disableConsentQueue` - If true then CMP will return fully opted-out consent string before user accept or reject the modal without queuing the commands
 - `enabledVendorPurposes` - Array of purpose IDs to be allowed on opt-in. See the [IAB CMP specification](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/CMP%20JS%20API%20v1.1%20Final.md) for details. Defaults to all standard purposes.
 - `enabledVendors` - Array of vendor IDs to be allowed on opt-in. See the [IAB CMP specification](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/CMP%20JS%20API%20v1.1%20Final.md) for details. Defaults to a list of all of Fandom's vendors who are partnered with IAB.
-- `isSubjectToCoppa` - Used to opt-out of sale users who are below 16 y.o..
+- `isSubjectToCcpa` - Used to opt-out of sale users who are below 16 y.o.
+- `isSubjectToCoppa` - Same as `isSubjectToCcpa`. Takes precendence over `isSubjectToCcpa`. Left for backwards compatibility.
 - `language` - Override the language used to display the dialog text. Defaults to `window.navigator.language` if available, otherwise to `en`.
 - `preventScrollOn` - Prevent scrolling on the specified element when the dialog is shown. Can be either an element or query selector passed to `document.querySelector`. Defaults to `'body'`, set to `null` to prevent this behavior.
 - `queryParam` - The name of the query param to forcefully set the accepted status. Defaults to `tracking-opt-in-status` and accepts the string values `true` or `false` (e.g `http://starwars.wikia.com/?tracking-opt-in-status=true`)
