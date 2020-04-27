@@ -2,6 +2,8 @@ import main from '../index';
 
 import { assert } from 'chai';
 import Cookies from 'js-cookie';
+import UserSignalMechanism from './UserSignalMechanism';
+import ConsentManagementProvider from '../gdpr/ConsentManagementProvider';
 
 function cleanup() {
     delete window.__uspapi;
@@ -19,6 +21,8 @@ describe('main', () => {
         options = {
             enableCCPAinit: true,
         };
+        ConsentManagementProvider.installStub();
+        UserSignalMechanism.installStub();
     });
 
     afterEach(() => {
