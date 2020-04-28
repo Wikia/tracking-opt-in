@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { spy } from 'sinon';
 import Cookies from 'js-cookie';
-import UserSignalMechanism, { USP_VERSION } from './UserSignalMechanism';
+import UserSignalMechanism, { USP_VALUES, USP_VERSION } from './UserSignalMechanism';
 
 describe('UserSignalMechanism', () => {
     function cleanup() {
@@ -101,6 +101,81 @@ describe('UserSignalMechanism', () => {
 
             assert.isUndefined(window.__uspapi);
             assert.isNotOk(Cookies.get('usprivacy'));
+        });
+    });
+
+    context('createSignal', () => {
+        let config;
+        let uspapi;
+
+        beforeEach(() => {
+            cleanup();
+            config = {};
+        });
+
+        afterEach(cleanup);
+
+        it('sets user signal to 1--- and not set privacy cookie if options.ccpaApplies is false', () => {
+            const privacyString = '1---';
+            config.ccpaApplies = false;
+
+            uspapi = new UserSignalMechanism(config);
+
+            uspapi.createUserSignal();
+
+            assert.equal(uspapi.userSignal, privacyString);
+            assert.isUndefined(Cookies.get('usprivacy'));
+        });
+
+        it('sets user signal to 1--- and not set privacy cookie if options.ccpaApplies is undefined', () => {
+            const privacyString = '1---';
+
+            uspapi = new UserSignalMechanism(config);
+
+            uspapi.createUserSignal();
+
+            assert.equal(uspapi.userSignal, privacyString);
+            assert.isUndefined(Cookies.get('usprivacy'));
+        });
+
+        it('sets user signal and privacy cookie to 1YYN if options.isSubjectToCcpa is true', () => {
+            const privacyString = '1YYN';
+
+            config.ccpaApplies = true;
+            config.isSubjectToCcpa = true;
+
+            uspapi = new UserSignalMechanism(config);
+
+            uspapi.createUserSignal();
+
+            assert.equal(uspapi.userSignal, privacyString);
+            assert.equal(Cookies.get('usprivacy'), privacyString);
+        });
+    });
+
+    context('saveUserSignal', () => {
+        const config = {
+            ccpaApplies: false,
+        };
+        let uspapi;
+
+        beforeEach(() => {
+            cleanup();
+            uspapi = new UserSignalMechanism(config);
+        });
+
+        afterEach(cleanup);
+
+        it('should set userSignal to 1YYN if called with "yes"', () => {
+            uspapi.saveUserSignal(USP_VALUES.yes);
+
+            assert.equal(uspapi.userSignal, '1YYN');
+        });
+
+        it('should set userSignal to 1YNN if called with "no"', () => {
+            uspapi.saveUserSignal(USP_VALUES.no);
+
+            assert.equal(uspapi.userSignal, '1YNN');
         });
     });
 });

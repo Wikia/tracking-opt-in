@@ -4,16 +4,13 @@ import { getCookieDomain } from '../shared/utils';
 
 const PRIVACY_STRING_COOKIE_NAME = 'usprivacy';
 const LOG_GROUP = 'CCPA:';
-const USP_VALUES = {
+export const USP_VALUES = {
     yes: 'Y',
     no: 'N',
     na: '-',
 };
 
 export const USP_VERSION = 1;
-let EXPLICIT_NOTICE = USP_VALUES.yes;
-let OPT_OUT_SALE = USP_VALUES.no;
-let LSPA_SUPPORT = USP_VALUES.no;
 
 const getDefaultCookieAttributes = () => ({
     domain: getCookieDomain(window.location.hostname),
@@ -38,19 +35,6 @@ const debug = (...args) => {
         console.log('[DEBUG] CCPA: ', ...args);
     }
 };
-
-function createPrivacyString(optOutSale) {
-    if (optOutSale !== undefined) {
-        if (optOutSale === USP_VALUES.na) {
-            EXPLICIT_NOTICE = USP_VALUES.na;
-            LSPA_SUPPORT = USP_VALUES.na;
-        }
-
-        OPT_OUT_SALE = optOutSale;
-    }
-
-    return `${USP_VERSION}${EXPLICIT_NOTICE}${OPT_OUT_SALE}${LSPA_SUPPORT}`;
-}
 
 function isValidCharacter(char) {
     return char === USP_VALUES.yes || char === USP_VALUES.no || char === USP_VALUES.na;
@@ -127,6 +111,9 @@ class UserSignalMechanism {
             this.getUSPData,
             this.showConsentTool,
         ];
+        this.explicit_notice = USP_VALUES.yes;
+        this.lspa_support = USP_VALUES.no;
+        this.opt_out_sale = USP_VALUES.no;
 
         if (window.__uspapi === undefined) {
             this.installStub();
@@ -195,7 +182,7 @@ class UserSignalMechanism {
         if (!this.options.ccpaApplies) {
             debug('Geo does not require API');
 
-            privacyString = createPrivacyString(getUSPValue());
+            privacyString = this.createPrivacyString(getUSPValue());
         } else {
             debug('Geo requires API');
 
@@ -206,19 +193,22 @@ class UserSignalMechanism {
                 window.location.search.includes('optOutSale=true');
 
             if (queryStringOverride) {
-                privacyString = createPrivacyString(getUSPValue(true));
+                privacyString = this.createPrivacyString(getUSPValue(true));
 
                 debug(`Privacy String updated via URL parameter: ${privacyString}`);
+            } else if (this.options.isSubjectToCcpa) {
+                privacyString = this.createPrivacyString(USP_VALUES.yes);
+                debug('Force opt-out because user is subject to COPPA');
             } else if (this.hasUserSignal()) {
                 const cookieOptOut = this.getPrivacyStringCookie().split('')[2];
 
                 if (!isValidCharacter(cookieOptOut)) {
-                    privacyString = createPrivacyString(getUSPValue(false));
+                    privacyString = this.createPrivacyString(getUSPValue(false));
                 } else {
-                    privacyString = createPrivacyString(cookieOptOut);
+                    privacyString = this.createPrivacyString(cookieOptOut);
                 }
             } else {
-                privacyString = createPrivacyString(USP_VALUES.no);
+                privacyString = this.createPrivacyString(USP_VALUES.no);
             }
 
             debug(`Privacy String cookie: ${privacyString}`);
@@ -229,6 +219,20 @@ class UserSignalMechanism {
         this.userSignal = privacyString;
     }
 
+    createPrivacyString(optOutSale) {
+        if (optOutSale !== undefined) {
+            if (optOutSale === USP_VALUES.na) {
+                this.explicit_notice = USP_VALUES.na;
+                this.lspa_support = USP_VALUES.na;
+            }
+
+            this.opt_out_sale = optOutSale;
+        }
+
+        return `${USP_VERSION}${this.explicit_notice}${this.opt_out_sale}${this.lspa_support}`;
+    }
+
+
     hasUserSignal() {
         return !!this.getPrivacyStringCookie();
     }
@@ -238,7 +242,7 @@ class UserSignalMechanism {
             return undefined;
         }
 
-        return OPT_OUT_SALE === getUSPValue(true);
+        return this.opt_out_sale === getUSPValue(true);
     }
 
     geoRequiresUserSignal() {
@@ -289,7 +293,7 @@ class UserSignalMechanism {
     }
 
     saveUserSignal(optOutSale) {
-        const privacyString = createPrivacyString(optOutSale);
+        const privacyString = this.createPrivacyString(optOutSale);
 
         debug(`Privacy String saved via console: ${privacyString}`);
 
