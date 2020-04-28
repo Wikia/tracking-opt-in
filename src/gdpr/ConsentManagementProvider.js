@@ -9,6 +9,7 @@ import { getCookieDomain, getJSON } from '../shared/utils';
 
 export const CMP_VERSION = 2; // Increment to force modal again
 const CMP_ID = 141;
+// ToDo: 756 now???
 const CMP_DEFAULT_LANGUAGE = 'en';
 const VENDOR_CONSENT_COOKIE_NAME = 'euconsent-v2';
 const VENDOR_LIST_URL_BASE = 'https://www.fandom.com/cmp/';
