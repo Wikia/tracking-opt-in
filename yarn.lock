@@ -2,20 +2,20 @@
 # yarn lockfile v1
 
 
-"@iabtcf/cmpapi@v1.0.1-3":
-  version "1.0.1-3"
-  resolved "https://registry.yarnpkg.com/@iabtcf/cmpapi/-/cmpapi-1.0.1-3.tgz#cae8d72b8e5b638271822973f97caecae496bf12"
-  integrity sha512-RDtrEplSh41xx1DlEASEwvbjVMmsG7vZiVKS1zWaNjhNl3C+WLpoub/O7XzFu7y2KQ5e/dME9B1R9RSpTrJ3hw==
+"@iabtcf/cmpapi@v1.0.1-4":
+  version "1.0.1-4"
+  resolved "https://registry.yarnpkg.com/@iabtcf/cmpapi/-/cmpapi-1.0.1-4.tgz#65070fb05f3d7842bd0d67b09c1ca6872da574cf"
+  integrity sha512-mM4G1UCVdK/Rbuo6yWNByjHlfiXZ9uvKnKmy63VldVyUzDBCbOuvRmkUum4zusAwyecBCPfyztcPq2VEHisUbQ==
 
-"@iabtcf/core@v1.0.1-3":
-  version "1.0.1-3"
-  resolved "https://registry.yarnpkg.com/@iabtcf/core/-/core-1.0.1-3.tgz#36586345042c152616977e463eea1769ff7b00b5"
-  integrity sha512-t1PffOfh5WOhJm9HjrcK6iZuenv+TVzkKeM/rf5CmqYnmM6eqeMq6lnzMp//w+4jwZtH0QKC/MFJFkWcynY61g==
+"@iabtcf/core@v1.0.1-4":
+  version "1.0.1-4"
+  resolved "https://registry.yarnpkg.com/@iabtcf/core/-/core-1.0.1-4.tgz#62f1e1b3c08a3785ce3675abaa008eb9b4c9ab59"
+  integrity sha512-Kl0x83Coqml6X4RJ4joeZ7Lxh8Crhiwjd/oXli+0zdnlnZXc9528g4r1niVz1WfDu7GK7a1Ahdfu6KY8Z/Vc3w==
 
-"@iabtcf/stub@v1.0.1-3":
-  version "1.0.1-3"
-  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.0.1-3.tgz#d431aaa871689ccc1e4fbb32dee735196bd7d514"
-  integrity sha512-V3MmjL08WEMQYO9wGZFx0/Ul97WBGDixxFbQVn7m1eNNJhLjjXhBJrR+bVwKW2dPhyvOfMrqVQsDDQMd0ZDQsQ==
+"@iabtcf/stub@v1.0.1-4":
+  version "1.0.1-4"
+  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.0.1-4.tgz#751e8698d9234decf19b3879e1b52e6338cd65e8"
+  integrity sha512-+s2D3V4pA9pbzs4uqx+Vel0TGAFpiuoL8O4Yg5OxJrS0bUIYGwIe8LF7ujGdhZfVZAq9GW5WjxdmOyLbwWeX0Q==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
