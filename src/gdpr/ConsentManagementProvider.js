@@ -57,10 +57,11 @@ class ConsentManagementProvider {
         GVL.latestFilename = VENDOR_LIST_FILE_NAME;
         GVL.versionedFilename = VENDOR_LIST_VERSION_NAME;
 
+        // ToDo: uncomment
         // Install temporary stub until full CMP will be ready
-        if (window.__tcfapi === undefined) {
-            this.installStub();
-        }
+        // if (window.__tcfapi === undefined) {
+        //     this.installStub();
+        // }
     }
 
     configure(options) {
@@ -88,8 +89,6 @@ class ConsentManagementProvider {
                     this.vendorList = vendorListContent;
 
                     debug('Vendor list fetched and saved', vendorListContent);
-                    // ToDo: remove this
-                    console.log('old vendor list', getJSON('https://vendorlist.consensu.org/vendorlist.json'))
                 });
         }
     }
@@ -181,6 +180,7 @@ class ConsentManagementProvider {
         tcModel.cmpVersion = CMP_VERSION;
         tcModel.consentScreen = Number(consentScreen) || 0;
         tcModel.consentLanguage = String(language).toLowerCase() || CMP_DEFAULT_LANGUAGE;
+        tcModel.isServiceSpecific = true;
         tcModel.purposeConsents.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
         tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
 

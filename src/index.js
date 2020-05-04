@@ -7,7 +7,6 @@ import ConsentManagementProviderLegacy from './gdpr/ConsentManagementProviderLeg
 import OptInManager from './gdpr/OptInManager';
 import Tracker from './gdpr/Tracker';
 import TrackingOptIn from './gdpr/TrackingOptIn';
-
 import UserSignalMechanism from './ccpa/UserSignalMechanism';
 
 export const DEFAULT_OPTIONS = {
@@ -101,7 +100,10 @@ function initializeGDPR(options) {
         },
         window.location,
     );
-    instance.render();
+
+    geoManager.callInstantConfig().then(() => {
+        instance.render();
+    });
 
     return instance;
 }

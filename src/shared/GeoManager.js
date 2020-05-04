@@ -1,7 +1,9 @@
 import Cookies from 'js-cookie';
+import { getJSON } from './utils';
 
 export const COUNTRY_COOKIE_NAME = 'Geo';
 const MISSING_COOKIE_NAME = 'no-cookie';
+let icbmContent = null;
 
 // client.geo.country_code https://docs.fastly.com/guides/vcl/geolocation-related-vcl-features
 const COUNTRIES_REQUIRING_PROMPT = [
@@ -88,10 +90,36 @@ function getGeoDataFromCookie(type = 'country') {
 }
 
 class GeoManager {
+    tcf1Disabled = false;
+    tcf2Enabled = false;
+
     constructor(country, region, countriesRequiringPrompt) {
         this.geosRequiringPrompt = (countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT).map(country => country.toLowerCase());
         this.country = (country || getGeoDataFromCookie('country') || MISSING_COOKIE_NAME).toLowerCase();
         this.region = (region || getGeoDataFromCookie('region') || MISSING_COOKIE_NAME).toLowerCase();
+
+        this.callInstantConfig().then(() => {console.log(icbmContent);
+            this.tcf1Disabled =
+                icbmContent.icTcf1Disabled[0].regions &&
+                icbmContent.icTcf1Disabled[0].regions.includes(this.country.toUpperCase());
+            this.tcf2Enabled =
+                icbmContent.icTcf2Enabled[0].regions &&
+                icbmContent.icTcf2Enabled[0].regions.includes(this.country.toUpperCase());
+
+            console.log('ICBM status', 'tcf1Disabled', this.tcf1Disabled, 'tcf2Enabled', this.tcf2Enabled);
+        });
+    }
+
+    callInstantConfig() {
+        if (!icbmContent) {
+            icbmContent = getJSON('https://services.wikia.com/icbm/api/config?app=oasis').then((content) => {
+                icbmContent = content;
+            });
+
+            return icbmContent;
+        }
+
+        return icbmContent;
     }
 
     needsTrackingPrompt() {

@@ -138,9 +138,10 @@ class ConsentManagementProviderLegacy {
             this.ping
         ];
 
-        if (window.__cmp === undefined) {
-            this.installStub(!!this.options.gdprAppliesGlobally);
-        }
+        // ToDo: uncomment
+        // if (window.__cmp === undefined) {
+        //     this.installStub(!!this.options.gdprAppliesGlobally);
+        // }
     }
 
     configure(options) {

@@ -57,7 +57,12 @@ export const langToContent = processLanguages({
 });
 
 export default class ContentManager {
+    lang = en;
+    content = null;
+
     constructor(lang) {
+        this.lang = lang;
+
         // all the strings default to `en`
         let content = langToContent.en;
 

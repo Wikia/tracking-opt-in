@@ -24,11 +24,6 @@ class TrackingOptIn {
         this.options = options;
         this.location = location;
         this.isReset = false;
-
-        this.consentManagementProvider.configure({
-            gdprApplies: this.geoRequiresTrackingConsent(),
-        });
-        this.consentManagementProvider.install();
     }
 
     removeApp = () => {
@@ -42,14 +37,16 @@ class TrackingOptIn {
     // Non-IAB tracking is accepted. Some or all IAB vendors or purposes _may_ be accepted
     onAcceptTracking = (allowedVendors, allowedPurposes) => {
         // ToDo: cleanup TCF v1.1
-        this.consentManagementProviderLegacy.configure({
-            gdprApplies: this.geoRequiresTrackingConsent(),
-            allowedVendors: allowedVendors,
-            allowedVendorPurposes: allowedPurposes
-        });
-        this.consentManagementProviderLegacy.install().then(() => {
-            this.options.onAcceptTracking(allowedVendors, allowedPurposes);
-        });
+        if (!this.geoManager.tcf1Disabled) {
+            this.consentManagementProviderLegacy.configure({
+                gdprApplies: this.geoRequiresTrackingConsent(),
+                allowedVendors: allowedVendors,
+                allowedVendorPurposes: allowedPurposes
+            });
+            this.consentManagementProviderLegacy.install().then(() => {
+                this.options.onAcceptTracking(allowedVendors, allowedPurposes);
+            });
+        }
 
         // TCF v2.0 rollout: show second modal if consented pageview before
         this.gatherTCF2Consent(allowedVendors, allowedPurposes);
@@ -58,14 +55,16 @@ class TrackingOptIn {
     // Non-IAB tracking is rejected. Some or all IAB vendors or purposes _may_ be accepted
     onRejectTracking = (allowedVendors, allowedPurposes) => {
         // ToDo: cleanup TCF v1.1
-        this.consentManagementProviderLegacy.configure({
-            gdprApplies: this.geoRequiresTrackingConsent(),
-            allowedVendors: allowedVendors,
-            allowedVendorPurposes: allowedPurposes
-        });
-        this.consentManagementProviderLegacy.install().then(() => {
-            this.options.onRejectTracking(allowedVendors, allowedPurposes);
-        });
+        if (!this.geoManager.tcf1Disabled) {
+            this.consentManagementProviderLegacy.configure({
+                gdprApplies: this.geoRequiresTrackingConsent(),
+                allowedVendors: allowedVendors,
+                allowedVendorPurposes: allowedPurposes
+            });
+            this.consentManagementProviderLegacy.install().then(() => {
+                this.options.onRejectTracking(allowedVendors, allowedPurposes);
+            });
+        }
 
         // TCF v2.0 rollout: show second modal if consented pageview before
         this.gatherTCF2Consent(allowedVendors, allowedPurposes);
@@ -74,19 +73,22 @@ class TrackingOptIn {
     // Opt-out everything before use clicks anything in modal
     rejectBeforeConsent = () => {
         // ToDo: cleanup TCF v1.1
-        this.consentManagementProviderLegacy.configure({
-            gdprApplies: this.geoRequiresTrackingConsent(),
-            allowedVendors: [],
-            allowedVendorPurposes: []
-        });
-        this.consentManagementProvider.configure({
-            allowedVendors: [],
-            allowedVendorPurposes: []
-        });
+        if (!this.geoManager.tcf1Disabled) {
+            this.consentManagementProviderLegacy.configure({
+                gdprApplies: this.geoRequiresTrackingConsent(),
+                allowedVendors: [],
+                allowedVendorPurposes: []
+            });
+            this.consentManagementProviderLegacy.install();
+        }
 
-        // ToDo: cleanup TCF v1.1
-        this.consentManagementProviderLegacy.install();
-        this.consentManagementProvider.run();
+        if (this.geoManager.tcf2Enabled) {
+            this.consentManagementProvider.configure({
+                allowedVendors: [],
+                allowedVendorPurposes: []
+            });
+            this.consentManagementProvider.run();
+        }
     };
 
     hasUserConsented() {
@@ -131,23 +133,52 @@ class TrackingOptIn {
     reset() {
         this.isReset = true;
         this.clear();
-        this.consentManagementProvider.installStub();
+
+        if (this.geoManager.tcf2Enabled) {
+            this.consentManagementProvider.installStub();
+        }
+
         // ToDo: cleanup TCF v1.1
-        this.consentManagementProviderLegacy.installStub();
+        if (!this.geoManager.tcf1Disabled) {
+            this.consentManagementProviderLegacy.installStub();
+        }
+
         this.render();
     }
 
     clear() {
         this.optInManager.clear();
-        this.consentManagementProvider.uninstall();
+
+        if (this.geoManager.tcf2Enabled) {
+            this.consentManagementProvider.uninstall();
+        }
+
         // ToDo: cleanup TCF v1.1
-        this.consentManagementProviderLegacy.uninstall();
+        if (!this.geoManager.tcf1Disabled) {
+            this.consentManagementProviderLegacy.uninstall();
+        }
     }
 
     render() {
         if (!this.root) {
             this.root = document.createElement('div');
             document.body.appendChild(this.root);
+        }
+
+        if (this.geoManager.tcf2Enabled) {
+            this.consentManagementProvider.installStub();
+            this.consentManagementProvider.configure({
+                gdprApplies: this.geoRequiresTrackingConsent(),
+            });
+            this.consentManagementProvider.install();
+        }
+
+        if (this.geoManager.tcf1Disabled) {
+            // TCF v2.0 rollout: show second modal if consented pageview before
+            this.gatherTCF2Consent();
+            return;
+        } else {
+            this.consentManagementProviderLegacy.installStub();
         }
 
         const options = {
@@ -204,6 +235,10 @@ class TrackingOptIn {
     }
 
     gatherTCF2Consent(allowedVendors, allowedPurposes) {
+        if (!this.geoManager.tcf2Enabled) {
+            return;
+        }
+
         if (!this.needsTCF2Consent() || isParameterSet('mobile-app')) {
             this.consentManagementProvider.run();
             return;
