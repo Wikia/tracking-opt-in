@@ -101,7 +101,7 @@ function initializeGDPR(options) {
         window.location,
     );
 
-    geoManager.callInstantConfig().then(() => {
+    geoManager.fetchInstantConfig().then(() => {
         instance.render();
     });
 

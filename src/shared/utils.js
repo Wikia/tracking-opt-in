@@ -8,11 +8,7 @@ export const PURPOSES = {
     MEASUREMENT: 5,
 };
 
-export const FEATURES = {
-    MATCHING_DATA: 1,
-    LINKING_DEVICES: 2,
-    GEOLOCATION: 3,
-};
+export const DEBUG_QUERY_PARAM = 'tracking-opt-in-debug';
 
 // ToDo: remove getters unused in new modal
 export function getPurposeTitle(content, index) {
@@ -33,6 +29,12 @@ export function getFeatureBody(content, index) {
 
 export function isParameterSet(param) {
     return window.location.href.indexOf(`${param}=true`) !== -1;
+}
+
+export function debug(label, ...args) {
+    if (isParameterSet(DEBUG_QUERY_PARAM)) {
+        console.log(`[DEBUG] ${label}: `, ...args);
+    }
 }
 
 export function getUrlParameter(paramName) {

@@ -2,6 +2,7 @@ import { h, render } from 'preact/dist/preact';
 import AppLegacy from '../components/AppLegacy';
 import Modal from '../modal/Modal';
 import { isParameterSet, parseUrl } from '../shared/utils';
+import { API_STATUS } from './ConsentManagementProvider';
 
 class TrackingOptIn {
     constructor(
@@ -245,7 +246,7 @@ class TrackingOptIn {
         }
 
         if (allowedVendors !== undefined || allowedPurposes !== undefined) {
-            this.consentManagementProvider.updateApi('disable');
+            this.consentManagementProvider.updateApi(API_STATUS.DISABLED);
             return;
         }
 
@@ -262,7 +263,7 @@ class TrackingOptIn {
             isCurse: this.options.isCurse,
         };
 
-        this.consentManagementProvider.updateApi('ui-visible-new');
+        this.consentManagementProvider.updateApi(API_STATUS.UI_VISIBLE_NEW);
 
         render(
             <Modal

@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { Promise } from 'es6-promise';
-import { getCookieDomain } from '../shared/utils';
+
+import { debug, getCookieDomain } from '../shared/utils';
 
 const PRIVACY_STRING_COOKIE_NAME = 'usprivacy';
 const LOG_GROUP = 'CCPA:';
@@ -27,14 +28,6 @@ const getUSPValue = (value) => {
 
     return value ? USP_VALUES.yes : USP_VALUES.no;
 };
-const debug = (...args) => {
-    const debugQueryParam = 'tracking-opt-in-debug';
-    const isDebug = window.location.search.indexOf(`${debugQueryParam}=true`) !== -1;
-
-    if (isDebug) {
-        console.log('[DEBUG] CCPA: ', ...args);
-    }
-};
 
 function isValidCharacter(char) {
     return char === USP_VALUES.yes || char === USP_VALUES.no || char === USP_VALUES.na;
@@ -44,7 +37,7 @@ class UserSignalMechanism {
     static installStub() {
         const queue = [];
 
-        debug('Installing API stub');
+        debug('CCPA', 'Installing API stub');
 
         window.__uspapi = (commandName, version, callback = console.log) => {
             if (commandName === 'ping') {
@@ -119,7 +112,7 @@ class UserSignalMechanism {
             this.installStub();
         }
 
-        debug('User Signal Mechanism initialized');
+        debug('CCPA', 'User Signal Mechanism initialized');
     }
 
     configure(options) {
@@ -130,7 +123,7 @@ class UserSignalMechanism {
         this.createUserSignal();
         this.mount();
 
-        debug('User Signal Mechanism installed');
+        debug('CCPA', 'User Signal Mechanism installed');
     }
 
     installStub(...args) {
@@ -180,11 +173,11 @@ class UserSignalMechanism {
         let privacyString = null;
 
         if (!this.options.ccpaApplies) {
-            debug('Geo does not require API');
+            debug('CCPA', 'Geo does not require API');
 
             privacyString = this.createPrivacyString(getUSPValue());
         } else {
-            debug('Geo requires API');
+            debug('CCPA', 'Geo requires API');
 
             const queryStringOverride =
                 window &&
@@ -195,10 +188,10 @@ class UserSignalMechanism {
             if (queryStringOverride) {
                 privacyString = this.createPrivacyString(getUSPValue(true));
 
-                debug(`Privacy String updated via URL parameter: ${privacyString}`);
+                debug('CCPA', `Privacy String updated via URL parameter: ${privacyString}`);
             } else if (this.options.isSubjectToCcpa) {
                 privacyString = this.createPrivacyString(USP_VALUES.yes);
-                debug('Force opt-out because user is subject to COPPA');
+                debug('CCPA', 'Force opt-out because user is subject to COPPA');
             } else if (this.hasUserSignal()) {
                 const cookieOptOut = this.getPrivacyStringCookie().split('')[2];
 
@@ -211,7 +204,7 @@ class UserSignalMechanism {
                 privacyString = this.createPrivacyString(USP_VALUES.no);
             }
 
-            debug(`Privacy String cookie: ${privacyString}`);
+            debug('CCPA', `Privacy String cookie: ${privacyString}`);
 
             this.setPrivacyStringCookie(privacyString);
         }
@@ -295,7 +288,7 @@ class UserSignalMechanism {
     saveUserSignal(optOutSale) {
         const privacyString = this.createPrivacyString(optOutSale);
 
-        debug(`Privacy String saved via console: ${privacyString}`);
+        debug('CCPA', `Privacy String saved via console: ${privacyString}`);
 
         this.setPrivacyStringCookie(privacyString);
         this.userSignal = privacyString;

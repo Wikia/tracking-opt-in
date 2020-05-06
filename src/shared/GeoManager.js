@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { getJSON } from './utils';
+import { debug, getJSON } from './utils';
 
 export const COUNTRY_COOKIE_NAME = 'Geo';
 const MISSING_COOKIE_NAME = 'no-cookie';
@@ -98,28 +98,47 @@ class GeoManager {
         this.country = (country || getGeoDataFromCookie('country') || MISSING_COOKIE_NAME).toLowerCase();
         this.region = (region || getGeoDataFromCookie('region') || MISSING_COOKIE_NAME).toLowerCase();
 
-        this.callInstantConfig().then(() => {console.log(icbmContent);
-            this.tcf1Disabled =
-                icbmContent.icTcf1Disabled[0].regions &&
-                icbmContent.icTcf1Disabled[0].regions.includes(this.country.toUpperCase());
-            this.tcf2Enabled =
-                icbmContent.icTcf2Enabled[0].regions &&
-                icbmContent.icTcf2Enabled[0].regions.includes(this.country.toUpperCase());
+        this.fetchInstantConfig().then(() => {
+            debug('GEO', 'ICBM called', icbmContent);
 
-            console.log('ICBM status', 'tcf1Disabled', this.tcf1Disabled, 'tcf2Enabled', this.tcf2Enabled);
+            this.tcf1Disabled = this.isVariableEnabled('icTcf1Disabled');
+            this.tcf2Enabled = this.isVariableEnabled('icTcf2Enabled');
+
+            debug('GEO', `Variables set: tcf1Disabled is ${this.tcf1Disabled}, tcf2Enabled is ${this.tcf2Enabled}`);
+        }, () => {
+            debug('GEO', 'Failed to call ICBM service');
+
+            this.tcf1Disabled = false;
+            this.tcf2Enabled = false;
         });
     }
 
-    callInstantConfig() {
+    fetchInstantConfig() {
         if (!icbmContent) {
+            // Let's use Oasis as a source of truth and change icVar for all platforms with new library version
             icbmContent = getJSON('https://services.wikia.com/icbm/api/config?app=oasis').then((content) => {
                 icbmContent = content;
+            }, () => {
+                icbmContent = {};
             });
 
             return icbmContent;
         }
 
         return icbmContent;
+    }
+
+    isVariableEnabled(name) {
+        return !!(
+            icbmContent &&
+            icbmContent[name] &&
+            icbmContent[name][0] &&
+            icbmContent[name][0].value &&
+            icbmContent[name][0].regions &&
+            (
+                icbmContent[name][0].regions.includes(this.country.toUpperCase()) ||
+                icbmContent[name][0].regions.includes('XX')
+            ));
     }
 
     needsTrackingPrompt() {

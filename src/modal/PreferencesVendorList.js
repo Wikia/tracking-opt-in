@@ -20,14 +20,6 @@ class PreferencesVendorList extends Component {
         return this.props.consentedVendors.indexOf(vendorId) >= 0;
     }
 
-    getPurposeById(purposeId) {
-        return this.props.allPurposes.find(purpose => purpose.id === purposeId);
-    }
-
-    getFeatureById(featureId) {
-        return this.props.allFeatures.find(feature => feature.id === featureId);
-    }
-
     toggleIsExpanded(vendorId) {
         const { tracker } = this.props;
         const { vendors } = this.state;

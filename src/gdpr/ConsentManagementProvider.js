@@ -5,9 +5,14 @@ import { CmpApi } from '@iabtcf/cmpapi';
 import { GVL, TCModel, TCString } from '@iabtcf/core';
 import { default as installCMPStub } from '@iabtcf/stub';
 
-import { getCookieDomain, getJSON } from '../shared/utils';
+import { debug, getCookieDomain, getJSON } from '../shared/utils';
 
 export const CMP_VERSION = 2; // Increment to force modal again
+export const API_STATUS = {
+    UI_VISIBLE_NEW: 'ui-visible-new',
+    UI_VISIBLE_RESET: 'ui-visible-reset',
+    DISABLED: 'disable',
+}
 const CMP_ID = 141;
 // ToDo: 756 now???
 const CMP_DEFAULT_LANGUAGE = 'en';
@@ -27,14 +32,6 @@ const getDefaultOptions = () => ({
     gdprApplies: false,
     language: CMP_DEFAULT_LANGUAGE,
 });
-const debug = (...args) => {
-    const debugQueryParam = 'tracking-opt-in-debug';
-    const isDebug = window.location.search.indexOf(`${debugQueryParam}=true`) !== -1;
-
-    if (isDebug) {
-        console.log('[DEBUG] GDPR: ', ...args);
-    }
-};
 
 class ConsentManagementProvider {
     loaded = null;
@@ -43,7 +40,7 @@ class ConsentManagementProvider {
     static installStub() {
         installCMPStub();
 
-        debug('Stub installed');
+        debug('GDPR', 'Stub installed');
     }
 
     static fetchVendorList() {
@@ -52,6 +49,8 @@ class ConsentManagementProvider {
 
     constructor(options) {
         this.options = Object.assign(getDefaultOptions(), options);
+
+        debug('GDPR', 'Constructed with params', options);
 
         GVL.baseUrl = VENDOR_LIST_URL_BASE;
         GVL.latestFilename = VENDOR_LIST_FILE_NAME;
@@ -67,34 +66,34 @@ class ConsentManagementProvider {
     configure(options) {
         Object.assign(this.options, options);
 
-        debug('Configured with params', options);
+        debug('GDPR', 'Configured with params', options);
     }
 
-    installStub(...args) {
-        return ConsentManagementProvider.installStub(...args);
+    installStub() {
+        return ConsentManagementProvider.installStub();
     }
 
     install() {
         this.cmpApi = new CmpApi(CMP_ID, CMP_VERSION);
 
-        debug('Installed with version', CMP_VERSION);
+        debug('GDPR', 'Installed with version', CMP_VERSION);
 
         const { gdprApplies } = this.options;
 
         if (gdprApplies && !this.vendorList) {
-            debug('Applies - fetching vendor list');
+            debug('GDPR', 'Applies - fetching vendor list');
 
             this.loaded = ConsentManagementProvider.fetchVendorList()
-                .then((vendorListContent) => {
-                    this.vendorList = vendorListContent;
+                .then((vendorList) => {
+                    this.vendorList = vendorList;
 
-                    debug('Vendor list fetched and saved', vendorListContent);
+                    debug('GDPR', 'Vendor list fetched and saved', vendorList);
                 });
         }
     }
 
     uninstall() {
-        debug('Uninstalled');
+        debug('GDPR', 'Uninstalled');
 
         this.options = getDefaultOptions();
         this.setVendorConsentCookie(null);
@@ -102,7 +101,7 @@ class ConsentManagementProvider {
     }
 
     unmount() {
-        debug('Unmounted');
+        debug('GDPR', 'Unmounted');
 
         this.setVendorConsentCookie(null);
         delete window.__tcfapi;
@@ -114,19 +113,19 @@ class ConsentManagementProvider {
 
     updateApi(event) {
         switch (event) {
-            case 'ui-visible-new':
+            case API_STATUS.UI_VISIBLE_NEW:
                 this.cmpApi.update('', true);
-                debug('UI displayed for the first time');
+                debug('GDPR', 'UI displayed for the first time');
                 break;
 
-            case 'ui-visible-reset':
+            case API_STATUS.UI_VISIBLE_RESET:
                 this.cmpApi.update(this.getVendorConsentCookie() || '', true);
-                debug('UI displayed after policy change');
+                debug('GDPR', 'UI displayed after policy change');
                 break;
 
-            case 'disable':
+            case API_STATUS.DISABLED:
                 this.cmpApi.disable();
-                debug('Unable to perform the operations in compliance with the TCF');
+                debug('GDPR', 'Unable to perform the operations in compliance with the TCF');
                 break;
 
             default:
@@ -144,7 +143,7 @@ class ConsentManagementProvider {
         if (!gdprApplies) {
             this.cmpApi.update(null);
 
-            debug('Not applies');
+            debug('GDPR', 'Does not apply');
 
             return Promise.resolve();
         }
@@ -153,7 +152,7 @@ class ConsentManagementProvider {
             this.tcString = this.createConsent();
 
             if (!this.hasUserConsent()) {
-                debug('Cookie not found - saving');
+                debug('GDPR', 'Cookie not found - saving');
 
                 this.setVendorConsentCookie(this.tcString);
             }
@@ -167,7 +166,7 @@ class ConsentManagementProvider {
         let tcString = this.getVendorConsentCookie();
 
         if (tcString) {
-            debug('TCString read from cookie', tcString, TCString.decode(tcString));
+            debug('GDPR', 'TCString read from cookie', tcString, TCString.decode(tcString));
 
             return tcString;
         }
@@ -184,11 +183,11 @@ class ConsentManagementProvider {
         tcModel.purposeConsents.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
         tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
 
-        debug('Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes);
+        debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes);
 
         tcString = TCString.encode(tcModel);
 
-        debug('Consent string created', tcString);
+        debug('GDPR', 'Consent string created', tcString);
 
         return tcString;
     }
