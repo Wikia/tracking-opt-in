@@ -4,6 +4,7 @@ import TrackingOptIn from './TrackingOptIn';
 import OptInManager from './OptInManager';
 import GeoManager from '../shared/GeoManager';
 import ContentManager from '../shared/ContentManager';
+import ConsentManagementProvider from './ConsentManagementProvider';
 import ConsentManagementProviderLegacy from './ConsentManagementProviderLegacy';
 import Tracker from './Tracker';
 import styles from '../components/styles.scss';
@@ -17,6 +18,7 @@ describe('TrackingOptIn', () => {
     let geoManager;
     let contentManager;
     let consentManagementProvider;
+    let consentManagementProviderLegacy;
     let onAcceptTracking;
     let onRejectTracking;
     let options;
@@ -33,8 +35,10 @@ describe('TrackingOptIn', () => {
         tracker = createStubInstance(Tracker);
         optInManager = createStubInstance(OptInManager);
         geoManager = createStubInstance(GeoManager);
-        consentManagementProvider = createStubInstance(ConsentManagementProviderLegacy);
+        consentManagementProvider = createStubInstance(ConsentManagementProvider);
         consentManagementProvider.install.returns(Promise.resolve());
+        consentManagementProviderLegacy = createStubInstance(ConsentManagementProviderLegacy);
+        consentManagementProviderLegacy.install.returns(Promise.resolve());
         contentManager = new ContentManager('en');
         onAcceptTracking = stub();
         onRejectTracking = stub();
@@ -44,7 +48,16 @@ describe('TrackingOptIn', () => {
             onRejectTracking,
         };
 
-        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider, options, window.location);
+        trackingOptIn = new TrackingOptIn(
+            tracker,
+            optInManager,
+            geoManager,
+            contentManager,
+            consentManagementProvider,
+            consentManagementProviderLegacy,
+            options,
+            window.location,
+        );
     });
 
     afterEach(() => {
@@ -108,8 +121,8 @@ describe('TrackingOptIn', () => {
         trackingOptIn.render();
 
         assert.isNotOk(modalIsShown());
-        assert.isOk(consentManagementProvider.install.called);
-        consentManagementProvider.install().then(() => {
+        assert.isOk(consentManagementProviderLegacy.install.called);
+        consentManagementProviderLegacy.install().then(() => {
             assert.isOk(onAcceptTracking.called);
         }).catch(() => { /* nothing to do here */ });
     });
@@ -123,8 +136,8 @@ describe('TrackingOptIn', () => {
         trackingOptIn.render();
 
         assert.isNotOk(modalIsShown());
-        assert.isOk(consentManagementProvider.install.called);
-        consentManagementProvider.install().then(() => {
+        assert.isOk(consentManagementProviderLegacy.install.called);
+        consentManagementProviderLegacy.install().then(() => {
             assert.isOk(onRejectTracking.called);
         }).catch(() => { /* nothing to do here */ });
     });
@@ -146,7 +159,16 @@ describe('TrackingOptIn', () => {
     });
 
     it('does not display on https://fandom.com/partner-list', () => {
-        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider, options, {host: 'www.fandom.com', pathname: '/partner-list'});
+        trackingOptIn = new TrackingOptIn(
+            tracker,
+            optInManager,
+            geoManager,
+            contentManager,
+            consentManagementProvider,
+            consentManagementProviderLegacy,
+            options,
+            {host: 'www.fandom.com', pathname: '/partner-list'},
+        );
         geoManager.needsTrackingPrompt.withArgs().returns(true);
         geoManager.hasGeoCookie.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(false);
@@ -160,7 +182,16 @@ describe('TrackingOptIn', () => {
     });
 
     it('does not display on https://www.fandom.com/privacy-policy', () => {
-        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider, options, {host: 'www.fandom.com', pathname: '/privacy-policy'});
+        trackingOptIn = new TrackingOptIn(
+            tracker,
+            optInManager,
+            geoManager,
+            contentManager,
+            consentManagementProvider,
+            consentManagementProviderLegacy,
+            options,
+            {host: 'www.fandom.com', pathname: '/privacy-policy'},
+        );
         geoManager.needsTrackingPrompt.withArgs().returns(true);
         geoManager.hasGeoCookie.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(false);
@@ -174,7 +205,15 @@ describe('TrackingOptIn', () => {
     });
 
     it('displays curse link', () => {
-        trackingOptIn = new TrackingOptIn(tracker, optInManager, geoManager, contentManager, consentManagementProvider, Object.assign({isCurse: true}, options), {host: 'www.fandom.com', pathname: '/hello-world'});
+        trackingOptIn = new TrackingOptIn(
+            tracker,
+            optInManager,
+            geoManager,
+            contentManager,
+            consentManagementProvider,
+            consentManagementProviderLegacy,
+            Object.assign({isCurse: true}, options), {host: 'www.fandom.com', pathname: '/hello-world'},
+        );
         geoManager.needsTrackingPrompt.withArgs().returns(true);
         geoManager.hasGeoCookie.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(false);
