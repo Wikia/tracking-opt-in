@@ -271,6 +271,7 @@ class TrackingOptIn {
                 };
 
                 this.consentManagementProvider.updateApi(API_STATUS.UI_VISIBLE_NEW);
+                this.tracker.tcfVersion = 2;
 
                 render(
                     <Modal
