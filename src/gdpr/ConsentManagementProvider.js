@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import { Promise } from 'es6-promise';
 
 import { CmpApi } from '@iabtcf/cmpapi';
-import { GVL, TCModel, TCString } from '@iabtcf/core';
+import { GVL, TCModel, TCString, VendorList } from '@iabtcf/core';
 import { default as installCMPStub } from '@iabtcf/stub';
 
 import { debug, getCookieDomain, getJSON } from '../shared/utils';
@@ -34,8 +34,11 @@ const getDefaultOptions = () => ({
 });
 
 class ConsentManagementProvider {
+    /** @type Promise<VendorList> */
     loaded = null;
     mounted = false;
+    /** @type VendorList */
+    vendorList = undefined;
 
     static installStub() {
         installCMPStub();
@@ -43,6 +46,9 @@ class ConsentManagementProvider {
         debug('GDPR', 'Stub installed');
     }
 
+    /**
+     * @returns Promise<VendorList>
+     */
     static fetchVendorList() {
         return getJSON(`${VENDOR_LIST_URL_BASE}${VENDOR_LIST_FILE_NAME}`);
     }
@@ -82,15 +88,29 @@ class ConsentManagementProvider {
 
         if (gdprApplies && !this.vendorList) {
             debug('GDPR', 'Applies - fetching vendor list');
-
-            this.loaded = ConsentManagementProvider.fetchVendorList()
-                .then((vendorList) => {
-                    this.vendorList = vendorList;
-
-                    debug('GDPR', 'Vendor list fetched and saved', vendorList);
-                });
+            this.loadVendorList();
         }
     }
+
+    /**
+     * @returns Promise<VendorList>
+     */
+    loadVendorList() {
+        if (this.loaded) {
+            return this.loaded;
+        }
+        this.loaded = ConsentManagementProvider.fetchVendorList()
+            .then((vendorList) => {
+                this.vendorList = vendorList;
+
+                debug('GDPR', 'Vendor list fetched and saved', vendorList);
+
+                return this.vendorList
+            });
+
+        return this.loaded;
+    }
+
 
     uninstall() {
         debug('GDPR', 'Uninstalled');
@@ -208,6 +228,21 @@ class ConsentManagementProvider {
 
     hasUserConsent() {
         return !!this.getVendorConsentCookie();
+    }
+
+    /**
+     * @returns boolean
+     */
+    isVendorTCFPolicyVersionOutdated() {
+        const cookie = this.getVendorConsentCookie();
+
+        if (!cookie) {
+            return false;
+        }
+
+        const consent = TCString.decode(cookie);
+
+        return consent.policyVersion !== this.vendorList.tcfPolicyVersion;
     }
 }
 
