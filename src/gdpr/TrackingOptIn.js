@@ -240,63 +240,70 @@ class TrackingOptIn {
             return;
         }
 
-        if (!this.needsTCF2Consent() || isParameterSet('mobile-app')) {
-            this.consentManagementProvider.run();
-            return;
-        }
+        this.consentManagementProvider.loadVendorList()
+            .then(() => {
+                if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
+                    this.consentManagementProvider.setVendorConsentCookie(null);
+                }
 
-        if (allowedVendors !== undefined || allowedPurposes !== undefined) {
-            this.consentManagementProvider.updateApi(API_STATUS.DISABLED);
-            return;
-        }
+                if (!this.needsTCF2Consent() || isParameterSet('mobile-app')) {
+                    this.consentManagementProvider.run();
+                    return;
+                }
 
-        if (!this.root) {
-            this.root = document.createElement('div');
-            document.body.appendChild(this.root);
-        }
+                if (allowedVendors !== undefined || allowedPurposes !== undefined) {
+                    this.consentManagementProvider.updateApi(API_STATUS.DISABLED);
+                    return;
+                }
 
-        const options = {
-            // ToDo: get rid of hardcoded list of purposes during cleanup
-            enabledPurposes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-            enabledVendors: this.options.enabledVendors,
-            zIndex: this.options.zIndex,
-            preventScrollOn: this.options.preventScrollOn,
-            isCurse: this.options.isCurse,
-        };
+                if (!this.root) {
+                    this.root = document.createElement('div');
+                    document.body.appendChild(this.root);
+                }
 
-        this.consentManagementProvider.updateApi(API_STATUS.UI_VISIBLE_NEW);
-        this.tracker.tcfVersion = 2;
+                const options = {
+                    // ToDo: get rid of hardcoded list of purposes during cleanup
+                    enabledPurposes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    enabledVendors: this.options.enabledVendors,
+                    zIndex: this.options.zIndex,
+                    preventScrollOn: this.options.preventScrollOn,
+                    isCurse: this.options.isCurse,
+                };
 
-        render(
-            <Modal
-                onRequestAppRemove={this.removeApp}
-                onAcceptTracking={(allowedVendors, allowedPurposes) => {
-                    this.consentManagementProvider.configure({
-                        allowedVendors: allowedVendors,
-                        allowedVendorPurposes: allowedPurposes
-                    });
-                    this.consentManagementProvider.run().then(() => {
-                        this.options.onAcceptTracking(allowedVendors, allowedPurposes);
-                    });
-                }}
-                onRejectTracking={(allowedVendors, allowedPurposes) => {
-                    this.consentManagementProvider.configure({
-                        allowedVendors: allowedVendors,
-                        allowedVendorPurposes: allowedPurposes
-                    });
-                    this.consentManagementProvider.run().then(() => {
-                        this.options.onRejectTracking(allowedVendors, allowedPurposes);
-                    });
-                }}
-                tracker={this.tracker}
-                optInManager={this.optInManager}
-                geoManager={this.geoManager}
-                options={options}
-                content={this.contentManager.content}
-            />,
-            this.root,
-            this.root.lastChild
-        );
+                this.consentManagementProvider.updateApi(API_STATUS.UI_VISIBLE_NEW);
+                this.tracker.tcfVersion = 2;
+
+                render(
+                    <Modal
+                        onRequestAppRemove={this.removeApp}
+                        onAcceptTracking={(allowedVendors, allowedPurposes) => {
+                            this.consentManagementProvider.configure({
+                                allowedVendors: allowedVendors,
+                                allowedVendorPurposes: allowedPurposes
+                            });
+                            this.consentManagementProvider.run().then(() => {
+                                this.options.onAcceptTracking(allowedVendors, allowedPurposes);
+                            });
+                        }}
+                        onRejectTracking={(allowedVendors, allowedPurposes) => {
+                            this.consentManagementProvider.configure({
+                                allowedVendors: allowedVendors,
+                                allowedVendorPurposes: allowedPurposes
+                            });
+                            this.consentManagementProvider.run().then(() => {
+                                this.options.onRejectTracking(allowedVendors, allowedPurposes);
+                            });
+                        }}
+                        tracker={this.tracker}
+                        optInManager={this.optInManager}
+                        geoManager={this.geoManager}
+                        options={options}
+                        content={this.contentManager.content}
+                    />,
+                    this.root,
+                    this.root.lastChild
+                );
+            });
     }
 }
 

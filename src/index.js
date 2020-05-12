@@ -77,8 +77,6 @@ function initializeGDPR(options) {
 
     if (optInManager.checkCookieVersion()) {
         consentManagementProviderLegacy.setVendorConsentCookie(null);
-        // ToDo: add additional reset if GVL will change
-        consentManagementProvider.setVendorConsentCookie(null);
     }
 
     const instance = new TrackingOptIn(
