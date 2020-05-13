@@ -53,9 +53,9 @@ export class TransitionOptInStatusTracker {
         const status = this.getStatus();
 
         if (optIn === null) {
-            delete status[version];
+            delete status[this.version];
         } else {
-            status[this.optInManager.version] = optIn ? STATUS.ACCEPTED : STATUS.REJECTED;
+            status[this.version] = optIn ? STATUS.ACCEPTED : STATUS.REJECTED;
         }
 
         this.setCookie(this.encodeCookie(status));
