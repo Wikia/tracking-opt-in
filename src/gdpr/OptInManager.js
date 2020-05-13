@@ -18,8 +18,7 @@ class OptInManager {
         this.domain = getCookieDomain(hostname || window.location.hostname);
         this.queryParam = queryParam || DEFAULT_QUERY_PARAM_NAME;
 
-        this.version = 1;  // ToDo Remove (part of TransitionOptInStatusTracker)
-        this.transitionOptInStatusTracker = new TransitionOptInStatusTracker(this.domain);
+        this.transitionOptInStatusTracker = new TransitionOptInStatusTracker(this.domain, this);
     }
 
     checkCookieVersion() {
@@ -59,7 +58,7 @@ class OptInManager {
         this.setCookies(this.cookieName, STATUS.ACCEPTED, {
             expires: this.acceptExpiration,
         });
-        this.transitionOptInStatusTracker.setStatus(this.version, true);
+        this.transitionOptInStatusTracker.setStatus(true);
     }
 
     setForcedStatusFromQueryParams(queryString) {
@@ -74,7 +73,7 @@ class OptInManager {
         this.setCookies(this.cookieName, STATUS.REJECTED, {
             expires: this.rejectExpiration,
         });
-        this.transitionOptInStatusTracker.setStatus(this.version, false);
+        this.transitionOptInStatusTracker.setStatus(false);
     }
 
     clear() {

@@ -14,15 +14,28 @@ export class TransitionOptInStatusTracker {
     /**
      *
      * @param {string} [hostname]
+     * @param optInManager
      */
-    constructor(hostname) {
+    constructor(hostname, optInManager) {
         this.domain = getCookieDomain(hostname || window.location.hostname);
         this.separator = '|';
         // 1 year. Long enough for transition, short enough not to delete it in code after transition.
         this.expires = 365;
+        this.optInManager = optInManager;
+        this.version = 1;
+    }
 
+    /**
+     * Check
+     */
+    init() {
         if (!this.getCookie()) {
             this.clearStatus();
+            if (this.optInManager.hasAcceptedTracking()) {
+                this.setStatus(true);
+            } else if (this.optInManager.hasRejectedTracking()) {
+                this.setStatus(false);
+            }
         }
     }
 
@@ -34,16 +47,15 @@ export class TransitionOptInStatusTracker {
     }
 
     /**
-     * @param {number} version
      * @param {boolean|null} optIn
      */
-    setStatus(version, optIn) {
+    setStatus(optIn) {
         const status = this.getStatus();
 
         if (optIn === null) {
             delete status[version];
         } else {
-            status[version] = optIn ? STATUS.ACCEPTED : STATUS.REJECTED;
+            status[this.optInManager.version] = optIn ? STATUS.ACCEPTED : STATUS.REJECTED;
         }
 
         this.setCookie(this.encodeCookie(status));
