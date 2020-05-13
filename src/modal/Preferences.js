@@ -8,6 +8,7 @@ import styles from './Preferences.scss';
 
 import getParagraphs from './utils/getParagraphs';
 import ConsentManagementProvider from '../gdpr/ConsentManagementProvider';
+import ContentManager from '../shared/ContentManager';
 
 class Preferences extends Component {
     state = {
@@ -30,7 +31,19 @@ class Preferences extends Component {
 
     componentWillMount() {
         if (!this.state.purposes && !this.state.features) {
-            ConsentManagementProvider.fetchVendorList().then((json) => {
+            const { language } = this.props;
+
+            Promise.all([
+                ConsentManagementProvider.fetchVendorList(),
+                ContentManager.fetchTranslation(language)
+            ]).then(([json, translation]) => {
+                if (translation) {
+                    json.features = translation.features;
+                    json.purposes = translation.purposes;
+                    json.specialFeatures = translation.specialFeatures;
+                    json.specialPurposes = translation.specialPurposes;
+                }
+
                 // Filter vendors to those used by Fandom
                 const vendors = this.objectToArray(json.vendors).filter(vendor => (this.props.allVendors.indexOf(vendor.id) >= 0));
                 const purposesWithVendors = this.objectToArray(json.purposes).map((purpose) => {
@@ -61,6 +74,7 @@ class Preferences extends Component {
             updatePurposes(consentedVendors, newConsentedPurposes);
         }
 
+        // ToDo: fix purposes tracking
         switch (purposeId) {
             case PURPOSES.INFORMATION:
                 tracker.trackPurposeInformationToggleClick();

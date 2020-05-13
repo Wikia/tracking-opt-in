@@ -1,3 +1,6 @@
+import { VendorList } from '@iabtcf/core';
+import { getJSON } from './utils';
+
 // base i18n file
 import en from '../i18n/tracking-opt-in.json';
 
@@ -25,6 +28,42 @@ const additionalStrings = {
     },
     // TODO: Add translated / customized URLs
 };
+
+/**
+ * Available IAB purposes and features translations
+ * https://register.consensu.org/Translation
+ */
+const availableTranslations = [
+    'bg', // Bulgarian
+    'ca', // Catalan
+    'cs', // Czech
+    'da', // Danish
+    'de', // German
+    'el', // Greek
+    'es', // Spanish
+    'et', // Estonian
+    'fi', // Finnish
+    'fr', // French
+    'hr', // Croatian
+    'hu', // Hungarian
+    'it', // Italian
+    'lt', // Lithuanian
+    'lv', // Latvian
+    'mt', // Maltese
+    'nl', // Dutch
+    'no', // Norwegian
+    'pl', // Polish
+    'pt', // Portuguese
+    'ro', // Romanian
+    'ru', // Russian
+    'sk', // Slovak
+    'sl', // Slovenian
+    'sv', // Swedish
+    'tr', // Turkish
+    'zh', // Chinese
+];
+const TRANSLATIONS_URL_BASE = 'https://www.fandom.com/cmp/';
+const TRANSLATIONS_FILE_NAME = 'purposes-CODE.json';
 
 function processLanguages(langs) {
     const getAdditionalStrings = lang => additionalStrings[lang] || additionalStrings.en;
@@ -57,15 +96,27 @@ export const langToContent = processLanguages({
 });
 
 export default class ContentManager {
-    lang = en;
     content = null;
+    language = 'en';
+
+    /**
+     * @returns Promise<VendorList|null>
+     */
+    static fetchTranslation(language) {
+        if (!availableTranslations.includes(language)) {
+            return Promise.resolve(null);
+        }
+
+        return getJSON(`${TRANSLATIONS_URL_BASE}${TRANSLATIONS_FILE_NAME.replace('CODE', language)}`);
+    }
 
     constructor(lang) {
-        this.lang = lang;
+        this.language = lang;
 
         // all the strings default to `en`
         let content = langToContent.en;
 
+        // ToDo: translate "special" headers
         if (lang in langToContent) {
             // merge both together
             content = {

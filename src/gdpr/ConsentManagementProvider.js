@@ -99,6 +99,7 @@ class ConsentManagementProvider {
         if (this.loaded) {
             return this.loaded;
         }
+
         this.loaded = ConsentManagementProvider.fetchVendorList()
             .then((vendorList) => {
                 this.vendorList = vendorList;
