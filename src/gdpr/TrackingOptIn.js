@@ -270,8 +270,9 @@ class TrackingOptIn {
                     isCurse: this.options.isCurse,
                 };
 
-                this.consentManagementProvider.updateApi(API_STATUS.UI_VISIBLE_NEW);
-                this.tracker.tcfVersion = 2;
+        this.consentManagementProvider.updateApi(API_STATUS.UI_VISIBLE_NEW);
+        this.tracker.tcfVersion = 2;
+        this.optInManager.version = 2;
 
                 render(
                     <Modal
