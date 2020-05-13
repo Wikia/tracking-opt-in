@@ -18,6 +18,8 @@ export class TransitionOptInStatusTracker {
     constructor(hostname) {
         this.domain = getCookieDomain(hostname || window.location.hostname);
         this.separator = '|';
+        // 1 year. Long enough for transition, short enough not to delete it in code after transition.
+        this.expires = 365;
 
         if (!this.getCookie()) {
             this.clearStatus();
@@ -91,7 +93,7 @@ export class TransitionOptInStatusTracker {
      * param {string} cookie
      */
     setCookie(cookie) {
-        Cookies.set(TRANSITION_STATUS_COOKIE_NAME, cookie);
+        Cookies.set(TRANSITION_STATUS_COOKIE_NAME, cookie, { expires: this.expires });
     }
 }
 
