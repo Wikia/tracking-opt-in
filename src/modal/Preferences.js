@@ -74,7 +74,7 @@ class Preferences extends Component {
             updatePurposes(consentedVendors, newConsentedPurposes);
         }
 
-        // ToDo: fix purposes tracking
+        // ToDo: fix purposes tracking: ADEN-10261
         switch (purposeId) {
             case PURPOSES.INFORMATION:
                 tracker.trackPurposeInformationToggleClick();

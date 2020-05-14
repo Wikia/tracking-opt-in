@@ -116,7 +116,7 @@ export default class ContentManager {
         // all the strings default to `en`
         let content = langToContent.en;
 
-        // ToDo: translate "special" headers
+        // ToDo: translate "special" headers: ADEN-10262
         if (lang in langToContent) {
             // merge both together
             content = {
