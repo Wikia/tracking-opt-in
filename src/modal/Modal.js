@@ -99,7 +99,7 @@ class Modal extends Component {
     };
 
     render(props, state) {
-        const { options, content, tracker } = props;
+        const { options, content, language, tracker } = props;
         const { isScreenOne, consentedPurposes, consentedVendors, nonIabConsented } = state;
 
         if (isScreenOne) {
@@ -122,6 +122,7 @@ class Modal extends Component {
                     consentedPurposes={consentedPurposes}
                     consentedVendors={consentedVendors}
                     content={content}
+                    language={language}
                     nonIabConsented={nonIabConsented}
                     setNonIabConsented={this.setNonIabConsented}
                     tracker={tracker}

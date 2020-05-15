@@ -299,6 +299,7 @@ class TrackingOptIn {
                         geoManager={this.geoManager}
                         options={options}
                         content={this.contentManager.content}
+                        language={this.contentManager.language}
                     />,
                     this.root,
                     this.root.lastChild
