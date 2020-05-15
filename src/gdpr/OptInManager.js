@@ -1,16 +1,14 @@
 import Cookies from 'js-cookie';
 import { getCookieDomain } from '../shared/utils';
 import { CMP_VERSION } from './ConsentManagementProviderLegacy';
+import { STATUS } from './OptInStatus';
+import TransitionOptInStatusTracker from './TransitionOptInStatusTracker';
 
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
 const DEFAULT_REJECT_COOKIE_EXPIRATION = 31;
 export const DEFAULT_QUERY_PARAM_NAME = 'tracking-opt-in-status';
 export const DEFAULT_COOKIE_NAME = 'tracking-opt-in-status';
 export const VERSION_COOKIE_NAME = 'tracking-opt-in-version';
-export const STATUS = {
-    ACCEPTED: 'accepted',
-    REJECTED: 'rejected',
-};
 
 class OptInManager {
     constructor(hostname, cookieName, acceptExpiration, rejectExpiration, queryParam) {
@@ -19,6 +17,8 @@ class OptInManager {
         this.rejectExpiration = rejectExpiration || DEFAULT_REJECT_COOKIE_EXPIRATION;
         this.domain = getCookieDomain(hostname || window.location.hostname);
         this.queryParam = queryParam || DEFAULT_QUERY_PARAM_NAME;
+
+        this.transitionOptInStatusTracker = new TransitionOptInStatusTracker(this.domain, this);
     }
 
     checkCookieVersion() {
@@ -58,6 +58,7 @@ class OptInManager {
         this.setCookies(this.cookieName, STATUS.ACCEPTED, {
             expires: this.acceptExpiration,
         });
+        this.transitionOptInStatusTracker.setStatus(true);
     }
 
     setForcedStatusFromQueryParams(queryString) {
@@ -72,12 +73,14 @@ class OptInManager {
         this.setCookies(this.cookieName, STATUS.REJECTED, {
             expires: this.rejectExpiration,
         });
+        this.transitionOptInStatusTracker.setStatus(false);
     }
 
     clear() {
         const attributes = this.domain ? { domain: this.domain } : {};
         Cookies.remove(this.cookieName, attributes);
         Cookies.remove(VERSION_COOKIE_NAME, attributes);
+        this.transitionOptInStatusTracker.clearStatus();
     }
 }
 
