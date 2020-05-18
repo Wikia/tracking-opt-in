@@ -38,7 +38,7 @@ class TrackingOptIn {
     // Non-IAB tracking is accepted. Some or all IAB vendors or purposes _may_ be accepted
     onAcceptTracking = (allowedVendors, allowedPurposes) => {
         // ToDo: cleanup TCF v1.1
-        if (!this.geoManager.tcf1Disabled) {
+        if (!this.geoManager.tcf2Enabled) {
             this.consentManagementProviderLegacy.configure({
                 gdprApplies: this.geoRequiresTrackingConsent(),
                 allowedVendors: allowedVendors,
@@ -56,7 +56,7 @@ class TrackingOptIn {
     // Non-IAB tracking is rejected. Some or all IAB vendors or purposes _may_ be accepted
     onRejectTracking = (allowedVendors, allowedPurposes) => {
         // ToDo: cleanup TCF v1.1
-        if (!this.geoManager.tcf1Disabled) {
+        if (!this.geoManager.tcf2Enabled) {
             this.consentManagementProviderLegacy.configure({
                 gdprApplies: this.geoRequiresTrackingConsent(),
                 allowedVendors: allowedVendors,
@@ -74,21 +74,19 @@ class TrackingOptIn {
     // Opt-out everything before use clicks anything in modal
     rejectBeforeConsent = () => {
         // ToDo: cleanup TCF v1.1
-        if (!this.geoManager.tcf1Disabled) {
-            this.consentManagementProviderLegacy.configure({
-                gdprApplies: this.geoRequiresTrackingConsent(),
-                allowedVendors: [],
-                allowedVendorPurposes: []
-            });
-            this.consentManagementProviderLegacy.install();
-        }
-
         if (this.geoManager.tcf2Enabled) {
             this.consentManagementProvider.configure({
                 allowedVendors: [],
                 allowedVendorPurposes: []
             });
             this.consentManagementProvider.run();
+        } else {
+            this.consentManagementProviderLegacy.configure({
+                gdprApplies: this.geoRequiresTrackingConsent(),
+                allowedVendors: [],
+                allowedVendorPurposes: []
+            });
+            this.consentManagementProviderLegacy.install();
         }
     };
 
@@ -137,10 +135,7 @@ class TrackingOptIn {
 
         if (this.geoManager.tcf2Enabled) {
             this.consentManagementProvider.installStub();
-        }
-
-        // ToDo: cleanup TCF v1.1
-        if (!this.geoManager.tcf1Disabled) {
+        } else {
             this.consentManagementProviderLegacy.installStub();
         }
 
@@ -152,10 +147,7 @@ class TrackingOptIn {
 
         if (this.geoManager.tcf2Enabled) {
             this.consentManagementProvider.uninstall();
-        }
-
-        // ToDo: cleanup TCF v1.1
-        if (!this.geoManager.tcf1Disabled) {
+        } else {
             this.consentManagementProviderLegacy.uninstall();
         }
     }
@@ -172,9 +164,7 @@ class TrackingOptIn {
                 gdprApplies: this.geoRequiresTrackingConsent(),
             });
             this.consentManagementProvider.install();
-        }
 
-        if (this.geoManager.tcf1Disabled) {
             // TCF v2.0 rollout: show second modal if consented pageview before
             this.gatherTCF2Consent();
             return;

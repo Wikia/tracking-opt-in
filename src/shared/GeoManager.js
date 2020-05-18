@@ -90,7 +90,6 @@ function getGeoDataFromCookie(type = 'country') {
 }
 
 class GeoManager {
-    tcf1Disabled = false;
     tcf2Enabled = false;
 
     constructor(country, region, countriesRequiringPrompt) {
@@ -101,14 +100,12 @@ class GeoManager {
         this.fetchInstantConfig().then(() => {
             debug('GEO', 'ICBM called', icbmContent);
 
-            this.tcf1Disabled = this.isVariableEnabled('icTcf1Disabled');
             this.tcf2Enabled = this.isVariableEnabled('icTcf2Enabled');
 
-            debug('GEO', `Variables set: tcf1Disabled is ${this.tcf1Disabled}, tcf2Enabled is ${this.tcf2Enabled}`);
+            debug('GEO', `Variables set: tcf2Enabled is ${this.tcf2Enabled}`);
         }, () => {
             debug('GEO', 'Failed to call ICBM service');
 
-            this.tcf1Disabled = false;
             this.tcf2Enabled = false;
         });
     }
