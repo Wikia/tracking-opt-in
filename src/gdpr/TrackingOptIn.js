@@ -180,8 +180,6 @@ class TrackingOptIn {
             isCurse: this.options.isCurse,
         };
 
-        this.optInManager.transitionOptInStatusTracker.init();
-
         switch (this.hasUserConsented()) {
             case true:
                 this.onAcceptTracking();
@@ -235,8 +233,6 @@ class TrackingOptIn {
         this.consentManagementProvider.loadVendorList()
             .then(() => {
                 this.tracker.tcfVersion = 2;
-                this.optInManager.transitionOptInStatusTracker.version = 2;
-                this.optInManager.transitionOptInStatusTracker.init();
 
                 if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
                     this.consentManagementProvider.setVendorConsentCookie(null);
