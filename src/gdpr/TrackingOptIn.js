@@ -37,67 +37,45 @@ class TrackingOptIn {
 
     // Non-IAB tracking is accepted. Some or all IAB vendors or purposes _may_ be accepted
     onAcceptTracking = (allowedVendors, allowedPurposes) => {
-        // ToDo: cleanup TCF v1.1
-        if (!this.geoManager.tcf2Enabled) {
-            this.consentManagementProviderLegacy.configure({
-                gdprApplies: this.geoRequiresTrackingConsent(),
-                allowedVendors: allowedVendors,
-                allowedVendorPurposes: allowedPurposes
-            });
-            this.consentManagementProviderLegacy.install().then(() => {
-                this.options.onAcceptTracking(allowedVendors, allowedPurposes);
-            });
-        }
-
-        // TCF v2.0 rollout: show second modal if consented pageview before
-        this.gatherTCF2Consent(allowedVendors, allowedPurposes);
+        this.consentManagementProvider.configure({
+            allowedVendors: allowedVendors,
+            allowedVendorPurposes: allowedPurposes
+        });
+        this.consentManagementProvider.install().then(() => {
+            this.options.onAcceptTracking(allowedVendors, allowedPurposes);
+        });
     };
 
     // Non-IAB tracking is rejected. Some or all IAB vendors or purposes _may_ be accepted
     onRejectTracking = (allowedVendors, allowedPurposes) => {
-        // ToDo: cleanup TCF v1.1
-        if (!this.geoManager.tcf2Enabled) {
-            this.consentManagementProviderLegacy.configure({
-                gdprApplies: this.geoRequiresTrackingConsent(),
-                allowedVendors: allowedVendors,
-                allowedVendorPurposes: allowedPurposes
-            });
-            this.consentManagementProviderLegacy.install().then(() => {
-                this.options.onRejectTracking(allowedVendors, allowedPurposes);
-            });
-        }
-
-        // TCF v2.0 rollout: show second modal if consented pageview before
-        this.gatherTCF2Consent(allowedVendors, allowedPurposes);
+        this.consentManagementProvider.configure({
+            allowedVendors: allowedVendors,
+            allowedVendorPurposes: allowedPurposes
+        });
+        this.consentManagementProvider.install().then(() => {
+            this.options.onRejectTracking(allowedVendors, allowedPurposes);
+        });
     };
 
     // Opt-out everything before use clicks anything in modal
     rejectBeforeConsent = () => {
-        // ToDo: cleanup TCF v1.1
-        if (this.geoManager.tcf2Enabled) {
-            this.consentManagementProvider.configure({
-                allowedVendors: [],
-                allowedVendorPurposes: []
-            });
-            this.consentManagementProvider.run();
-        } else {
-            this.consentManagementProviderLegacy.configure({
-                gdprApplies: this.geoRequiresTrackingConsent(),
-                allowedVendors: [],
-                allowedVendorPurposes: []
-            });
-            this.consentManagementProviderLegacy.install();
-        }
+        this.consentManagementProvider.configure({
+            allowedVendors: [],
+            allowedVendorPurposes: []
+        });
+        this.consentManagementProvider.install();
     };
 
     hasUserConsented() {
+        const hasConsentCookie = this.consentManagementProvider.hasUserConsent() || isParameterSet('mobile-app');
+
         if (this.isOnWhiteListedPage()) {
             return false;
         } else if (!this.geoRequiresTrackingConsent()) {
             return true;
-        } else if (this.optInManager.hasAcceptedTracking()) {
+        } else if (hasConsentCookie && this.optInManager.hasAcceptedTracking()) {
             return true;
-        } else if (this.optInManager.hasRejectedTracking()) {
+        } else if (hasConsentCookie && this.optInManager.hasRejectedTracking()) {
             return false;
         } else if (!this.geoManager.hasGeoCookie()) {
             return false;
@@ -132,24 +110,13 @@ class TrackingOptIn {
     reset() {
         this.isReset = true;
         this.clear();
-
-        if (this.geoManager.tcf2Enabled) {
-            this.consentManagementProvider.installStub();
-        } else {
-            this.consentManagementProviderLegacy.installStub();
-        }
-
+        this.consentManagementProvider.installStub();
         this.render();
     }
 
     clear() {
         this.optInManager.clear();
-
-        if (this.geoManager.tcf2Enabled) {
-            this.consentManagementProvider.uninstall();
-        } else {
-            this.consentManagementProviderLegacy.uninstall();
-        }
+        this.consentManagementProvider.uninstall();
     }
 
     render() {
@@ -158,20 +125,57 @@ class TrackingOptIn {
             document.body.appendChild(this.root);
         }
 
-        if (this.geoManager.tcf2Enabled) {
-            this.consentManagementProvider.installStub();
-            this.consentManagementProvider.configure({
-                gdprApplies: this.geoRequiresTrackingConsent(),
-            });
-            this.consentManagementProvider.install();
+        this.readyToRender = null;
 
-            // TCF v2.0 rollout: show second modal if consented pageview before
-            this.gatherTCF2Consent();
-            return;
-        } else {
-            this.consentManagementProviderLegacy.installStub();
+        // ToDo: cleanup TCF v1.1
+        if (!this.geoManager.tcf2Enabled) {
+            this.readyToRender = Promise.resolve();
+            this.consentManagementProvider = this.consentManagementProviderLegacy;
         }
 
+        this.consentManagementProvider.configure({
+            gdprApplies: this.geoRequiresTrackingConsent(),
+        });
+        this.consentManagementProvider.installStub();
+
+        // ToDo: cleanup TCF v1.1
+        if (this.geoManager.tcf2Enabled) {
+            this.consentManagementProvider.initialize();
+            this.readyToRender = this.consentManagementProvider.loadVendorList()
+                .then(() => {
+                    this.tracker.tcfVersion = 2;
+
+                    if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
+                        this.consentManagementProvider.setVendorConsentCookie(null);
+                    }
+                });
+        }
+
+        return this.readyToRender.then(() => {
+            switch (this.hasUserConsented()) {
+                case true:
+                    this.onAcceptTracking();
+                    break;
+                case false:
+                    this.onRejectTracking();
+                    break;
+                default:
+                    if (!isParameterSet('mobile-app')) {
+                        if (this.options.disableConsentQueue) {
+                            this.rejectBeforeConsent();
+                        }
+
+                        if (this.geoManager.tcf2Enabled) {
+                            this.renderNew();
+                        } else {
+                            this.renderOld();
+                        }
+                    }
+            }
+        });
+    }
+
+    renderOld() {
         const options = {
             enabledPurposes: this.options.enabledVendorPurposes,
             enabledVendors: this.options.enabledVendors,
@@ -180,122 +184,49 @@ class TrackingOptIn {
             isCurse: this.options.isCurse,
         };
 
-        switch (this.hasUserConsented()) {
-            case true:
-                this.onAcceptTracking();
-                break;
-            case false:
-                this.onRejectTracking();
-                break;
-            default:
-                if (!isParameterSet('mobile-app')) {
-                    if (this.options.disableConsentQueue) {
-                        this.rejectBeforeConsent();
-                    }
-
-                    render(
-                        <AppLegacy
-                            onRequestAppRemove={this.removeApp}
-                            onAcceptTracking={this.onAcceptTracking}
-                            onRejectTracking={this.onRejectTracking}
-                            tracker={this.tracker}
-                            optInManager={this.optInManager}
-                            geoManager={this.geoManager}
-                            options={options}
-                            content={this.contentManager.content}
-                        />,
-                        this.root,
-                        this.root.lastChild
-                    );
-                }
-        }
+        render(
+            <AppLegacy
+                onRequestAppRemove={this.removeApp}
+                onAcceptTracking={this.onAcceptTracking}
+                onRejectTracking={this.onRejectTracking}
+                tracker={this.tracker}
+                optInManager={this.optInManager}
+                geoManager={this.geoManager}
+                options={options}
+                content={this.contentManager.content}
+            />,
+            this.root,
+            this.root.lastChild
+        );
     }
 
-    needsTCF2Consent() {
-        if (this.isOnWhiteListedPage()) {
-            return false;
-        } else if (!this.geoRequiresTrackingConsent()) {
-            return false;
-        } else if (!this.geoManager.hasGeoCookie()) {
-            return false;
-        } else if (!this.consentManagementProvider.hasUserConsent()) {
-            return true;
-        }
+    renderNew() {
+        const options = {
+            // ToDo: get rid of hardcoded list of purposes during cleanup
+            enabledPurposes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            enabledVendors: this.options.enabledVendors,
+            zIndex: this.options.zIndex,
+            preventScrollOn: this.options.preventScrollOn,
+            isCurse: this.options.isCurse,
+        };
 
-        return false;
-    }
+        this.consentManagementProvider.updateApi(API_STATUS.UI_VISIBLE_NEW);
 
-    gatherTCF2Consent(allowedVendors, allowedPurposes) {
-        if (!this.geoManager.tcf2Enabled) {
-            return;
-        }
-
-        this.consentManagementProvider.loadVendorList()
-            .then(() => {
-                this.tracker.tcfVersion = 2;
-
-                if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
-                    this.consentManagementProvider.setVendorConsentCookie(null);
-                }
-
-                if (!this.needsTCF2Consent() || isParameterSet('mobile-app')) {
-                    this.consentManagementProvider.run();
-                    return;
-                }
-
-                if (allowedVendors !== undefined || allowedPurposes !== undefined) {
-                    this.consentManagementProvider.updateApi(API_STATUS.DISABLED);
-                    return;
-                }
-
-                if (!this.root) {
-                    this.root = document.createElement('div');
-                    document.body.appendChild(this.root);
-                }
-
-                const options = {
-                    // ToDo: get rid of hardcoded list of purposes during cleanup
-                    enabledPurposes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    enabledVendors: this.options.enabledVendors,
-                    zIndex: this.options.zIndex,
-                    preventScrollOn: this.options.preventScrollOn,
-                    isCurse: this.options.isCurse,
-                };
-
-                this.consentManagementProvider.updateApi(API_STATUS.UI_VISIBLE_NEW);
-
-                render(
-                    <Modal
-                        onRequestAppRemove={this.removeApp}
-                        onAcceptTracking={(allowedVendors, allowedPurposes) => {
-                            this.consentManagementProvider.configure({
-                                allowedVendors: allowedVendors,
-                                allowedVendorPurposes: allowedPurposes
-                            });
-                            this.consentManagementProvider.run().then(() => {
-                                this.options.onAcceptTracking(allowedVendors, allowedPurposes);
-                            });
-                        }}
-                        onRejectTracking={(allowedVendors, allowedPurposes) => {
-                            this.consentManagementProvider.configure({
-                                allowedVendors: allowedVendors,
-                                allowedVendorPurposes: allowedPurposes
-                            });
-                            this.consentManagementProvider.run().then(() => {
-                                this.options.onRejectTracking(allowedVendors, allowedPurposes);
-                            });
-                        }}
-                        tracker={this.tracker}
-                        optInManager={this.optInManager}
-                        geoManager={this.geoManager}
-                        options={options}
-                        content={this.contentManager.content}
-                        language={this.contentManager.language}
-                    />,
-                    this.root,
-                    this.root.lastChild
-                );
-            });
+        render(
+            <Modal
+                onRequestAppRemove={this.removeApp}
+                onAcceptTracking={this.onAcceptTracking}
+                onRejectTracking={this.onRejectTracking}
+                tracker={this.tracker}
+                optInManager={this.optInManager}
+                geoManager={this.geoManager}
+                options={options}
+                content={this.contentManager.content}
+                language={this.contentManager.language}
+            />,
+            this.root,
+            this.root.lastChild
+        );
     }
 }
 

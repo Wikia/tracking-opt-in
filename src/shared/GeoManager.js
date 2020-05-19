@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { debug, getJSON } from './utils';
+import { debug, getJSON, getUrlParameter } from './utils';
 
 export const COUNTRY_COOKIE_NAME = 'Geo';
 const MISSING_COOKIE_NAME = 'no-cookie';
@@ -126,6 +126,10 @@ class GeoManager {
     }
 
     isVariableEnabled(name) {
+        if (getUrlParameter(`icbm.${name}`)) {
+            return getUrlParameter(`icbm.${name}`) === 'true';
+        }
+
         return !!(
             icbmContent &&
             icbmContent[name] &&

@@ -14,7 +14,6 @@ export const API_STATUS = {
     DISABLED: 'disable',
 }
 const CMP_ID = 141;
-// ToDo: 756 now???
 const CMP_DEFAULT_LANGUAGE = 'en';
 const VENDOR_CONSENT_COOKIE_NAME = 'euconsent-v2';
 const VENDOR_LIST_URL_BASE = 'https://www.fandom.com/cmp/';
@@ -79,10 +78,10 @@ class ConsentManagementProvider {
         return ConsentManagementProvider.installStub();
     }
 
-    install() {
+    initialize() {
         this.cmpApi = new CmpApi(CMP_ID, CMP_VERSION);
 
-        debug('GDPR', 'Installed with version', CMP_VERSION);
+        debug('GDPR', 'Initialized with version', CMP_VERSION);
 
         const { gdprApplies } = this.options;
 
@@ -127,7 +126,7 @@ class ConsentManagementProvider {
         this.setVendorConsentCookie(null);
         delete window.__tcfapi;
 
-        this.install();
+        this.initialize();
 
         this.mounted = false;
     }
@@ -154,7 +153,7 @@ class ConsentManagementProvider {
         }
     }
 
-    run() {
+    install() {
         if (this.mounted) {
             this.unmount();
         }
