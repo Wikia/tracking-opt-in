@@ -125,11 +125,8 @@ class TrackingOptIn {
             document.body.appendChild(this.root);
         }
 
-        this.readyToRender = null;
-
         // ToDo: cleanup TCF v1.1
         if (!this.geoManager.tcf2Enabled) {
-            this.readyToRender = Promise.resolve();
             this.consentManagementProvider = this.consentManagementProviderLegacy;
         }
 
@@ -141,41 +138,45 @@ class TrackingOptIn {
         // ToDo: cleanup TCF v1.1
         if (this.geoManager.tcf2Enabled) {
             this.consentManagementProvider.initialize();
-            this.readyToRender = this.consentManagementProvider.loadVendorList()
+            this.consentManagementProvider.loadVendorList()
                 .then(() => {
                     this.tracker.tcfVersion = 2;
 
                     if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
                         this.consentManagementProvider.setVendorConsentCookie(null);
                     }
+
+                    this.checkUserConsent();
                 });
+        } else {
+            this.checkUserConsent();
         }
-
-        return this.readyToRender.then(() => {
-            switch (this.hasUserConsented()) {
-                case true:
-                    this.onAcceptTracking();
-                    break;
-                case false:
-                    this.onRejectTracking();
-                    break;
-                default:
-                    if (!isParameterSet('mobile-app')) {
-                        if (this.options.disableConsentQueue) {
-                            this.rejectBeforeConsent();
-                        }
-
-                        if (this.geoManager.tcf2Enabled) {
-                            this.renderNew();
-                        } else {
-                            this.renderOld();
-                        }
-                    }
-            }
-        });
     }
 
-    renderOld() {
+    checkUserConsent() {
+        switch (this.hasUserConsented()) {
+            case true:
+                this.onAcceptTracking();
+                break;
+            case false:
+                this.onRejectTracking();
+                break;
+            default:
+                if (!isParameterSet('mobile-app')) {
+                    if (this.options.disableConsentQueue) {
+                        this.rejectBeforeConsent();
+                    }
+
+                    if (this.geoManager.tcf2Enabled) {
+                        this.renderNewModal();
+                    } else {
+                        this.renderOldModal();
+                    }
+                }
+        }
+    }
+
+    renderOldModal() {
         const options = {
             enabledPurposes: this.options.enabledVendorPurposes,
             enabledVendors: this.options.enabledVendors,
@@ -200,7 +201,7 @@ class TrackingOptIn {
         );
     }
 
-    renderNew() {
+    renderNewModal() {
         const options = {
             // ToDo: get rid of hardcoded list of purposes during cleanup
             enabledPurposes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],

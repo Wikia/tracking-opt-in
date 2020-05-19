@@ -117,6 +117,7 @@ describe('TrackingOptIn', () => {
         geoManager.needsTrackingPrompt.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(true);
         geoManager.hasGeoCookie.withArgs().returns(true);
+        consentManagementProviderLegacy.hasUserConsent.withArgs().returns(true);
 
         trackingOptIn.render();
 
@@ -132,6 +133,7 @@ describe('TrackingOptIn', () => {
         optInManager.hasAcceptedTracking.withArgs().returns(false);
         optInManager.hasRejectedTracking.withArgs().returns(true);
         geoManager.hasGeoCookie.withArgs().returns(true);
+        consentManagementProviderLegacy.hasUserConsent.withArgs().returns(true);
 
         trackingOptIn.render();
 
