@@ -8,7 +8,6 @@ import ConsentManagementProvider from './ConsentManagementProvider';
 import ConsentManagementProviderLegacy from './ConsentManagementProviderLegacy';
 import Tracker from './Tracker';
 import styles from '../components/styles.scss';
-import TransitionOptInStatusTracker from './TransitionOptInStatusTracker';
 
 const document = global.document;
 
@@ -23,7 +22,6 @@ describe('TrackingOptIn', () => {
     let onAcceptTracking;
     let onRejectTracking;
     let options;
-    let transitionOptInStatusTracker;
 
     function modalIsShown() {
         return document.querySelector(`.${styles.overlay}`);
@@ -44,9 +42,6 @@ describe('TrackingOptIn', () => {
         contentManager = new ContentManager('en');
         onAcceptTracking = stub();
         onRejectTracking = stub();
-        transitionOptInStatusTracker = createStubInstance(TransitionOptInStatusTracker);
-
-        optInManager.transitionOptInStatusTracker = transitionOptInStatusTracker;
 
         options = {
             onAcceptTracking,
@@ -122,6 +117,7 @@ describe('TrackingOptIn', () => {
         geoManager.needsTrackingPrompt.withArgs().returns(true);
         optInManager.hasAcceptedTracking.withArgs().returns(true);
         geoManager.hasGeoCookie.withArgs().returns(true);
+        consentManagementProviderLegacy.hasUserConsent.withArgs().returns(true);
 
         trackingOptIn.render();
 
@@ -137,6 +133,7 @@ describe('TrackingOptIn', () => {
         optInManager.hasAcceptedTracking.withArgs().returns(false);
         optInManager.hasRejectedTracking.withArgs().returns(true);
         geoManager.hasGeoCookie.withArgs().returns(true);
+        consentManagementProviderLegacy.hasUserConsent.withArgs().returns(true);
 
         trackingOptIn.render();
 

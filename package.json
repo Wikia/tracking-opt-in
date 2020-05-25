@@ -76,8 +76,8 @@
         "validate-jenkins": "sh release/scripts/validate-jenkins-files.sh"
     },
     "dependencies": {
-        "@iabtcf/cmpapi": "v1.0.1-4",
-        "@iabtcf/core": "v1.0.1-4",
-        "@iabtcf/stub": "v1.0.1-4"
+        "@iabtcf/cmpapi": "v1.0.2-0",
+        "@iabtcf/core": "v1.0.2-0",
+        "@iabtcf/stub": "v1.0.2-0"
     }
 }
