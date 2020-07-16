@@ -36,6 +36,11 @@ pipeline {
     }
 
     stage('start test container') {
+      when {
+        expression {
+            return params.skipTests != true
+        }
+      }
       steps {
         sh "docker build --file release/demo-container/Dockerfile --tag ${imageName}:${currentCommit} ."
         sh "docker tag ${imageName}:${currentCommit} ${dockerRepoUrl}/${imageName}:${currentCommit}"
