@@ -7,7 +7,7 @@ import { default as installCMPStub } from '@iabtcf/stub';
 
 import { debug, getCookieDomain, getJSON } from '../shared/utils';
 
-export const CMP_VERSION = 2; // Increment to force modal again
+export const CMP_VERSION = 3; // Increment to force modal again
 export const API_STATUS = {
     UI_VISIBLE_NEW: 'ui-visible-new',
     UI_VISIBLE_RESET: 'ui-visible-reset',
@@ -79,7 +79,7 @@ class ConsentManagementProvider {
     }
 
     initialize() {
-        this.cmpApi = new CmpApi(CMP_ID, CMP_VERSION);
+        this.cmpApi = new CmpApi(CMP_ID, CMP_VERSION, true);
 
         debug('GDPR', 'Initialized with version', CMP_VERSION);
 

@@ -2,23 +2,23 @@
 # yarn lockfile v1
 
 
-"@iabtcf/cmpapi@v1.0.2-0":
-  version "1.0.2-0"
-  resolved "https://registry.yarnpkg.com/@iabtcf/cmpapi/-/cmpapi-1.0.2-0.tgz#23fb1d06a8c780c7bcac55c633ced47c4b52b338"
-  integrity sha512-82YaDBsdKCt1Nk6osYMW3FkJWvGUTVQK/o3ufC75WoX/ttvB4DMwBm5eB8qEgOmfvMoWC3i3HkhRCEbZyLiDFA==
+"@iabtcf/cmpapi@v1.1.0-1":
+  version "1.1.0-1"
+  resolved "https://registry.yarnpkg.com/@iabtcf/cmpapi/-/cmpapi-1.1.0-1.tgz#466f49dd29a8920a3b5333eaaa03396375d5e072"
+  integrity sha512-Dic8siuHpRG766JOYH7scuXlQ0MLRjkloCbpO+P0o6yvRw9LXdKglzjzL9bKTvxWLfLQsN+OCZlLfJG2dorofg==
 
-"@iabtcf/core@v1.0.2-0":
-  version "1.0.2-0"
-  resolved "https://registry.yarnpkg.com/@iabtcf/core/-/core-1.0.2-0.tgz#4e2d9d9f4a1d7e430c8e73bedbc07e57d95f9e02"
-  integrity sha512-vY9AiBiHqUHMMwLWlgthZkHvg6qxu/JI7oAAJBVXp071mBL/LJM65tSAf5wDDVx0VozyrT9oOdwIEMfoER5oGw==
+"@iabtcf/core@v1.1.0-1":
+  version "1.1.0-1"
+  resolved "https://registry.yarnpkg.com/@iabtcf/core/-/core-1.1.0-1.tgz#5761cde5e212726939ab10646102aa3f01c4f06a"
+  integrity sha512-GBxWgmuCzuctrMTOpReYJhNBBamy4BCWrwQeddJzcu2QjjeUiNPU9esTlNAnFmJKgInkn+9DMJRCY95PqvqVWQ==
   dependencies:
     global "^4.4.0"
     typescript "3.7"
 
-"@iabtcf/stub@v1.0.2-0":
-  version "1.0.2-0"
-  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.0.2-0.tgz#fd88f895db405d359a6440f63bd0fe82b528d7b5"
-  integrity sha512-g/FYUY6MmIQ775LHPkiHm8y3tRrze5zQESREgZeoKEaNYwtITDeIaTzmKl/kjQ3NvRUHDgRud0ezMovg1rq9PQ==
+"@iabtcf/stub@v1.1.0-1":
+  version "1.1.0-1"
+  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.1.0-1.tgz#05a56d636b1e29471f164661888968824fdf0863"
+  integrity sha512-9z7QtgcleH7J043b0pzR/QwBHntMgDzRcOQ5wpgXqknCBDbjPqw9oMeYFWaWbrWzLhe2EVRPxTVpsw2V5NYTKg==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
