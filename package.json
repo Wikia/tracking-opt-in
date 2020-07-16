@@ -74,5 +74,10 @@
         "test:watch": "rimraf reports/karma && karma start --auto-watch --no-single-run",
         "test:selenium": "rimraf reports/webdriver && wdio wdio.conf.js",
         "validate-jenkins": "sh release/scripts/validate-jenkins-files.sh"
+    },
+    "dependencies": {
+        "@iabtcf/cmpapi": "v1.1.0-1",
+        "@iabtcf/core": "v1.1.0-1",
+        "@iabtcf/stub": "v1.1.0-1"
     }
 }

@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { Promise } from 'es6-promise';
-import { getCookieDomain } from '../shared/utils';
+
+import { debug, getCookieDomain } from '../shared/utils';
 
 const PRIVACY_STRING_COOKIE_NAME = 'usprivacy';
 const LOG_GROUP = 'CCPA:';
@@ -36,7 +37,7 @@ class UserSignalMechanism {
     static installStub() {
         const queue = [];
 
-        console.log(LOG_GROUP, 'Installing API stub');
+        debug('CCPA', 'Installing API stub');
 
         window.__uspapi = (commandName, version, callback = console.log) => {
             if (commandName === 'ping') {
@@ -111,7 +112,7 @@ class UserSignalMechanism {
             this.installStub();
         }
 
-        console.log(LOG_GROUP, 'User Signal Mechanism initialized');
+        debug('CCPA', 'User Signal Mechanism initialized');
     }
 
     configure(options) {
@@ -122,7 +123,7 @@ class UserSignalMechanism {
         this.createUserSignal();
         this.mount();
 
-        console.log(LOG_GROUP, 'User Signal Mechanism installed');
+        debug('CCPA', 'User Signal Mechanism installed');
     }
 
     installStub(...args) {
@@ -172,11 +173,11 @@ class UserSignalMechanism {
         let privacyString = null;
 
         if (!this.options.ccpaApplies) {
-            console.log(LOG_GROUP, 'Geo does not require API');
+            debug('CCPA', 'Geo does not require API');
 
             privacyString = this.createPrivacyString(getUSPValue());
         } else {
-            console.log(LOG_GROUP, 'Geo requires API');
+            debug('CCPA', 'Geo requires API');
 
             const queryStringOverride =
                 window &&
@@ -187,10 +188,10 @@ class UserSignalMechanism {
             if (queryStringOverride) {
                 privacyString = this.createPrivacyString(getUSPValue(true));
 
-                console.log(LOG_GROUP, `Privacy String updated via URL parameter: ${privacyString}`);
+                debug('CCPA', `Privacy String updated via URL parameter: ${privacyString}`);
             } else if (this.options.isSubjectToCcpa) {
                 privacyString = this.createPrivacyString(USP_VALUES.yes);
-                console.log(LOG_GROUP, 'Force opt-out because user is subject to COPPA.');
+                debug('CCPA', 'Force opt-out because user is subject to COPPA');
             } else if (this.hasUserSignal()) {
                 const cookieOptOut = this.getPrivacyStringCookie().split('')[2];
 
@@ -203,7 +204,7 @@ class UserSignalMechanism {
                 privacyString = this.createPrivacyString(USP_VALUES.no);
             }
 
-            console.log(LOG_GROUP, `Privacy String cookie: ${privacyString}`);
+            debug('CCPA', `Privacy String cookie: ${privacyString}`);
 
             this.setPrivacyStringCookie(privacyString);
         }
@@ -287,7 +288,7 @@ class UserSignalMechanism {
     saveUserSignal(optOutSale) {
         const privacyString = this.createPrivacyString(optOutSale);
 
-        console.log(LOG_GROUP, `Privacy String saved via console: ${privacyString}`);
+        debug('CCPA', `Privacy String saved via console: ${privacyString}`);
 
         this.setPrivacyStringCookie(privacyString);
         this.userSignal = privacyString;

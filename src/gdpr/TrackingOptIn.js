@@ -1,6 +1,8 @@
-import { h, render } from "preact/dist/preact";
-import App from "../components/App";
-import { isParameterSet, parseUrl } from "../shared/utils";
+import { h, render } from 'preact/dist/preact';
+import AppLegacy from '../components/AppLegacy';
+import Modal from '../modal/Modal';
+import { isParameterSet, parseUrl } from '../shared/utils';
+import { API_STATUS } from './ConsentManagementProvider';
 
 class TrackingOptIn {
     constructor(
@@ -9,6 +11,7 @@ class TrackingOptIn {
         geoManager,
         contentManager,
         consentManagementProvider,
+        consentManagementProviderLegacy,
         options,
         location
     ) {
@@ -17,6 +20,8 @@ class TrackingOptIn {
         this.geoManager = geoManager;
         this.contentManager = contentManager;
         this.consentManagementProvider = consentManagementProvider;
+        // ToDo: cleanup TCF v1.1
+        this.consentManagementProviderLegacy = consentManagementProviderLegacy;
         this.options = options;
         this.location = location;
         this.isReset = false;
@@ -33,7 +38,6 @@ class TrackingOptIn {
     // Non-IAB tracking is accepted. Some or all IAB vendors or purposes _may_ be accepted
     onAcceptTracking = (allowedVendors, allowedPurposes) => {
         this.consentManagementProvider.configure({
-            gdprApplies: this.geoRequiresTrackingConsent(),
             allowedVendors: allowedVendors,
             allowedVendorPurposes: allowedPurposes
         });
@@ -45,7 +49,6 @@ class TrackingOptIn {
     // Non-IAB tracking is rejected. Some or all IAB vendors or purposes _may_ be accepted
     onRejectTracking = (allowedVendors, allowedPurposes) => {
         this.consentManagementProvider.configure({
-            gdprApplies: this.geoRequiresTrackingConsent(),
             allowedVendors: allowedVendors,
             allowedVendorPurposes: allowedPurposes
         });
@@ -57,7 +60,6 @@ class TrackingOptIn {
     // Opt-out everything before use clicks anything in modal
     rejectBeforeConsent = () => {
         this.consentManagementProvider.configure({
-            gdprApplies: this.geoRequiresTrackingConsent(),
             allowedVendors: [],
             allowedVendorPurposes: []
         });
@@ -65,13 +67,15 @@ class TrackingOptIn {
     };
 
     hasUserConsented() {
+        const hasConsentCookie = this.consentManagementProvider.hasUserConsent() || isParameterSet('mobile-app');
+
         if (this.isOnWhiteListedPage()) {
             return false;
         } else if (!this.geoRequiresTrackingConsent()) {
             return true;
-        } else if (this.optInManager.hasAcceptedTracking()) {
+        } else if (hasConsentCookie && this.optInManager.hasAcceptedTracking()) {
             return true;
-        } else if (this.optInManager.hasRejectedTracking()) {
+        } else if (hasConsentCookie && this.optInManager.hasRejectedTracking()) {
             return false;
         } else if (!this.geoManager.hasGeoCookie()) {
             return false;
@@ -85,8 +89,8 @@ class TrackingOptIn {
             return false;
         }
 
-        const {host, pathname} = this.location;
-        const {content} = this.contentManager;
+        const { host, pathname } = this.location;
+        const { content } = this.contentManager;
         const privacyParsedUrl = parseUrl(content.privacyPolicyUrl);
         const partnerParsedUrl = parseUrl(content.partnerListUrl);
 
@@ -121,14 +125,35 @@ class TrackingOptIn {
             document.body.appendChild(this.root);
         }
 
-        const options = {
-            enabledPurposes: this.options.enabledVendorPurposes,
-            enabledVendors: this.options.enabledVendors,
-            zIndex: this.options.zIndex,
-            preventScrollOn: this.options.preventScrollOn,
-            isCurse: this.options.isCurse,
-        };
+        // ToDo: cleanup TCF v1.1
+        if (!this.geoManager.tcf2Enabled) {
+            this.consentManagementProvider = this.consentManagementProviderLegacy;
+        }
 
+        this.consentManagementProvider.configure({
+            gdprApplies: this.geoRequiresTrackingConsent(),
+        });
+        this.consentManagementProvider.installStub();
+
+        // ToDo: cleanup TCF v1.1
+        if (this.geoManager.tcf2Enabled) {
+            this.consentManagementProvider.initialize();
+            this.consentManagementProvider.loadVendorList()
+                .then(() => {
+                    this.tracker.tcfVersion = 2;
+
+                    if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
+                        this.consentManagementProvider.setVendorConsentCookie(null);
+                    }
+
+                    this.checkUserConsent();
+                });
+        } else {
+            this.checkUserConsent();
+        }
+    }
+
+    checkUserConsent() {
         switch (this.hasUserConsented()) {
             case true:
                 this.onAcceptTracking();
@@ -142,22 +167,67 @@ class TrackingOptIn {
                         this.rejectBeforeConsent();
                     }
 
-                    render(
-                        <App
-                            onRequestAppRemove={this.removeApp}
-                            onAcceptTracking={this.onAcceptTracking}
-                            onRejectTracking={this.onRejectTracking}
-                            tracker={this.tracker}
-                            optInManager={this.optInManager}
-                            geoManager={this.geoManager}
-                            options={options}
-                            content={this.contentManager.content}
-                        />,
-                        this.root,
-                        this.root.lastChild
-                    );
+                    if (this.geoManager.tcf2Enabled) {
+                        this.renderNewModal();
+                    } else {
+                        this.renderOldModal();
+                    }
                 }
         }
+    }
+
+    renderOldModal() {
+        const options = {
+            enabledPurposes: this.options.enabledVendorPurposes,
+            enabledVendors: this.options.enabledVendors,
+            zIndex: this.options.zIndex,
+            preventScrollOn: this.options.preventScrollOn,
+            isCurse: this.options.isCurse,
+        };
+
+        render(
+            <AppLegacy
+                onRequestAppRemove={this.removeApp}
+                onAcceptTracking={this.onAcceptTracking}
+                onRejectTracking={this.onRejectTracking}
+                tracker={this.tracker}
+                optInManager={this.optInManager}
+                geoManager={this.geoManager}
+                options={options}
+                content={this.contentManager.content}
+            />,
+            this.root,
+            this.root.lastChild
+        );
+    }
+
+    renderNewModal() {
+        const options = {
+            // ToDo: get rid of hardcoded list of purposes during cleanup
+            enabledPurposes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            enabledVendors: this.options.enabledVendors,
+            zIndex: this.options.zIndex,
+            preventScrollOn: this.options.preventScrollOn,
+            isCurse: this.options.isCurse,
+        };
+
+        this.consentManagementProvider.updateApi(API_STATUS.UI_VISIBLE_NEW);
+
+        render(
+            <Modal
+                onRequestAppRemove={this.removeApp}
+                onAcceptTracking={this.onAcceptTracking}
+                onRejectTracking={this.onRejectTracking}
+                tracker={this.tracker}
+                optInManager={this.optInManager}
+                geoManager={this.geoManager}
+                options={options}
+                content={this.contentManager.content}
+                language={this.contentManager.language}
+            />,
+            this.root,
+            this.root.lastChild
+        );
     }
 }
 

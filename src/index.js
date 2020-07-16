@@ -2,12 +2,11 @@ import { IAB_VENDORS } from './shared/consts';
 import ContentManager from './shared/ContentManager';
 import GeoManager from './shared/GeoManager';
 import LanguageManager from './shared/LangManager';
-
 import ConsentManagementProvider from './gdpr/ConsentManagementProvider';
+import ConsentManagementProviderLegacy from './gdpr/ConsentManagementProviderLegacy';
 import OptInManager from './gdpr/OptInManager';
 import Tracker from './gdpr/Tracker';
 import TrackingOptIn from './gdpr/TrackingOptIn';
-
 import UserSignalMechanism from './ccpa/UserSignalMechanism';
 
 export const DEFAULT_OPTIONS = {
@@ -18,7 +17,7 @@ export const DEFAULT_OPTIONS = {
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
     disableConsentQueue: false,
-    enableCCPAinit: false,
+    // ToDo: unused in new modal
     enabledVendorPurposes: [1, 2, 3, 4, 5], // array of IAB CMP purpose IDs
     enabledVendors: IAB_VENDORS, // array of IAB CMP vendor IDs
     language: null,
@@ -55,10 +54,16 @@ function initializeGDPR(options) {
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
     const disableConsentQueue = !!depOptions.disableConsentQueue;
+    // ToDo: cleanup TCF v1.1
+    const consentManagementProviderLegacy = new ConsentManagementProviderLegacy({
+        disableConsentQueue,
+        language: langManager.lang
+    });
     const consentManagementProvider = new ConsentManagementProvider({
         disableConsentQueue,
         language: langManager.lang
     });
+
     const optInManager = new OptInManager(
         window.location.hostname,
         depOptions.cookieName,
@@ -71,8 +76,7 @@ function initializeGDPR(options) {
     optInManager.setForcedStatusFromQueryParams(window.location.search);
 
     if (optInManager.checkCookieVersion()) {
-        consentManagementProvider.setVendorConsentCookie(null);
-        consentManagementProvider.setPublisherConsentCookie(null);
+        consentManagementProviderLegacy.setVendorConsentCookie(null);
     }
 
     const instance = new TrackingOptIn(
@@ -81,6 +85,7 @@ function initializeGDPR(options) {
         geoManager,
         contentManager,
         consentManagementProvider,
+        consentManagementProviderLegacy,
         {
             preventScrollOn,
             zIndex,
@@ -93,7 +98,10 @@ function initializeGDPR(options) {
         },
         window.location,
     );
-    instance.render();
+
+    geoManager.fetchInstantConfig().then(() => {
+        instance.render();
+    });
 
     return instance;
 }
@@ -103,10 +111,6 @@ function initializeCCPA(options) {
         test,
         ...depOptions
     } = Object.assign({}, DEFAULT_CCPA_OPTIONS, options);
-
-    if (!depOptions.enableCCPAinit) {
-        return null;
-    }
 
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const userSignalMechanism = new UserSignalMechanism({

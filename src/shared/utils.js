@@ -4,16 +4,13 @@ export const PURPOSES = {
     INFORMATION: 1,
     PERSONALIZATION: 2,
     AD: 3,
-    CONTENT: 3,
-    MEASUREMENT: 3,
+    CONTENT: 4,
+    MEASUREMENT: 5,
 };
 
-export const FEATURES = {
-    MATCHING_DATA: 1,
-    LINKING_DEVICES: 2,
-    GEOLOCATION: 3,
-};
+export const DEBUG_QUERY_PARAM = 'tracking-opt-in-debug';
 
+// ToDo: remove getters unused in new modal
 export function getPurposeTitle(content, index) {
     return content[`purpose${index}Title`];
 }
@@ -32,6 +29,12 @@ export function getFeatureBody(content, index) {
 
 export function isParameterSet(param) {
     return window.location.href.indexOf(`${param}=true`) !== -1;
+}
+
+export function debug(label, ...args) {
+    if (isParameterSet(DEBUG_QUERY_PARAM)) {
+        console.log(`[DEBUG] ${label}: `, ...args);
+    }
 }
 
 export function getUrlParameter(paramName) {
@@ -108,6 +111,7 @@ export function getJSON(url, useCache = true) {
     });
 }
 
+// ToDo: unused in new modal
 export function getVendorList() {
     return getJSON('https://vendorlist.consensu.org/vendorlist.json');
 }

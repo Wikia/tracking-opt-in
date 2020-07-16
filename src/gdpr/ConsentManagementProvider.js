@@ -1,169 +1,215 @@
-import { ConsentString } from 'consent-string';
-import { Promise } from 'es6-promise';
 import Cookies from 'js-cookie';
-import { getCookieDomain, getJSON } from '../shared/utils';
+import { Promise } from 'es6-promise';
 
-export const CMP_VERSION = 2; // Increment to force modal again
+import { CmpApi } from '@iabtcf/cmpapi';
+import { GVL, TCModel, TCString, VendorList } from '@iabtcf/core';
+import { default as installCMPStub } from '@iabtcf/stub';
+
+import { debug, getCookieDomain, getJSON } from '../shared/utils';
+
+export const CMP_VERSION = 3; // Increment to force modal again
+export const API_STATUS = {
+    UI_VISIBLE_NEW: 'ui-visible-new',
+    UI_VISIBLE_RESET: 'ui-visible-reset',
+    DISABLED: 'disable',
+}
 const CMP_ID = 141;
 const CMP_DEFAULT_LANGUAGE = 'en';
-const VENDOR_CONSENT_COOKIE_NAME = 'euconsent';
-const PUBLISHER_CONSENT_COOKIE_NAME = 'eupubconsent';
-const MAX_STANDARD_PURPOSE_ID = 24;
+const VENDOR_CONSENT_COOKIE_NAME = 'euconsent-v2';
+const VENDOR_LIST_URL_BASE = 'https://www.fandom.com/cmp/';
+const VENDOR_LIST_FILE_NAME = 'vendor-list.json';
+const VENDOR_LIST_VERSION_NAME = 'archives/vendor-list-v[VERSION].json';
 const getDefaultCookieAttributes = () => ({
     domain: getCookieDomain(window.location.hostname),
-    expires: 365 // 1 year
+    expires: 390 // thirteen 30-day months
 });
 const getDefaultOptions = () => ({
-    allowedPublisherPurposes: null,
-    allowedVendorPurposes: null,
     allowedVendors: null,
+    allowedVendorPurposes: null,
     cookieAttributes: getDefaultCookieAttributes(),
     disableConsentQueue: false,
     gdprApplies: false,
-    gdprAppliesGlobally: false,
-    hasGlobalScope: false,
     language: CMP_DEFAULT_LANGUAGE,
-    vendorList: null
 });
 
-function createConsent(consentString, vendorList, options = {}) {
-    if (consentString && !vendorList) {
-        return new ConsentString(consentString);
-    }
-
-    const {allowedPurposes, allowedVendors, consentScreen, language} = options;
-    const consent = new ConsentString();
-
-    consent.setCmpId(CMP_ID);
-    consent.setCmpVersion(CMP_VERSION);
-    consent.setConsentScreen(Number(consentScreen) || 0);
-    consent.setConsentLanguage(String(language).toLowerCase() || CMP_DEFAULT_LANGUAGE);
-    consent.setGlobalVendorList(vendorList);
-    consent.setPurposesAllowed(Array.isArray(allowedPurposes) ? allowedPurposes : []);
-    consent.setVendorsAllowed(Array.isArray(allowedVendors) ? allowedVendors : []);
-
-    return consent;
-}
-
-function createIdArray(start, end) {
-    const length = end - start + 1;
-
-    return Array.from({length}).map((value, i) => i + start);
-}
-
-function toAllowedMap(array, predicate = () => false) {
-    const map = {};
-
-    if (Array.isArray(array)) {
-        array.forEach((id) => {
-            map[Number(id)] = !!predicate(id);
-        });
-    }
-
-    return map;
-}
-
 class ConsentManagementProvider {
+    /** @type Promise<VendorList> */
+    loaded = null;
     mounted = false;
+    /** @type VendorList */
+    vendorList = undefined;
 
-    static installStub(gdprAppliesGlobally = false) {
-        const queue = [];
+    static installStub() {
+        installCMPStub();
 
-        window.__cmp = (commandName, parameter, callback = console.log) => {
-            if (commandName === 'ping') {
-                callback({
-                    gdprAppliesGlobally: !!gdprAppliesGlobally,
-                    cmpLoaded: false
-                }, true);
-            } else if (commandName === 'getQueue') {
-                callback(queue, true);
-            } else {
-                queue.push([commandName, parameter, callback]);
-            }
-        };
-
-        ConsentManagementProvider.addLocatorFrame();
+        debug('GDPR', 'Stub installed');
     }
 
-    static addLocatorFrame() {
-        const name = '__cmpLocator';
-
-        if (window.frames[name]) {
-            return;
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => ConsentManagementProvider.addLocatorFrame());
-            return;
-        }
-
-        const iframe = document.createElement('iframe');
-
-        iframe.name = name;
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
-
-        window.addEventListener('message', (event) => {
-            let call = null;
-
-            try {
-                const data = (typeof event.data === 'string') ? JSON.parse(event.data) : event.data;
-                call = data.__cmpCall;
-            } catch (error) {
-                void(error);
-            }
-
-            if (call) {
-                window.__cmp(call.command, call.parameter, function (retValue, success) {
-                    const returnMsg = {
-                        __cmpReturn: {
-                            returnValue: retValue,
-                            success: success,
-                            callId: call.callId
-                        }
-                    };
-                    event.source.postMessage(returnMsg, '*');
-                });
-            }
-        }, false);
+    /**
+     * @returns Promise<VendorList>
+     */
+    static fetchVendorList() {
+        return getJSON(`${VENDOR_LIST_URL_BASE}${VENDOR_LIST_FILE_NAME}`);
     }
 
     constructor(options) {
         this.options = Object.assign(getDefaultOptions(), options);
-        this.vendorList = null;
-        this.vendorConsent = null;
-        this.cmpCommands = [
-            this.getConsentData,
-            this.getVendorConsents,
-            this.getVendorList,
-            this.ping
-        ];
 
-        if (window.__cmp === undefined) {
-            this.installStub(!!this.options.gdprAppliesGlobally);
-        }
+        debug('GDPR', 'Constructed with params', options);
+
+        GVL.baseUrl = VENDOR_LIST_URL_BASE;
+        GVL.latestFilename = VENDOR_LIST_FILE_NAME;
+        GVL.versionedFilename = VENDOR_LIST_VERSION_NAME;
+
+        // ToDo: uncomment
+        // Install temporary stub until full CMP will be ready
+        // if (window.__tcfapi === undefined) {
+        //     this.installStub();
+        // }
     }
 
     configure(options) {
         Object.assign(this.options, options);
+
+        debug('GDPR', 'Configured with params', options);
     }
 
-    fetchVendorList(version) {
-        return getJSON(`https://vendorlist.consensu.org/${version ? `v-${version}/` : ''}vendorlist.json`);
+    installStub() {
+        return ConsentManagementProvider.installStub();
     }
 
-    fetchPurposesList(language, version) {
-        return getJSON(`https://vendorlist.consensu.org/${version ? `v-${version}/` : ''}purposes-${language}.json`);
+    initialize() {
+        this.cmpApi = new CmpApi(CMP_ID, CMP_VERSION, true);
+
+        debug('GDPR', 'Initialized with version', CMP_VERSION);
+
+        const { gdprApplies } = this.options;
+
+        if (gdprApplies && !this.vendorList) {
+            debug('GDPR', 'Applies - fetching vendor list');
+            this.loadVendorList();
+        }
     }
 
-    getCommonCmpProperties() {
-        const {gdprApplies, gdprAppliesGlobally, hasGlobalScope} = this.options;
+    /**
+     * @returns Promise<VendorList>
+     */
+    loadVendorList() {
+        if (this.loaded) {
+            return this.loaded;
+        }
 
-        return {
-            gdprApplies: !!gdprApplies || !!gdprAppliesGlobally,
-            gdprAppliesGlobally: !!gdprAppliesGlobally,
-            hasGlobalScope: !!hasGlobalScope
-        };
+        this.loaded = ConsentManagementProvider.fetchVendorList()
+            .then((vendorList) => {
+                this.vendorList = vendorList;
+
+                debug('GDPR', 'Vendor list fetched and saved', vendorList);
+
+                return this.vendorList
+            });
+
+        return this.loaded;
+    }
+
+
+    uninstall() {
+        debug('GDPR', 'Uninstalled');
+
+        this.options = getDefaultOptions();
+        this.setVendorConsentCookie(null);
+        delete window.__tcfapi;
+    }
+
+    unmount() {
+        debug('GDPR', 'Unmounted');
+
+        this.setVendorConsentCookie(null);
+        delete window.__tcfapi;
+
+        this.initialize();
+
+        this.mounted = false;
+    }
+
+    updateApi(event) {
+        switch (event) {
+            case API_STATUS.UI_VISIBLE_NEW:
+                this.cmpApi.update('', true);
+                debug('GDPR', 'UI displayed for the first time');
+                break;
+
+            case API_STATUS.UI_VISIBLE_RESET:
+                this.cmpApi.update(this.getVendorConsentCookie() || '', true);
+                debug('GDPR', 'UI displayed after policy change');
+                break;
+
+            case API_STATUS.DISABLED:
+                this.cmpApi.disable();
+                debug('GDPR', 'Unable to perform the operations in compliance with the TCF');
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    install() {
+        if (this.mounted) {
+            this.unmount();
+        }
+
+        const { gdprApplies } = this.options;
+
+        if (!gdprApplies) {
+            this.cmpApi.update(null);
+
+            debug('GDPR', 'Does not apply');
+
+            return Promise.resolve();
+        }
+
+        return this.loaded.then(() => {
+            this.tcString = this.createConsent();
+
+            if (!this.hasUserConsent()) {
+                debug('GDPR', 'Cookie not found - saving');
+
+                this.setVendorConsentCookie(this.tcString);
+            }
+
+            this.cmpApi.update(this.tcString, false);
+            this.mounted = true;
+        });
+    }
+
+    createConsent() {
+        let tcString = this.getVendorConsentCookie();
+
+        if (tcString) {
+            debug('GDPR', 'TCString read from cookie', tcString, TCString.decode(tcString));
+
+            return tcString;
+        }
+
+        const gvList = new GVL(this.vendorList);
+        const tcModel = new TCModel(gvList);
+        const { allowedVendorPurposes, allowedVendors, consentScreen, language } = this.options;
+
+        tcModel.cmpId = CMP_ID;
+        tcModel.cmpVersion = CMP_VERSION;
+        tcModel.consentScreen = Number(consentScreen) || 0;
+        tcModel.consentLanguage = String(language).toLowerCase() || CMP_DEFAULT_LANGUAGE;
+        tcModel.isServiceSpecific = true;
+        tcModel.purposeConsents.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
+        tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
+
+        debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes);
+
+        tcString = TCString.encode(tcModel);
+
+        debug('GDPR', 'Consent string created', tcString);
+
+        return tcString;
     }
 
     getVendorConsentCookie() {
@@ -180,200 +226,23 @@ class ConsentManagementProvider {
         }
     }
 
-    getPublisherConsentCookie() {
-        return Cookies.get(PUBLISHER_CONSENT_COOKIE_NAME) || '';
-    }
-
-    setPublisherConsentCookie(consentString) {
-        const cookieAttributes = this.options.cookieAttributes;
-
-        if (consentString) {
-            Cookies.set(PUBLISHER_CONSENT_COOKIE_NAME, consentString, cookieAttributes);
-        } else {
-            Cookies.remove(PUBLISHER_CONSENT_COOKIE_NAME, cookieAttributes);
-        }
-    }
-
     hasUserConsent() {
         return !!this.getVendorConsentCookie();
     }
 
-    createConsents() {
-        const {gdprApplies} = this.getCommonCmpProperties();
+    /**
+     * @returns boolean
+     */
+    isVendorTCFPolicyVersionOutdated() {
+        const cookie = this.getVendorConsentCookie();
 
-        if (!gdprApplies) {
-            return;
+        if (!cookie) {
+            return false;
         }
 
-        const {
-            allowedVendorPurposes,
-            allowedVendors,
-            language,
-            consentScreen
-        } = this.options;
+        const consent = TCString.decode(cookie);
 
-        this.vendorConsent = createConsent(
-            this.getVendorConsentCookie(),
-            this.vendorList,
-            {
-                allowedPurposes: allowedVendorPurposes,
-                allowedVendors,
-                language,
-                consentScreen
-            }
-        );
-
-        this.setVendorConsentCookie(this.getVendorConsentCookie() || this.vendorConsent.getConsentString());
-    }
-
-    isCmpCommand(commandName) {
-        return this.cmpCommands.indexOf(this[commandName]) !== -1;
-    }
-
-    cmp(commandName, parameter, callback = console.log) {
-        if (this.isCmpCommand(commandName)) {
-            this[commandName](parameter)
-                .then((result) => callback(result, true))
-                .catch((reason) => {
-                    callback(null, false);
-                    console.error((reason instanceof Error) ? reason : new Error(reason));
-                });
-        } else {
-            callback(null, false);
-            throw new Error('command does not exist');
-        }
-    }
-
-    mount() {
-        const cmp = this.cmp.bind(this);
-
-        if (this.options.disableConsentQueue) {
-            window.__cmp = cmp;
-        } else {
-            try {
-                window.__cmp('getQueue', null, (queue) => {
-                    window.__cmp = cmp;
-                    queue.forEach((args) => cmp(...args));
-                });
-            } catch (error) {
-                void(error);
-                window.__cmp = cmp;
-                console.error(new Error('incompatible stub, cannot run queue'));
-            }
-        }
-
-        this.mounted = true;
-    }
-
-    unmount() {
-        this.setVendorConsentCookie(null);
-        delete window.__cmp;
-        this.mounted = false;
-    }
-
-    install() {
-        const vendorList = this.options.vendorList || this.vendorList;
-        const {gdprApplies} = this.getCommonCmpProperties();
-        const vendorListVersion = isNaN(Number(vendorList)) ? null : Number(vendorList);
-        const hasData = (this.hasUserConsent() || vendorList && !vendorListVersion);
-
-        if (this.mounted) {
-            this.unmount();
-        }
-
-        if (hasData || !gdprApplies) {
-            this.vendorList = vendorList;
-            this.createConsents();
-            this.mount();
-            return Promise.resolve();
-        }
-
-        return this.fetchVendorList(vendorListVersion)
-            .then((vendorList) => {
-                this.vendorList = vendorList;
-                this.createConsents();
-                this.mount();
-            });
-    }
-
-    installStub(...args) {
-        return ConsentManagementProvider.installStub(...args);
-    }
-
-    uninstall() {
-        this.options = getDefaultOptions();
-        this.setVendorConsentCookie(null);
-        delete window.__cmp;
-    }
-
-    ping() {
-        const {gdprAppliesGlobally} = this.getCommonCmpProperties();
-
-        return new Promise((resolve) => resolve({
-            gdprAppliesGlobally,
-            cmpLoaded: true
-        }));
-    }
-
-    getConsentData(version) {
-        const {gdprApplies, hasGlobalScope} = this.getCommonCmpProperties();
-        const isCorrectVersion = !gdprApplies || !version || Number(version) === this.vendorConsent.getVersion();
-
-        return new Promise((resolve, reject) => {
-            if (isCorrectVersion) {
-                resolve({
-                    consentData: gdprApplies ? this.getVendorConsentCookie() : null,
-                    gdprApplies,
-                    hasGlobalScope
-                });
-            } else {
-                reject(new Error('consent string version mismatch'));
-            }
-        });
-    }
-
-    getVendorConsents(ids) {
-        const {gdprApplies, hasGlobalScope} = this.getCommonCmpProperties();
-
-        let vendorIds = [];
-        let consents = {
-            metadata: null,
-            purposeConsents: {},
-            vendorConsents: {}
-        };
-
-        if (this.vendorConsent) {
-            const maxVendorId = this.vendorConsent.maxVendorId;
-            const vendorList = this.vendorList;
-
-            if (Array.isArray(ids)) {
-                vendorIds = ids;
-            } else {
-                vendorIds = maxVendorId ? createIdArray(1, maxVendorId) : vendorList.vendors.map(({id}) => id);
-            }
-
-            consents = {
-                metadata: this.vendorConsent.getMetadataString(),
-                purposeConsents: toAllowedMap(
-                    createIdArray(1, MAX_STANDARD_PURPOSE_ID), // get from user
-                    (id) => this.vendorConsent.isPurposeAllowed(id)
-                ),
-                vendorConsents: toAllowedMap(
-                    vendorIds, // get from user
-                    (id) => this.vendorConsent.isVendorAllowed(id)
-                )
-            };
-        }
-
-        return new Promise((resolve) => resolve({
-            gdprApplies,
-            hasGlobalScope,
-            ...consents
-        }));
-    }
-
-    getVendorList(version) {
-        return this.fetchVendorList(Number(version));
+        return consent.policyVersion !== this.vendorList.tcfPolicyVersion;
     }
 }
 

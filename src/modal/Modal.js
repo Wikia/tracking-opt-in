@@ -5,7 +5,7 @@ import ScreenOne from './ScreenOne';
 
 import styles from './styles.scss';
 
-class App extends Component {
+class Modal extends Component {
     state = {
         consentedVendors: this.props.options.enabledVendors,
         consentedPurposes: this.props.options.enabledPurposes,
@@ -94,12 +94,12 @@ class App extends Component {
     };
 
     // This is called in sub components to update the state
-    updatePurposes = (vendorIds, purposeIds) => {
-        this.setState({consentedVendors: vendorIds, consentedPurposes: purposeIds});
+    updatePurposes = (vendors, purposes) => {
+        this.setState({consentedVendors: vendors, consentedPurposes: purposes});
     };
 
     render(props, state) {
-        const { options, content, tracker } = props;
+        const { options, content, language, tracker } = props;
         const { isScreenOne, consentedPurposes, consentedVendors, nonIabConsented } = state;
 
         if (isScreenOne) {
@@ -122,6 +122,7 @@ class App extends Component {
                     consentedPurposes={consentedPurposes}
                     consentedVendors={consentedVendors}
                     content={content}
+                    language={language}
                     nonIabConsented={nonIabConsented}
                     setNonIabConsented={this.setNonIabConsented}
                     tracker={tracker}
@@ -132,4 +133,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default Modal;

@@ -1,7 +1,9 @@
 import Cookies from 'js-cookie';
+import { debug, getJSON, getUrlParameter } from './utils';
 
 export const COUNTRY_COOKIE_NAME = 'Geo';
 const MISSING_COOKIE_NAME = 'no-cookie';
+let icbmContent = null;
 
 // client.geo.country_code https://docs.fastly.com/guides/vcl/geolocation-related-vcl-features
 const COUNTRIES_REQUIRING_PROMPT = [
@@ -88,10 +90,56 @@ function getGeoDataFromCookie(type = 'country') {
 }
 
 class GeoManager {
+    tcf2Enabled = false;
+
     constructor(country, region, countriesRequiringPrompt) {
         this.geosRequiringPrompt = (countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT).map(country => country.toLowerCase());
         this.country = (country || getGeoDataFromCookie('country') || MISSING_COOKIE_NAME).toLowerCase();
         this.region = (region || getGeoDataFromCookie('region') || MISSING_COOKIE_NAME).toLowerCase();
+
+        this.fetchInstantConfig().then(() => {
+            debug('GEO', 'ICBM called', icbmContent);
+
+            this.tcf2Enabled = this.isVariableEnabled('icTcf2Enabled');
+
+            debug('GEO', `Variables set: tcf2Enabled is ${this.tcf2Enabled}`);
+        }, () => {
+            debug('GEO', 'Failed to call ICBM service');
+
+            this.tcf2Enabled = false;
+        });
+    }
+
+    fetchInstantConfig() {
+        if (!icbmContent) {
+            // Let's use Oasis as a source of truth and change icVar for all platforms with new library version
+            icbmContent = getJSON('https://services.wikia.com/icbm/api/config?app=oasis').then((content) => {
+                icbmContent = content;
+            }, () => {
+                icbmContent = {};
+            });
+
+            return icbmContent;
+        }
+
+        return icbmContent;
+    }
+
+    isVariableEnabled(name) {
+        if (getUrlParameter(`icbm.${name}`)) {
+            return getUrlParameter(`icbm.${name}`) === 'true';
+        }
+
+        return !!(
+            icbmContent &&
+            icbmContent[name] &&
+            icbmContent[name][0] &&
+            icbmContent[name][0].value &&
+            icbmContent[name][0].regions &&
+            (
+                icbmContent[name][0].regions.includes(this.country.toUpperCase()) ||
+                icbmContent[name][0].regions.includes('XX')
+            ));
     }
 
     needsTrackingPrompt() {

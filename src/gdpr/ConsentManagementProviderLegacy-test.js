@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import { spy, stub } from 'sinon';
 import Cookies from 'js-cookie';
-import ConsentManagementProvider from './ConsentManagementProvider';
-import { vendorList as vendorListMock } from './ConsentManagementProvider-test-fixtures';
+import ConsentManagementProviderLegacy from './ConsentManagementProviderLegacy';
+import { vendorList as vendorListMock } from './ConsentManagementProviderLegacy-test-fixtures';
 
 describe('ConsentManagementProvider', () => {
     function cleanup() {
@@ -17,7 +17,7 @@ describe('ConsentManagementProvider', () => {
     context('__cmp stub', () => {
         before(() => {
             cleanup();
-            ConsentManagementProvider.installStub();
+            ConsentManagementProviderLegacy.installStub();
         });
         after(cleanup);
 
@@ -76,7 +76,7 @@ describe('ConsentManagementProvider', () => {
         before(() => {
             cleanup();
 
-            cmp = new ConsentManagementProvider();
+            cmp = new ConsentManagementProviderLegacy();
 
             stub(cmp, 'fetchVendorList').resolves(vendorListMock);
             cmp.configure(config);
