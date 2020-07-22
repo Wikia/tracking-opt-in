@@ -7,6 +7,7 @@ let icbmContent = null;
 
 // client.geo.country_code https://docs.fastly.com/guides/vcl/geolocation-related-vcl-features
 const COUNTRIES_REQUIRING_PROMPT = [
+    // Europe
     'ai', // Anguilla
     'aw', // Aruba
     'ax', // Åland Islands
@@ -71,6 +72,8 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'gb', // United Kingdom of Great Britain and Northern Ireland
     'uk', // United Kingdom of Great Britain and Northern Ireland
     'wf', // Wallis-et-Futuna
+    // South America
+    'br', // Brazil
 ];
 
 function getGeoDataFromCookie(type = 'country') {
