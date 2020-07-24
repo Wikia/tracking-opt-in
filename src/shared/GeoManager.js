@@ -73,6 +73,7 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'uk', // United Kingdom of Great Britain and Northern Ireland
     'wf', // Wallis-et-Futuna
     // South America
+    'ar', // Argentina
     'br', // Brazil
 ];
 
