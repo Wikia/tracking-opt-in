@@ -17,6 +17,7 @@ export const IAB_VENDORS = [
     126, // DoubleVerify Inc.
     120, // Eyeota Ptd Ltd
     78,  // Flashtalking, Inc.
+    755, // Google Advertising Products
     98,  // GroupM
     10,  // Index Exchange, Inc.
     278, // Integral Ad Science, Inc. (IAS)
