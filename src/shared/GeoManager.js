@@ -100,7 +100,8 @@ class GeoManager {
         this.fetchInstantConfig().then(() => {
             debug('GEO', 'ICBM called', icbmContent);
 
-            this.tcf2Enabled = this.isVariableEnabled('icTcf2Enabled');
+            // this.tcf2Enabled = this.isVariableEnabled('icTcf2Enabled');
+            this.tcf2Enabled = true;
 
             debug('GEO', `Variables set: tcf2Enabled is ${this.tcf2Enabled}`);
         }, () => {
