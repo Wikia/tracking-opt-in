@@ -95,6 +95,10 @@ function isVariableEnabled(name) {
         return getUrlParameter(`icbm.${name}`) === 'true';
     }
 
+    if (getUrlParameter(`icbm__${name}`)) {
+        return getUrlParameter(`icbm__${name}`) === 'true';
+    }
+
     return !!(
         icbmContent &&
         icbmContent[name] &&
