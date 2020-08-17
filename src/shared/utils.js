@@ -1,4 +1,5 @@
 import { Promise } from 'es6-promise';
+import * as cachedVendorList from './vendorlist-v1.json';
 
 export const PURPOSES = {
     INFORMATION: 1,
@@ -116,5 +117,9 @@ export function getVendorList() {
     // ToDo: removed at 8/15
     // return getJSON('https://vendorlist.consensu.org/vendorlist.json');
     // GVL backup
-    return getJSON('https://static.wikia.nocookie.net/fandom-ae-assets/tracking-opt-in/vendorlist-v1-215.json');
+    // return getJSON('https://vendorlist.consensu.org/v-215/vendorlist.json');
+
+    return new Promise((resolve) => {
+        resolve(cachedVendorList);
+    });
 }
