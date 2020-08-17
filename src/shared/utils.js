@@ -1,4 +1,5 @@
 import { Promise } from 'es6-promise';
+import * as cachedVendorList from './vendorlist-v1.json';
 
 export const PURPOSES = {
     INFORMATION: 1,
@@ -113,5 +114,12 @@ export function getJSON(url, useCache = true) {
 
 // ToDo: unused in new modal
 export function getVendorList() {
-    return getJSON('https://vendorlist.consensu.org/vendorlist.json');
+    // ToDo: removed at 8/15
+    // return getJSON('https://vendorlist.consensu.org/vendorlist.json');
+    // GVL backup
+    // return getJSON('https://vendorlist.consensu.org/v-215/vendorlist.json');
+
+    return new Promise((resolve) => {
+        resolve(cachedVendorList);
+    });
 }
