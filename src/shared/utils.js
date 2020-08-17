@@ -113,5 +113,8 @@ export function getJSON(url, useCache = true) {
 
 // ToDo: unused in new modal
 export function getVendorList() {
-    return getJSON('https://vendorlist.consensu.org/vendorlist.json');
+    // ToDo: removed at 8/15
+    // return getJSON('https://vendorlist.consensu.org/vendorlist.json');
+    // GVL backup
+    return getJSON('https://static.wikia.nocookie.net/fandom-ae-assets/tracking-opt-in/vendorlist-v1-215.json');
 }

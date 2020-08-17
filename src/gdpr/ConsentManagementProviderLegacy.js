@@ -149,7 +149,10 @@ class ConsentManagementProviderLegacy {
     }
 
     fetchVendorList(version) {
-        return getJSON(`https://vendorlist.consensu.org/${version ? `v-${version}/` : ''}vendorlist.json`);
+        // ToDo: removed at 8/15
+        // return getJSON(`https://vendorlist.consensu.org/${version ? `v-${version}/` : ''}vendorlist.json`);
+        // GVL backup
+        return getJSON('https://static.wikia.nocookie.net/fandom-ae-assets/tracking-opt-in/vendorlist-v1-215.json');
     }
 
     getCommonCmpProperties() {
