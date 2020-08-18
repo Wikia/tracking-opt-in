@@ -90,7 +90,7 @@ function getGeoDataFromCookie(type = 'country') {
     return false;
 }
 
-function isVariableEnabled(name) {
+function isVariableEnabled(name, country) {
     if (getUrlParameter(`icbm.${name}`)) {
         return getUrlParameter(`icbm.${name}`) === 'true';
     }
@@ -106,7 +106,7 @@ function isVariableEnabled(name) {
         icbmContent[name][0].value &&
         icbmContent[name][0].regions &&
         (
-            icbmContent[name][0].regions.includes(this.country.toUpperCase()) ||
+            icbmContent[name][0].regions.includes(country.toUpperCase()) ||
             icbmContent[name][0].regions.includes('XX')
         ));
 }
@@ -118,7 +118,7 @@ class GeoManager {
         this.region = (region || getGeoDataFromCookie('region') || MISSING_COOKIE_NAME).toLowerCase();
 
         GeoManager.fetchInstantConfig().then(() => {
-            this.tcf2Enabled = isVariableEnabled('icTcf2Enabled');
+            this.tcf2Enabled = isVariableEnabled('icTcf2Enabled', this.country);
 
             debug('GEO', `Variables set: tcf2Enabled is ${this.tcf2Enabled}`);
         });
