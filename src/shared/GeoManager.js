@@ -118,7 +118,8 @@ class GeoManager {
         this.region = (region || getGeoDataFromCookie('region') || MISSING_COOKIE_NAME).toLowerCase();
 
         GeoManager.fetchInstantConfig().then(() => {
-            this.tcf2Enabled = isVariableEnabled('icTcf2Enabled', this.country);
+            // this.tcf2Enabled = isVariableEnabled('icTcf2Enabled', this.country);
+            this.tcf2Enabled = true;
 
             debug('GEO', `Variables set: tcf2Enabled is ${this.tcf2Enabled}`);
         });
