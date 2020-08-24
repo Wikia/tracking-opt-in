@@ -14,6 +14,7 @@ export const IAB_VENDORS = [
     298, // Cuebiq Inc.
     71,  // Dataxu, Inc.
     144, // district m inc.
+    754, // DistroScale, Inc.
     126, // DoubleVerify Inc.
     674, // Duration Media, LLC.
     120, // Eyeota Ptd Ltd
