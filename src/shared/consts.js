@@ -5,6 +5,7 @@ export const IAB_VENDORS = [
     50,  // Adform A/S
     264, // Adobe Advertising Cloud
     66,  // adsquare GmbH
+    793, // Amazon Advertising
     32,  // AppNexus Inc.
     335, // Beachfront Media LLC
     128, // BIDSWITCH GmbH
@@ -63,16 +64,8 @@ export const NON_IAB_VENDORS = [
         policyUrl: 'http://4media-network.com/privacy.html',
     },
     {
-        name: 'AAP',
-        policyUrl: 'https://advertising.amazon.com/ad-specs/en/?ref_=a20m_us_fnav_spcs',
-    },
-    {
         name: 'Acxiom',
         policyUrl: 'https://www.acxiom.co.uk/about-acxiom/privacy/uk-privacy-policy',
-    },
-    {
-        name: 'Amazon A9',
-        policyUrl: 'https://www.amazon.com/gp/help/customer/display.html/ref=footer_privacy?nodeId=468496',
     },
     {
         name: 'Branch',
