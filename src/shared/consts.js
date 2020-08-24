@@ -17,6 +17,7 @@ export const IAB_VENDORS = [
     126, // DoubleVerify Inc.
     120, // Eyeota Ptd Ltd
     78,  // Flashtalking, Inc.
+    755, // Google Advertising Products
     98,  // GroupM
     10,  // Index Exchange, Inc.
     278, // Integral Ad Science, Inc. (IAS)
@@ -97,22 +98,6 @@ export const NON_IAB_VENDORS = [
         policyUrl: 'https://www.datonics.com/privacy',
     },
     {
-        name: 'DBM',
-        policyUrl: 'https://policies.google.com/privacy',
-    },
-    {
-        name: 'DCM',
-        policyUrl: 'https://policies.google.com/privacy',
-    },
-    {
-        name: 'DFP (Google)',
-        policyUrl: 'https://policies.google.com/privacy?hl=en',
-    },
-    {
-        name: 'DV360',
-        policyUrl: 'https://policies.google.com/privacy',
-    },
-    {
         name: 'Epsilon',
         policyUrl: 'https://www.epsilontel.com/privacy-policy',
     },
@@ -137,24 +122,8 @@ export const NON_IAB_VENDORS = [
         policyUrl: 'https://www.fastly.com/privacy',
     },
     {
-        name: 'Firebase',
-        policyUrl: 'https://policies.google.com/privacy?hl=en',
-    },
-    {
         name: 'First Impression',
         policyUrl: 'https://publishers.firstimpression.io/#FI/privacy-policy',
-    },
-    {
-        name: 'Google Ads IMA SDK',
-        policyUrl: 'https://policies.google.com/privacy',
-    },
-    {
-        name: 'Google Mobile Ads SDK for iOS',
-        policyUrl: 'https://policies.google.com/privacy',
-    },
-    {
-        name: 'Google Play Services',
-        policyUrl: 'https://policies.google.com/privacy',
     },
     {
         name: 'I-Behavior',
