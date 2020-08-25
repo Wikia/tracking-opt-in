@@ -43,6 +43,7 @@ export const IAB_VENDORS = [
     13,  // Sovrn Holdings Inc
     165, // SpotX
     522, // Tealium Inc
+    202, // Telaria, Inc
     345, // The Kantar Group Limited
     52,  // The Rubicon Project, Limited
     21,  // The Trade Desk, Inc and affiliated companies
