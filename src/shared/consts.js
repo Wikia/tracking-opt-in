@@ -31,6 +31,7 @@ export const IAB_VENDORS = [
     101, // MiQ
     468, // Neustar, Inc.
     373, // Nielsen Marketing Cloud (Exelate)
+    816, // NoBid, Inc.
     25,  // Oath (EMEA) Limited
     69,  // OpenX Software Ltd. and its affiliates
     385, // Oracle (BlueKai)
