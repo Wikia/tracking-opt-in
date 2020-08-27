@@ -19,6 +19,7 @@ export const IAB_VENDORS = [
     120, // Eyeota Ptd Ltd
     78,  // Flashtalking, Inc.
     98,  // GroupM
+    61,  // GumGum, Inc.
     10,  // Index Exchange, Inc.
     278, // Integral Ad Science, Inc. (IAS)
     62,  // Justpremium BV
