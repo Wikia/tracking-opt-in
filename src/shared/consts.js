@@ -53,6 +53,7 @@ export const IAB_VENDORS = [
     21,  // The Trade Desk, Inc and affiliated companies
     28,  // TripleLift, Inc.
     162, // Unruly Group Ltd
+    25,  // Verizon Media EMEA Limited
     601, // WebAds B.V
 ];
 
