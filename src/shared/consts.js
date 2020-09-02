@@ -11,14 +11,12 @@ export const IAB_VENDORS = [
     264, // Adobe Advertising Cloud
     66,  // adsquare GmbH
     793, // Amazon Advertising
-    32,  // Xandr, Inc. (AppNexus Inc.)
     335, // Beachfront Media LLC
     128, // BIDSWITCH GmbH
     315, // Celtra, Inc.
     77,  // comScore, Inc.
     85,  // Crimtan Holdings Limited
     298, // [MISSING] Cuebiq Inc.
-    71,  // Roku Advertising Services (Dataxu, Inc.)
     144, // district m inc.
     754, // DistroScale, Inc.
     126, // DoubleVerify Inc.
@@ -46,6 +44,7 @@ export const IAB_VENDORS = [
     81,  // [MISSING] PulsePoint, Inc.
     11,  // Quantcast International Limited
     36,  // RhythmOne DBA Unruly Group Ltd (RhythmOne, LLC)
+    71,  // Roku Advertising Services (Dataxu, Inc.)
     506, // [MISSING] salesforce.com, inc.
     261, // Signal Digital Inc.
     13,  // Sovrn Holdings Inc
@@ -59,6 +58,7 @@ export const IAB_VENDORS = [
     162, // Unruly Group Ltd
     25,  // Verizon Media EMEA Limited (Oath (EMEA) Limited)
     601, // WebAds B.V
+    32,  // Xandr, Inc. (AppNexus Inc.)
 ];
 
 /*
