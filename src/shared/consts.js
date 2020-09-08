@@ -234,6 +234,6 @@ export function getNonIABVendors() {
     return NON_IAB_VENDORS;
 }
 
-export function updateNonIABVendors(vendors) {
+export function addNonIABVendors(vendors) {
     vendors.forEach(element => NON_IAB_VENDORS.push(element));
 }

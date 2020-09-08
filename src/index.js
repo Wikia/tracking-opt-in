@@ -1,4 +1,4 @@
-import { IAB_VENDORS, updateNonIABVendors } from './shared/consts';
+import { IAB_VENDORS, addNonIABVendors } from './shared/consts';
 import ContentManager from './shared/ContentManager';
 import GeoManager from './shared/GeoManager';
 import LanguageManager from './shared/LangManager';
@@ -117,7 +117,7 @@ function initializeGDPR(options) {
                 isCurse,
             });
         } else {
-            updateNonIABVendors([
+            addNonIABVendors([
                 {
                     name: 'DBM',
                     policyUrl: 'https://policies.google.com/privacy',
