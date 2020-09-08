@@ -105,6 +105,17 @@ function initializeGDPR(options) {
             enabledVendors.push(
                 755, // Google Advertising Products
             );
+
+            instance.configure({
+                preventScrollOn,
+                zIndex,
+                enabledVendorPurposes,
+                enabledVendors,
+                onAcceptTracking,
+                onRejectTracking,
+                disableConsentQueue,
+                isCurse,
+            });
         } else {
             updateNonIABVendors([
                 {
@@ -142,16 +153,6 @@ function initializeGDPR(options) {
             ]);
         }
 
-        instance.configure({
-            preventScrollOn,
-            zIndex,
-            enabledVendorPurposes,
-            enabledVendors,
-            onAcceptTracking,
-            onRejectTracking,
-            disableConsentQueue,
-            isCurse,
-        });
         instance.render();
     });
 
