@@ -119,8 +119,10 @@ class GeoManager {
 
         GeoManager.fetchInstantConfig().then(() => {
             this.tcf2Enabled = isVariableEnabled('icTcf2Enabled', this.country);
+            this.googleMoved = isVariableEnabled('icTrackingOptInGoogleMove', this.country);
 
-            debug('GEO', `Variables set: tcf2Enabled is ${this.tcf2Enabled}`);
+            debug('GEO', `Variables set: icTcf2Enabled is ${this.tcf2Enabled}`);
+            debug('GEO', `Variables set: icTrackingOptInGoogleMove is ${this.googleMoved}`);
         });
     }
 
@@ -168,6 +170,10 @@ class GeoManager {
 
     hasGeoCookie() {
         return this.country !== MISSING_COOKIE_NAME;
+    }
+
+    isGoogleMoved() {
+        return this.googleMoved;
     }
 }
 
