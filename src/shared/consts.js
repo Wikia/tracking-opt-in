@@ -1,57 +1,72 @@
-// IAB CMP vendor IDs of Fandom's ad partners
-// The IDs are taken from https://vendorlist.consensu.org/vendorlist.json
+/*
+  IAB CMP vendor IDs of Fandom's ad partners
+  The IDs are taken from https://vendorlist.consensu.org/v2/vendor-list.json
+  [STATUS] GVL Name (TCFv1 name)
+  Last GVL check:  2020-09-02
+  Last update:     2020-09-02
+ */
 export const IAB_VENDORS = [
-    56,  // 33Across
-    50,  // Adform A/S
+    58,  // 33Across
+    50,  // Adform (Adform A/S)
     264, // Adobe Advertising Cloud
     66,  // adsquare GmbH
-    32,  // AppNexus Inc.
+    793, // Amazon Advertising
     335, // Beachfront Media LLC
     128, // BIDSWITCH GmbH
     315, // Celtra, Inc.
     77,  // comScore, Inc.
     85,  // Crimtan Holdings Limited
-    298, // Cuebiq Inc.
-    71,  // Dataxu, Inc.
+    298, // [MISSING] Cuebiq Inc.
     144, // district m inc.
+    754, // DistroScale, Inc.
     126, // DoubleVerify Inc.
+    674, // Duration Media, LLC.
     120, // Eyeota Ptd Ltd
     78,  // Flashtalking, Inc.
     755, // Google Advertising Products
-    98,  // GroupM
+    98,  // GroupM UK Limited (GroupM)
+    61,  // GumGum, Inc.
     10,  // Index Exchange, Inc.
     278, // Integral Ad Science, Inc. (IAS)
     62,  // Justpremium BV
     97,  // LiveRamp, Inc.
     95,  // Lotame Solutions, Inc.
-    578, // MAIRDUMONT NETLETIX GmbH&Co. KG
+    578, // [MISSING] MAIRDUMONT NETLETIX GmbH&Co. KG
     228, // McCann Discipline LTD
     79,  // MediaMath, Inc.
     101, // MiQ
     468, // Neustar, Inc.
     373, // Nielsen Marketing Cloud (Exelate)
-    25,  // Oath (EMEA) Limited
-    69,  // OpenX Software Ltd. and its affiliates
-    385, // Oracle (BlueKai)
+    816, // NoBid, Inc.
+    69,  // OpenX (OpenX Software Ltd. and its affiliates)
+    385, // Oracle Data Cloud (Oracle, BlueKai)
     177, // plista GmbH
     76,  // PubMatic, Inc.
-    81,  // PulsePoint, Inc.
+    81,  // [MISSING] PulsePoint, Inc.
     11,  // Quantcast International Limited
-    36,  // RhythmOne, LLC
-    506, // salesforce.com, inc.
+    36,  // RhythmOne DBA Unruly Group Ltd (RhythmOne, LLC)
+    71,  // Roku Advertising Services (Dataxu, Inc.)
+    506, // [MISSING] salesforce.com, inc.
     261, // Signal Digital Inc.
     13,  // Sovrn Holdings Inc
-    165, // SpotX
-    522, // Tealium Inc
+    165, // SpotX, Inc. (SpotX)
+    522, // [MISSING] Tealium Inc
+    202, // Telaria, Inc
     345, // The Kantar Group Limited
-    52,  // The Rubicon Project, Limited
-    21,  // The Trade Desk, Inc and affiliated companies
+    52,  // The Rubicon Project, Inc. (The Rubicon Project, Limited)
+    21,  // The Trade Desk (The Trade Desk, Inc and affiliated companies)
     28,  // TripleLift, Inc.
     162, // Unruly Group Ltd
+    25,  // Verizon Media EMEA Limited (Oath (EMEA) Limited)
     601, // WebAds B.V
+    32,  // Xandr, Inc. (AppNexus Inc.)
 ];
 
-// Fandom's ad partners who are not affiliated with IAB
+/*
+  Fandom's ad partners who are not affiliated with IAB
+  182, // EMX Digital LLC (RealTime)
+  68,  // Sizmek by Amazon (Sizmek)
+ */
 export const NON_IAB_VENDORS = [
     {
         name: '2 Audiens',
@@ -62,16 +77,8 @@ export const NON_IAB_VENDORS = [
         policyUrl: 'http://4media-network.com/privacy.html',
     },
     {
-        name: 'AAP',
-        policyUrl: 'https://advertising.amazon.com/ad-specs/en/?ref_=a20m_us_fnav_spcs',
-    },
-    {
         name: 'Acxiom',
         policyUrl: 'https://www.acxiom.co.uk/about-acxiom/privacy/uk-privacy-policy',
-    },
-    {
-        name: 'Amazon A9',
-        policyUrl: 'https://www.amazon.com/gp/help/customer/display.html/ref=footer_privacy?nodeId=468496',
     },
     {
         name: 'Branch',
