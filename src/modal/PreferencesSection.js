@@ -72,7 +72,7 @@ class PreferencesSection extends Component {
                 </div>
                 {isExpanded && (
                     <div>
-                        <div className={styles.description}>{allPurposes[purpose.id].description}</div>
+                        <div className={styles.description}>{allPurposes[purpose.id].descriptionLegal}</div>
                         <PreferencesVendorList
                             content={content}
                             vendors={purpose.vendors}

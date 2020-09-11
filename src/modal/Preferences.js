@@ -161,12 +161,13 @@ class Preferences extends Component {
                         </div>
                         <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.purposesHeader}</h2>
                         {this.renderPreferenceSections(purposes)}
-                        <OtherPartners
-                            content={content}
-                            nonIabConsented={nonIabConsented}
-                            onToggle={setNonIabConsented}
-                            tracker={tracker}
-                        />
+                        {/*ToDo: cleanup*/}
+                        {/*<OtherPartners*/}
+                        {/*    content={content}*/}
+                        {/*    nonIabConsented={nonIabConsented}*/}
+                        {/*    onToggle={setNonIabConsented}*/}
+                        {/*    tracker={tracker}*/}
+                        {/*/>*/}
                     </div>
                     <div className={globalStyles.footer}>
                         {/* These buttons are divs so that their styles aren't overridden */}

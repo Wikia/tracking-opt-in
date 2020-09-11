@@ -113,7 +113,7 @@ class PreferencesVendorList extends Component {
                                     </a>
                                 </div>
                                 <div className={styles.featureDescription}>
-                                    {allFeatures[featureId].description}
+                                    {allFeatures[featureId].descriptionLegal}
                                 </div>
                             </div>
                         ))}
@@ -133,7 +133,7 @@ class PreferencesVendorList extends Component {
                                     </a>
                                 </div>
                                 <div className={styles.featureDescription}>
-                                    {allFeaturesSpecial[featureId].description}
+                                    {allFeaturesSpecial[featureId].descriptionLegal}
                                 </div>
                             </div>
                         ))}
