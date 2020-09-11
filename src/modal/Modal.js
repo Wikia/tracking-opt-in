@@ -84,13 +84,16 @@ class Modal extends Component {
         this.props.onRequestAppRemove();
 
         // Pass in only those vendors and purposes the user left enabled in the preferences
-        if (this.state.nonIabConsented === true) {
-            this.props.optInManager.setTrackingAccepted();
-            this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
-        } else {
-            this.props.optInManager.setTrackingRejected();
-            this.props.onRejectTracking(this.state.consentedVendors, this.state.consentedPurposes);
-        }
+        // ToDo: cleanup
+        // if (this.state.nonIabConsented === true) {
+        //     this.props.optInManager.setTrackingAccepted();
+        //     this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
+        // } else {
+        //     this.props.optInManager.setTrackingRejected();
+        //     this.props.onRejectTracking(this.state.consentedVendors, this.state.consentedPurposes);
+        // }
+        this.props.optInManager.setTrackingRejected();
+        this.props.onRejectTracking(this.state.consentedVendors, this.state.consentedPurposes);
     };
 
     // This is called in sub components to update the state
