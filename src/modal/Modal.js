@@ -86,14 +86,14 @@ class Modal extends Component {
         // Pass in only those vendors and purposes the user left enabled in the preferences
         // ToDo: cleanup
         // if (this.state.nonIabConsented === true) {
-        //     this.props.optInManager.setTrackingAccepted();
-        //     this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
-        // } else {
-        //     this.props.optInManager.setTrackingRejected();
-        //     this.props.onRejectTracking(this.state.consentedVendors, this.state.consentedPurposes);
-        // }
-        this.props.optInManager.setTrackingRejected();
-        this.props.onRejectTracking(this.state.consentedVendors, this.state.consentedPurposes);
+        // ToDo: make GVL change resistant
+        if (this.state.consentedPurposes.length === 10) {
+            this.props.optInManager.setTrackingAccepted();
+            this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
+        } else {
+            this.props.optInManager.setTrackingRejected();
+            this.props.onRejectTracking(this.state.consentedVendors, this.state.consentedPurposes);
+        }
     };
 
     // This is called in sub components to update the state
