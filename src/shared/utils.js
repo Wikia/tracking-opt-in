@@ -1,5 +1,4 @@
 import { Promise } from 'es6-promise';
-import * as cachedVendorList from './vendorlist-v1.json';
 
 export const PURPOSES = {
     INFORMATION: 1,
