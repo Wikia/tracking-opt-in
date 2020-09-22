@@ -47,14 +47,18 @@ class Preferences extends Component {
                 // Filter vendors to those used by Fandom
                 const vendors = this.objectToArray(json.vendors).filter(vendor => (this.props.allVendors.indexOf(vendor.id) >= 0));
                 const purposesWithVendors = this.objectToArray(json.purposes).map((purpose) => {
-                    purpose.vendors = vendors.filter(vendor => (vendor.purposes.indexOf(purpose.id) >= 0));
+                    purpose.vendors = vendors.filter(vendor => (vendor.purposes.includes(purpose.id)));
                     return purpose;
+                });
+                const specialFeaturesWithVendors = this.objectToArray(json.specialFeatures).map((specialFeature) => {
+                    specialFeature.vendor = vendors.filter(vendor => (vendor.specialFeatures.includes(specialFeature.id)));
+                    return specialFeature;
                 });
                 this.setState({
                     purposes: purposesWithVendors,
                     specialPurposes: this.objectToArray(json.specialPurposes),
                     features: this.objectToArray(json.features),
-                    specialFeatures: this.objectToArray(json.specialFeatures),
+                    specialFeatures: specialFeaturesWithVendors,
                 });
                 this.forceUpdate();
             });
