@@ -99,9 +99,7 @@ function initializeGDPR(options) {
         window.location,
     );
 
-    GeoManager.fetchInstantConfig().then(() => {
-        instance.render();
-    });
+    instance.render();
 
     return instance;
 }
@@ -125,7 +123,6 @@ function initializeCCPA(options) {
 
 export default function main(options) {
     return {
-        icbm: GeoManager.fetchInstantConfig(),
         gdpr: initializeGDPR(options),
         ccpa: initializeCCPA(options),
     };

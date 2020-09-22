@@ -1,10 +1,7 @@
 import Cookies from 'js-cookie';
-import { debug, getJSON, getUrlParameter } from './utils';
 
 export const COUNTRY_COOKIE_NAME = 'Geo';
 const MISSING_COOKIE_NAME = 'no-cookie';
-let icbmLoaded = false;
-let icbmContent = null;
 
 // client.geo.country_code https://docs.fastly.com/guides/vcl/geolocation-related-vcl-features
 const COUNTRIES_REQUIRING_PROMPT = [
@@ -90,66 +87,11 @@ function getGeoDataFromCookie(type = 'country') {
     return false;
 }
 
-function isVariableEnabled(name, country) {
-    if (getUrlParameter(`icbm.${name}`)) {
-        return getUrlParameter(`icbm.${name}`) === 'true';
-    }
-
-    if (getUrlParameter(`icbm__${name}`)) {
-        return getUrlParameter(`icbm__${name}`) === 'true';
-    }
-
-    return !!(
-        icbmContent &&
-        icbmContent[name] &&
-        icbmContent[name][0] &&
-        icbmContent[name][0].value &&
-        icbmContent[name][0].regions &&
-        (
-            icbmContent[name][0].regions.includes(country.toUpperCase()) ||
-            icbmContent[name][0].regions.includes('XX')
-        ));
-}
-
 class GeoManager {
     constructor(country, region, countriesRequiringPrompt) {
         this.geosRequiringPrompt = (countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT).map(country => country.toLowerCase());
         this.country = (country || getGeoDataFromCookie('country') || MISSING_COOKIE_NAME).toLowerCase();
         this.region = (region || getGeoDataFromCookie('region') || MISSING_COOKIE_NAME).toLowerCase();
-
-        GeoManager.fetchInstantConfig().then(() => {
-            this.tcf2Enabled = isVariableEnabled('icTcf2Enabled', this.country);
-            this.googleMoved = isVariableEnabled('icTrackingOptInGoogleMove', this.country);
-
-            debug('GEO', `Variables set: icTcf2Enabled is ${this.tcf2Enabled}`);
-            debug('GEO', `Variables set: icTrackingOptInGoogleMove is ${this.googleMoved}`);
-        });
-    }
-
-    static fetchInstantConfig() {
-        if (!icbmLoaded) {
-            if (icbmContent) {
-                return icbmContent;
-            }
-
-            // Let's use Oasis as a source of truth and change icVar for all platforms with new library version
-            icbmContent = getJSON('https://services.wikia.com/icbm/api/config?app=oasis')
-                .then((content) => {
-                    debug('GEO', 'ICBM called', content);
-
-                    icbmLoaded = true;
-                    icbmContent = content;
-                }, () => {
-                    debug('GEO', 'Failed to call ICBM service');
-
-                    icbmLoaded = true;
-                    icbmContent = {};
-                });
-
-            return icbmContent;
-        }
-
-        return Promise.resolve();
     }
 
     needsTrackingPrompt() {
@@ -170,10 +112,6 @@ class GeoManager {
 
     hasGeoCookie() {
         return this.country !== MISSING_COOKIE_NAME;
-    }
-
-    isGoogleMoved() {
-        return this.googleMoved;
     }
 }
 
