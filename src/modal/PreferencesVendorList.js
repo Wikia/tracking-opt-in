@@ -20,6 +20,11 @@ class PreferencesVendorList extends Component {
         return this.props.consentedVendors.indexOf(vendorId) >= 0;
     }
 
+    isConsentedSpecialFeature(vendorName, specialFeatureId) {
+        const vendor = Object.values(this.state.vendors).find(vendor => vendor.name === vendorName);
+        return vendor.specialFeatures.includes(specialFeatureId);
+    }
+
     toggleIsExpanded(vendorId) {
         const { tracker } = this.props;
         const { vendors } = this.state;
@@ -128,12 +133,9 @@ class PreferencesVendorList extends Component {
                             <div className={styles.vendorDetail} key={`${vendor.id}_${featureId}`}>
                                 <div className={styles.flex}>
                                     <span>{allFeaturesSpecial[featureId].name}</span>
-                                    <a href={vendor.policyUrl} className={styles.link} target="_blank">
-                                        {content.findOutMoreButton}
-                                    </a>
-                                </div>
-                                <div className={styles.featureDescription}>
-                                    {allFeaturesSpecial[featureId].descriptionLegal}
+                                    <span className={styles.allowed}>
+                                    {this.isConsentedSpecialFeature(vendor.name, featureId) ? content.allowedButton : content.disallowedButton}
+                                </span>
                                 </div>
                             </div>
                         ))}
