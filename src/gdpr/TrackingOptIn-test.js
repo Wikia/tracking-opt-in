@@ -7,7 +7,7 @@ import ContentManager from '../shared/ContentManager';
 import ConsentManagementProvider from './ConsentManagementProvider';
 import ConsentManagementProviderLegacy from './ConsentManagementProviderLegacy';
 import Tracker from './Tracker';
-import styles from '../components/styles.scss';
+import styles from '../modal/styles.scss';
 
 const document = global.document;
 

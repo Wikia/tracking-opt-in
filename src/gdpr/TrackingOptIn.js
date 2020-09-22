@@ -1,5 +1,4 @@
 import { h, render } from 'preact/dist/preact';
-import AppLegacy from '../components/AppLegacy';
 import Modal from '../modal/Modal';
 import { isParameterSet, parseUrl } from '../shared/utils';
 import { API_STATUS } from './ConsentManagementProvider';
@@ -129,32 +128,21 @@ class TrackingOptIn {
             document.body.appendChild(this.root);
         }
 
-        // ToDo: cleanup TCF v1.1
-        if (!this.geoManager.tcf2Enabled) {
-            this.consentManagementProvider = this.consentManagementProviderLegacy;
-        }
-
         this.consentManagementProvider.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
         });
         this.consentManagementProvider.installStub();
+        this.consentManagementProvider.initialize();
+        this.consentManagementProvider.loadVendorList()
+            .then(() => {
+                this.tracker.tcfVersion = 2;
 
-        // ToDo: cleanup TCF v1.1
-        if (this.geoManager.tcf2Enabled) {
-            this.consentManagementProvider.initialize();
-            this.consentManagementProvider.loadVendorList()
-                .then(() => {
-                    this.tracker.tcfVersion = 2;
+                if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
+                    this.consentManagementProvider.setVendorConsentCookie(null);
+                }
 
-                    if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
-                        this.consentManagementProvider.setVendorConsentCookie(null);
-                    }
-
-                    this.checkUserConsent();
-                });
-        } else {
-            this.checkUserConsent();
-        }
+                this.checkUserConsent();
+            });
     }
 
     checkUserConsent() {
@@ -171,38 +159,9 @@ class TrackingOptIn {
                         this.rejectBeforeConsent();
                     }
 
-                    if (this.geoManager.tcf2Enabled) {
-                        this.renderNewModal();
-                    } else {
-                        this.renderOldModal();
-                    }
+                    this.renderNewModal();
                 }
         }
-    }
-
-    renderOldModal() {
-        const options = {
-            enabledPurposes: this.options.enabledVendorPurposes,
-            enabledVendors: this.options.enabledVendors,
-            zIndex: this.options.zIndex,
-            preventScrollOn: this.options.preventScrollOn,
-            isCurse: this.options.isCurse,
-        };
-
-        render(
-            <AppLegacy
-                onRequestAppRemove={this.removeApp}
-                onAcceptTracking={this.onAcceptTracking}
-                onRejectTracking={this.onRejectTracking}
-                tracker={this.tracker}
-                optInManager={this.optInManager}
-                geoManager={this.geoManager}
-                options={options}
-                content={this.contentManager.content}
-            />,
-            this.root,
-            this.root.lastChild
-        );
     }
 
     renderNewModal() {
