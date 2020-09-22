@@ -159,8 +159,7 @@ describe('ConsentManagementProvider', () => {
             });
         });
 
-        // ToDo: this test fails only on Jenkins
-        it.skip('implements getVendorConsents with parameters', (done) => {
+        it('implements getVendorConsents with parameters', (done) => {
             window.__cmp('getVendorConsents', [8, 11], (params, success) => {
                 const {
                     metadata,
