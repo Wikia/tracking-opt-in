@@ -23,7 +23,7 @@ export const IAB_VENDORS = [
     674, // Duration Media, LLC.
     120, // Eyeota Ptd Ltd
     78,  // Flashtalking, Inc.
-    // 755, // Google Advertising Products
+    755, // Google Advertising Products
     98,  // GroupM UK Limited (GroupM)
     61,  // GumGum, Inc.
     10,  // Index Exchange, Inc.

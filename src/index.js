@@ -100,59 +100,6 @@ function initializeGDPR(options) {
     );
 
     GeoManager.fetchInstantConfig().then(() => {
-        // ToDo: get rid of it, move Google's id to consts.js
-        if (geoManager.isGoogleMoved()) {
-            enabledVendors.push(
-                755, // Google Advertising Products
-            );
-
-            instance.configure({
-                preventScrollOn,
-                zIndex,
-                enabledVendorPurposes,
-                enabledVendors,
-                onAcceptTracking,
-                onRejectTracking,
-                disableConsentQueue,
-                isCurse,
-            });
-        } else {
-            addNonIABVendors([
-                {
-                    name: 'DBM',
-                    policyUrl: 'https://policies.google.com/privacy',
-                },
-                {
-                    name: 'DCM',
-                    policyUrl: 'https://policies.google.com/privacy',
-                },
-                {
-                    name: 'DFP (Google)',
-                    policyUrl: 'https://policies.google.com/privacy?hl=en',
-                },
-                {
-                    name: 'DV360',
-                    policyUrl: 'https://policies.google.com/privacy',
-                },
-                {
-                    name: 'Firebase',
-                    policyUrl: 'https://policies.google.com/privacy?hl=en',
-                },
-                {
-                    name: 'Google Ads IMA SDK',
-                    policyUrl: 'https://policies.google.com/privacy',
-                },
-                {
-                    name: 'Google Mobile Ads SDK for iOS',
-                    policyUrl: 'https://policies.google.com/privacy',
-                },
-                {
-                    name: 'Google Play Services',
-                    policyUrl: 'https://policies.google.com/privacy',
-                },
-            ]);
-        }
-
         instance.render();
     });
 
