@@ -229,11 +229,3 @@ export const NON_IAB_VENDORS = [
         policyUrl: 'https://www.visualdna.com/privacy-policy',
     },
 ];
-
-export function getNonIABVendors() {
-    return NON_IAB_VENDORS;
-}
-
-export function addNonIABVendors(vendors) {
-    vendors.forEach(element => NON_IAB_VENDORS.push(element));
-}
