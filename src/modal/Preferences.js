@@ -31,7 +31,9 @@ class Preferences extends Component {
 
     componentWillMount() {
         if (!this.state.purposes && !this.state.features) {
-            const { language } = this.props;
+            const { consentedVendors, language, updatePurposes } = this.props;
+
+            updatePurposes(consentedVendors, []);
 
             Promise.all([
                 ConsentManagementProvider.fetchVendorList(),
@@ -123,7 +125,8 @@ class Preferences extends Component {
             return null;
         }
         const { consentedPurposes, consentedVendors, content, tracker } = this.props;
-        const toRender = purposes.map((purpose) => (
+
+        return purposes.map((purpose) => (
             <PreferencesSection
                 allFeatures={this.state.features}
                 allFeaturesSpecial={this.state.specialFeatures}
@@ -138,7 +141,6 @@ class Preferences extends Component {
                 tracker={tracker}
             />
         ));
-        return toRender;
     }
 
     render(props, state) {
