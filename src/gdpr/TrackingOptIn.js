@@ -10,7 +10,6 @@ class TrackingOptIn {
         geoManager,
         contentManager,
         consentManagementProvider,
-        consentManagementProviderLegacy,
         options,
         location
     ) {
@@ -19,8 +18,6 @@ class TrackingOptIn {
         this.geoManager = geoManager;
         this.contentManager = contentManager;
         this.consentManagementProvider = consentManagementProvider;
-        // ToDo: cleanup TCF v1.1
-        this.consentManagementProviderLegacy = consentManagementProviderLegacy;
         this.options = options;
         this.location = location;
         this.isReset = false;
@@ -131,13 +128,9 @@ class TrackingOptIn {
         this.consentManagementProvider.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
         });
-        this.consentManagementProvider.installStub();
         this.consentManagementProvider.initialize();
         this.consentManagementProvider.loadVendorList()
-            .then(() => {
-                this.tracker.tcfVersion = 2;
-
-                if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
+            .then(() => {if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
                     this.consentManagementProvider.setVendorConsentCookie(null);
                 }
 
