@@ -61,11 +61,10 @@ class ConsentManagementProvider {
         GVL.latestFilename = VENDOR_LIST_FILE_NAME;
         GVL.versionedFilename = VENDOR_LIST_VERSION_NAME;
 
-        // ToDo: uncomment
         // Install temporary stub until full CMP will be ready
-        // if (window.__tcfapi === undefined) {
-        //     this.installStub();
-        // }
+        if (window.__tcfapi === undefined) {
+            this.installStub();
+        }
     }
 
     configure(options) {
