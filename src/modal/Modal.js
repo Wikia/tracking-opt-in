@@ -102,6 +102,10 @@ class Modal extends Component {
         this.setState({consentedVendors: vendors, consentedPurposes: purposes});
     };
 
+    updateSpecialFeatures = (vendors, specialFeatures) => {
+        this.setState({consentedVendors: vendors, consentedspecialFeatures: specialFeatures});
+    };
+
     render(props, state) {
         const { options, content, language, tracker } = props;
         const { isScreenOne, consentedPurposes, consentedVendors, consentedSpecialFeatures, nonIabConsented } = state;
@@ -132,6 +136,7 @@ class Modal extends Component {
                     setNonIabConsented={this.setNonIabConsented}
                     tracker={tracker}
                     updatePurposes={this.updatePurposes}
+                    updateSpecialFeatures={this.updateSpecialFeatures}
                 />
             );
         }
