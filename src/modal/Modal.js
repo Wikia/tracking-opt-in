@@ -9,6 +9,7 @@ class Modal extends Component {
     state = {
         consentedVendors: this.props.options.enabledVendors,
         consentedPurposes: this.props.options.enabledPurposes,
+        consentedSpecialFeatures: this.props.options.enabledSpecialFeatures,
         isScreenOne: true,
         nonIabConsented: true,
     };
@@ -103,7 +104,7 @@ class Modal extends Component {
 
     render(props, state) {
         const { options, content, language, tracker } = props;
-        const { isScreenOne, consentedPurposes, consentedVendors, nonIabConsented } = state;
+        const { isScreenOne, consentedPurposes, consentedVendors, consentedSpecialFeatures, nonIabConsented } = state;
 
         if (isScreenOne) {
             return (
@@ -124,6 +125,7 @@ class Modal extends Component {
                     clickSave={this.save}
                     consentedPurposes={consentedPurposes}
                     consentedVendors={consentedVendors}
+                    consentedSpecialFeatures={consentedSpecialFeatures}
                     content={content}
                     language={language}
                     nonIabConsented={nonIabConsented}

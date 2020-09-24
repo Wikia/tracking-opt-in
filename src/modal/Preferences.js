@@ -51,7 +51,7 @@ class Preferences extends Component {
                     return purpose;
                 });
                 const specialFeaturesWithVendors = this.objectToArray(json.specialFeatures).map((specialFeature) => {
-                    specialFeature.vendor = vendors.filter(vendor => (vendor.specialFeatures.includes(specialFeature.id)));
+                    specialFeature.vendors = vendors.filter(vendor => (vendor.specialFeatures.includes(specialFeature.id)));
                     return specialFeature;
                 });
                 this.setState({
@@ -133,12 +133,37 @@ class Preferences extends Component {
                 allFeaturesSpecial={this.state.specialFeatures}
                 allPurposes={purposes}
                 allPurposesSpecial={this.state.specialPurposes}
-                consentedPurposes={consentedPurposes}
+                allItems={purposes}
+                consentedItems={consentedPurposes}
                 consentedVendors={consentedVendors}
                 content={content}
-                onTogglePurpose={(purposeId, isEnabled) => this.togglePurpose(purposeId, isEnabled)}
+                onToggleItem={(purposeId, isEnabled) => this.togglePurpose(purposeId, isEnabled)}
                 onToggleVendor={(vendorId, isEnabled) => this.toggleVendor(vendorId, isEnabled)}
-                purpose={purpose}
+                item={purpose}
+                tracker={tracker}
+            />
+        ));
+        return toRender;
+    }
+
+    renderPreferenceSectionsTmp(specialFeatures) {
+        if (!specialFeatures) {
+            return null;
+        }
+        const { consentedSpecialFeatures, consentedVendors, content, tracker } = this.props;
+        const toRender = specialFeatures.map((specialFeature) => (
+            <PreferencesSection
+                allFeatures={this.state.features}
+                allFeaturesSpecial={specialFeatures}
+                allPurposes={this.state.purposes}
+                allPurposesSpecial={this.state.specialPurposes}
+                allItems={specialFeatures}
+                consentedItems={consentedSpecialFeatures}
+                consentedVendors={consentedVendors}
+                content={content}
+                onToggleItem={() => {}}
+                onToggleVendor={() => {}}
+                item={specialFeature}
                 tracker={tracker}
             />
         ));
@@ -147,7 +172,7 @@ class Preferences extends Component {
 
     render(props, state) {
         const { appOptions, content, clickBack, clickSave, nonIabConsented, setNonIabConsented, tracker } = props;
-        const { purposes } = state;
+        const { purposes, specialFeatures } = state;
 
         return (
             <div
@@ -172,6 +197,8 @@ class Preferences extends Component {
                         {/*    onToggle={setNonIabConsented}*/}
                         {/*    tracker={tracker}*/}
                         {/*/>*/}
+                        <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.specialFeaturesHeader}</h2>
+                        {this.renderPreferenceSectionsTmp(specialFeatures)}
                     </div>
                     <div className={globalStyles.footer}>
                         {/* These buttons are divs so that their styles aren't overridden */}
