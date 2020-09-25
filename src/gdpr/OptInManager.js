@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import { getCookieDomain } from '../shared/utils';
-import { CMP_VERSION } from './ConsentManagementProviderLegacy';
+import { CMP_VERSION } from './ConsentManagementProvider';
 
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
 const DEFAULT_REJECT_COOKIE_EXPIRATION = 31;
