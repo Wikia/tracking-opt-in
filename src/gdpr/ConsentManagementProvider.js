@@ -202,6 +202,11 @@ class ConsentManagementProvider {
         tcModel.isServiceSpecific = true;
         tcModel.purposeConsents.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
         tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
+        // ToDo: proper implementation of Right to Object
+        tcModel.purposeLegitimateInterests.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
+        tcModel.vendorLegitimateInterests.set(Array.isArray(allowedVendors) ? allowedVendors : []);
+        // ToDo: figure out the proper value
+        // tcModel.publisherCountryCode();
 
         debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes);
 
