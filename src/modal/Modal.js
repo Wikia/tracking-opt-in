@@ -103,7 +103,7 @@ class Modal extends Component {
     };
 
     updateSpecialFeatures = (vendors, specialFeatures) => {
-        this.setState({consentedVendors: vendors, consentedspecialFeatures: specialFeatures});
+        this.setState({consentedVendors: vendors, consentedSpecialFeatures: specialFeatures});
     };
 
     render(props, state) {
@@ -127,8 +127,8 @@ class Modal extends Component {
                     appOptions={options}
                     clickBack={this.back}
                     clickSave={this.save}
-                    consentedPurposes={consentedPurposes}
                     consentedVendors={consentedVendors}
+                    consentedPurposes={consentedPurposes}
                     consentedSpecialFeatures={consentedSpecialFeatures}
                     content={content}
                     language={language}

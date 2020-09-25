@@ -11,8 +11,20 @@ class PreferencesSection extends Component {
         isExpanded: false,
     };
 
-    isConsentedItem(itemId) {
-        return this.props.consentedItems.indexOf(itemId) >= 0;
+    isItemEnabled(item) {
+        if (item.type === 'purpose') {
+            return this.isConsentedPurpose(item.id);
+        } else if (item.type === 'specialFeature') {
+            return this.isConsentedSpecialFeature(item.id);
+        }
+    }
+
+    isConsentedPurpose(purposeId) {
+        return this.props.consentedPurposes.indexOf(purposeId) >= 0;
+    }
+
+    isConsentedSpecialFeature(featureId) {
+        return this.props.consentedSpecialFeatures.indexOf(featureId) >= 0;
     }
 
     toggleIsExpanded() {
@@ -49,13 +61,13 @@ class PreferencesSection extends Component {
             allFeatures,
             allFeaturesSpecial,
             allItems,
-            consentedItems,
             consentedVendors,
+            consentedPurposes,
+            consentedSpecialFeatures,
             item,
             tracker,
         } = props;
         const { isExpanded } = state;
-        const itemIsEnabled = this.isConsentedItem(item.id);
 
         return (
             <div className={styles.section} key={item.id}>
@@ -69,7 +81,7 @@ class PreferencesSection extends Component {
                             </svg>
                         </div>
                     </div>
-                    <Switch isOn={itemIsEnabled} onChange={() => onToggleItem(item.id, !itemIsEnabled)} />
+                    <Switch isOn={this.isItemEnabled(item)} onChange={() => onToggleItem(item.id, !this.isItemEnabled(item))} />
                 </div>
                 {isExpanded && (
                     <div>
@@ -83,9 +95,9 @@ class PreferencesSection extends Component {
                             allFeatures={allFeatures}
                             allFeaturesSpecial={allFeaturesSpecial}
                             allItems={allItems}
-                            consentedItems={consentedItems}
                             consentedVendors={consentedVendors}
-                            item={item}
+                            consentedPurposes={consentedPurposes}
+                            consentedSpecialFeatures={consentedSpecialFeatures}
                             tracker={tracker}
                         />
                     </div>

@@ -146,7 +146,7 @@ class Preferences extends Component {
         if (!purposes) {
             return null;
         }
-        const { consentedPurposes, consentedVendors, content, tracker } = this.props;
+        const { consentedPurposes, consentedSpecialFeatures, consentedVendors, content, tracker } = this.props;
         return purposes.map((purpose) => (
             <PreferencesSection
                 allFeatures={this.state.features}
@@ -154,12 +154,13 @@ class Preferences extends Component {
                 allPurposes={purposes}
                 allPurposesSpecial={this.state.specialPurposes}
                 allItems={purposes}
-                consentedItems={consentedPurposes}
                 consentedVendors={consentedVendors}
+                consentedPurposes={consentedPurposes}
+                consentedSpecialFeatures={consentedSpecialFeatures}
                 content={content}
                 onToggleItem={(purposeId, isEnabled) => this.togglePurpose(purposeId, isEnabled)}
                 onToggleVendor={(vendorId, isEnabled) => this.toggleVendor(vendorId, isEnabled)}
-                item={purpose}
+                item={{...purpose, type: 'purpose'}}
                 tracker={tracker}
             />
         ));
@@ -169,7 +170,7 @@ class Preferences extends Component {
         if (!specialFeatures) {
             return null;
         }
-        const { consentedSpecialFeatures, consentedVendors, content, tracker } = this.props;
+        const { consentedPurposes, consentedSpecialFeatures, consentedVendors, content, tracker } = this.props;
         return specialFeatures.map((specialFeature) => (
             <PreferencesSection
                 allFeatures={this.state.features}
@@ -177,12 +178,13 @@ class Preferences extends Component {
                 allPurposes={this.state.purposes}
                 allPurposesSpecial={this.state.specialPurposes}
                 allItems={specialFeatures}
-                consentedItems={consentedSpecialFeatures}
                 consentedVendors={consentedVendors}
+                consentedPurposes={consentedPurposes}
+                consentedSpecialFeatures={consentedSpecialFeatures}
                 content={content}
                 onToggleItem={(specialFeatureId, isEnabled) => {this.toggleSpecialFeature(specialFeatureId, isEnabled)}}
                 onToggleVendor={(vendorId, isEnabled) => this.toggleVendor(vendorId, isEnabled)}
-                item={specialFeature}
+                item={{...specialFeature, type: 'specialFeature'}}
                 tracker={tracker}
             />
         ));

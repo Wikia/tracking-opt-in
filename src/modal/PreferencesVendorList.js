@@ -12,17 +12,16 @@ class PreferencesVendorList extends Component {
         }),
     };
 
-    isConsentedItem(itemId) {
-        return this.props.consentedItems.indexOf(itemId) >= 0;
+    isConsentedPurpose(purposeId) {
+        return this.props.consentedPurposes.indexOf(purposeId) >= 0;
     }
 
     isConsentedVendor(vendorId) {
         return this.props.consentedVendors.indexOf(vendorId) >= 0;
     }
 
-    isConsentedSpecialFeature(vendorName, specialFeatureId) {
-        const vendor = Object.values(this.state.vendors).find(vendor => vendor.name === vendorName);
-        return vendor.specialFeatures.includes(specialFeatureId);
+    isConsentedSpecialFeature(specialFeatureId) {
+        return this.props.consentedSpecialFeatures.indexOf(specialFeatureId) >= 0;
     }
 
     toggleIsExpanded(vendorId) {
@@ -40,7 +39,7 @@ class PreferencesVendorList extends Component {
     }
 
     renderVendorDetails(vendor) {
-        const { content, allPurposes, allPurposesSpecial, allFeatures, allFeaturesSpecial, item } = this.props;
+        const { content, allPurposes, allPurposesSpecial, allFeatures, allFeaturesSpecial } = this.props;
 
         return (
             <div className={styles.vendorDetails}>
@@ -53,7 +52,7 @@ class PreferencesVendorList extends Component {
                             <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
                                 <span>{allPurposes[purposeId].name}</span>
                                 <span classname={styles.allowed}>
-                                    {this.isConsentedVendor(vendor.id) && this.isConsentedItem(item.id) ? content.allowedButton : content.disallowedButton}
+                                    {this.isConsentedVendor(vendor.id) && this.isConsentedPurpose(purposeId) ? content.allowedButton : content.disallowedButton}
                                 </span>
                             </div>
                         ))}
@@ -134,7 +133,7 @@ class PreferencesVendorList extends Component {
                                 <div className={styles.flex}>
                                     <span>{allFeaturesSpecial[featureId].name}</span>
                                     <span className={styles.allowed}>
-                                    {this.isConsentedSpecialFeature(vendor.name, featureId) ? content.allowedButton : content.disallowedButton}
+                                    {this.isConsentedSpecialFeature(featureId) ? content.allowedButton : content.disallowedButton}
                                 </span>
                                 </div>
                             </div>
