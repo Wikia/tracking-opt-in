@@ -205,7 +205,7 @@ class ConsentManagementProvider {
         tcModel.specialFeatureOptins.set(Array.isArray(allowedSpecialFeatures) ? allowedSpecialFeatures : []);
         tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
 
-        debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes);
+        debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes, 'and special feature options', allowedSpecialFeatures);
 
         tcString = TCString.encode(tcModel);
 

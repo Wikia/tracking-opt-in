@@ -94,7 +94,6 @@ class PreferencesSection extends Component {
                             allPurposesSpecial={allPurposesSpecial}
                             allFeatures={allFeatures}
                             allFeaturesSpecial={allFeaturesSpecial}
-                            allItems={allItems}
                             consentedVendors={consentedVendors}
                             consentedPurposes={consentedPurposes}
                             consentedSpecialFeatures={consentedSpecialFeatures}

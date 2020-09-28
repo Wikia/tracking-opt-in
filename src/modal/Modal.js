@@ -60,7 +60,7 @@ class Modal extends Component {
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
         // Pass in all originally enabled vendors and purposes
-        this.props.onAcceptTracking(this.props.options.enabledVendors, this.props.options.enabledPurposes);
+        this.props.onAcceptTracking(this.props.options.enabledVendors, this.props.options.enabledPurposes, this.props.options.enabledSpecialFeatures);
     };
 
     setNonIabConsented = (isConsented) => {
@@ -90,10 +90,10 @@ class Modal extends Component {
         // ToDo: make GVL change resistant
         if (this.state.consentedPurposes.length === 10) {
             this.props.optInManager.setTrackingAccepted();
-            this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
+            this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes, this.state.consentedSpecialFeatures);
         } else {
             this.props.optInManager.setTrackingRejected();
-            this.props.onRejectTracking(this.state.consentedVendors, this.state.consentedPurposes);
+            this.props.onRejectTracking(this.state.consentedVendors, this.state.consentedPurposes, this.state.consentedSpecialFeatures);
         }
     };
 

@@ -40,10 +40,11 @@ class TrackingOptIn {
     };
 
     // Non-IAB tracking is accepted. Some or all IAB vendors or purposes _may_ be accepted
-    onAcceptTracking = (allowedVendors, allowedPurposes) => {
+    onAcceptTracking = (allowedVendors, allowedPurposes, allowedSpecialFeatures) => {
         this.consentManagementProvider.configure({
             allowedVendors: allowedVendors,
-            allowedVendorPurposes: allowedPurposes
+            allowedVendorPurposes: allowedPurposes,
+            allowedSpecialFeatures: allowedSpecialFeatures
         });
         this.consentManagementProvider.install().then(() => {
             this.options.onAcceptTracking(allowedVendors, allowedPurposes);
@@ -51,10 +52,11 @@ class TrackingOptIn {
     };
 
     // Non-IAB tracking is rejected. Some or all IAB vendors or purposes _may_ be accepted
-    onRejectTracking = (allowedVendors, allowedPurposes) => {
+    onRejectTracking = (allowedVendors, allowedPurposes, allowedSpecialFeatures) => {
         this.consentManagementProvider.configure({
             allowedVendors: allowedVendors,
-            allowedVendorPurposes: allowedPurposes
+            allowedVendorPurposes: allowedPurposes,
+            allowedSpecialFeatures: allowedSpecialFeatures
         });
         this.consentManagementProvider.install().then(() => {
             this.options.onRejectTracking(allowedVendors, allowedPurposes);
@@ -65,7 +67,8 @@ class TrackingOptIn {
     rejectBeforeConsent = () => {
         this.consentManagementProvider.configure({
             allowedVendors: [],
-            allowedVendorPurposes: []
+            allowedVendorPurposes: [],
+            allowedSpecialFeatures: []
         });
         this.consentManagementProvider.install();
     };
