@@ -31,9 +31,10 @@ class Preferences extends Component {
 
     componentWillMount() {
         if (!this.state.purposes && !this.state.features) {
-            const { consentedVendors, language, updatePurposes } = this.props;
+            const { consentedVendors, language, updatePurposes, updateSpecialFeatures } = this.props;
 
             updatePurposes(consentedVendors, []);
+            updateSpecialFeatures(consentedVendors, []);
 
             Promise.all([
                 ConsentManagementProvider.fetchVendorList(),
