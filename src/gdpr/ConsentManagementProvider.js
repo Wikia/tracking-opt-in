@@ -7,7 +7,7 @@ import { default as installCMPStub } from '@iabtcf/stub';
 
 import { debug, getCookieDomain, getJSON } from '../shared/utils';
 
-export const CMP_VERSION = 3; // Increment to force modal again
+export const CMP_VERSION = 4; // Increment to force modal again
 export const API_STATUS = {
     UI_VISIBLE_NEW: 'ui-visible-new',
     UI_VISIBLE_RESET: 'ui-visible-reset',
@@ -204,6 +204,11 @@ class ConsentManagementProvider {
         tcModel.purposeConsents.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
         tcModel.specialFeatureOptins.set(Array.isArray(allowedSpecialFeatures) ? allowedSpecialFeatures : []);
         tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
+        // ToDo: proper implementation of Right to Object
+        tcModel.purposeLegitimateInterests.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
+        tcModel.vendorLegitimateInterests.set(Array.isArray(allowedVendors) ? allowedVendors : []);
+        // ToDo: figure out the proper value
+        // tcModel.publisherCountryCode();
 
         debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes, 'and special feature options', allowedSpecialFeatures);
 
