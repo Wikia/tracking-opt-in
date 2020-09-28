@@ -13,15 +13,15 @@ class PreferencesVendorList extends Component {
     };
 
     isConsentedPurpose(purposeId) {
-        return this.props.consentedPurposes.indexOf(purposeId) >= 0;
+        return this.props.consentedPurposes.includes(purposeId);
     }
 
     isConsentedVendor(vendorId) {
-        return this.props.consentedVendors.indexOf(vendorId) >= 0;
+        return this.props.consentedVendors.includes(vendorId);
     }
 
     isConsentedSpecialFeature(specialFeatureId) {
-        return this.props.consentedSpecialFeatures.indexOf(specialFeatureId) >= 0;
+        return this.props.consentedSpecialFeatures.includes(specialFeatureId);
     }
 
     toggleIsExpanded(vendorId) {

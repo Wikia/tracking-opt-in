@@ -48,7 +48,7 @@ class Preferences extends Component {
                 }
 
                 // Filter vendors to those used by Fandom
-                const vendors = this.objectToArray(json.vendors).filter(vendor => (this.props.allVendors.indexOf(vendor.id) >= 0));
+                const vendors = this.objectToArray(json.vendors).filter(vendor => (this.props.allVendors.includes(vendor.id)));
                 const purposesWithVendors = this.objectToArray(json.purposes).map((purpose) => {
                     purpose.vendors = vendors.filter(vendor => (vendor.purposes.includes(purpose.id)));
                     return purpose;
@@ -71,9 +71,8 @@ class Preferences extends Component {
     togglePurpose(purposeId, isEnabled) {
         const { consentedPurposes, consentedVendors, updatePurposes, tracker } = this.props;
         if (isEnabled) {
-            if (consentedPurposes.indexOf(purposeId) < 0) {
-                const newConsentedPurposes = consentedPurposes.slice(0);
-                newConsentedPurposes.push(purposeId);
+            if (!consentedPurposes.includes(purposeId)) {
+                const newConsentedPurposes = [...consentedPurposes, purposeId];
                 updatePurposes(consentedVendors, newConsentedPurposes);
             }
         } else {
@@ -103,9 +102,8 @@ class Preferences extends Component {
     toggleSpecialFeature(specialFeatureId, isEnabled) {
         const { consentedSpecialFeatures, consentedVendors, updateSpecialFeatures } = this.props;
         if (isEnabled) {
-            if (consentedSpecialFeatures.indexOf(specialFeatureId) < 0) {
-                const newConsentedSpecialFeatures = consentedSpecialFeatures.slice(0);
-                newConsentedSpecialFeatures.push(specialFeatureId);
+            if (!consentedSpecialFeatures.includes(specialFeatureId)) {
+                const newConsentedSpecialFeatures = [...consentedSpecialFeatures, specialFeatureId];
                 updateSpecialFeatures(consentedVendors, newConsentedSpecialFeatures);
             }
         } else {
@@ -117,14 +115,9 @@ class Preferences extends Component {
     toggleVendor(vendorId, isEnabled) {
         const { consentedPurposes, consentedVendors, consentedSpecialFeatures, updatePurposes, updateSpecialFeatures } = this.props;
         if (isEnabled) {
-            if (consentedVendors.indexOf(vendorId) < 0) {
-                const newConsentedVendors = consentedVendors.slice(0);
-                newConsentedVendors.push(vendorId);
+            if (!consentedVendors.includes(vendorId)) {
+                const newConsentedVendors = [...consentedVendors, vendorId];
                 updatePurposes(newConsentedVendors, consentedPurposes);
-            }
-            if (consentedSpecialFeatures.indexOf(vendorId) < 0) {
-                const newConsentedVendors = consentedVendors.slice(0);
-                newConsentedVendors.push(vendorId);
                 updateSpecialFeatures(newConsentedVendors, consentedSpecialFeatures);
             }
         } else {

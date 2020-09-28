@@ -12,19 +12,20 @@ class PreferencesSection extends Component {
     };
 
     isItemEnabled(item) {
-        if (item.type === 'purpose') {
-            return this.isConsentedPurpose(item.id);
-        } else if (item.type === 'specialFeature') {
-            return this.isConsentedSpecialFeature(item.id);
+        switch (item.type) {
+            case 'purpose':
+                return this.isConsentedPurpose(item.id);
+            case 'specialFeature':
+                return this.isConsentedSpecialFeature(item.id);
         }
     }
 
     isConsentedPurpose(purposeId) {
-        return this.props.consentedPurposes.indexOf(purposeId) >= 0;
+        return this.props.consentedPurposes.includes(purposeId);
     }
 
     isConsentedSpecialFeature(featureId) {
-        return this.props.consentedSpecialFeatures.indexOf(featureId) >= 0;
+        return this.props.consentedSpecialFeatures.includes(featureId);
     }
 
     toggleIsExpanded() {
