@@ -23,10 +23,6 @@ class TrackingOptIn {
         this.isReset = false;
     }
 
-    configure(options) {
-        Object.assign(this.options, options);
-    }
-
     removeApp = () => {
         if (this.root) {
             render(null, this.root, this.root.lastChild);
