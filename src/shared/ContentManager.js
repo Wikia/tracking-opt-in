@@ -26,7 +26,6 @@ const additionalStrings = {
         privacyPolicyUrl: "https://www.fandom.com/privacy-policy",
         partnerListUrl: "https://www.fandom.com/partner-list",
     },
-    // TODO: Add translated / customized URLs
 };
 
 /**
@@ -116,7 +115,6 @@ export default class ContentManager {
         // all the strings default to `en`
         let content = langToContent.en;
 
-        // ToDo: translate "special" headers: ADEN-10262
         if (lang in langToContent) {
             // merge both together
             content = {

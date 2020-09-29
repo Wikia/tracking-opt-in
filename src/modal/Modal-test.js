@@ -17,7 +17,7 @@ function findByClass(wrapper, className) {
 
 function noop() {}
 
-describe('App', () => {
+describe('Modal', () => {
     const tracker = new Tracker('en', 'geo', 'beacon', true);
     stub(Tracker.prototype, 'track').callsFake((...a) => console.debug('Track', a));
     let optInManager;
@@ -35,6 +35,7 @@ describe('App', () => {
             onAcceptTracking: callbacks.onAcceptTracking || noop,
             onRejectTracking: callbacks.onRejectTracking || noop,
             content: (new ContentManager('en')).content,
+            language: (new ContentManager('en')).language,
             options: {
                 enabledPurposes: [],
                 enabledVendors: [],

@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { getNonIABVendors } from '../shared/consts';
+import { NON_IAB_VENDORS } from '../shared/consts';
 import PreferencesVendorList from './PreferencesVendorList';
 import Switch from './Switch';
 
@@ -31,7 +31,7 @@ class OtherPartners extends Component {
     renderVendors() {
         const { content } = this.props;
 
-        const toRender = getNonIABVendors().map((vendor) => {
+        return NON_IAB_VENDORS.map((vendor) => {
             return (
             <div className={vendorListStyles.vendor} key={vendor.name}>
                 <div className={vendorListStyles.flex}>
@@ -44,8 +44,6 @@ class OtherPartners extends Component {
                 </div>
             </div>
         )});
-
-        return toRender;
     }
 
     render(props, state) {

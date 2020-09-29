@@ -1,9 +1,8 @@
-import { IAB_VENDORS, addNonIABVendors } from './shared/consts';
+import { IAB_VENDORS } from './shared/consts';
 import ContentManager from './shared/ContentManager';
 import GeoManager from './shared/GeoManager';
 import LanguageManager from './shared/LangManager';
 import ConsentManagementProvider from './gdpr/ConsentManagementProvider';
-import ConsentManagementProviderLegacy from './gdpr/ConsentManagementProviderLegacy';
 import OptInManager from './gdpr/OptInManager';
 import Tracker from './gdpr/Tracker';
 import TrackingOptIn from './gdpr/TrackingOptIn';
@@ -17,8 +16,6 @@ export const DEFAULT_OPTIONS = {
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
     disableConsentQueue: false,
-    // ToDo: unused in new modal
-    enabledVendorPurposes: [1, 2, 3, 4, 5], // array of IAB CMP purpose IDs
     enabledVendors: IAB_VENDORS, // array of IAB CMP vendor IDs
     language: null,
     queryParamName: null,
@@ -54,11 +51,6 @@ function initializeGDPR(options) {
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
     const disableConsentQueue = !!depOptions.disableConsentQueue;
-    // ToDo: cleanup TCF v1.1
-    const consentManagementProviderLegacy = new ConsentManagementProviderLegacy({
-        disableConsentQueue,
-        language: langManager.lang
-    });
     const consentManagementProvider = new ConsentManagementProvider({
         disableConsentQueue,
         language: langManager.lang
@@ -85,11 +77,9 @@ function initializeGDPR(options) {
         geoManager,
         contentManager,
         consentManagementProvider,
-        consentManagementProviderLegacy,
         {
             preventScrollOn,
             zIndex,
-            enabledVendorPurposes,
             enabledVendors,
             onAcceptTracking,
             onRejectTracking,
@@ -99,62 +89,7 @@ function initializeGDPR(options) {
         window.location,
     );
 
-    GeoManager.fetchInstantConfig().then(() => {
-        // ToDo: get rid of it, move Google's id to consts.js
-        if (geoManager.isGoogleMoved()) {
-            enabledVendors.push(
-                755, // Google Advertising Products
-            );
-
-            instance.configure({
-                preventScrollOn,
-                zIndex,
-                enabledVendorPurposes,
-                enabledVendors,
-                onAcceptTracking,
-                onRejectTracking,
-                disableConsentQueue,
-                isCurse,
-            });
-        } else {
-            addNonIABVendors([
-                {
-                    name: 'DBM',
-                    policyUrl: 'https://policies.google.com/privacy',
-                },
-                {
-                    name: 'DCM',
-                    policyUrl: 'https://policies.google.com/privacy',
-                },
-                {
-                    name: 'DFP (Google)',
-                    policyUrl: 'https://policies.google.com/privacy?hl=en',
-                },
-                {
-                    name: 'DV360',
-                    policyUrl: 'https://policies.google.com/privacy',
-                },
-                {
-                    name: 'Firebase',
-                    policyUrl: 'https://policies.google.com/privacy?hl=en',
-                },
-                {
-                    name: 'Google Ads IMA SDK',
-                    policyUrl: 'https://policies.google.com/privacy',
-                },
-                {
-                    name: 'Google Mobile Ads SDK for iOS',
-                    policyUrl: 'https://policies.google.com/privacy',
-                },
-                {
-                    name: 'Google Play Services',
-                    policyUrl: 'https://policies.google.com/privacy',
-                },
-            ]);
-        }
-
-        instance.render();
-    });
+    instance.render();
 
     return instance;
 }
@@ -178,7 +113,6 @@ function initializeCCPA(options) {
 
 export default function main(options) {
     return {
-        icbm: GeoManager.fetchInstantConfig(),
         gdpr: initializeGDPR(options),
         ccpa: initializeCCPA(options),
     };

@@ -27,7 +27,6 @@ class Tracker {
             [TRACK_PARAMS.LANGUAGE_CODE]: language,
             [TRACK_PARAMS.DETECTED_GEO]: detectedGeo,
         };
-        this.tcfVersion = 1;
 
         const beacon = getBeaconFromCookie(beaconCookieName);
         if (beacon) {
@@ -88,11 +87,11 @@ class Tracker {
      * Shortcuts
      */
     trackImpression(label) {
-        this.track(this.getTrackingCategory(), ACTION_IMPRESSION, label);
+        this.track(TRACKING_CATEGORY, ACTION_IMPRESSION, label);
     }
 
     trackClick(label) {
-        this.track(this.getTrackingCategory(), ACTION_CLICK, label);
+        this.track(TRACKING_CATEGORY, ACTION_CLICK, label);
     }
 
     /**
@@ -181,10 +180,6 @@ class Tracker {
 
     trackOtherPartnersExpandClick() {
         this.trackClick('other-partners-expand');
-    }
-
-    getTrackingCategory() {
-        return `${TRACKING_CATEGORY}_tcf-${this.tcfVersion}`;
     }
 }
 

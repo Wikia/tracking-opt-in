@@ -1,5 +1,4 @@
 import { Promise } from 'es6-promise';
-import * as cachedVendorList from './vendorlist-v1.json';
 
 export const PURPOSES = {
     INFORMATION: 1,
@@ -10,23 +9,6 @@ export const PURPOSES = {
 };
 
 export const DEBUG_QUERY_PARAM = 'tracking-opt-in-debug';
-
-// ToDo: remove getters unused in new modal
-export function getPurposeTitle(content, index) {
-    return content[`purpose${index}Title`];
-}
-
-export function getPurposeBody(content, index) {
-    return content[`purpose${index}Body`];
-}
-
-export function getFeatureTitle(content, index) {
-    return content[`feature${index}Title`];
-}
-
-export function getFeatureBody(content, index) {
-    return content[`feature${index}Body`];
-}
 
 export function isParameterSet(param) {
     return window.location.href.indexOf(`${param}=true`) !== -1;
@@ -109,17 +91,5 @@ export function getJSON(url, useCache = true) {
             reject(new Error(`Cannot fetch: ${url}`));
         };
         req.send(null);
-    });
-}
-
-// ToDo: unused in new modal
-export function getVendorList() {
-    // ToDo: removed at 8/15
-    // return getJSON('https://vendorlist.consensu.org/vendorlist.json');
-    // GVL backup
-    // return getJSON('https://vendorlist.consensu.org/v-215/vendorlist.json');
-
-    return new Promise((resolve) => {
-        resolve(cachedVendorList);
     });
 }
