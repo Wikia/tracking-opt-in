@@ -9,6 +9,7 @@ class Modal extends Component {
     state = {
         consentedVendors: this.props.options.enabledVendors,
         consentedPurposes: this.props.options.enabledPurposes,
+        consentedSpecialFeatures: this.props.options.enabledSpecialFeatures,
         isScreenOne: true,
         nonIabConsented: true,
     };
@@ -59,7 +60,7 @@ class Modal extends Component {
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
         // Pass in all originally enabled vendors and purposes
-        this.props.onAcceptTracking(this.props.options.enabledVendors, this.props.options.enabledPurposes);
+        this.props.onAcceptTracking(this.props.options.enabledVendors, this.props.options.enabledPurposes, this.props.options.enabledSpecialFeatures);
     };
 
     setNonIabConsented = (isConsented) => {
@@ -89,10 +90,10 @@ class Modal extends Component {
         // ToDo: make GVL change resistant
         if (this.state.consentedPurposes.length === 10) {
             this.props.optInManager.setTrackingAccepted();
-            this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes);
+            this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes, this.state.consentedSpecialFeatures);
         } else {
             this.props.optInManager.setTrackingRejected();
-            this.props.onRejectTracking(this.state.consentedVendors, this.state.consentedPurposes);
+            this.props.onRejectTracking(this.state.consentedVendors, this.state.consentedPurposes, this.state.consentedSpecialFeatures);
         }
     };
 
@@ -101,9 +102,13 @@ class Modal extends Component {
         this.setState({consentedVendors: vendors, consentedPurposes: purposes});
     };
 
+    updateSpecialFeatures = (vendors, specialFeatures) => {
+        this.setState({consentedVendors: vendors, consentedSpecialFeatures: specialFeatures});
+    };
+
     render(props, state) {
         const { options, content, language, tracker } = props;
-        const { isScreenOne, consentedPurposes, consentedVendors, nonIabConsented } = state;
+        const { isScreenOne, consentedPurposes, consentedVendors, consentedSpecialFeatures, nonIabConsented } = state;
 
         if (isScreenOne) {
             return (
@@ -122,14 +127,16 @@ class Modal extends Component {
                     appOptions={options}
                     clickBack={this.back}
                     clickSave={this.save}
-                    consentedPurposes={consentedPurposes}
                     consentedVendors={consentedVendors}
+                    consentedPurposes={consentedPurposes}
+                    consentedSpecialFeatures={consentedSpecialFeatures}
                     content={content}
                     language={language}
                     nonIabConsented={nonIabConsented}
                     setNonIabConsented={this.setNonIabConsented}
                     tracker={tracker}
                     updatePurposes={this.updatePurposes}
+                    updateSpecialFeatures={this.updateSpecialFeatures}
                 />
             );
         }

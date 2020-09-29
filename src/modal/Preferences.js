@@ -31,9 +31,10 @@ class Preferences extends Component {
 
     componentWillMount() {
         if (!this.state.purposes && !this.state.features) {
-            const { consentedVendors, language, updatePurposes } = this.props;
+            const { consentedVendors, language, updatePurposes, updateSpecialFeatures } = this.props;
 
             updatePurposes(consentedVendors, []);
+            updateSpecialFeatures(consentedVendors, []);
 
             Promise.all([
                 ConsentManagementProvider.fetchVendorList(),
@@ -47,16 +48,20 @@ class Preferences extends Component {
                 }
 
                 // Filter vendors to those used by Fandom
-                const vendors = this.objectToArray(json.vendors).filter(vendor => (this.props.allVendors.indexOf(vendor.id) >= 0));
+                const vendors = this.objectToArray(json.vendors).filter(vendor => (this.props.allVendors.includes(vendor.id)));
                 const purposesWithVendors = this.objectToArray(json.purposes).map((purpose) => {
-                    purpose.vendors = vendors.filter(vendor => (vendor.purposes.indexOf(purpose.id) >= 0));
+                    purpose.vendors = vendors.filter(vendor => (vendor.purposes.includes(purpose.id)));
                     return purpose;
+                });
+                const specialFeaturesWithVendors = this.objectToArray(json.specialFeatures).map((specialFeature) => {
+                    specialFeature.vendors = vendors.filter(vendor => (vendor.specialFeatures.includes(specialFeature.id)));
+                    return specialFeature;
                 });
                 this.setState({
                     purposes: purposesWithVendors,
                     specialPurposes: this.objectToArray(json.specialPurposes),
                     features: this.objectToArray(json.features),
-                    specialFeatures: this.objectToArray(json.specialFeatures),
+                    specialFeatures: specialFeaturesWithVendors,
                 });
                 this.forceUpdate();
             });
@@ -66,9 +71,8 @@ class Preferences extends Component {
     togglePurpose(purposeId, isEnabled) {
         const { consentedPurposes, consentedVendors, updatePurposes, tracker } = this.props;
         if (isEnabled) {
-            if (consentedPurposes.indexOf(purposeId) < 0) {
-                const newConsentedPurposes = consentedPurposes.slice(0);
-                newConsentedPurposes.push(purposeId);
+            if (!consentedPurposes.includes(purposeId)) {
+                const newConsentedPurposes = [...consentedPurposes, purposeId];
                 updatePurposes(consentedVendors, newConsentedPurposes);
             }
         } else {
@@ -95,17 +99,31 @@ class Preferences extends Component {
         }
     }
 
-    toggleVendor(vendorId, isEnabled) {
-        const { consentedPurposes, consentedVendors, updatePurposes } = this.props;
+    toggleSpecialFeature(specialFeatureId, isEnabled) {
+        const { consentedSpecialFeatures, consentedVendors, updateSpecialFeatures } = this.props;
         if (isEnabled) {
-            if (consentedVendors.indexOf(vendorId) < 0) {
-                const newConsentedVendors = consentedVendors.slice(0);
-                newConsentedVendors.push(vendorId);
+            if (!consentedSpecialFeatures.includes(specialFeatureId)) {
+                const newConsentedSpecialFeatures = [...consentedSpecialFeatures, specialFeatureId];
+                updateSpecialFeatures(consentedVendors, newConsentedSpecialFeatures);
+            }
+        } else {
+            const newConsentedSpecialFeatures = consentedSpecialFeatures.filter(id => (specialFeatureId !== id));
+            updateSpecialFeatures(consentedVendors, newConsentedSpecialFeatures);
+        }
+    }
+
+    toggleVendor(vendorId, isEnabled) {
+        const { consentedPurposes, consentedVendors, consentedSpecialFeatures, updatePurposes, updateSpecialFeatures } = this.props;
+        if (isEnabled) {
+            if (!consentedVendors.includes(vendorId)) {
+                const newConsentedVendors = [...consentedVendors, vendorId];
                 updatePurposes(newConsentedVendors, consentedPurposes);
+                updateSpecialFeatures(newConsentedVendors, consentedSpecialFeatures);
             }
         } else {
             const newConsentedVendors = consentedVendors.filter(id => (vendorId !== id));
             updatePurposes(newConsentedVendors, consentedPurposes);
+            updateSpecialFeatures(newConsentedVendors, consentedSpecialFeatures);
         }
     }
 
@@ -120,11 +138,11 @@ class Preferences extends Component {
         }
     }
 
-    renderPreferenceSections(purposes) {
+    renderPurposesPreferenceSections(purposes) {
         if (!purposes) {
             return null;
         }
-        const { consentedPurposes, consentedVendors, content, tracker } = this.props;
+        const { consentedPurposes, consentedSpecialFeatures, consentedVendors, content, tracker } = this.props;
 
         return purposes.map((purpose) => (
             <PreferencesSection
@@ -132,12 +150,38 @@ class Preferences extends Component {
                 allFeaturesSpecial={this.state.specialFeatures}
                 allPurposes={purposes}
                 allPurposesSpecial={this.state.specialPurposes}
-                consentedPurposes={consentedPurposes}
+                allItems={purposes}
                 consentedVendors={consentedVendors}
+                consentedPurposes={consentedPurposes}
+                consentedSpecialFeatures={consentedSpecialFeatures}
                 content={content}
-                onTogglePurpose={(purposeId, isEnabled) => this.togglePurpose(purposeId, isEnabled)}
+                onToggleItem={(purposeId, isEnabled) => this.togglePurpose(purposeId, isEnabled)}
                 onToggleVendor={(vendorId, isEnabled) => this.toggleVendor(vendorId, isEnabled)}
-                purpose={purpose}
+                item={{...purpose, type: 'purpose'}}
+                tracker={tracker}
+            />
+        ));
+    }
+
+    renderSpecialFeaturesPreferenceSections(specialFeatures) {
+        if (!specialFeatures) {
+            return null;
+        }
+        const { consentedPurposes, consentedSpecialFeatures, consentedVendors, content, tracker } = this.props;
+        return specialFeatures.map((specialFeature) => (
+            <PreferencesSection
+                allFeatures={this.state.features}
+                allFeaturesSpecial={specialFeatures}
+                allPurposes={this.state.purposes}
+                allPurposesSpecial={this.state.specialPurposes}
+                allItems={specialFeatures}
+                consentedVendors={consentedVendors}
+                consentedPurposes={consentedPurposes}
+                consentedSpecialFeatures={consentedSpecialFeatures}
+                content={content}
+                onToggleItem={(specialFeatureId, isEnabled) => {this.toggleSpecialFeature(specialFeatureId, isEnabled)}}
+                onToggleVendor={(vendorId, isEnabled) => this.toggleVendor(vendorId, isEnabled)}
+                item={{...specialFeature, type: 'specialFeature'}}
                 tracker={tracker}
             />
         ));
@@ -145,7 +189,7 @@ class Preferences extends Component {
 
     render(props, state) {
         const { appOptions, content, clickBack, clickSave, nonIabConsented, setNonIabConsented, tracker } = props;
-        const { purposes } = state;
+        const { purposes, specialFeatures } = state;
 
         return (
             <div
@@ -162,7 +206,7 @@ class Preferences extends Component {
                             {getParagraphs(content.preferencesBody, content, appOptions.isCurse)}
                         </div>
                         <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.purposesHeader}</h2>
-                        {this.renderPreferenceSections(purposes)}
+                        {this.renderPurposesPreferenceSections(purposes)}
                         {/*ToDo: cleanup*/}
                         {/*<OtherPartners*/}
                         {/*    content={content}*/}
@@ -170,6 +214,8 @@ class Preferences extends Component {
                         {/*    onToggle={setNonIabConsented}*/}
                         {/*    tracker={tracker}*/}
                         {/*/>*/}
+                        <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.specialFeaturesHeader}</h2>
+                        {this.renderSpecialFeaturesPreferenceSections(specialFeatures)}
                     </div>
                     <div className={globalStyles.footer}>
                         {/* These buttons are divs so that their styles aren't overridden */}

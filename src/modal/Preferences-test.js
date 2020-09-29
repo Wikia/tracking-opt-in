@@ -11,8 +11,10 @@ const document = global.document;
 const mockData = {
     allPurposes: [1, 2, 3],
     allVendors: [66, 77, 88, 99],
+    allSpecialFeatures: [1, 2],
     consentedPurposes: [1, 2],
     consentedVendors: [77, 99],
+    consentedSpecialFeatures: [1],
 };
 
 function findByQuery(wrapper, query) {
@@ -21,6 +23,11 @@ function findByQuery(wrapper, query) {
 
 function updatePurposes(consentedVendors, consentedPurposes) {
     mockData.consentedPurposes = consentedPurposes;
+    mockData.consentedVendors = consentedVendors;
+}
+
+function updateSpecialFeatures(consentedVendors, consentedSpecialFeatures) {
+    mockData.consentedSpecialFeatures = consentedSpecialFeatures;
     mockData.consentedVendors = consentedVendors;
 }
 
@@ -34,6 +41,7 @@ describe('Preferences', () => {
         return render(h(Preferences, {
             allPurposes: mockData.allPurposes,
             allVendors: mockData.allVendors,
+            allSpecialFeatures: mockData.allSpecialFeatures,
             appOptions: {
                 zIndex: 2,
             },
@@ -41,8 +49,10 @@ describe('Preferences', () => {
             clickSave: callbacks.clickSave || noop,
             consentedPurposes: mockData.consentedPurposes,
             consentedVendors: mockData.consentedVendors,
+            consentedSpecialFeatures: mockData.consentedSpecialFeatures,
             content: i18nContent,
             updatePurposes,
+            updateSpecialFeatures,
         }), document.body);
     }
 
