@@ -152,12 +152,12 @@ class TrackingOptIn {
                         this.rejectBeforeConsent();
                     }
 
-                    this.renderNewModal();
+                    this.renderModal();
                 }
         }
     }
 
-    renderNewModal() {
+    renderModal() {
         const options = {
             // ToDo: get rid of hardcoded list of purposes during cleanup
             enabledPurposes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
