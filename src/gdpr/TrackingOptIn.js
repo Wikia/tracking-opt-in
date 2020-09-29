@@ -214,7 +214,6 @@ class TrackingOptIn {
             // ToDo: get rid of hardcoded list of purposes during cleanup
             enabledPurposes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             enabledVendors: this.options.enabledVendors,
-            enabledSpecialFeatures: [1, 2],
             zIndex: this.options.zIndex,
             preventScrollOn: this.options.preventScrollOn,
             isCurse: this.options.isCurse,

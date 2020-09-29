@@ -26,7 +26,6 @@ const getDefaultCookieAttributes = () => ({
 const getDefaultOptions = () => ({
     allowedVendors: null,
     allowedVendorPurposes: null,
-    allowedSpecialFeatures: null,
     cookieAttributes: getDefaultCookieAttributes(),
     disableConsentQueue: false,
     gdprApplies: false,
@@ -210,7 +209,7 @@ class ConsentManagementProvider {
         // ToDo: figure out the proper value
         // tcModel.publisherCountryCode();
 
-        debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes, 'and special feature options', allowedSpecialFeatures);
+        debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes, ' and special feature options', allowedSpecialFeatures);
 
         tcString = TCString.encode(tcModel);
 
