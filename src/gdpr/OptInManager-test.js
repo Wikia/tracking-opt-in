@@ -5,7 +5,7 @@ import OptInManager, {
     DEFAULT_QUERY_PARAM_NAME,
     VERSION_COOKIE_NAME
 } from './OptInManager';
-import { CMP_VERSION } from './ConsentManagementProviderLegacy';
+import { CMP_VERSION } from './ConsentManagementProvider';
 
 describe('OptInManager', () => {
     afterEach(() => {

@@ -130,7 +130,8 @@ class TrackingOptIn {
         });
         this.consentManagementProvider.initialize();
         this.consentManagementProvider.loadVendorList()
-            .then(() => {if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
+            .then(() => {
+                if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
                     this.consentManagementProvider.setVendorConsentCookie(null);
                 }
 
