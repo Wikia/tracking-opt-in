@@ -88,7 +88,7 @@ class Modal extends Component {
         // ToDo: cleanup
         // if (this.state.nonIabConsented === true) {
         // ToDo: make GVL change resistant
-        if (this.state.consentedPurposes.length === 10) {
+        if (this.state.consentedPurposes.length >= 10) {
             this.props.optInManager.setTrackingAccepted();
             this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes, this.state.consentedSpecialFeatures);
         } else {

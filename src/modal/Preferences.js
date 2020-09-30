@@ -80,27 +80,11 @@ class Preferences extends Component {
             updatePurposes(consentedVendors, newConsentedPurposes);
         }
 
-        // ToDo: fix purposes tracking: ADEN-10261
-        switch (purposeId) {
-            case PURPOSES.INFORMATION:
-                tracker.trackPurposeInformationToggleClick();
-                break;
-            case PURPOSES.PERSONALIZATION:
-                tracker.trackPurposePersonalizationToggleClick();
-                break;
-            case PURPOSES.AD:
-                tracker.trackPurposeAdToggleClick();
-                break;
-            case PURPOSES.CONTENT:
-                tracker.trackPurposeContentToggleClick();
-                break;
-            case PURPOSES.MEASUREMENT:
-                tracker.trackPurposeMeasurementToggleClick();
-        }
+        tracker.trackPurposeToggleClick(purposeId);
     }
 
     toggleSpecialFeature(specialFeatureId, isEnabled) {
-        const { consentedSpecialFeatures, consentedVendors, updateSpecialFeatures } = this.props;
+        const { consentedSpecialFeatures, consentedVendors, updateSpecialFeatures, tracker } = this.props;
         if (isEnabled) {
             if (!consentedSpecialFeatures.includes(specialFeatureId)) {
                 const newConsentedSpecialFeatures = [...consentedSpecialFeatures, specialFeatureId];
@@ -110,6 +94,8 @@ class Preferences extends Component {
             const newConsentedSpecialFeatures = consentedSpecialFeatures.filter(id => (specialFeatureId !== id));
             updateSpecialFeatures(consentedVendors, newConsentedSpecialFeatures);
         }
+
+        tracker.trackSpecialFeatureToggleClick(specialFeatureId);
     }
 
     toggleVendor(vendorId, isEnabled) {

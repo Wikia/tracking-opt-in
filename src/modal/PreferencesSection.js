@@ -34,21 +34,13 @@ class PreferencesSection extends Component {
         this.setState({ isExpanded: !isExpanded });
         this.forceUpdate();
 
-        switch (item.id) {
-            case PURPOSES.INFORMATION:
-                tracker.trackPurposeInformationExpandClick();
+        switch (item.type) {
+            case 'purpose':
+                tracker.trackPurposeExpandClick(item.id);
                 break;
-            case PURPOSES.PERSONALIZATION:
-                tracker.trackPurposePersonalizationExpandClick();
+            case 'specialFeature':
+                tracker.trackSpecialFeatureExpandClick(item.id);
                 break;
-            case PURPOSES.AD:
-                tracker.trackPurposeAdExpandClick();
-                break;
-            case PURPOSES.CONTENT:
-                tracker.trackPurposeContentExpandClick();
-                break;
-            case PURPOSES.MEASUREMENT:
-                tracker.trackPurposeMeasurementExpandClick();
         }
     }
 

@@ -1,13 +1,5 @@
 import { Promise } from 'es6-promise';
 
-export const PURPOSES = {
-    INFORMATION: 1,
-    PERSONALIZATION: 2,
-    AD: 3,
-    CONTENT: 4,
-    MEASUREMENT: 5,
-};
-
 export const DEBUG_QUERY_PARAM = 'tracking-opt-in-debug';
 
 export function isParameterSet(param) {

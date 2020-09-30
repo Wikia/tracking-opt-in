@@ -26,6 +26,7 @@ const getDefaultCookieAttributes = () => ({
 const getDefaultOptions = () => ({
     allowedVendors: null,
     allowedVendorPurposes: null,
+    allowedSpecialFeatures: null,
     cookieAttributes: getDefaultCookieAttributes(),
     disableConsentQueue: false,
     gdprApplies: false,

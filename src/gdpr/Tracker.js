@@ -134,44 +134,20 @@ class Tracker {
         this.trackClick('save');
     }
 
-    trackPurposeInformationToggleClick() {
-        this.trackClick('purpose-information-toggle');
+    trackPurposeToggleClick(id) {
+        this.trackClick(`purpose-toggle-${id}`);
     }
 
-    trackPurposeInformationExpandClick() {
-        this.trackClick('purpose-information-expand');
+    trackPurposeExpandClick(id) {
+        this.trackClick(`purpose-expand-${id}`);
     }
 
-    trackPurposePersonalizationToggleClick() {
-        this.trackClick('purpose-personalization-toggle');
+    trackSpecialFeatureToggleClick(id) {
+        this.trackClick(`special-feature-toggle-${id}`);
     }
 
-    trackPurposePersonalizationExpandClick() {
-        this.trackClick('purpose-personalization-expand');
-    }
-
-    trackPurposeContentToggleClick() {
-        this.trackClick('purpose-content-toggle');
-    }
-
-    trackPurposeContentExpandClick() {
-        this.trackClick('purpose-content-expand');
-    }
-
-    trackPurposeMeasurementToggleClick() {
-        this.trackClick('purpose-measurement-toggle');
-    }
-
-    trackPurposeMeasurementExpandClick() {
-        this.trackClick('purpose-measurement-expand');
-    }
-
-    trackPurposeAdToggleClick() {
-        this.trackClick('purpose-ad-toggle');
-    }
-
-    trackPurposeAdExpandClick() {
-        this.trackClick('purpose-ad-expand');
+    trackSpecialFeatureExpandClick(id) {
+        this.trackClick(`special-feature-expand-${id}`);
     }
 
     trackOtherPartnersToggleClick() {
