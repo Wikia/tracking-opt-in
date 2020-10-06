@@ -21,12 +21,14 @@ export const IAB_VENDORS = [
     754, // DistroScale, Inc.
     126, // DoubleVerify Inc.
     674, // Duration Media, LLC.
+    110, // Dynata LLC
     120, // Eyeota Ptd Ltd
     78,  // Flashtalking, Inc.
     755, // Google Advertising Products
     98,  // GroupM UK Limited (GroupM)
     61,  // GumGum, Inc.
     10,  // Index Exchange, Inc.
+    452, // Innovid Inc.
     278, // Integral Ad Science, Inc. (IAS)
     62,  // Justpremium BV
     97,  // LiveRamp, Inc.
