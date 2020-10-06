@@ -1,5 +1,4 @@
 import { h, render } from 'preact/dist/preact';
-import AppLegacy from '../components/AppLegacy';
 import Modal from '../modal/Modal';
 import { isParameterSet, parseUrl } from '../shared/utils';
 import { API_STATUS } from './ConsentManagementProvider';
@@ -11,7 +10,6 @@ class TrackingOptIn {
         geoManager,
         contentManager,
         consentManagementProvider,
-        consentManagementProviderLegacy,
         options,
         location
     ) {
@@ -20,15 +18,9 @@ class TrackingOptIn {
         this.geoManager = geoManager;
         this.contentManager = contentManager;
         this.consentManagementProvider = consentManagementProvider;
-        // ToDo: cleanup TCF v1.1
-        this.consentManagementProviderLegacy = consentManagementProviderLegacy;
         this.options = options;
         this.location = location;
         this.isReset = false;
-    }
-
-    configure(options) {
-        Object.assign(this.options, options);
     }
 
     removeApp = () => {
@@ -40,10 +32,11 @@ class TrackingOptIn {
     };
 
     // Non-IAB tracking is accepted. Some or all IAB vendors or purposes _may_ be accepted
-    onAcceptTracking = (allowedVendors, allowedPurposes) => {
+    onAcceptTracking = (allowedVendors, allowedPurposes, allowedSpecialFeatures) => {
         this.consentManagementProvider.configure({
             allowedVendors: allowedVendors,
-            allowedVendorPurposes: allowedPurposes
+            allowedVendorPurposes: allowedPurposes,
+            allowedSpecialFeatures: allowedSpecialFeatures
         });
         this.consentManagementProvider.install().then(() => {
             this.options.onAcceptTracking(allowedVendors, allowedPurposes);
@@ -51,10 +44,11 @@ class TrackingOptIn {
     };
 
     // Non-IAB tracking is rejected. Some or all IAB vendors or purposes _may_ be accepted
-    onRejectTracking = (allowedVendors, allowedPurposes) => {
+    onRejectTracking = (allowedVendors, allowedPurposes, allowedSpecialFeatures) => {
         this.consentManagementProvider.configure({
             allowedVendors: allowedVendors,
-            allowedVendorPurposes: allowedPurposes
+            allowedVendorPurposes: allowedPurposes,
+            allowedSpecialFeatures: allowedSpecialFeatures
         });
         this.consentManagementProvider.install().then(() => {
             this.options.onRejectTracking(allowedVendors, allowedPurposes);
@@ -65,7 +59,8 @@ class TrackingOptIn {
     rejectBeforeConsent = () => {
         this.consentManagementProvider.configure({
             allowedVendors: [],
-            allowedVendorPurposes: []
+            allowedVendorPurposes: [],
+            allowedSpecialFeatures: []
         });
         this.consentManagementProvider.install();
     };
@@ -129,32 +124,18 @@ class TrackingOptIn {
             document.body.appendChild(this.root);
         }
 
-        // ToDo: cleanup TCF v1.1
-        if (!this.geoManager.tcf2Enabled) {
-            this.consentManagementProvider = this.consentManagementProviderLegacy;
-        }
-
         this.consentManagementProvider.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
         });
-        this.consentManagementProvider.installStub();
+        this.consentManagementProvider.initialize();
+        this.consentManagementProvider.loadVendorList()
+            .then(() => {
+                if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
+                    this.consentManagementProvider.setVendorConsentCookie(null);
+                }
 
-        // ToDo: cleanup TCF v1.1
-        if (this.geoManager.tcf2Enabled) {
-            this.consentManagementProvider.initialize();
-            this.consentManagementProvider.loadVendorList()
-                .then(() => {
-                    this.tracker.tcfVersion = 2;
-
-                    if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
-                        this.consentManagementProvider.setVendorConsentCookie(null);
-                    }
-
-                    this.checkUserConsent();
-                });
-        } else {
-            this.checkUserConsent();
-        }
+                this.checkUserConsent();
+            });
     }
 
     checkUserConsent() {
@@ -171,45 +152,17 @@ class TrackingOptIn {
                         this.rejectBeforeConsent();
                     }
 
-                    if (this.geoManager.tcf2Enabled) {
-                        this.renderNewModal();
-                    } else {
-                        this.renderOldModal();
-                    }
+                    this.renderModal();
                 }
         }
     }
 
-    renderOldModal() {
-        const options = {
-            enabledPurposes: this.options.enabledVendorPurposes,
-            enabledVendors: this.options.enabledVendors,
-            zIndex: this.options.zIndex,
-            preventScrollOn: this.options.preventScrollOn,
-            isCurse: this.options.isCurse,
-        };
-
-        render(
-            <AppLegacy
-                onRequestAppRemove={this.removeApp}
-                onAcceptTracking={this.onAcceptTracking}
-                onRejectTracking={this.onRejectTracking}
-                tracker={this.tracker}
-                optInManager={this.optInManager}
-                geoManager={this.geoManager}
-                options={options}
-                content={this.contentManager.content}
-            />,
-            this.root,
-            this.root.lastChild
-        );
-    }
-
-    renderNewModal() {
+    renderModal() {
         const options = {
             // ToDo: get rid of hardcoded list of purposes during cleanup
             enabledPurposes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             enabledVendors: this.options.enabledVendors,
+            enabledSpecialFeatures: [1, 2],
             zIndex: this.options.zIndex,
             preventScrollOn: this.options.preventScrollOn,
             isCurse: this.options.isCurse,

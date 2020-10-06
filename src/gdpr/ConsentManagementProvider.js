@@ -12,7 +12,7 @@ export const API_STATUS = {
     UI_VISIBLE_NEW: 'ui-visible-new',
     UI_VISIBLE_RESET: 'ui-visible-reset',
     DISABLED: 'disable',
-}
+};
 const CMP_ID = 141;
 const CMP_DEFAULT_LANGUAGE = 'en';
 const VENDOR_CONSENT_COOKIE_NAME = 'euconsent-v2';
@@ -26,6 +26,7 @@ const getDefaultCookieAttributes = () => ({
 const getDefaultOptions = () => ({
     allowedVendors: null,
     allowedVendorPurposes: null,
+    allowedSpecialFeatures: null,
     cookieAttributes: getDefaultCookieAttributes(),
     disableConsentQueue: false,
     gdprApplies: false,
@@ -61,11 +62,10 @@ class ConsentManagementProvider {
         GVL.latestFilename = VENDOR_LIST_FILE_NAME;
         GVL.versionedFilename = VENDOR_LIST_VERSION_NAME;
 
-        // ToDo: uncomment
         // Install temporary stub until full CMP will be ready
-        // if (window.__tcfapi === undefined) {
-        //     this.installStub();
-        // }
+        if (window.__tcfapi === undefined) {
+            this.installStub();
+        }
     }
 
     configure(options) {
@@ -193,7 +193,7 @@ class ConsentManagementProvider {
 
         const gvList = new GVL(this.vendorList);
         const tcModel = new TCModel(gvList);
-        const { allowedVendorPurposes, allowedVendors, consentScreen, language } = this.options;
+        const { allowedVendorPurposes, allowedSpecialFeatures, allowedVendors, consentScreen, language } = this.options;
 
         tcModel.cmpId = CMP_ID;
         tcModel.cmpVersion = CMP_VERSION;
@@ -201,6 +201,7 @@ class ConsentManagementProvider {
         tcModel.consentLanguage = String(language).toLowerCase() || CMP_DEFAULT_LANGUAGE;
         tcModel.isServiceSpecific = true;
         tcModel.purposeConsents.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
+        tcModel.specialFeatureOptins.set(Array.isArray(allowedSpecialFeatures) ? allowedSpecialFeatures : []);
         tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
         // ToDo: proper implementation of Right to Object
         tcModel.purposeLegitimateInterests.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
@@ -208,7 +209,7 @@ class ConsentManagementProvider {
         // ToDo: figure out the proper value
         // tcModel.publisherCountryCode();
 
-        debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes);
+        debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes, ' and special feature options', allowedSpecialFeatures);
 
         tcString = TCString.encode(tcModel);
 

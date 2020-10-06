@@ -13,11 +13,15 @@ class PreferencesVendorList extends Component {
     };
 
     isConsentedPurpose(purposeId) {
-        return this.props.consentedPurposes.indexOf(purposeId) >= 0;
+        return this.props.consentedPurposes.includes(purposeId);
     }
 
     isConsentedVendor(vendorId) {
-        return this.props.consentedVendors.indexOf(vendorId) >= 0;
+        return this.props.consentedVendors.includes(vendorId);
+    }
+
+    isConsentedSpecialFeature(specialFeatureId) {
+        return this.props.consentedSpecialFeatures.includes(specialFeatureId);
     }
 
     toggleIsExpanded(vendorId) {
@@ -128,12 +132,9 @@ class PreferencesVendorList extends Component {
                             <div className={styles.vendorDetail} key={`${vendor.id}_${featureId}`}>
                                 <div className={styles.flex}>
                                     <span>{allFeaturesSpecial[featureId].name}</span>
-                                    <a href={vendor.policyUrl} className={styles.link} target="_blank">
-                                        {content.findOutMoreButton}
-                                    </a>
-                                </div>
-                                <div className={styles.featureDescription}>
-                                    {allFeaturesSpecial[featureId].descriptionLegal}
+                                    <span className={styles.allowed}>
+                                    {this.isConsentedSpecialFeature(featureId) ? content.allowedButton : content.disallowedButton}
+                                </span>
                                 </div>
                             </div>
                         ))}

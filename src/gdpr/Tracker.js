@@ -27,7 +27,6 @@ class Tracker {
             [TRACK_PARAMS.LANGUAGE_CODE]: language,
             [TRACK_PARAMS.DETECTED_GEO]: detectedGeo,
         };
-        this.tcfVersion = 1;
 
         const beacon = getBeaconFromCookie(beaconCookieName);
         if (beacon) {
@@ -88,11 +87,11 @@ class Tracker {
      * Shortcuts
      */
     trackImpression(label) {
-        this.track(this.getTrackingCategory(), ACTION_IMPRESSION, label);
+        this.track(TRACKING_CATEGORY, ACTION_IMPRESSION, label);
     }
 
     trackClick(label) {
-        this.track(this.getTrackingCategory(), ACTION_CLICK, label);
+        this.track(TRACKING_CATEGORY, ACTION_CLICK, label);
     }
 
     /**
@@ -135,44 +134,20 @@ class Tracker {
         this.trackClick('save');
     }
 
-    trackPurposeInformationToggleClick() {
-        this.trackClick('purpose-information-toggle');
+    trackPurposeToggleClick(id) {
+        this.trackClick(`purpose-toggle-${id}`);
     }
 
-    trackPurposeInformationExpandClick() {
-        this.trackClick('purpose-information-expand');
+    trackPurposeExpandClick(id) {
+        this.trackClick(`purpose-expand-${id}`);
     }
 
-    trackPurposePersonalizationToggleClick() {
-        this.trackClick('purpose-personalization-toggle');
+    trackSpecialFeatureToggleClick(id) {
+        this.trackClick(`special-feature-toggle-${id}`);
     }
 
-    trackPurposePersonalizationExpandClick() {
-        this.trackClick('purpose-personalization-expand');
-    }
-
-    trackPurposeContentToggleClick() {
-        this.trackClick('purpose-content-toggle');
-    }
-
-    trackPurposeContentExpandClick() {
-        this.trackClick('purpose-content-expand');
-    }
-
-    trackPurposeMeasurementToggleClick() {
-        this.trackClick('purpose-measurement-toggle');
-    }
-
-    trackPurposeMeasurementExpandClick() {
-        this.trackClick('purpose-measurement-expand');
-    }
-
-    trackPurposeAdToggleClick() {
-        this.trackClick('purpose-ad-toggle');
-    }
-
-    trackPurposeAdExpandClick() {
-        this.trackClick('purpose-ad-expand');
+    trackSpecialFeatureExpandClick(id) {
+        this.trackClick(`special-feature-expand-${id}`);
     }
 
     trackOtherPartnersToggleClick() {
@@ -181,10 +156,6 @@ class Tracker {
 
     trackOtherPartnersExpandClick() {
         this.trackClick('other-partners-expand');
-    }
-
-    getTrackingCategory() {
-        return `${TRACKING_CATEGORY}_tcf-${this.tcfVersion}`;
     }
 }
 

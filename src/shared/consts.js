@@ -24,7 +24,7 @@ export const IAB_VENDORS = [
     110, // Dynata LLC
     120, // Eyeota Ptd Ltd
     78,  // Flashtalking, Inc.
-    // 755, // Google Advertising Products
+    755, // Google Advertising Products
     98,  // GroupM UK Limited (GroupM)
     61,  // GumGum, Inc.
     10,  // Index Exchange, Inc.
@@ -231,11 +231,3 @@ export const NON_IAB_VENDORS = [
         policyUrl: 'https://www.visualdna.com/privacy-policy',
     },
 ];
-
-export function getNonIABVendors() {
-    return NON_IAB_VENDORS;
-}
-
-export function addNonIABVendors(vendors) {
-    vendors.forEach(element => NON_IAB_VENDORS.push(element));
-}

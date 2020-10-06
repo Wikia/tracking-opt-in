@@ -11,56 +11,62 @@ class PreferencesSection extends Component {
         isExpanded: false,
     };
 
+    isItemEnabled(item) {
+        switch (item.type) {
+            case 'purpose':
+                return this.isConsentedPurpose(item.id);
+            case 'specialFeature':
+                return this.isConsentedSpecialFeature(item.id);
+        }
+    }
+
     isConsentedPurpose(purposeId) {
-        return this.props.consentedPurposes.indexOf(purposeId) >= 0;
+        return this.props.consentedPurposes.includes(purposeId);
+    }
+
+    isConsentedSpecialFeature(featureId) {
+        return this.props.consentedSpecialFeatures.includes(featureId);
     }
 
     toggleIsExpanded() {
-        const { purpose, tracker } = this.props;
+        const { item, tracker } = this.props;
         const { isExpanded } = this.state;
         this.setState({ isExpanded: !isExpanded });
         this.forceUpdate();
 
-        switch (purpose.id) {
-            case PURPOSES.INFORMATION:
-                tracker.trackPurposeInformationExpandClick();
+        switch (item.type) {
+            case 'purpose':
+                tracker.trackPurposeExpandClick(item.id);
                 break;
-            case PURPOSES.PERSONALIZATION:
-                tracker.trackPurposePersonalizationExpandClick();
+            case 'specialFeature':
+                tracker.trackSpecialFeatureExpandClick(item.id);
                 break;
-            case PURPOSES.AD:
-                tracker.trackPurposeAdExpandClick();
-                break;
-            case PURPOSES.CONTENT:
-                tracker.trackPurposeContentExpandClick();
-                break;
-            case PURPOSES.MEASUREMENT:
-                tracker.trackPurposeMeasurementExpandClick();
         }
     }
 
     render(props, state) {
 		const {
             content,
-            purpose,
-            onTogglePurpose,
+            onToggleItem,
             onToggleVendor,
             allPurposes,
             allPurposesSpecial,
             allFeatures,
             allFeaturesSpecial,
-            consentedPurposes,
+            allItems,
             consentedVendors,
+            consentedPurposes,
+            consentedSpecialFeatures,
+            item,
             tracker,
         } = props;
         const { isExpanded } = state;
-        const purposeIsEnabled = this.isConsentedPurpose(purpose.id);
 
         return (
-            <div className={styles.section} key={purpose.id}>
+            <div className={styles.section} key={item.id}>
                 <div className={styles.flex}>
                     <div>
-                        <div className={styles.heading}>{allPurposes[purpose.id].name}</div>
+                        <div className={styles.heading}>{allItems[item.id].name}</div>
                         <div className={styles.sectionExpand} onClick={() => this.toggleIsExpanded()}>
                             {isExpanded ? content.hidePurposeDetailsButton : content.showPurposeDetailsButton}
                             <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" className={`${globalStyles.chevron} ${isExpanded ? globalStyles.chevronExpanded : ''}`}>
@@ -68,21 +74,22 @@ class PreferencesSection extends Component {
                             </svg>
                         </div>
                     </div>
-                    <Switch isOn={purposeIsEnabled} onChange={() => onTogglePurpose(purpose.id, !purposeIsEnabled)} />
+                    <Switch isOn={this.isItemEnabled(item)} onChange={() => onToggleItem(item.id, !this.isItemEnabled(item))} />
                 </div>
                 {isExpanded && (
                     <div>
-                        <div className={styles.description}>{allPurposes[purpose.id].descriptionLegal}</div>
+                        <div className={styles.description}>{allItems[item.id].descriptionLegal}</div>
                         <PreferencesVendorList
                             content={content}
-                            vendors={purpose.vendors}
+                            vendors={item.vendors}
                             onToggleVendor={onToggleVendor}
                             allPurposes={allPurposes}
                             allPurposesSpecial={allPurposesSpecial}
                             allFeatures={allFeatures}
                             allFeaturesSpecial={allFeaturesSpecial}
-                            consentedPurposes={consentedPurposes}
                             consentedVendors={consentedVendors}
+                            consentedPurposes={consentedPurposes}
+                            consentedSpecialFeatures={consentedSpecialFeatures}
                             tracker={tracker}
                         />
                     </div>
