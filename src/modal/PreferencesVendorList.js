@@ -6,10 +6,12 @@ import styles from './PreferencesVendorList.scss';
 
 class PreferencesVendorList extends Component {
     state = {
-        vendors: this.props.vendors.map((vendor) => {
-            vendor.isExpanded = false;
-            return vendor;
-        }),
+        vendors: this.props.vendors
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((vendor) => {
+                vendor.isExpanded = false;
+                return vendor;
+            }),
     };
 
     isConsentedPurpose(purposeId) {
@@ -162,6 +164,7 @@ class PreferencesVendorList extends Component {
         if (!vendors) {
             return null;
         }
+
         const toRender = vendors.map((vendor) => {
             const vendorIsEnabled = this.isConsentedVendor(vendor.id);
 
