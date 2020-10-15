@@ -121,6 +121,7 @@ export const IAB_VENDORS = [
     506, // [MISSING] salesforce.com, inc.
     86,  // Scene Stealer Limited
     415, // Seenthis
+    775, // SelectMedia International LTD
     84,  // Semasio GmbH
     59,  // Sift Media
     261, // Signal Digital Inc.
