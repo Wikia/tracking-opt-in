@@ -121,10 +121,12 @@ export const IAB_VENDORS = [
     506, // [MISSING] salesforce.com, inc.
     86,  // Scene Stealer Limited
     415, // Seenthis
+    775, // SelectMedia International LTD
     84,  // Semasio GmbH
     59,  // Sift Media
     261, // Signal Digital Inc.
     73,  // Simplifi Holdings Inc.
+    68,  // Sizmek by Amazon (Sizmek)
     82,  // Smaato
     161, // Smadex
     45,  // Smart Adserver
@@ -164,7 +166,6 @@ export const IAB_VENDORS = [
 /*
   Fandom's ad partners who are not affiliated with IAB
   182, // EMX Digital LLC (RealTime)
-  68,  // Sizmek by Amazon (Sizmek)
  */
 export const NON_IAB_VENDORS = [
     {
