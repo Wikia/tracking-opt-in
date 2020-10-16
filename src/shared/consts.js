@@ -305,10 +305,6 @@ export const NON_IAB_VENDORS = [
         policyUrl: 'https://simplereach.com/privacy',
     },
     {
-        name: 'Sizmek',
-        policyUrl: 'https://www.sizmek.com/privacy-policy',
-    },
-    {
         name: 'Switch Concepts',
         policyUrl: 'https://www.switchconcepts.com/privacy-policy',
     },
