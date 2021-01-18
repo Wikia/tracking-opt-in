@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import Switch from './Switch';
 
+import getCookieAge from './utils/getCookieAge';
 import globalStyles from './styles.scss';
 import styles from './PreferencesVendorList.scss';
 
@@ -154,6 +155,21 @@ class PreferencesVendorList extends Component {
                         </div>
                     </div>
                 )}
+                <div>{/* fragment */}
+                    <div className={styles.subheader}>
+                        {content.storageDetailsHeading}
+                    </div>
+                    {vendor.usesNonCookieAccess !== undefined && (
+                        <div className={styles.vendorDetail}>
+                            {vendor.usesNonCookieAccess ? content.storageDetailsNonCookieAccessTrue : content.storageDetailsNonCookieAccessFalse}
+                        </div>
+                    )}
+                    {vendor.cookieMaxAgeSeconds !== undefined && (
+                        <div className={styles.vendorDetail}>
+                            {content.storageDetailsCookieMaxAge} {getCookieAge(vendor.cookieMaxAgeSeconds, content)}
+                        </div>
+                    )}
+                </div>
             </div>
         );
     }

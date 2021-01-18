@@ -1,5 +1,4 @@
 import { h, Component } from 'preact';
-import { PURPOSES } from '../shared/utils';
 import OtherPartners from './OtherPartners';
 import PreferencesSection from './PreferencesSection';
 
@@ -7,6 +6,7 @@ import globalStyles from './styles.scss';
 import styles from './Preferences.scss';
 
 import getParagraphs from './utils/getParagraphs';
+import objectToArray from './utils/objectToArray';
 import ConsentManagementProvider from '../gdpr/ConsentManagementProvider';
 import ContentManager from '../shared/ContentManager';
 
@@ -17,17 +17,6 @@ class Preferences extends Component {
         features: null,
         specialFeatures: null,
     };
-
-    // ToDo: Rewrite the logic and get rid of this method
-    objectToArray(object) {
-        const array = [];
-
-        for (let [key, value] of Object.entries(object)) {
-            array[key] = value;
-        }
-
-        return array;
-    }
 
     componentWillMount() {
         if (!this.state.purposes && !this.state.features) {
@@ -48,19 +37,19 @@ class Preferences extends Component {
                 }
 
                 // Filter vendors to those used by Fandom
-                const vendors = this.objectToArray(json.vendors).filter(vendor => (this.props.allVendors.includes(vendor.id)));
-                const purposesWithVendors = this.objectToArray(json.purposes).map((purpose) => {
+                const vendors = objectToArray(json.vendors).filter(vendor => (this.props.allVendors.includes(vendor.id)));
+                const purposesWithVendors = objectToArray(json.purposes).map((purpose) => {
                     purpose.vendors = vendors.filter(vendor => (vendor.purposes.includes(purpose.id)));
                     return purpose;
                 });
-                const specialFeaturesWithVendors = this.objectToArray(json.specialFeatures).map((specialFeature) => {
+                const specialFeaturesWithVendors = objectToArray(json.specialFeatures).map((specialFeature) => {
                     specialFeature.vendors = vendors.filter(vendor => (vendor.specialFeatures.includes(specialFeature.id)));
                     return specialFeature;
                 });
                 this.setState({
                     purposes: purposesWithVendors,
-                    specialPurposes: this.objectToArray(json.specialPurposes),
-                    features: this.objectToArray(json.features),
+                    specialPurposes: objectToArray(json.specialPurposes),
+                    features: objectToArray(json.features),
                     specialFeatures: specialFeaturesWithVendors,
                 });
                 this.forceUpdate();
