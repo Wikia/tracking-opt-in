@@ -7,6 +7,7 @@
  */
 export const IAB_VENDORS = [
     58,  // 33Across
+    40,  // Active Agent (ADITION technologies AG)
     147, // Adacado
     57,  // Adara Media
     299, // AdClear
