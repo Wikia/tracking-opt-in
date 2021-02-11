@@ -28,7 +28,6 @@ const getDefaultOptions = () => ({
     allowedVendorPurposes: null,
     allowedSpecialFeatures: null,
     cookieAttributes: getDefaultCookieAttributes(),
-    disableConsentQueue: false,
     gdprApplies: false,
     language: CMP_DEFAULT_LANGUAGE,
 });

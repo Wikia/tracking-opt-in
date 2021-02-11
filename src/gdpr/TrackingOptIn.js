@@ -55,16 +55,6 @@ class TrackingOptIn {
         });
     };
 
-    // Opt-out everything before use clicks anything in modal
-    rejectBeforeConsent = () => {
-        this.consentManagementProvider.configure({
-            allowedVendors: [],
-            allowedVendorPurposes: [],
-            allowedSpecialFeatures: []
-        });
-        this.consentManagementProvider.install();
-    };
-
     hasUserConsented() {
         const hasConsentCookie = this.consentManagementProvider.hasUserConsent() || isParameterSet('mobile-app');
 
@@ -148,10 +138,6 @@ class TrackingOptIn {
                 break;
             default:
                 if (!isParameterSet('mobile-app')) {
-                    if (this.options.disableConsentQueue) {
-                        this.rejectBeforeConsent();
-                    }
-
                     this.renderModal();
                 }
         }

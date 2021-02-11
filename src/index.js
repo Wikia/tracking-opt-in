@@ -15,7 +15,6 @@ export const DEFAULT_OPTIONS = {
     cookieRejectExpiration: null,
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
-    disableConsentQueue: false,
     enabledVendors: IAB_VENDORS, // array of IAB CMP vendor IDs
     language: null,
     queryParamName: null,
@@ -50,9 +49,7 @@ function initializeGDPR(options) {
     const langManager = new LanguageManager(depOptions.language);
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
-    const disableConsentQueue = !!depOptions.disableConsentQueue;
     const consentManagementProvider = new ConsentManagementProvider({
-        disableConsentQueue,
         language: langManager.lang
     });
 
@@ -83,7 +80,6 @@ function initializeGDPR(options) {
             enabledVendors,
             onAcceptTracking,
             onRejectTracking,
-            disableConsentQueue,
             isCurse,
         },
         window.location,
