@@ -18,7 +18,7 @@ const CMP_DEFAULT_LANGUAGE = 'en';
 const VENDOR_CONSENT_COOKIE_NAME = 'euconsent-v2';
 // const VENDOR_LIST_URL_BASE = 'https://www.fandom.com/cmp/';
 // Temporary
-const VENDOR_LIST_URL_BASE = 'https://static.wikia.nocookie.net/fandom-ae-assets/tracking-opt-in/v6.0.2/';
+const VENDOR_LIST_URL_BASE = 'https://static.wikia.nocookie.net/fandom-ae-assets/tracking-opt-in/v6.0.3/';
 const VENDOR_LIST_FILE_NAME = 'vendor-list.json';
 const VENDOR_LIST_VERSION_NAME = 'archives/vendor-list-v[VERSION].json';
 const getDefaultCookieAttributes = () => ({
