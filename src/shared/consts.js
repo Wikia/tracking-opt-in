@@ -13,11 +13,13 @@ export const IAB_VENDORS = [
     299, // AdClear
     50,  // Adform (Adform A/S)
     15,  // Adikteev
+    39,  // ADITION technologies AG
     93,  // Adloox
     447, // Adludio
     151, // Admedo
     22,  // Admetrics
     264, // Adobe Advertising Cloud
+    565, // Adobe Audience Manager, Adobe Experience Platform
     66,  // adsquare GmbH
     827, // AdTriba
     195, // advanced STORE GmbH
@@ -77,6 +79,7 @@ export const IAB_VENDORS = [
     587, // Localsensor
     109, // LoopMe
     95,  // Lotame Solutions, Inc.
+    508, // Lucid Holdings, LLC
     578, // [MISSING] MAIRDUMONT NETLETIX GmbH&Co. KG
     228, // McCann Discipline LTD
     79,  // MediaMath, Inc.
