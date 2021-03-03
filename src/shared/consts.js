@@ -69,7 +69,7 @@ export const IAB_VENDORS = [
     10,  // Index Exchange, Inc.
     452, // Innovid Inc.
     278, // Integral Ad Science, Inc. (IAS)
-    129, // IPONWEB
+    129, // IPONWEB GmbH
     294, // Jivox
     62,  // Justpremium BV
     544, // Kochava
@@ -150,6 +150,7 @@ export const IAB_VENDORS = [
     124, // TEEMO
     202, // Telaria, Inc
     345, // The Kantar Group Limited
+    686, // The MediaGrid Inc.
     52,  // The Rubicon Project, Inc. (The Rubicon Project, Limited)
     21,  // The Trade Desk (The Trade Desk, Inc and affiliated companies)
     423, // travel audience – An Amadeus Company
