@@ -98,6 +98,7 @@ export const IAB_VENDORS = [
     816, // NoBid, Inc.
     388, // numberly
     832, // Objective Partners
+    31,  // Ogury Ltd.
     304, // On Device Research
     241, // OneTag
     69,  // OpenX (OpenX Software Ltd. and its affiliates)
