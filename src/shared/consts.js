@@ -106,7 +106,6 @@ export const IAB_VENDORS = [
     385, // Oracle Data Cloud (Oracle, BlueKai)
     772, // Oracle Data Cloud - MOAT
     559, // OTTO
-    139, // PERMODO
     384, // Pixalate
     140, // Platform161
     177, // plista GmbH
