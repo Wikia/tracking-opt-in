@@ -41,11 +41,14 @@ const availableTranslations = [
     'el', // Greek
     'es', // Spanish
     'et', // Estonian
+    'eus', // Basque
     'fi', // Finnish
     'fr', // French
+    'gl', // Galician
     'hr', // Croatian
     'hu', // Hungarian
     'it', // Italian
+    'ja', // Japanese
     'lt', // Lithuanian
     'lv', // Latvian
     'mt', // Maltese
@@ -54,6 +57,8 @@ const availableTranslations = [
     'pl', // Polish
     'pt', // Portuguese
     'ro', // Romanian
+    'sr-Cyrl', // Serbian (cyrillic)
+    'sr-Latn', // Serbian (latin)
     'ru', // Russian
     'sk', // Slovak
     'sl', // Slovenian
@@ -61,7 +66,7 @@ const availableTranslations = [
     'tr', // Turkish
     'zh', // Chinese
 ];
-const TRANSLATIONS_URL_BASE = 'https://www.fandom.com/cmp/';
+const TRANSLATIONS_URL_BASE = 'https://static.wikia.nocookie.net/fandom-ae-assets/tcf/v2/';
 const TRANSLATIONS_FILE_NAME = 'purposes-CODE.json';
 
 function processLanguages(langs) {
