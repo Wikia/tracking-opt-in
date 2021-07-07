@@ -16,6 +16,7 @@ export const IAB_VENDORS = [
     39,  // ADITION technologies AG
     93,  // Adloox
     447, // Adludio
+    664, // adMarketplace, Inc.
     151, // Admedo
     22,  // Admetrics
     264, // Adobe Advertising Cloud
