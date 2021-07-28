@@ -1,12 +1,12 @@
 @import "./consts.scss";
 
 .vendorList {
-    border: 1px solid $color-secondary-fill;
+    border: 1px solid $color-secondary;
     margin-top: 24px;
 }
 
 .header {
-    background-color: $color-secondary-fill;
+    background-color: $color-secondary;
     color: #fff;
     font-size: 14px;
     font-weight: 500;
@@ -14,7 +14,7 @@
 }
 
 .subheader {
-    background-color: $color-middle-gray;
+    background-color: $color-gray;
     color: #fff;
     font-size: 12px;
     font-weight: bold;
@@ -27,7 +27,7 @@
 }
 
 .vendor {
-    border-top: 1px solid $color-secondary-fill;
+    border-top: 1px solid $color-secondary;
     font-size: 12px;
     padding: 12px;
 }
@@ -38,14 +38,14 @@
 }
 
 .vendorExpand {
-    color: $color-secondary-fill;
+    color: $color-secondary;
     cursor: pointer;
     font-weight: bold;
     margin-top: 6px;
 }
 
 .vendorDetails {
-    border: 1px solid $color-middle-gray;
+    border: 1px solid $color-secondary;
     margin-top: 12px;
 }
 
@@ -54,7 +54,7 @@
 }
 
 .vendorDetail {
-    border-top: 1px solid $color-middle-gray;
+    border-top: 1px solid $color-secondary;
     padding: 8px 10px;
 }
 
@@ -67,6 +67,5 @@
 .link {
     color: $color-link !important;
     font-size: 12px;
-    font-weight: bold;
     text-decoration: none;
 }
