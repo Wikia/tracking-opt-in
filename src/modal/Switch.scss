@@ -42,7 +42,7 @@
     }
 
     input:checked+label {
-        background-color: $color-primary;
+        background-color: $color-primary-fill;
     }
 
     input:checked+label span {
@@ -51,7 +51,7 @@
     }
 
     .label:active span {
-        background: $color-primary;
+        background: $color-primary-fill;
         width: $height;
     }
 }
