@@ -2,6 +2,7 @@ $breakpoint: 768px;
 $mobile-devices: "only screen and (max-width: #{$breakpoint - 1})";
 $desktop-devices: "only screen and (min-width: #{$breakpoint})";
 $color-primary: #520044;
+$color-primary-text: #fff;
 $color-text: #000;
 $color-link: #520044;
 $color-dark-gray: #291927;

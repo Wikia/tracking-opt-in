@@ -62,9 +62,9 @@
 
 .acceptButton,
 .saveButton {
-    background-color: #00cdd0;
-    border: 1px solid #fff;
-    color: #0e191a;
+    background-color: $color-primary;
+    border: 1px solid $color-primary;
+    color: $color-primary-text;
 }
 
 .learnMoreButton,
