@@ -5,7 +5,7 @@ pipeline {
     }
   }
 
-  tools { nodejs "10.7.0" }
+  tools { nodejs "v10 LTS" }
   environment {
     imageName = "tracking-opt-in-demo"
     currentCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
