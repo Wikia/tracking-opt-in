@@ -60,7 +60,6 @@ export const IAB_VENDORS = [
     312, // Exactag
     1,   // Exponential
     120, // Eyeota Ptd Ltd
-    756, // Fandom, Inc.
     78,  // Flashtalking, Inc.
     119, // FUSIO BY S4M
     328, // Gemius
