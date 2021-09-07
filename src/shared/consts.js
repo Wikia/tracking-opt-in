@@ -160,6 +160,7 @@ export const IAB_VENDORS = [
     28,  // TripleLift, Inc.
     162, // Unruly Group Ltd
     212, // usemax (Emego GmbH)
+    1013,// Velocity Made Good LLC
     25,  // Verizon Media EMEA Limited (Oath (EMEA) Limited)
     601, // WebAds B.V
     284, // Weborama
