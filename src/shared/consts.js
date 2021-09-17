@@ -2,8 +2,8 @@
   IAB CMP vendor IDs of Fandom's ad partners
   The IDs are taken from https://vendorlist.consensu.org/v2/vendor-list.json
   [STATUS] GVL Name (TCFv1 name)
-  Last GVL check:  2020-10-06
-  Last update:     2020-10-06
+  Last GVL check:  2021-09-17
+  Last update:     2021-09-17
  */
 export const IAB_VENDORS = [
     58,  // 33Across
@@ -82,12 +82,12 @@ export const IAB_VENDORS = [
     109, // LoopMe
     95,  // Lotame Solutions, Inc.
     508, // Lucid Holdings, LLC
-    578, // [MISSING] MAIRDUMONT NETLETIX GmbH&Co. KG
     228, // McCann Discipline LTD
     79,  // MediaMath, Inc.
     152, // Meetrics
     703, // MindTake Research
     101, // MiQ
+    898, // Mobkoi Ltd
     807, // Moloco Ads
     72,  // Nano Interactive
     450, // Neodata Group
