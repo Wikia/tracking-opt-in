@@ -150,12 +150,12 @@ class Tracker {
         this.trackClick(`special-feature-expand-${id}`);
     }
 
-    trackFandomOwnToggleClick() {
-        this.trackClick('fandom-own-toggle');
+    trackOtherPartnersToggleClick() {
+        this.trackClick('other-partners-toggle');
     }
 
-    trackFandomOwnExpandClick() {
-        this.trackClick('fandom-own-expand');
+    trackOtherPartnersExpandClick() {
+        this.trackClick('other-partners-expand');
     }
 }
 
