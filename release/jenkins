@@ -81,7 +81,7 @@ pipeline {
           sh "git push origin --tags"
 
           slackSend (
-            channel: '#pie-dpad-tech',
+            channel: '#adeng-release',
             color: 'good',
             failOnError: true,
             message: ":checkmark: new version of tracking-opt-in has been released to https://www.npmjs.com/package/@wikia/tracking-opt-in"
@@ -94,7 +94,7 @@ pipeline {
   post {
     success {
       slackSend (
-        channel: '#pie-dpad-tech',
+        channel: '#adeng-release',
         color: 'good',
         failOnError: true,
         message: ":checkmark: tracking-opt-in ${params.pipeline} on ${params.branch} <${env.BUILD_URL}|succeeded>"
@@ -103,7 +103,7 @@ pipeline {
 
     failure {
       slackSend (
-        channel: '#pie-dpad-tech',
+        channel: '#adeng-release',
         color: 'warning',
         failOnError: true,
         message: ":warning: tracking-opt-in ${params.pipeline} on ${params.branch} <${env.BUILD_URL}|failed>"
