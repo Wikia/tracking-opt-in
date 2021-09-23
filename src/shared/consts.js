@@ -7,7 +7,7 @@
  */
 export const IAB_VENDORS = [
     58,  // 33Across
-    720, // AAX LLC	
+    720, // AAX LLC
     40,  // Active Agent (ADITION technologies AG)
     147, // Adacado
     57,  // Adara Media
@@ -60,6 +60,7 @@ export const IAB_VENDORS = [
     312, // Exactag
     1,   // Exponential
     120, // Eyeota Ptd Ltd
+    756, // Fandom, Inc.
     78,  // Flashtalking, Inc.
     119, // FUSIO BY S4M
     328, // Gemius

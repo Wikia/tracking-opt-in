@@ -1,18 +1,18 @@
 import { h, Component } from 'preact';
+import { NON_IAB_VENDORS } from '../shared/consts';
+import PreferencesVendorList from './PreferencesVendorList';
 import Switch from './Switch';
 
-import getCookieAge from './utils/getCookieAge';
 import globalStyles from './styles.scss';
-import styles from './PreferencesVendorList.scss';
+// This is another (although unique) preferences section, so it uses the same styles
+import sectionStyles from './PreferencesSection.scss';
+import vendorListStyles from './PreferencesVendorList.scss';
+import styles from "./PreferencesVendorList.scss";
+import getCookieAge from "./utils/getCookieAge";
 
-class PreferencesVendorList extends Component {
+class FandomOwn extends Component {
     state = {
-        vendors: this.props.vendors
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .map((vendor) => {
-                vendor.isExpanded = false;
-                return vendor;
-            }),
+        isExpanded: false,
     };
 
     isConsentedPurpose(purposeId) {
@@ -27,18 +27,67 @@ class PreferencesVendorList extends Component {
         return this.props.consentedSpecialFeatures.includes(specialFeatureId);
     }
 
-    toggleIsExpanded(vendorId) {
+    toggleIsExpanded() {
         const { tracker } = this.props;
-        const { vendors } = this.state;
-        vendors.forEach((vendor) => {
-            if (vendor.id === vendorId) {
-                vendor.isExpanded = !vendor.isExpanded;
-            }
-        });
-        this.setState({ vendors });
+        const { isExpanded } = this.state;
+        this.setState({ isExpanded: !isExpanded });
         this.forceUpdate();
+        tracker.trackFandomOwnExpandClick();
+    }
 
-        tracker.trackVendorExpandClick();
+    toggleSwitch(isOn) {
+        // Enables/disables all other vendors
+        const { onToggle, tracker } = this.props;
+        onToggle(isOn);
+        tracker.trackFandomOwnToggleClick();
+    }
+
+    renderVendors() {
+        const { content } = this.props;
+
+        return NON_IAB_VENDORS.map((vendor) => {
+            return (
+            <div className={vendorListStyles.vendor} key={vendor.name}>
+                <div className={vendorListStyles.flex}>
+                    <div className={vendorListStyles.vendorName}>{vendor.name}</div>
+                    <div>
+                        <a href={vendor.policyUrl} className={vendorListStyles.link} target="_blank">
+                            {content.privacyPolicyLinkButton}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        )});
+    }
+
+    // ToDo refactor
+    renderVendors2() {
+        const { content, onToggleVendor } = this.props;
+console.log(this.props, this.props.purposes[1]);
+        const vendors = [this.props.purposes[1].vendors[134]];
+console.log(vendors);
+        const toRender = vendors.map((vendor) => {
+            const vendorIsEnabled = true;
+
+            return (
+                <div className={styles.vendor} key={vendor.name}>
+                    <div className={styles.flex}>
+                        <div>
+                            <div className={styles.vendorName}>Galactus &lt;=</div>
+                            <div className={styles.vendorExpand} onClick={() => this.toggleIsExpanded(vendor.id)}>
+                                {vendor.isExpanded ? content.hideVendorDetailsButton : content.showVendorDetailsButton}
+                                <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" className={`${globalStyles.chevron} ${vendor.isExpanded ? globalStyles.chevronExpanded : ''}`}>
+                                    <path d="M11.707 3.293a.999.999 0 0 0-1.414 0L6 7.586 1.707 3.293A.999.999 0 1 0 .293 4.707l5 5a.997.997 0 0 0 1.414 0l5-5a.999.999 0 0 0 0-1.414" fill-rule="evenodd"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <Switch isOn={vendorIsEnabled} onChange={() => onToggleVendor(vendor.id, !vendorIsEnabled)} />
+                    </div>
+                    {this.renderVendorDetails(vendor)}
+                </div>
+            );
+        });
+        return toRender;
     }
 
     renderVendorDetails(vendor) {
@@ -174,47 +223,40 @@ class PreferencesVendorList extends Component {
         );
     }
 
-    renderVendors() {
-        const { content, vendors, onToggleVendor } = this.props;
-
-        if (!vendors) {
-            return null;
-        }
-console.log(vendors);
-        const toRender = vendors.map((vendor) => {
-            const vendorIsEnabled = this.isConsentedVendor(vendor.id);
-
-            return (
-                <div className={styles.vendor} key={vendor.name}>
-                    <div className={styles.flex}>
-                        <div>
-                            <div className={styles.vendorName}>{vendor.name}</div>
-                            <div className={styles.vendorExpand} onClick={() => this.toggleIsExpanded(vendor.id)}>
-                                {vendor.isExpanded ? content.hideVendorDetailsButton : content.showVendorDetailsButton}
-                                <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" className={`${globalStyles.chevron} ${vendor.isExpanded ? globalStyles.chevronExpanded : ''}`}>
-                                    <path d="M11.707 3.293a.999.999 0 0 0-1.414 0L6 7.586 1.707 3.293A.999.999 0 1 0 .293 4.707l5 5a.997.997 0 0 0 1.414 0l5-5a.999.999 0 0 0 0-1.414" fill-rule="evenodd"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <Switch isOn={vendorIsEnabled} onChange={() => onToggleVendor(vendor.id, !vendorIsEnabled)} />
-                    </div>
-                    {vendor.isExpanded && this.renderVendorDetails(vendor)}
-                </div>
-            );
-        });
-        return toRender;
-    }
-
-    render(props) {
-        const { content } = props;
+    render(props, state) {
+		const {
+            content,
+            nonIabConsented,
+            tracker,
+        } = props;
+        const { isExpanded } = state;
 
         return (
-            <div className={styles.vendorList}>
-                <div className={styles.header}>{content.vendorsHeader}</div>
-                {this.renderVendors()}
+            <div className={sectionStyles.section}>
+                <div className={sectionStyles.flex}>
+                    <div>
+                        {/*<div className={sectionStyles.heading}>{content.otherPartnersHeading}</div>*/}
+                        <div className={sectionStyles.heading}>Fandom, Inc. internal projects &lt;=</div>
+                        <div className={sectionStyles.sectionExpand} onClick={() => this.toggleIsExpanded()}>
+                            {isExpanded ? content.hidePurposeDetailsButton : content.showPurposeDetailsButton}
+                            <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" className={`${globalStyles.chevron} ${isExpanded ? globalStyles.chevronExpanded : ''}`}>
+                                <path d="M11.707 3.293a.999.999 0 0 0-1.414 0L6 7.586 1.707 3.293A.999.999 0 1 0 .293 4.707l5 5a.997.997 0 0 0 1.414 0l5-5a.999.999 0 0 0 0-1.414" fill-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <Switch isOn={nonIabConsented} onChange={(isOn) => this.toggleSwitch(isOn)} />
+                </div>
+                {isExpanded && (
+                    <div>
+                        <div className={vendorListStyles.vendorList}>
+                            <div className={vendorListStyles.header}>Our projects &lt;=</div>
+                            {this.renderVendors2()}
+                        </div>
+                    </div>
+                )}
             </div>
         );
     }
 }
 
-export default PreferencesVendorList;
+export default FandomOwn;
