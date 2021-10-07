@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import FandomOwn from './FandomOwn';
+import OtherPartners from './OtherPartners';
 import PreferencesSection from './PreferencesSection';
 
 import globalStyles from './styles.scss';
@@ -163,7 +163,7 @@ class Preferences extends Component {
     }
 
     render(props, state) {
-        const { consentedPurposes, consentedSpecialFeatures, consentedVendors, appOptions, content, clickBack, clickSave, nonIabConsented, setNonIabConsented, tracker } = props;
+        const { appOptions, content, clickBack, clickSave, nonIabConsented, setNonIabConsented, tracker } = props;
         const { purposes, specialFeatures } = state;
 
         return (
@@ -180,24 +180,15 @@ class Preferences extends Component {
                         <div className={styles.preferencesDescription} onClick={(e) => this.clickDescription(e)}>
                             {getParagraphs(content.preferencesBody, content, appOptions.isCurse)}
                         </div>
-                        <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>Fandom’s Internal Use</h2>
-                        <FandomOwn
-                            content={content}
-                            nonIabConsented={nonIabConsented}
-                            onToggle={setNonIabConsented}
-                            tracker={tracker}
-                            purposes={purposes}
-                            allFeatures={this.state.features}
-                            allFeaturesSpecial={specialFeatures}
-                            allPurposes={this.state.purposes}
-                            allPurposesSpecial={this.state.specialPurposes}
-                            allItems={specialFeatures}
-                            consentedVendors={consentedVendors}
-                            consentedPurposes={consentedPurposes}
-                            consentedSpecialFeatures={consentedSpecialFeatures}
-                        />
                         <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.purposesHeader}</h2>
                         {this.renderPurposesPreferenceSections(purposes)}
+                        {/*ToDo: cleanup*/}
+                        {/*<OtherPartners*/}
+                        {/*    content={content}*/}
+                        {/*    nonIabConsented={nonIabConsented}*/}
+                        {/*    onToggle={setNonIabConsented}*/}
+                        {/*    tracker={tracker}*/}
+                        {/*/>*/}
                         <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.specialFeaturesHeader}</h2>
                         {this.renderSpecialFeaturesPreferenceSections(specialFeatures)}
                     </div>

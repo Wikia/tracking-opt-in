@@ -180,7 +180,7 @@ class PreferencesVendorList extends Component {
         if (!vendors) {
             return null;
         }
-console.log(vendors);
+
         const toRender = vendors.map((vendor) => {
             const vendorIsEnabled = this.isConsentedVendor(vendor.id);
 
