@@ -3,7 +3,7 @@
   The IDs are taken from https://vendorlist.consensu.org/v2/vendor-list.json
   [STATUS] GVL Name (TCFv1 name)
   Last GVL check:  2021-09-17
-  Last update:     2021-09-17
+  Last update:     2021-10-21
  */
 export const IAB_VENDORS = [
     58,  // 33Across
@@ -62,6 +62,7 @@ export const IAB_VENDORS = [
     120, // Eyeota Ptd Ltd
     78,  // Flashtalking, Inc.
     119, // FUSIO BY S4M
+    1055,// Gamesight Inc
     328, // Gemius
     758, // GfK
     755, // Google Advertising Products
