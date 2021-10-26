@@ -64,7 +64,7 @@ function initializeGDPR(options) {
 
     optInManager.setForcedStatusFromQueryParams(window.location.search);
 
-    if (optInManager.checkCookieVersion()) {
+    if (optInManager.checkCookieVersion() || consentManagementProvider.isWithdrawingConsent()) {
         consentManagementProvider.setVendorConsentCookie(null);
     }
 

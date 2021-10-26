@@ -236,6 +236,16 @@ class ConsentManagementProvider {
     }
 
     /**
+     * Checks if the user is withdrawing their consent by query parameter
+     */
+    isWithdrawingConsent() {
+        return window &&
+            window.location &&
+            window.location.search &&
+            window.location.search.includes('withdrawConsent=true');
+    }
+
+    /**
      * @returns boolean
      */
     isVendorTCFPolicyVersionOutdated() {
