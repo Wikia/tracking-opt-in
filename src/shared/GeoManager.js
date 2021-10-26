@@ -16,7 +16,6 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'bq', // Bonaire
     'br', // Brazil
     'ky', // Cayman Islands
-    'cn', // China
     'hr', // Croatia
     'cw', // Curaçao
     'cy', // Cyprus
