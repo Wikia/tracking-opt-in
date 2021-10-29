@@ -11,6 +11,7 @@ class Modal extends Component {
         consentedPurposes: this.props.options.enabledPurposes,
         consentedSpecialFeatures: this.props.options.enabledSpecialFeatures,
         isScreenOne: true,
+        nonIabConsented: true,
     };
 
     componentDidMount() {
@@ -62,6 +63,10 @@ class Modal extends Component {
         this.props.onAcceptTracking(this.props.options.enabledVendors, this.props.options.enabledPurposes, this.props.options.enabledSpecialFeatures);
     };
 
+    setNonIabConsented = (isConsented) => {
+        this.setState({nonIabConsented: isConsented});
+    };
+
     learnMore = () => {
         this.props.tracker.trackLearnMoreClick();
         this.setState({ isScreenOne: false });
@@ -80,6 +85,8 @@ class Modal extends Component {
         this.props.onRequestAppRemove();
 
         // Pass in only those vendors and purposes the user left enabled in the preferences
+        // ToDo: cleanup
+        // if (this.state.nonIabConsented === true) {
         // ToDo: make GVL change resistant
         if (this.state.consentedPurposes.length >= 10) {
             this.props.optInManager.setTrackingAccepted();
@@ -101,7 +108,7 @@ class Modal extends Component {
 
     render(props, state) {
         const { options, content, language, tracker } = props;
-        const { isScreenOne, consentedPurposes, consentedVendors, consentedSpecialFeatures } = state;
+        const { isScreenOne, consentedPurposes, consentedVendors, consentedSpecialFeatures, nonIabConsented } = state;
 
         if (isScreenOne) {
             return (
@@ -125,6 +132,8 @@ class Modal extends Component {
                     consentedSpecialFeatures={consentedSpecialFeatures}
                     content={content}
                     language={language}
+                    nonIabConsented={nonIabConsented}
+                    setNonIabConsented={this.setNonIabConsented}
                     tracker={tracker}
                     updatePurposes={this.updatePurposes}
                     updateSpecialFeatures={this.updateSpecialFeatures}

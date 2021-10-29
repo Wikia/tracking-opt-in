@@ -16,12 +16,9 @@
         "Fandom and its partners use cookies to store and collect information from your browser to personalize content and ads, provide social media features, and analyze our traffic. You can define your preferences and give or modify your consent for the purposes and vendors listed below.  In addition, as indicated below, some companies collect information without your consent based on their or our legitimate interest (such as to aid us in website traffic analysis and to inform improvements to our site). You can access their privacy policies for more information. ",
         "For more information about the cookies we use, please see our %privacyPolicy%. For information about our partners using cookies on our site, please see the %partnerList%."
     ],
-    "internalUseHeader": "Fandom’s Internal Use",
-    "internalUseProject1": "Content personalization",
     "purposesHeader": "Our Partners' Purposes",
     "specialFeaturesHeader": "Our Partners' Special Features",
     "vendorsHeader": "Our Partners",
-    "projectsHeader": "Our projects",
     "showPurposeDetailsButton": "Show Preferences",
     "hidePurposeDetailsButton": "Hide Preferences",
     "showVendorDetailsButton": "Show Details",
@@ -47,5 +44,6 @@
     "storageDetailsCookieMaxAgeSeconds": "seconds",
     "storageDetailsCookieMaxAgeMinutes": "minutes",
     "storageDetailsCookieMaxAgeHours": "hours",
-    "storageDetailsCookieMaxAgeDays": "days"
+    "storageDetailsCookieMaxAgeDays": "days",
+    "otherPartnersHeading": "Other Partners"
 }

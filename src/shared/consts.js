@@ -7,7 +7,7 @@
  */
 export const IAB_VENDORS = [
     58,  // 33Across
-    720, // AAX LLC
+    720, // AAX LLC	
     40,  // Active Agent (ADITION technologies AG)
     147, // Adacado
     57,  // Adara Media
@@ -60,7 +60,6 @@ export const IAB_VENDORS = [
     312, // Exactag
     1,   // Exponential
     120, // Eyeota Ptd Ltd
-    756, // Fandom, Inc.
     78,  // Flashtalking, Inc.
     119, // FUSIO BY S4M
     1055,// Gamesight Inc
@@ -174,13 +173,164 @@ export const IAB_VENDORS = [
 ];
 
 /*
-  Fandom's internal projects that are not affiliated with IAB,
-  but they have to be listed and receive user's consent
-  Last update:     2021-10-29
+  Fandom's ad partners who are not affiliated with IAB
+  182, // EMX Digital LLC (RealTime)
  */
-export const INTERNAL_USE = {
-    756: {
-        name: 'Content personalization',
-        translationKey: 'internalUseProject1',
-    }
-};
+export const NON_IAB_VENDORS = [
+    {
+        name: '2 Audiens',
+        policyUrl: 'https://www.audience2media.com/privacy',
+    },
+    {
+        name: '4Media Network',
+        policyUrl: 'http://4media-network.com/privacy.html',
+    },
+    {
+        name: 'Acxiom',
+        policyUrl: 'https://www.acxiom.co.uk/about-acxiom/privacy/uk-privacy-policy',
+    },
+    {
+        name: 'Branch',
+        policyUrl: 'https://branch.io/policies/#privacyb',
+    },
+    {
+        name: 'Cross Media',
+        policyUrl: 'http://crossmedia.co.uk/en/privacy-policy',
+    },
+    {
+        name: 'CultureG',
+        policyUrl: 'https://www.cultureg.eu/privacy-policy.html',
+    },
+    {
+        name: 'Datorama',
+        policyUrl: 'https://datorama.com/privacy-policy',
+    },
+    {
+        name: 'DataXpand',
+        policyUrl: 'http://www.dataxpand.com/privacy.php',
+    },
+    {
+        name: 'Datonics',
+        policyUrl: 'https://www.datonics.com/privacy',
+    },
+    {
+        name: 'Epsilon',
+        policyUrl: 'https://www.epsilontel.com/privacy-policy',
+    },
+    {
+        name: 'Experian',
+        policyUrl: 'https://www.experian.co.uk/legal/privacy-statement.html',
+    },
+    {
+        name: 'Fabric / Crashlytics',
+        policyUrl: 'https://fabric.io/terms',
+    },
+    {
+        name: 'Facebook Audience Network',
+        policyUrl: 'https://developers.facebook.com/docs/audience-network/policy',
+    },
+    {
+        name: 'Facebook SDK',
+        policyUrl: 'https://www.facebook.com/about/privacy',
+    },
+    {
+        name: 'Fastly',
+        policyUrl: 'https://www.fastly.com/privacy',
+    },
+    {
+        name: 'First Impression',
+        policyUrl: 'https://publishers.firstimpression.io/#FI/privacy-policy',
+    },
+    {
+        name: 'I-Behavior',
+        policyUrl: 'https://www.i-behavior.com/interactive-marketing/privacy-policydata-security-qa',
+    },
+    {
+        name: 'InstartLogic',
+        policyUrl: 'https://www.instartlogic.com/company/legal/privacy-policy',
+    },
+    {
+        name: 'JW Player',
+        policyUrl: 'https://www.jwplayer.com/privacy',
+    },
+    {
+        name: 'KBM Group',
+        policyUrl: 'http://www.kbmg.com/about-us/privacy/site-privacy-policy',
+    },
+    {
+        name: 'LiftIgniter',
+        policyUrl: 'https://www.liftigniter.com/terms-and-privacy-policy',
+    },
+    {
+        name: 'M United / McCann',
+        policyUrl: 'https://www.mccannworldgroup.com/privacy',
+    },
+    {
+        name: 'Madhive',
+        policyUrl: 'https://madhive.com/privacy.html',
+    },
+    {
+        name: 'Maxpoint / Valassis Digital',
+        policyUrl: 'https://www.valassisdigital.com/legal/privacy-policy',
+    },
+    {
+        name: 'Moat',
+        policyUrl: 'https://moat.com/privacy',
+    },
+    {
+        name: 'Moat UK',
+        policyUrl: 'https://www.moat.co.uk/privacy-statement',
+    },
+    {
+        name: 'Navegg',
+        policyUrl: 'https://www.navegg.com/en/privacy-policy',
+    },
+    {
+        name: 'PageFair',
+        policyUrl: 'https://pagefair.com/privacy',
+    },
+    {
+        name: 'Parsely',
+        policyUrl: 'https://www.parse.ly/privacy-policy',
+    },
+    {
+        name: 'Qualaroo',
+        policyUrl: 'https://qualaroo.com/privacy-policy',
+    },
+    {
+        name: 'Qualtrics',
+        policyUrl: 'https://www.qualtrics.com/privacy-statement',
+    },
+    {
+        name: 'RealTime',
+        policyUrl: 'http://www.brealtime.com/privacy-policy',
+    },
+    {
+        name: 'Schnee Von Morgan',
+        policyUrl: 'https://www.schneevonmorgen.com/privacy.html',
+    },
+    {
+        name: 'SimpleReach',
+        policyUrl: 'https://simplereach.com/privacy',
+    },
+    {
+        name: 'Switch Concepts',
+        policyUrl: 'https://www.switchconcepts.com/privacy-policy',
+    },
+    {
+        name: 'TruSignal',
+        policyUrl: 'https://www.tru-signal.com/site-privacy-policy',
+    },
+    {
+        name: 'Truvid',
+        policyUrl: 'https://www.truvid.com/terms/privacy_policy',
+    },
+    {
+        name: 'Vertical Mass',
+        policyUrl: 'http://site.verticalmass.com/privacy',
+    },
+    {
+        name: 'VisualDNA',
+        policyUrl: 'https://www.visualdna.com/privacy-policy',
+    },
+];
