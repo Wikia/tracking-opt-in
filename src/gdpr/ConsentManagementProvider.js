@@ -236,13 +236,14 @@ class ConsentManagementProvider {
     }
 
     /**
-     * Checks if the user is withdrawing their consent by query parameter. Only intended to
-     * be used on fandom.com/do-not-sell-my-info
+     * Checks if the user is withdrawing their consent by query parameter
+     * @returns boolean
      */
     isWithdrawingConsent() {
+        // ToDo: upgrade Node version and replace with .? + unify window.location access
         return window &&
             window.location &&
-            window.location.pathname.includes('do-not-sell-my-info') &&
+            window.location.pathname.includes('privacy-policy') &&
             window.location.search &&
             window.location.search.includes('withdrawConsent=true');
     }
