@@ -74,11 +74,12 @@ class TrackingOptIn {
     }
 
     isOnWhiteListedPage() {
-        if (this.isReset) {
+        const { host, pathname, search } = this.location;
+
+        if (this.isReset || search.includes('withdrawConsent=true')) {
             return false;
         }
 
-        const { host, pathname } = this.location;
         const { content } = this.contentManager;
         const privacyParsedUrl = parseUrl(content.privacyPolicyUrl);
         const partnerParsedUrl = parseUrl(content.partnerListUrl);
