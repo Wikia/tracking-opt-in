@@ -150,12 +150,8 @@ class Tracker {
         this.trackClick(`special-feature-expand-${id}`);
     }
 
-    trackOtherPartnersToggleClick() {
-        this.trackClick('other-partners-toggle');
-    }
-
-    trackOtherPartnersExpandClick() {
-        this.trackClick('other-partners-expand');
+    trackInternalUseExpandClick() {
+        this.trackClick('internal-use-expand');
     }
 }
 

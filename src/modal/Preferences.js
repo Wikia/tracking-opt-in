@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import OtherPartners from './OtherPartners';
+import InternalUse from './InternalUse';
 import PreferencesSection from './PreferencesSection';
 
 import globalStyles from './styles.scss';
@@ -47,6 +47,7 @@ class Preferences extends Component {
                     return specialFeature;
                 });
                 this.setState({
+                    vendors,
                     purposes: purposesWithVendors,
                     specialPurposes: objectToArray(json.specialPurposes),
                     features: objectToArray(json.features),
@@ -163,7 +164,7 @@ class Preferences extends Component {
     }
 
     render(props, state) {
-        const { appOptions, content, clickBack, clickSave, nonIabConsented, setNonIabConsented, tracker } = props;
+        const { appOptions, consentedPurposes, consentedSpecialFeatures, consentedVendors, content, clickBack, clickSave, tracker } = props;
         const { purposes, specialFeatures } = state;
 
         return (
@@ -180,15 +181,22 @@ class Preferences extends Component {
                         <div className={styles.preferencesDescription} onClick={(e) => this.clickDescription(e)}>
                             {getParagraphs(content.preferencesBody, content, appOptions.isCurse)}
                         </div>
+                        <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.internalUseHeader}</h2>
+                        <InternalUse
+                            allFeatures={this.state.features}
+                            allFeaturesSpecial={specialFeatures}
+                            allPurposes={this.state.purposes}
+                            allPurposesSpecial={this.state.specialPurposes}
+                            consentedVendors={consentedVendors}
+                            consentedPurposes={consentedPurposes}
+                            consentedSpecialFeatures={consentedSpecialFeatures}
+                            content={content}
+                            onToggleVendor={(vendorId, isEnabled) => this.toggleVendor(vendorId, isEnabled)}
+                            tracker={tracker}
+                            vendors={this.state.vendors}
+                        />
                         <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.purposesHeader}</h2>
                         {this.renderPurposesPreferenceSections(purposes)}
-                        {/*ToDo: cleanup*/}
-                        {/*<OtherPartners*/}
-                        {/*    content={content}*/}
-                        {/*    nonIabConsented={nonIabConsented}*/}
-                        {/*    onToggle={setNonIabConsented}*/}
-                        {/*    tracker={tracker}*/}
-                        {/*/>*/}
                         <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.specialFeaturesHeader}</h2>
                         {this.renderSpecialFeaturesPreferenceSections(specialFeatures)}
                     </div>
