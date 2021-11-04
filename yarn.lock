@@ -2,23 +2,20 @@
 # yarn lockfile v1
 
 
-"@iabtcf/cmpapi@v1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@iabtcf/cmpapi/-/cmpapi-1.1.4.tgz#98e17e45caa668765eb12b16f8dd2a0263555f46"
-  integrity sha512-knwTKljpUsnas0g71JP2IyKDzfiWR5O8VkXErdN88gS06ETO5o8F7wFEVr6y0DE4z0z2UrDIy+m+8vDaEYDang==
+"@iabtcf/cmpapi@v1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@iabtcf/cmpapi/-/cmpapi-1.3.1.tgz#0be83b8694491d91174b4a8e7993f110f100b705"
+  integrity sha512-t60awD6WJTK/VVOB3dIyQXcYrZ5sjuRas9pbGAOLfYv3s57oIq6Qa8clEG1ordHVDXWPBbcafygcDh2EH48bDw==
 
-"@iabtcf/core@v1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@iabtcf/core/-/core-1.1.4.tgz#5ec102123d9f22ff0458315dffb38a7cae91f752"
-  integrity sha512-Q0xy1W2JaKUpb/lYu3792UrdZZSmotsnwGEc6+k44PtURtO/JNFqXiMFA28CEpVb5t2fKwYGgxhH/RXImEzPhA==
-  dependencies:
-    global "^4.4.0"
-    typescript "3.7"
+"@iabtcf/core@v1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@iabtcf/core/-/core-1.3.1.tgz#7286aa2a05cba1fbef8268d8ef9e8a243d7890e0"
+  integrity sha512-t3ZvQRXLhoze2cx15mZMt5wUVhj+q3CoXtSSdZuVbrEbnyzFJ6uW0fxr5dmH1vRud7QYGRXqjhCBL7Yr46VRpA==
 
-"@iabtcf/stub@v1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.1.4.tgz#79fc172f981cce6deb9194f8e2a57010c9ac3606"
-  integrity sha512-fCd8SQAvzInBukBk9M2vcnJudJIuUUwzNKvf+IlsoFN7ohvtrnUZd/P2kjC6r8e77RigTAucWbSdNA7lrpsIcg==
+"@iabtcf/stub@v1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.3.1.tgz#56a704a7123b4dc57ad684d8e0faa47fe6eb11e7"
+  integrity sha512-mT39WLn/aRdxqA+3wEUCRElgunCYCqWeUrFLl1wTS8K91iMAIFgVH1It0DHYhy0goKQUSkJ+E8MurcSKgpRmCw==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -2973,11 +2970,6 @@ dom-serializer@0:
     domelementtype "~1.1.1"
     entities "~1.1.1"
 
-dom-walk@^0.1.0:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/dom-walk/-/dom-walk-0.1.2.tgz#0c548bef048f4d1f2a97249002236060daa3fd84"
-  integrity sha512-6QvTW9mrGeIegrFXdtQi9pk7O/nSK6lSdXW2eqUspN5LWD7UTji2Fqw5V2YLjBpHEoU9Xl/eUWNpDeZvoyOv2w==
-
 domain-browser@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
@@ -4095,14 +4087,6 @@ global-prefix@^1.0.1:
     ini "^1.3.4"
     is-windows "^1.0.1"
     which "^1.2.14"
-
-global@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/global/-/global-4.4.0.tgz#3e7b105179006a323ed71aafca3e9c57a5cc6406"
-  integrity sha512-wv/LAoHdRE3BeTGz53FAamhGlPLhlssK45usmGFThIi4XqnBmjKQ16u+RNbP7WvigRZDxUsM0J3gcQ5yicaL0w==
-  dependencies:
-    min-document "^2.19.0"
-    process "^0.11.10"
 
 globals@^9.18.0:
   version "9.18.0"
@@ -6150,13 +6134,6 @@ mimic-fn@^2.0.0:
 mimic-response@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/mimic-response/-/mimic-response-1.0.0.tgz#df3d3652a73fded6b9b0b24146e6fd052353458e"
-
-min-document@^2.19.0:
-  version "2.19.0"
-  resolved "https://registry.yarnpkg.com/min-document/-/min-document-2.19.0.tgz#7bd282e3f5842ed295bb748cdd9f1ffa2c824685"
-  integrity sha1-e9KC4/WELtKVu3SM3Z8f+iyCRoU=
-  dependencies:
-    dom-walk "^0.1.0"
 
 minimalistic-assert@^1.0.0:
   version "1.0.1"
@@ -9271,11 +9248,6 @@ type-is@~1.6.17, type-is@~1.6.18:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
-
-typescript@3.7:
-  version "3.7.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
-  integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
 
 uglify-es@^3.3.4:
   version "3.3.9"

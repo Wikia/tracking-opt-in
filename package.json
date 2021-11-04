@@ -7,6 +7,11 @@
         "type": "git",
         "url": "https://github.com/Wikia/tracking-opt-in"
     },
+    "dependencies": {
+        "@iabtcf/cmpapi": "v1.3.1",
+        "@iabtcf/core": "v1.3.1",
+        "@iabtcf/stub": "v1.3.1"
+    },
     "devDependencies": {
         "@wdio/browserstack-service": "^5.11.8",
         "@wdio/cli": "^5.11.13",
@@ -74,10 +79,5 @@
         "test:watch": "rimraf reports/karma && karma start --auto-watch --no-single-run",
         "test:selenium": "rimraf reports/webdriver && wdio wdio.conf.js",
         "validate-jenkins": "sh release/scripts/validate-jenkins-files.sh"
-    },
-    "dependencies": {
-        "@iabtcf/cmpapi": "v1.1.4",
-        "@iabtcf/core": "v1.1.4",
-        "@iabtcf/stub": "v1.1.4"
     }
 }
