@@ -78,7 +78,23 @@ class ConsentManagementProvider {
     }
 
     initialize() {
-        this.cmpApi = new CmpApi(CMP_ID, CMP_VERSION, true);
+        this.cmpApi = new CmpApi(CMP_ID, CMP_VERSION, true, {
+            'isGalactusAllowed': (callback) => {
+                window.__tcfapi('addEventListener', 2, (tcData, success) => {
+                    if (!['tcloaded', 'useractioncomplete'].includes(tcData.eventStatus)) {
+                        return;
+                    }
+
+                    if (success) {
+                        callback(tcData && tcData.vendor && tcData.vendor.consents && tcData.vendor.consents[756]);
+                    } else {
+                        callback(false);
+                    }
+
+                    window.__tcfapi('removeEventListener', 2, () => {}, tcData.listenerId);
+                });
+            }
+        });
 
         debug('GDPR', 'Initialized with version', CMP_VERSION);
 
