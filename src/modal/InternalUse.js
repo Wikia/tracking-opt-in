@@ -61,7 +61,7 @@ class InternalUse extends Component {
                         </div>
                         <Switch isOn={vendorIsEnabled} onChange={() => onToggleVendor(vendor.id, !vendorIsEnabled)} />
                     </div>
-                    {vendor.isExpanded && VendorDetails.renderVendor(vendor, this.props)}
+                    {vendor.isExpanded && VendorDetails.renderVendor(vendor, this.props, ['purposesStatus'])}
                 </div>
             );
         });

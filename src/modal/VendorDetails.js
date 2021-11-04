@@ -5,7 +5,7 @@ import getCookieAge from './utils/getCookieAge';
 import Consented from './utils/isConsented';
 
 class VendorDetails {
-    static renderVendor(vendor, props) {
+    static renderVendor(vendor, props, hiddenSections = []) {
         const { content, allPurposes, allPurposesSpecial, allFeatures, allFeaturesSpecial } = props;
 
         return (
@@ -18,9 +18,11 @@ class VendorDetails {
                         {vendor.purposes.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
                                 <span>{allPurposes[purposeId].name}</span>
-                                <span classname={styles.allowed}>
-                                    {Consented.isConsentedVendor(vendor.id, props) && Consented.isConsentedPurpose(purposeId, props) ? content.allowedButton : content.disallowedButton}
-                                </span>
+                                {!hiddenSections.includes('purposesStatus') && (
+                                    <span className={styles.allowed}>
+                                        {Consented.isConsentedVendor(vendor.id, props) && Consented.isConsentedPurpose(purposeId, props) ? content.allowedButton : content.disallowedButton}
+                                    </span>
+                                )}
                             </div>
                         ))}
                     </div>
