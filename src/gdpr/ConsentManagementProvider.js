@@ -215,14 +215,13 @@ class ConsentManagementProvider {
         tcModel.consentScreen = Number(consentScreen) || 0;
         tcModel.consentLanguage = String(language).toLowerCase() || CMP_DEFAULT_LANGUAGE;
         tcModel.isServiceSpecific = true;
+        tcModel.publisherCountryCode = 'US';
         tcModel.purposeConsents.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
         tcModel.specialFeatureOptins.set(Array.isArray(allowedSpecialFeatures) ? allowedSpecialFeatures : []);
         tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
         // ToDo: proper implementation of Right to Object
         tcModel.purposeLegitimateInterests.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
         tcModel.vendorLegitimateInterests.set(Array.isArray(allowedVendors) ? allowedVendors : []);
-        // ToDo: figure out the proper value
-        // tcModel.publisherCountryCode();
 
         debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes, ' and special feature options', allowedSpecialFeatures);
 
