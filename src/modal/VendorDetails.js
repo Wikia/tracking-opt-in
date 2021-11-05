@@ -1,4 +1,4 @@
-import { h, Component } from 'preact';
+import { h } from 'preact';
 
 import styles from './PreferencesVendorList.scss';
 import getCookieAge from './utils/getCookieAge';
@@ -11,7 +11,7 @@ class VendorDetails {
         return (
             <div className={styles.vendorDetails}>
                 {vendor.purposes.length > 0 && (
-                    <div>{/* fragment */}
+                    <div>
                         <div className={styles.subheader}>
                             {content.purposesHeading}
                         </div>
@@ -28,7 +28,7 @@ class VendorDetails {
                     </div>
                 )}
                 {vendor.specialPurposes.length > 0 && (
-                    <div>{/* fragment */}
+                    <div>
                         <div className={styles.subheader}>
                             {content.purposesSpecialHeading}
                         </div>
@@ -43,7 +43,7 @@ class VendorDetails {
                     </div>
                 )}
                 {vendor.legIntPurposes.length > 0 && (
-                    <div>{/* fragment */}
+                    <div>
                         <div className={styles.subheader}>
                             {content.purposesLegitimateInterestHeading}
                         </div>
@@ -58,7 +58,7 @@ class VendorDetails {
                     </div>
                 )}
                 {vendor.flexiblePurposes.length > 0 && (
-                    <div>{/* fragment */}
+                    <div>
                         <div className={styles.subheader}>
                             {content.purposesFlexibleHeading}
                         </div>
@@ -73,7 +73,7 @@ class VendorDetails {
                     </div>
                 )}
                 {vendor.features.length > 0 && (
-                    <div>{/* fragment */}
+                    <div>
                         <div className={styles.subheader}>
                             {content.featuresHeading}
                         </div>
@@ -93,7 +93,7 @@ class VendorDetails {
                     </div>
                 )}
                 {vendor.specialFeatures.length > 0 && (
-                    <div>{/* fragment */}
+                    <div>
                         <div className={styles.subheader}>
                             {content.featuresSpecialHeading}
                         </div>
@@ -110,7 +110,7 @@ class VendorDetails {
                     </div>
                 )}
                 {vendor.policyUrl && (
-                    <div>{/* fragment */}
+                    <div>
                         <div className={styles.subheader}>
                             {content.privacyPolicyHeading}
                         </div>
@@ -121,7 +121,7 @@ class VendorDetails {
                         </div>
                     </div>
                 )}
-                <div>{/* fragment */}
+                <div>
                     <div className={styles.subheader}>
                         {content.storageDetailsHeading}
                     </div>
