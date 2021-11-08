@@ -56,7 +56,7 @@ class OptInManager {
 
     setTrackingAccepted() {
         this.setCookies(this.cookieName, STATUS.ACCEPTED, {
-            expires: this.acceptExpiration,
+            expires: this.getExpirationTime(),
         });
     }
 
@@ -78,6 +78,17 @@ class OptInManager {
         const attributes = this.domain ? { domain: this.domain } : {};
         Cookies.remove(this.cookieName, attributes);
         Cookies.remove(VERSION_COOKIE_NAME, attributes);
+    }
+
+    getExpirationTime() {
+        if (Cookies.get('_b2')) {
+            return 730; // 2 years in days
+        } 
+        if (Cookies.get('wikia_beacon_id')){
+            return 183; // 6 months in days
+        } 
+        
+        return this.acceptExpiration;
     }
 }
 
