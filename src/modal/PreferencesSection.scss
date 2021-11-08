@@ -1,4 +1,4 @@
-@import "./consts.scss";
+@import './consts.scss';
 
 .section {
     border-top: 1px solid $color-secondary;
@@ -22,6 +22,10 @@
     font-size: 12px;
     font-weight: bold;
     margin-top: 14px;
+}
+
+.sectionExpandNoHeading {
+    margin-top: 0;
 }
 
 .description {
