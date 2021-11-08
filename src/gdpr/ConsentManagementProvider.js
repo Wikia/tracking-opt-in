@@ -86,7 +86,7 @@ class ConsentManagementProvider {
                     }
 
                     if (success) {
-                        callback(tcData && tcData.vendor && tcData.vendor.consents && tcData.vendor.consents[756]);
+                        callback(!!(tcData && tcData.vendor && tcData.vendor.consents && tcData.vendor.consents[756]));
                     } else {
                         callback(false);
                     }
