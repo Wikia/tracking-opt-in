@@ -25,7 +25,6 @@ class BeaconManager {
 
     extendBeaconsTTLOnAccept() {
         this.beacons.forEach(({ name, value, extendTime }) => {
-            console.log('gowno', name, value, extendTime);
             Cookies.set(name, value, {
                 expires: extendTime,
                 domain: this.domain
