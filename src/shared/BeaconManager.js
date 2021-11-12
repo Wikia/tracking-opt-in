@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import { getCookieDomain } from './utils';
 
 class BeaconManager {
-        constructor(beacons) {
+    constructor(beacons) {
         this.domain = getCookieDomain(window.location.hostname);
         this.beacons = beacons.map((beacon) => ({
             ...beacon,
