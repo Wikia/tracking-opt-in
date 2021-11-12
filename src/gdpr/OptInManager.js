@@ -1,7 +1,6 @@
 import Cookies from 'js-cookie';
 import { getCookieDomain } from '../shared/utils';
 import { CMP_VERSION } from './ConsentManagementProvider';
-import BeaconManager from "../shared/BeaconManager";
 
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
 const DEFAULT_REJECT_COOKIE_EXPIRATION = 31;
@@ -59,9 +58,6 @@ class OptInManager {
         this.setCookies(this.cookieName, STATUS.ACCEPTED, {
             expires: this.acceptExpiration,
         });
-
-        const beaconManager = new BeaconManager(false);
-        beaconManager.extendBeaconsTTL();
     }
 
     setForcedStatusFromQueryParams(queryString) {

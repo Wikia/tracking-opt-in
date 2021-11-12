@@ -184,3 +184,14 @@ export const INTERNAL_USE = {
         translationKey: 'internalUseProject1',
     }
 };
+
+export const BEACONS = [
+    {
+        name: '_b2',
+        extendTime: 730 // 2 years in days
+    },
+    {
+        name: 'wikia_beacon_id',
+        extendTime: 183 // 6 months in days
+    }
+];
