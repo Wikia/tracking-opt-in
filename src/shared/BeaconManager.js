@@ -14,15 +14,6 @@ class BeaconManager {
         return Cookies.get(name);
     }
 
-    extendBeaconsTTLOnVisit() {
-        this.beacons.forEach(({ name, value }) => {
-            Cookies.set(name, value, {
-                expires: 1/48, // 30 mins
-                domain: this.domain
-            });
-        });
-    }
-
     extendBeaconsTTLOnAccept() {
         this.beacons.forEach(({ name, value, extendTime }) => {
             Cookies.set(name, value, {

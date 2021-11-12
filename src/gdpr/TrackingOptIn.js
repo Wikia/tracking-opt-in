@@ -117,7 +117,6 @@ class TrackingOptIn {
             this.root = document.createElement('div');
             document.body.appendChild(this.root);
         }
-        this.beaconManager.extendBeaconsTTLOnVisit();
 
         this.consentManagementProvider.configure({
             gdprApplies: this.geoRequiresTrackingConsent(),
