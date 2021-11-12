@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { getCookieDomain } from '../shared/utils';
 import { CMP_VERSION } from './ConsentManagementProvider';
+import BeaconManager from "../shared/BeaconManager";
 
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
 const DEFAULT_REJECT_COOKIE_EXPIRATION = 31;
@@ -56,8 +57,11 @@ class OptInManager {
 
     setTrackingAccepted() {
         this.setCookies(this.cookieName, STATUS.ACCEPTED, {
-            expires: this.getExpirationTime(),
+            expires: this.acceptExpiration,
         });
+
+        const beaconManager = new BeaconManager(false);
+        beaconManager.extendBeaconsTTL();
     }
 
     setForcedStatusFromQueryParams(queryString) {
@@ -78,17 +82,6 @@ class OptInManager {
         const attributes = this.domain ? { domain: this.domain } : {};
         Cookies.remove(this.cookieName, attributes);
         Cookies.remove(VERSION_COOKIE_NAME, attributes);
-    }
-
-    getExpirationTime() {
-        if (Cookies.get('_b2')) {
-            return 730; // 2 years in days
-        }
-        if (Cookies.get('wikia_beacon_id')){
-            return 183; // 6 months in days
-        }
-
-        return this.acceptExpiration;
     }
 }
 
