@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import { INTERNAL_USE } from '../shared/consts';
 import InternalUse from './InternalUse';
 import PreferencesSection from './PreferencesSection';
 
@@ -53,6 +54,10 @@ class Preferences extends Component {
                     features: objectToArray(json.features),
                     specialFeatures: specialFeaturesWithVendors,
                 });
+
+                // Opt-out Internal Use vendors on second screen
+                Object.keys(INTERNAL_USE).forEach(internalId => this.toggleVendor(parseInt(internalId), false));
+
                 this.forceUpdate();
             });
         }
