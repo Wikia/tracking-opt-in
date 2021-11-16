@@ -2,8 +2,7 @@
   IAB CMP vendor IDs of Fandom's ad partners
   The IDs are taken from https://vendorlist.consensu.org/v2/vendor-list.json
   [STATUS] GVL Name (TCFv1 name)
-  Last GVL check:  2021-09-17
-  Last update:     2021-10-21
+  Last update:     2021-11-16
  */
 export const IAB_VENDORS = [
     58,  // 33Across
@@ -26,6 +25,7 @@ export const IAB_VENDORS = [
     827, // AdTriba
     195, // advanced STORE GmbH
     27,  // Adventori
+    259, // ADYOULIKE SA
     793, // Amazon Advertising
     23,  // Amobee
     394, // AudienceProject
@@ -42,6 +42,7 @@ export const IAB_VENDORS = [
     243, // Cloud Technologies
     416, // Commanders Act
     77,  // comScore, Inc.
+    138, // ConnectAd Realtime GmbH
     85,  // Crimtan Holdings Limited
     91,  // Criteo
     298, // Cuebiq Inc.
@@ -84,6 +85,7 @@ export const IAB_VENDORS = [
     109, // LoopMe
     95,  // Lotame Solutions, Inc.
     508, // Lucid Holdings, LLC
+    102, // Magnite, Inc. (Outstream)
     228, // McCann Discipline LTD
     79,  // MediaMath, Inc.
     152, // Meetrics
@@ -91,6 +93,7 @@ export const IAB_VENDORS = [
     101, // MiQ
     898, // Mobkoi Ltd
     807, // Moloco Ads
+    737, // Monet Engine Inc
     72,  // Nano Interactive
     450, // Neodata Group
     34,  // NEORY GmbH
@@ -105,6 +108,7 @@ export const IAB_VENDORS = [
     31,  // Ogury Ltd.
     304, // On Device Research
     241, // OneTag
+    617, // Onfocus (Adagio)
     69,  // OpenX (OpenX Software Ltd. and its affiliates)
     349, // Optomaton
     385, // Oracle Data Cloud (Oracle, BlueKai)
@@ -116,7 +120,6 @@ export const IAB_VENDORS = [
     762, // Protected Media
     226, // Publicis Media
     76,  // PubMatic, Inc.
-    81,  // [MISSING] PulsePoint, Inc.
     11,  // Quantcast International Limited
     60,  // Rakuten Marketing
     631, // Relay42
@@ -126,11 +129,13 @@ export const IAB_VENDORS = [
     71,  // Roku Advertising Services (Dataxu, Inc.)
     4,   // Roq.ad
     16,  // RTB House
-    506, // [MISSING] salesforce.com, inc.
+    506, // Salesforce.com, Inc.
     86,  // Scene Stealer Limited
+    157, // Seedtag Advertising S.L
     415, // Seenthis
     775, // SelectMedia International LTD
     84,  // Semasio GmbH
+    80,  // Sharethrough, Inc
     59,  // Sift Media
     261, // Signal Digital Inc.
     73,  // Simplifi Holdings Inc.
@@ -141,6 +146,7 @@ export const IAB_VENDORS = [
     546, // Smart Trafik
     246, // Smartology
     295, // Sojern
+    104, // Sonobi, Inc
     13,  // Sovrn Holdings Inc
     165, // SpotX, Inc. (SpotX)
     137, // Ströer SSP GmbH (DSP)
@@ -150,7 +156,6 @@ export const IAB_VENDORS = [
     42,  // Taboola
     466, // TACTIC™ Real-Time Marketing
     132, // Teads
-    522, // [MISSING] Tealium Inc
     124, // TEEMO
     202, // Telaria, Inc
     345, // The Kantar Group Limited
