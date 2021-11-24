@@ -16,9 +16,12 @@
         "Fandom e i suoi partner usano cookie per raccogliere e archiviare informazioni dal tuo browser per personalizzare contenuti e annunci, fornire funzioni sociali e analizzare il nostro traffico. Puoi stabilire le tue preferenze e darci o modificare il tuo consenso per gli scopi e i fornitori elencati qui sotto. Inoltre, come indicato sotto, alcune compagnie raccolgono informazioni senza il tuo consenso in base ai loro o ai nostri legittimi interessi (come ad esempio aiutarci ad analizzare il traffico del sito e studiare miglioramenti per il nostro sito). Puoi accedere alle loro informative sulla privacy per maggiori informazioni. ",
         "Per ulteriori informazioni sui cookie che usiamo, si prega di consultare la nostra %privacyPolicy%. Per informazioni sui nostri partner che usano cookie sul nostro sito, consulta per favore la %partnerList%."
     ],
+    "internalUseHeader": "Uso interno a Fandom",
+    "internalUseProject1": "Personalizzazione dei contenuti",
     "purposesHeader": "Scopi dei nostri partner",
     "specialFeaturesHeader": "Le funzioni speciali dei nostri partner",
     "vendorsHeader": "I nostri Partner",
+    "projectsHeader": "I nostri progetti",
     "showPurposeDetailsButton": "Mostra preferenze",
     "hidePurposeDetailsButton": "Nascondi preferenze",
     "showVendorDetailsButton": "Mostra dettagli",
@@ -44,6 +47,5 @@
     "storageDetailsCookieMaxAgeSeconds": "secondi",
     "storageDetailsCookieMaxAgeMinutes": "minuti",
     "storageDetailsCookieMaxAgeHours": "ore",
-    "storageDetailsCookieMaxAgeDays": "giorni",
-    "otherPartnersHeading": "Altri partner"
+    "storageDetailsCookieMaxAgeDays": "giorni"
 }

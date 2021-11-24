@@ -13,12 +13,15 @@
     "partnerListButton": "Lista de parceiros",
     "preferencesHeadline": "Configurações de preferências",
     "preferencesBody": [
-        "O Fandom e seus parceiros usam cookies para armazenar e coletar informações do seu navegador para personalizar conteúdo e anúncios, oferecer recursos de mídia social e analisar o nosso tráfego. Você pode definir suas preferências e dar ou modificar seu consentimento para as finalidades e fornecedores listados abaixo. Além disso, conforme indicado abaixo, algumas empresas coletam informações sem o seu consentimento com base em seu interesse legítimo (por exemplo, para nos auxiliar na análise de tráfego do site e para informar melhorias em nosso site). Você pode acessar as políticas de privacidade  para obter mais informações. ",
+        "O Fandom e seus parceiros usam cookies para armazenar e coletar informações do seu navegador para personalizar conteúdo e anúncios, fornecer recursos de mídia social e analisar o nosso tráfego. Você pode definir suas preferências e dar ou modificar seu consentimento para os propósitos e fornecedores listados abaixo. Além disso, conforme indicado abaixo, algumas empresas processam informações sem seu consentimento com base em seus ou em nosso interesse legítimo (por exemplo, para nos auxiliar na análise de tráfego do site e para informar melhorias em nosso site). Você pode acessar suas políticas de privacidade para obter mais informações. ",
         "Para mais informações sobre os cookies que usamos, por favor consulte nossa %privacyPolicy%. Para informações sobre os parceiros que usam cookies em nosso site, por favor consulte a %partnerList%."
     ],
+    "internalUseHeader": "Uso interno do Fandom",
+    "internalUseProject1": "Personalização do conteúdo",
     "purposesHeader": "Propósitos de nossos parceiros",
     "specialFeaturesHeader": "Recursos especiais de nossos parceiros",
     "vendorsHeader": "Nossos parceiros",
+    "projectsHeader": "Nossos projetos",
     "showPurposeDetailsButton": "Mostrar preferências",
     "hidePurposeDetailsButton": "Ocultar preferências",
     "showVendorDetailsButton": "Mostrar detalhes",
@@ -44,6 +47,5 @@
     "storageDetailsCookieMaxAgeSeconds": "segundos",
     "storageDetailsCookieMaxAgeMinutes": "minutos",
     "storageDetailsCookieMaxAgeHours": "horas",
-    "storageDetailsCookieMaxAgeDays": "dias",
-    "otherPartnersHeading": "Outros parceiros"
+    "storageDetailsCookieMaxAgeDays": "dias"
 }

@@ -13,12 +13,15 @@
     "partnerListButton": "合作伙伴列表",
     "preferencesHeadline": "参数设置",
     "preferencesBody": [
-        "Fandom及其合作伙伴通过您的浏览器使Cookie存储和收集信息以定制化内容和广告，并提供社交媒体功能以及分析流量数据。您可以设置您的偏好，并根据以下所列出的目的和合作商条款内容选择同意或者拒绝。此外，如下所述，一些公司会未经您的同意收集信息，这是基于他们或我们的合法权益（例如帮助我们分析网站流量以及提升网站)。您可以访问他们的隐私政策了解更多内容。",
+        "Fandom及其合作伙伴通过您的浏览器使用Cookie存储和收集信息以定制化内容和广告，并提供社交媒体功能以及分析流量数据。您可以设置您的偏好，并根据以下所列出的目的和合作商条款内容选择同意或者拒绝。此外，如下所述，一些公司会未经您的同意收集信息，这是基于他们或我们的合法权益（例如帮助我们分析网站流量以及提升网站）。您可以访问他们的隐私政策以了解更多信息。",
         "关于我们使用Cookie的更多信息，请访问我们的%privacyPolicy%。关于我们合作伙伴在我们网站上使用Cookie的信息，请访问%partnerList%。"
     ],
+    "internalUseHeader": "Fandom内部使用",
+    "internalUseProject1": "内容个性化",
     "purposesHeader": "我们合作伙伴的目的",
     "specialFeaturesHeader": "我们合作伙伴的特殊功能",
     "vendorsHeader": "我们的合作伙伴",
+    "projectsHeader": "我们的项目",
     "showPurposeDetailsButton": "显示首选项",
     "hidePurposeDetailsButton": "隐藏首选项",
     "showVendorDetailsButton": "显示详细信息",
@@ -44,6 +47,5 @@
     "storageDetailsCookieMaxAgeSeconds": "秒",
     "storageDetailsCookieMaxAgeMinutes": "分钟",
     "storageDetailsCookieMaxAgeHours": "小时",
-    "storageDetailsCookieMaxAgeDays": "天",
-    "otherPartnersHeading": "其它合作伙伴"
+    "storageDetailsCookieMaxAgeDays": "天"
 }

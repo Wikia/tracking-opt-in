@@ -13,12 +13,15 @@
     "partnerListButton": "Listą partnerów",
     "preferencesHeadline": "Ustawienia",
     "preferencesBody": [
-        "Fandom i jego partnerzy używają ciasteczek do przechowywania i gromadzenia informacji z przeglądarki w celu personalizacji treści i reklam, zapewnienia funkcji mediów społecznościowych i analizy naszego ruchu. Możesz zdefiniować swoje preferencje oraz wyrazić lub zmodyfikować swoją zgodę na cele i dostawców wymienione poniżej. Ponadto, jak wskazano poniżej, niektóre firmy zbierają informacje bez twojej zgody na podstawie ich lub naszego uzasadnionego interesu (na przykład, aby pomóc nam w analizie ruchu na stronie oraz w celu ulepszania naszej strony). Więcej informacji można uzyskać w ich politykach prywatności. ",
+        "Fandom i jego partnerzy używają ciasteczek do przechowywania i gromadzenia informacji z przeglądarki w celu personalizacji treści i reklam, zapewnienia funkcji mediów społecznościowych i analizy naszego ruchu. Możesz zdefiniować swoje preferencje oraz wyrazić lub zmodyfikować swoją zgodę na cele i dostawców wymienione poniżej. Ponadto, jak wskazano poniżej, niektóre firmy przetwarzają informacje bez twojej zgody na podstawie ich lub naszego uzasadnionego interesu (na przykład, aby pomóc nam w analizie ruchu na stronie oraz w celu ulepszania naszej strony). Więcej informacji można uzyskać w ich politykach prywatności. ",
         "Aby uzyskać więcej informacji na temat używanych przez nas ciasteczek, zobacz naszą %privacyPolicy%. Aby uzyskać informacje na temat naszych partnerów, którzy wykorzystują ciasteczka w naszej witrynie, zapoznaj się z %partnerList%."
     ],
+    "internalUseHeader": "Wykorzystanie w celach wewnętrznych Fandomu",
+    "internalUseProject1": "Personalizacja treści",
     "purposesHeader": "Cele naszych partnerów",
     "specialFeaturesHeader": "Funkcje specjalne naszych partnerów",
     "vendorsHeader": "Nasi partnerzy",
+    "projectsHeader": "Nasze projekty",
     "showPurposeDetailsButton": "Pokaż ustawienia",
     "hidePurposeDetailsButton": "Ukryj ustawienia",
     "showVendorDetailsButton": "Pokaż szczegóły",
@@ -44,6 +47,5 @@
     "storageDetailsCookieMaxAgeSeconds": "sekund",
     "storageDetailsCookieMaxAgeMinutes": "minut",
     "storageDetailsCookieMaxAgeHours": "godz.",
-    "storageDetailsCookieMaxAgeDays": "dni",
-    "otherPartnersHeading": "Inni partnerzy"
+    "storageDetailsCookieMaxAgeDays": "dni"
 }

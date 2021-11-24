@@ -13,12 +13,15 @@
     "partnerListButton": "Liste des partenaires",
     "preferencesHeadline": "Paramètres de préférence",
     "preferencesBody": [
-        "Fandom et ses partenaires utilisent des cookies pour stocker et collecter des informations de votre navigateur afin de personnaliser le contenu et les publicités, fournir des fonctionnalités de réseau social et analyser le trafic. Vous pouvez définir vos préférences et donner ou modifier votre consentement pour les objectifs et fournisseurs répertoriés ci-dessous. En outre, comme indiqué ci-dessous, certaines entreprises collectent des informations sans votre consentement sur la base de leur intérêt légitime ou du nôtre (par exemple, pour nous aider dans le cadre de l'analyse du trafic sur le site Web et nous renseigner sur les possibles améliorations à apporter à notre site). Vous pouvez consulter leurs politiques de confidentialité pour plus d'informations. ",
+        "Fandom et ses partenaires utilisent des cookies pour stocker et collecter des informations de votre navigateur afin de personnaliser le contenu et les publicités, fournir des fonctionnalités de réseau social et analyser le trafic. Vous pouvez définir vos préférences et donner ou modifier votre consentement pour les objectifs et fournisseurs répertoriés ci-dessous. En outre, comme indiqué ci-dessous, certaines entreprises collectent des informations sans votre consentement sur la base de leur intérêt légitime ou du nôtre (par exemple, pour nous aider dans le cadre de l'analyse du trafic sur le site Web et nous renseigner sur les possibles améliorations à apporter à notre site). Vous pouvez consulter leurs politiques de confidentialité pour plus d'informations.",
         "Pour plus d'informations sur les cookies utilisés, voir notre %privacyPolicy%. Pour plus d'informations sur nos partenaires utilisant des cookies sur le site, voir la %partnerList%."
     ],
+    "internalUseHeader": "Utilisation interne de Fandom",
+    "internalUseProject1": "Personnalisation du contenu",
     "purposesHeader": "Objectifs de nos partenaires",
     "specialFeaturesHeader": "Fonctionnalités spéciales de nos partenaires",
     "vendorsHeader": "Nos partenaires",
+    "projectsHeader": "Nos projets",
     "showPurposeDetailsButton": "Voir les préférences",
     "hidePurposeDetailsButton": "Masquer les préférences",
     "showVendorDetailsButton": "Voir les détails",
@@ -44,6 +47,5 @@
     "storageDetailsCookieMaxAgeSeconds": "secondes",
     "storageDetailsCookieMaxAgeMinutes": "minutes",
     "storageDetailsCookieMaxAgeHours": "heures",
-    "storageDetailsCookieMaxAgeDays": "jours",
-    "otherPartnersHeading": "Autres partenaires"
+    "storageDetailsCookieMaxAgeDays": "jours"
 }
