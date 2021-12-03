@@ -122,15 +122,22 @@ class VendorDetails {
                     </div>
                 )}
                 <div>
-                    <div className={styles.subheader}>
-                        {content.storageDetailsHeading}
-                    </div>
-                    {vendor.usesNonCookieAccess !== undefined && (
-                        <div className={styles.vendorDetail}>
-                            {vendor.usesNonCookieAccess ? content.storageDetailsNonCookieAccessTrue : content.storageDetailsNonCookieAccessFalse}
+                    {(vendor.usesNonCookieAccess || vendor.usesCookies) && (
+                        <div className={styles.subheader}>
+                            {content.storageDetailsHeading}
                         </div>
                     )}
-                    {vendor.cookieMaxAgeSeconds !== undefined && (
+                    {vendor.usesNonCookieAccess && (
+                        <div className={styles.vendorDetail}>
+                            {content.storageDetailsNonCookieAccessTrue}
+                        </div>
+                    )}
+                    {vendor.usesCookies && vendor.usesNonCookieAccess === false && (
+                        <div className={styles.vendorDetail}>
+                            {content.storageDetailsNonCookieAccessFalse}
+                        </div>
+                    )}
+                    {vendor.usesCookies && vendor.cookieMaxAgeSeconds !== undefined && vendor.cookieMaxAgeSeconds !== null && (
                         <div className={styles.vendorDetail}>
                             {content.storageDetailsCookieMaxAge} {getCookieAge(vendor.cookieMaxAgeSeconds, content)}
                         </div>
