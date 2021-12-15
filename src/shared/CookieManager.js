@@ -65,7 +65,22 @@ class CookieManager {
     }
 
     parseBeaconServiceResponse(response) {
-        return {};
+        const responseArr = response.split(';')
+            .filter((value) => value !== '' )
+            .map((value) => value.split('='))
+            .map((pairs) => {
+                if (pairs.length > 0) {
+                    return [pairs[0].replace('var ', '').trim(), pairs[1]]
+                }
+            } )
+            .map( (pairs) => [pairs[0], pairs[1].replace('"', '').replace('\"', '').trim()] );
+
+        let result = {};
+        responseArr.forEach((pair) => {
+            result[pair[0]] = pair[1];
+        });
+
+        return result;
     }
 }
 

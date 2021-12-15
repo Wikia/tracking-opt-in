@@ -51,9 +51,9 @@ describe('CookieManager', () => {
 
             const mockedResponse = 'var beacon_id = "123456"; var session_id = "789012"; var varnishTime = "Wed, 15 Dec 2021 11:47:54 GMT";';
 
-            assert.equal(cookieManager.parseBeaconServiceResponse(mockedResponse), {
+            assert.deepEqual(cookieManager.parseBeaconServiceResponse(mockedResponse), {
                 'beacon_id': '123456',
-                'seasion_id': '789012',
+                'session_id': '789012',
                 'varnishTime': 'Wed, 15 Dec 2021 11:47:54 GMT'
             });
         });
