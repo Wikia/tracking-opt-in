@@ -44,4 +44,18 @@ describe('CookieManager', () => {
             assert.equal(cookieManager.getSessionCookiesValue('_b2'), mockedHeaderB2);
         });
     });
+
+    describe('in country requiring the prompt', () => {
+        it('parses beacon service response - happy path', () => {
+            const cookieManager = new CookieManager(SESSION_COOKIES, '');
+
+            const mockedResponse = 'var beacon_id = "123456"; var session_id = "789012"; var varnishTime = "Wed, 15 Dec 2021 11:47:54 GMT";';
+
+            assert.equal(cookieManager.parseBeaconServiceResponse(mockedResponse), {
+                'beacon_id': '123456',
+                'seasion_id': '789012',
+                'varnishTime': 'Wed, 15 Dec 2021 11:47:54 GMT'
+            });
+        });
+    });
 });

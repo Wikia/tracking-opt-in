@@ -58,11 +58,14 @@ class CookieManager {
             return;
         }
 
-        const cookies = {};
-
+        let cookies = {};
         fetch().then(function(response) {
-            console.log(response);
+            cookies = parseBeaconServiceResponse(response);
         }).then(() => callback(cookies));
+    }
+
+    parseBeaconServiceResponse(response) {
+        return {};
     }
 }
 
