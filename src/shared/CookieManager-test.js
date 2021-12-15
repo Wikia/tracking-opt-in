@@ -32,6 +32,6 @@ describe('CookieManager', () => {
 
         assert.equal(cookieManager.getSessionCookiesValue('wikia_session_id').length, 10);
         assert.equal(cookieManager.getSessionCookiesValue('wikia_beacon_id').length, 10);
-        assert.equal(cookieManager.getSessionCookiesValue('_b2').length, 23);
+        assert.equal(cookieManager.getSessionCookiesValue('_b2', true).length, 24);
     });
 });

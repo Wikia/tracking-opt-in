@@ -194,7 +194,8 @@ export const INTERNAL_USE = {
 export const SESSION_COOKIES = [
     {
         name: '_b2',
-        extendTime: 730 // 2 years in days
+        extendTime: 730, // 2 years in days
+        addTimestamp: true
     },
     {
         name: 'wikia_beacon_id',

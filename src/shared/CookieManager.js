@@ -2,16 +2,15 @@ import Cookies from 'js-cookie';
 import { getCookieDomain } from './utils';
 
 class CookieManager {
-    constructor(cookies, beaconServiceUrl) {
+    constructor(cookies) {
         this.domain = getCookieDomain(window.location.hostname);
-        this.beaconServiceUrl = beaconServiceUrl;
         this.sessionCookies = cookies.map((cookie) => ({
             ...cookie,
-            value: this.getSessionCookiesValue(cookie.name),
+            value: this.getSessionCookiesValue(cookie.name, cookie.addTimestamp)
         }));
     }
 
-    getSessionCookiesValue(name) {
+    getSessionCookiesValue(name, addTimestamp) {
         let resultValue = Cookies.get(name);
 
         if (!resultValue) {
@@ -19,6 +18,10 @@ class CookieManager {
         // we assign random values to session cookies; should match results of:
         // https://developer.fastly.com/reference/vcl/functions/randomness/randomstr/
             resultValue = (Math.random().toString(36) + '_________________').slice(2, 12)
+        }
+
+        if (addTimestamp) {
+            resultValue += '.' + Date.now();
         }
 
         return resultValue;
