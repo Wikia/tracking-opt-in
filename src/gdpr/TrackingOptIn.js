@@ -6,7 +6,7 @@ import { API_STATUS } from './ConsentManagementProvider';
 class TrackingOptIn {
     constructor(
         tracker,
-        beaconManager,
+        cookieManager,
         optInManager,
         geoManager,
         contentManager,
@@ -15,7 +15,7 @@ class TrackingOptIn {
         location
     ) {
         this.tracker = tracker;
-        this.beaconManager = beaconManager;
+        this.cookieManager = cookieManager;
         this.optInManager = optInManager;
         this.geoManager = geoManager;
         this.contentManager = contentManager;
@@ -43,7 +43,7 @@ class TrackingOptIn {
         this.consentManagementProvider.install().then(() => {
             this.options.onAcceptTracking(allowedVendors, allowedPurposes);
         });
-        this.beaconManager.extendBeaconsTTLOnAccept();
+        this.cookieManager.setSessionCookiesOnAccept();
     };
 
     // Non-IAB tracking is rejected. Some or all IAB vendors or purposes _may_ be accepted
