@@ -15,7 +15,7 @@ const mockedHeaderB2 = '67890';
 describe('CookieManager', () => {
     describe('in country not requiring the prompt', () => {
         it('gets value from the cookies', () => {
-            const cookieManager = new CookieManager(SESSION_COOKIES);
+            const cookieManager = new CookieManager(SESSION_COOKIES, '');
 
             Cookies.set('wikia_session_id', mockedCookieWikiaSessionId);
             Cookies.set('wikia_beacon_id', mockedCookieWikiaBeaconId);
@@ -33,11 +33,11 @@ describe('CookieManager', () => {
 
     describe('in country requiring the prompt', () => {
         it('gets value from the headers', () => {
-            const cookieManager = new CookieManager(SESSION_COOKIES);
+            const cookieManager = new CookieManager(SESSION_COOKIES, '');
 
-            cookieManager.setHttpHeader('wikia_session_id', mockedHeaderWikiaSessionId);
-            cookieManager.setHttpHeader('wikia_beacon_id', mockedHeaderWikiaBeaconId);
-            cookieManager.setHttpHeader('_b2', mockedHeaderB2);
+            cookieManager.setCookieValues('wikia_session_id', mockedHeaderWikiaSessionId);
+            cookieManager.setCookieValues('wikia_beacon_id', mockedHeaderWikiaBeaconId);
+            cookieManager.setCookieValues('_b2', mockedHeaderB2);
 
             assert.equal(cookieManager.getSessionCookiesValue('wikia_session_id'), mockedHeaderWikiaSessionId);
             assert.equal(cookieManager.getSessionCookiesValue('wikia_beacon_id'), mockedHeaderWikiaBeaconId);

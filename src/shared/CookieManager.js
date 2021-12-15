@@ -2,36 +2,37 @@ import Cookies from 'js-cookie';
 import { getCookieDomain } from './utils';
 
 class CookieManager {
-    constructor(cookies) {
+    constructor(cookies, beaconServiceUrl) {
         this.domain = getCookieDomain(window.location.hostname);
-        this.httpHeaders = {};
+        this.beaconServiceUrl = beaconServiceUrl;
+        this.cookieValues = {};
         this.sessionCookies = cookies.map((cookie) => ({
             ...cookie,
             value: this.getSessionCookiesValue(cookie.name),
         }));
 
         if (this.sessionCookies[0] && !this.sessionCookies[0].value) {
-            this.generateSessionCookiesFromHeaders((headers) => {
-               Object.keys(headers).forEach( (name) => {
-                  this.setHttpHeader(name, headers[name])
+            this.generateCookieValuesFromServiceResponse((cookies) => {
+               Object.keys(cookies).forEach( (name) => {
+                  this.setCookieValues(name, cookies[name]);
                });
             });
         }
     }
 
-    setHttpHeader(name, value) {
-        this.httpHeaders[name] = value;
+    setCookieValues(name, value) {
+        this.cookieValues[name] = value;
     }
 
     getSessionCookiesValue(name) {
         let resultValue = Cookies.get(name);
 
-        if (!resultValue && !this.httpHeaders[name]) {
+        if (!resultValue && !this.cookieValues[name]) {
             console.warn(`No ${name} found in headers`);
         }
 
-        if (this.httpHeaders[name]) {
-            resultValue = this.httpHeaders[name];
+        if (this.cookieValues[name]) {
+            resultValue = this.cookieValues[name];
         }
 
         return resultValue;
@@ -46,20 +47,22 @@ class CookieManager {
         });
     };
 
-    generateSessionCookiesFromHeaders(callback) {
-        if(window.fetch) {
-            const headers = {};
-
-            fetch(window.location.href, {
-                method:'HEAD'
-            }).then(function(response) {
-                response.headers.forEach((value, header) => {
-                    headers[header] = value;
-                });
-            }).then(() => callback(headers));
-        } else {
+    generateCookieValuesFromServiceResponse(callback) {
+        if (typeof(window.fetch) !== 'function') {
             console.warn('The browser does not support Fetch API');
+            return;
         }
+
+        if (this.beaconServiceUrl === '') {
+            console.warn('Incorrect beacon service URL');
+            return;
+        }
+
+        const cookies = {};
+
+        fetch().then(function(response) {
+            console.log(response);
+        }).then(() => callback(cookies));
     }
 }
 
