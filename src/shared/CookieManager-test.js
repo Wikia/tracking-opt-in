@@ -8,54 +8,30 @@ const mockedCookieWikiaSessionId = '12345';
 const mockedCookieWikiaBeaconId = '67890';
 const mockedCookieB2 = '02468';
 
-const mockedHeaderWikiaSessionId = '02468';
-const mockedHeaderWikiaBeaconId = '12345';
-const mockedHeaderB2 = '67890';
-
 describe('CookieManager', () => {
-    describe('in country not requiring the prompt', () => {
-        it('gets value from the cookies', () => {
-            const cookieManager = new CookieManager(SESSION_COOKIES, '');
-
-            Cookies.set('wikia_session_id', mockedCookieWikiaSessionId);
-            Cookies.set('wikia_beacon_id', mockedCookieWikiaBeaconId);
-            Cookies.set('_b2', mockedCookieB2);
-
-            assert.equal(cookieManager.getSessionCookiesValue('wikia_session_id'), mockedCookieWikiaSessionId);
-            assert.equal(cookieManager.getSessionCookiesValue('wikia_beacon_id'), mockedCookieWikiaBeaconId);
-            assert.equal(cookieManager.getSessionCookiesValue('_b2'), mockedCookieB2);
-
-            Cookies.remove('wikia_session_id');
-            Cookies.remove('wikia_beacon_id');
-            Cookies.remove('_b2');
-        });
+    afterEach(() => {
+        Cookies.remove('wikia_session_id');
+        Cookies.remove('wikia_beacon_id');
+        Cookies.remove('_b2');
     });
 
-    describe('in country requiring the prompt', () => {
-        it('gets value from the headers', () => {
-            const cookieManager = new CookieManager(SESSION_COOKIES, '');
+    it('in country not requiring the prompt gets value from the cookies', () => {
+        const cookieManager = new CookieManager(SESSION_COOKIES);
 
-            cookieManager.setCookieValues('wikia_session_id', mockedHeaderWikiaSessionId);
-            cookieManager.setCookieValues('wikia_beacon_id', mockedHeaderWikiaBeaconId);
-            cookieManager.setCookieValues('_b2', mockedHeaderB2);
+        Cookies.set('wikia_session_id', mockedCookieWikiaSessionId);
+        Cookies.set('wikia_beacon_id', mockedCookieWikiaBeaconId);
+        Cookies.set('_b2', mockedCookieB2);
 
-            assert.equal(cookieManager.getSessionCookiesValue('wikia_session_id'), mockedHeaderWikiaSessionId);
-            assert.equal(cookieManager.getSessionCookiesValue('wikia_beacon_id'), mockedHeaderWikiaBeaconId);
-            assert.equal(cookieManager.getSessionCookiesValue('_b2'), mockedHeaderB2);
-        });
+        assert.equal(cookieManager.getSessionCookiesValue('wikia_session_id'), mockedCookieWikiaSessionId);
+        assert.equal(cookieManager.getSessionCookiesValue('wikia_beacon_id'), mockedCookieWikiaBeaconId);
+        assert.equal(cookieManager.getSessionCookiesValue('_b2'), mockedCookieB2);
     });
 
-    describe('in country requiring the prompt', () => {
-        it('parses beacon service response - happy path', () => {
-            const cookieManager = new CookieManager(SESSION_COOKIES, '');
+    it('in country requiring the prompt gets random values of the right length', () => {
+        const cookieManager = new CookieManager(SESSION_COOKIES);
 
-            const mockedResponse = 'var beacon_id = "123456"; var session_id = "789012"; var varnishTime = "Wed, 15 Dec 2021 11:47:54 GMT";';
-
-            assert.deepEqual(cookieManager.parseBeaconServiceResponse(mockedResponse), {
-                'beacon_id': '123456',
-                'session_id': '789012',
-                'varnishTime': 'Wed, 15 Dec 2021 11:47:54 GMT'
-            });
-        });
+        assert.equal(cookieManager.getSessionCookiesValue('wikia_session_id').length, 10);
+        assert.equal(cookieManager.getSessionCookiesValue('wikia_beacon_id').length, 10);
+        assert.equal(cookieManager.getSessionCookiesValue('_b2').length, 10);
     });
 });

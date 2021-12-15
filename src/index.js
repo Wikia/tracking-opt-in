@@ -12,7 +12,6 @@ import CookieManager from "./shared/CookieManager";
 export const DEFAULT_OPTIONS = {
     sessionCookies: SESSION_COOKIES, // array of sessionCookies with extension times
     beaconCookieName: null,
-    beaconServiceUrl: 'https://beacon.wikia-services.com/',
     cookieName: null, // use default cookie name
     cookieExpiration: null, // use default
     cookieRejectExpiration: null,
@@ -49,7 +48,7 @@ function initializeGDPR(options) {
         isCurse,
         ...depOptions
     } = Object.assign({}, DEFAULT_OPTIONS, options);
-    const cookieManager = new CookieManager(depOptions.sessionCookies, depOptions.beaconServiceUrl);
+    const cookieManager = new CookieManager(depOptions.sessionCookies);
     const langManager = new LanguageManager(depOptions.language);
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
