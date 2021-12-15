@@ -24,7 +24,7 @@ describe('CookieManager', () => {
 
         assert.equal(cookieManager.getSessionCookiesValue('wikia_session_id'), mockedCookieWikiaSessionId);
         assert.equal(cookieManager.getSessionCookiesValue('wikia_beacon_id'), mockedCookieWikiaBeaconId);
-        assert.equal(cookieManager.getSessionCookiesValue('_b2'), mockedCookieB2);
+        assert.equal(cookieManager.getSessionCookiesValue('_b2', true), mockedCookieB2);
     });
 
     it('in country requiring the prompt gets random values of the right length', () => {

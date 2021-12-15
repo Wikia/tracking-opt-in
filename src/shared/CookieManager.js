@@ -14,13 +14,19 @@ class CookieManager {
         let resultValue = Cookies.get(name);
 
         if (!resultValue) {
+            resultValue = this.generateValue(name, addTimestamp);
+        }
+
+        return resultValue;
+    }
+
+    generateValue(name, withTimestamp) {
         // for users from GDPR countries if they did not give consent for tracking
         // we assign random values to session cookies; should match results of:
         // https://developer.fastly.com/reference/vcl/functions/randomness/randomstr/
-            resultValue = (Math.random().toString(36) + '_________________').slice(2, 12)
-        }
+        let resultValue = (Math.random().toString(36) + '_________________').slice(2, 12)
 
-        if (addTimestamp) {
+        if (withTimestamp) {
             resultValue += '.' + Date.now();
         }
 
