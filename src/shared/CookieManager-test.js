@@ -34,4 +34,16 @@ describe('CookieManager', () => {
         assert.equal(cookieManager.getSessionCookiesValue('wikia_beacon_id').length, 10);
         assert.equal(cookieManager.getSessionCookiesValue('_b2', true).length, 24);
     });
+
+    it('in country requiring the prompt gets random values only once', () => {
+        const cookieManager = new CookieManager(SESSION_COOKIES);
+
+        const firstRandomWikiaSessionId = cookieManager.getSessionCookiesValue('wikia_session_id');
+        const firstRandomWikiaBeaconId = cookieManager.getSessionCookiesValue('wikia_beacon_id');
+        const firstRandomB2 = cookieManager.getSessionCookiesValue('_b2', true);
+
+        assert.equal(cookieManager.getSessionCookiesValue('wikia_session_id'), firstRandomWikiaSessionId);
+        assert.equal(cookieManager.getSessionCookiesValue('wikia_beacon_id'), firstRandomWikiaBeaconId);
+        assert.equal(cookieManager.getSessionCookiesValue('_b2', true), firstRandomB2);
+    });
 });
