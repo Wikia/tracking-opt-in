@@ -1,4 +1,4 @@
-import { BEACONS, IAB_VENDORS } from './shared/consts';
+import { SESSION_COOKIES, IAB_VENDORS } from './shared/consts';
 import ContentManager from './shared/ContentManager';
 import GeoManager from './shared/GeoManager';
 import LanguageManager from './shared/LangManager';
@@ -7,10 +7,10 @@ import OptInManager from './gdpr/OptInManager';
 import Tracker from './gdpr/Tracker';
 import TrackingOptIn from './gdpr/TrackingOptIn';
 import UserSignalMechanism from './ccpa/UserSignalMechanism';
-import BeaconManager from "./shared/BeaconManager";
+import CookieManager from "./shared/CookieManager";
 
 export const DEFAULT_OPTIONS = {
-    beacons: BEACONS, // array of beacons with extension times
+    sessionCookies: SESSION_COOKIES, // array of sessionCookies with extension times
     beaconCookieName: null,
     cookieName: null, // use default cookie name
     cookieExpiration: null, // use default
@@ -48,7 +48,7 @@ function initializeGDPR(options) {
         isCurse,
         ...depOptions
     } = Object.assign({}, DEFAULT_OPTIONS, options);
-    const beaconManager = new BeaconManager(depOptions.beacons);
+    const cookieManager = new CookieManager(depOptions.sessionCookies);
     const langManager = new LanguageManager(depOptions.language);
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
@@ -73,7 +73,7 @@ function initializeGDPR(options) {
 
     const instance = new TrackingOptIn(
         tracker,
-        beaconManager,
+        cookieManager,
         optInManager,
         geoManager,
         contentManager,

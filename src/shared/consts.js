@@ -191,13 +191,18 @@ export const INTERNAL_USE = {
     }
 };
 
-export const BEACONS = [
+export const SESSION_COOKIES = [
     {
         name: '_b2',
-        extendTime: 730 // 2 years in days
+        extendTime: 730, // 2 years in days
+        addTimestamp: true
     },
     {
         name: 'wikia_beacon_id',
+        extendTime: 183 // 6 months in days
+    },
+    {
+        name: 'wikia_session_id',
         extendTime: 183 // 6 months in days
     }
 ];
