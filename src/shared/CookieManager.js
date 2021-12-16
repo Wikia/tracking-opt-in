@@ -4,7 +4,6 @@ import { getCookieDomain } from './utils';
 class CookieManager {
     constructor(cookies) {
         this.domain = getCookieDomain(window.location.hostname);
-        this.cache = {};
         this.sessionCookies = cookies.map((cookie) => ({
             ...cookie,
             value: this.getSessionCookiesValue(cookie.name, cookie.addTimestamp)
@@ -13,10 +12,6 @@ class CookieManager {
 
     getSessionCookiesValue(name, addTimestamp) {
         const resultValue = Cookies.get(name);
-
-        if (!resultValue && this.cache[name]) {
-            return this.cache[name];
-        }
 
         if (!resultValue) {
             return this.generateValue(name, addTimestamp);
@@ -34,8 +29,6 @@ class CookieManager {
         if (withTimestamp) {
             resultValue += '.' + Date.now();
         }
-
-        this.cache[name] = resultValue;
 
         return resultValue;
     }
