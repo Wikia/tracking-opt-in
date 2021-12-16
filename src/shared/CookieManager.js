@@ -12,14 +12,14 @@ class CookieManager {
     }
 
     getSessionCookiesValue(name, addTimestamp) {
-        let resultValue = Cookies.get(name);
+        const resultValue = Cookies.get(name);
 
         if (!resultValue && this.cache[name]) {
-            resultValue = this.cache[name];
+            return this.cache[name];
         }
 
         if (!resultValue) {
-            resultValue = this.generateValue(name, addTimestamp);
+            return this.generateValue(name, addTimestamp);
         }
 
         return resultValue;
