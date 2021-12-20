@@ -9,7 +9,7 @@ yarn add @wikia/tracking-opt-in
 ```
 
 ## Access npmjs
-Access the npmjs.com UI through [vault](https://wikia-inc.atlassian.net/wiki/spaces/OPS/pages/132317429/Vault+For+Engineers) key `vault read secret/app/npmjs`. 
+Access the npmjs.com UI through [vault](https://wikia-inc.atlassian.net/wiki/spaces/OPS/pages/132317429/Vault+For+Engineers) key `vault read secret/app/npmjs`.
 
 ## Usage
 The library exports one function that can be invoked to kickoff the process of showing the modal, or calling the appropriate callbacks if the user has already accepted or rejected tracking. The library is built using webpack's [`libraryTarget: "umd"`](https://webpack.js.org/configuration/output/#module-definition-systems) option, so it should be usable in any of our projects.
@@ -40,7 +40,7 @@ var optIn = trackingOptIn.main(options)
 </script>
 ```
 
-Invocation of the exported function returns an instance of `TrackingOptIn`. See below for the available functions.
+Invocation of the exported function returns an instance of `ConsentManagementPlatform`. See below for the available functions.
 
 ### Options
 The following options are accepted:
@@ -75,8 +75,8 @@ The following options are accepted:
 - As of v2.0.0, accepting or rejecting _vendor tracking_ should not affect any GA or internal tracking unrelated to advertising.
 - Country codes are in [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1) format.
 
-### TrackingOptIn class
-Calling the exported function returns an instance of the [`TrackingOptIn`](https://github.com/Wikia/tracking-opt-in/blob/master/src/TrackingOptIn.js) class. The class has the following functions:
+### ConsentManagementPlatform class
+Calling the exported function returns an instance of the [`ConsentManagementPlatform`](https://github.com/Wikia/tracking-opt-in/blob/master/src/TrackingOptIn.js) class. The class has the following functions:
 
 - `hasUserConsented()` - Returns `true` if the user has accepted _non-IAB_ vendor tracking (or does not need to based on their geo), `false` if they have explicitly rejected tracking, and `undefined` if the user has neither accepted nor rejected tracking.
 - `geoRequiresTrackingConsent()` - Returns `true` if the user's geo requires consent, `false` otherwise.

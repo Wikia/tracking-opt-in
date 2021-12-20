@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { debug } from '../shared/utils';
 
 const DEFAULT_BEACON_COOKIE_NAME = 'wikia_beacon_id';
 const TRACKING_BASE = 'https://beacon.wikia-services.com/__track/special/gdpr_events';
@@ -44,7 +45,7 @@ class Tracker {
         };
 
         if (!this.enable) {
-            console.log('Fake Tracking Event', params);
+            debug('TRACKING', 'Fake Tracking Event', params);
             return;
         }
 

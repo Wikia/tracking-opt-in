@@ -5,9 +5,11 @@ import LanguageManager from './shared/LangManager';
 import ConsentManagementProvider from './gdpr/ConsentManagementProvider';
 import OptInManager from './gdpr/OptInManager';
 import Tracker from './gdpr/Tracker';
-import TrackingOptIn from './gdpr/TrackingOptIn';
+import ConsentManagementPlatform from './gdpr/ConsentManagementPlatform';
 import UserSignalMechanism from './ccpa/UserSignalMechanism';
-import CookieManager from "./shared/CookieManager";
+import CookieManager from './shared/CookieManager';
+import { communicationService } from './shared/communication';
+import { debug } from './shared/utils';
 
 export const DEFAULT_OPTIONS = {
     sessionCookies: SESSION_COOKIES, // array of sessionCookies with extension times
@@ -24,10 +26,13 @@ export const DEFAULT_OPTIONS = {
     track: true,
     zIndex: 1000,
     onAcceptTracking() {
-        console.log('user opted in to tracking');
+        debug('MODAL', 'User opted in to tracking');
     },
     onRejectTracking() {
-        console.log('user opted out of tracking');
+        debug('MODAL', 'User opted out of tracking');
+    },
+    onConsentsReady() {
+        debug('MODAL', 'Consents ready');
     },
 };
 
@@ -42,6 +47,7 @@ function initializeGDPR(options) {
         zIndex,
         onAcceptTracking,
         onRejectTracking,
+        onConsentsReady,
         preventScrollOn,
         enabledVendorPurposes,
         enabledVendors,
@@ -71,7 +77,7 @@ function initializeGDPR(options) {
         consentManagementProvider.setVendorConsentCookie(null);
     }
 
-    const instance = new TrackingOptIn(
+    const instance = new ConsentManagementPlatform(
         tracker,
         cookieManager,
         optInManager,
@@ -84,6 +90,7 @@ function initializeGDPR(options) {
             enabledVendors,
             onAcceptTracking,
             onRejectTracking,
+            onConsentsReady,
             isCurse,
         },
         window.location,
@@ -112,8 +119,61 @@ function initializeCCPA(options) {
 }
 
 export default function main(options) {
-    return {
-        gdpr: initializeGDPR(options),
-        ccpa: initializeCCPA(options),
+    const consentsAction = '[AdEngine OptIn] set opt in';
+    const instancesAction = '[AdEngine OptIn] set opt in instances';
+
+    debug('MODAL', 'Library loaded and started');
+
+    if (!window.navigator.cookieEnabled) {
+        debug('MODAL', 'Cookies are disabled - ignoring CMP and USAPI consent checks');
+        communicationService.dispatch({
+            type: consentsAction,
+            gdprConsent: true,
+            geoRequiresConsent: true,
+            ccpaSignal: false,
+            geoRequiresSignal: true,
+        });
+
+        return;
+    }
+
+    const optInInstances = { gdpr: null, ccpa: null };
+    const onConsentsReady = () => {
+        communicationService.dispatch({
+            type: consentsAction,
+            ...optInInstances.gdpr.getConsent(),
+            ...optInInstances.ccpa.getSignal(),
+        });
+        communicationService.dispatch({
+            type: instancesAction,
+            ...optInInstances,
+        });
     };
+
+    Object.assign(options, { onConsentsReady });
+
+    optInInstances.gdpr = initializeGDPR(options);
+    optInInstances.ccpa = initializeCCPA(options);
+
+    return optInInstances;
+}
+
+const autostartModal = () => {
+    if (!window.trackingOptInManualStart) {
+        // ToDo: move to AdEngine loader
+        window.trackingOptInOptions = {
+            isSubjectToCcpa: window.ads.context && window.ads.context.opts.isSubjectToCcpa,
+            zIndex: 9999999,
+        };
+
+        window.trackingOptInInstances = main(window.trackingOptInOptions || {});
+    }
+};
+
+if (document.readyState !== 'loading') {
+    autostartModal();
+} else {
+    document.addEventListener('DOMContentLoaded', () => {
+        autostartModal();
+    });
 }

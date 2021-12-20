@@ -34,6 +34,7 @@ describe('Modal', () => {
             onRequestAppRemove: callbacks.onRequestAppRemove || noop,
             onAcceptTracking: callbacks.onAcceptTracking || noop,
             onRejectTracking: callbacks.onRejectTracking || noop,
+            onConsentsReady: callbacks.onConsentsReady || noop,
             content: (new ContentManager('en')).content,
             language: (new ContentManager('en')).language,
             options: {
