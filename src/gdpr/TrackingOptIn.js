@@ -1,7 +1,9 @@
 import { h, render } from 'preact/dist/preact';
 import Modal from '../modal/Modal';
-import { isParameterSet, parseUrl } from '../shared/utils';
-import { API_STATUS } from './ConsentManagementProvider';
+import {debug, isParameterSet, parseUrl} from '../shared/utils';
+import {API_STATUS} from './ConsentManagementProvider';
+import Cookies from "js-cookie";
+import {v4 as uuidv4} from 'uuid';
 
 class TrackingOptIn {
     constructor(
@@ -23,6 +25,7 @@ class TrackingOptIn {
         this.options = options;
         this.location = location;
         this.isReset = false;
+        this.pvUID = uuidv4();
     }
 
     removeApp = () => {
@@ -35,6 +38,7 @@ class TrackingOptIn {
 
     // Non-IAB tracking is accepted. Some or all IAB vendors or purposes _may_ be accepted
     onAcceptTracking = (allowedVendors, allowedPurposes, allowedSpecialFeatures) => {
+        this.setTrackingCookies();
         this.consentManagementProvider.configure({
             allowedVendors: allowedVendors,
             allowedVendorPurposes: allowedPurposes,
@@ -77,13 +81,13 @@ class TrackingOptIn {
     }
 
     isOnWhiteListedPage() {
-        const { host, pathname, search } = this.location;
+        const {host, pathname, search} = this.location;
 
         if (this.isReset || search.includes('withdrawConsent=true')) {
             return false;
         }
 
-        const { content } = this.contentManager;
+        const {content} = this.contentManager;
         const privacyParsedUrl = parseUrl(content.privacyPolicyUrl);
         const partnerParsedUrl = parseUrl(content.partnerListUrl);
 
@@ -175,6 +179,46 @@ class TrackingOptIn {
             this.root,
             this.root.lastChild
         );
+    }
+
+    setTrackingCookies() {
+        const {pvNumber, pvNumberGlobal, sessionId} = this.getTrackingInfo();
+        const expires = 1 / 48; // 30 minutes
+        const domain = this.getDomain();
+        const path = '/';
+
+        debug('setting cookies', this.getTrackingInfo());
+
+        Cookies.set('tracking_session_id', sessionId, {domain, expires, path});
+        Cookies.set('pv_number', pvNumber + 1, {expires, path});
+        Cookies.set('pv_number_global', pvNumberGlobal + 1, {domain, expires, path});
+    }
+
+    getTrackingInfo() {
+        const beaconId = Cookies.get('wikia_beacon_id');
+        const sessionId = Cookies.get('tracking_session_id');
+        const pvNumber = Cookies.get('pv_number');
+        const pvNumberGlobal = Cookies.get('pv_number_global');
+
+        return {
+            beaconId: beaconId,
+            pvNumber: pvNumber ? parseInt(pvNumber, 10) : 0,
+            pvNumberGlobal: pvNumberGlobal ? parseInt(pvNumberGlobal, 10) : 0,
+            pvUID: this.pvUID,
+            sessionId: sessionId || uuidv4(),
+        };
+    }
+
+    getDomain() {
+        const domain = window.location.host.split(':').shift();
+        const domainParts = domain.split('.');
+        const domainPartsCount = domainParts.length;
+
+        if (domainPartsCount < 2) {
+            return null;
+        }
+
+        return ['', domainParts[domainPartsCount - 2], domainParts[domainPartsCount - 1]].join('.');
     }
 }
 
