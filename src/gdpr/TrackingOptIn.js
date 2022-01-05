@@ -187,24 +187,19 @@ class TrackingOptIn {
         const domain = this.getDomain();
         const path = '/';
 
-        debug('setting cookies', this.getTrackingInfo());
-
         Cookies.set('tracking_session_id', sessionId, {domain, expires, path});
         Cookies.set('pv_number', pvNumber + 1, {expires, path});
         Cookies.set('pv_number_global', pvNumberGlobal + 1, {domain, expires, path});
     }
 
     getTrackingInfo() {
-        const beaconId = Cookies.get('wikia_beacon_id');
         const sessionId = Cookies.get('tracking_session_id');
         const pvNumber = Cookies.get('pv_number');
         const pvNumberGlobal = Cookies.get('pv_number_global');
 
         return {
-            beaconId: beaconId,
             pvNumber: pvNumber ? parseInt(pvNumber, 10) : 0,
             pvNumberGlobal: pvNumberGlobal ? parseInt(pvNumberGlobal, 10) : 0,
-            pvUID: this.pvUID,
             sessionId: sessionId || uuidv4(),
         };
     }
