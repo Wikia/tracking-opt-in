@@ -169,32 +169,6 @@ class UserSignalMechanism {
         }
     }
 
-    getSignal() {
-        // Nothing is needed if the geo does not require any consent
-        if (!this.geoRequiresUserSignal()) {
-            return {
-                ccpaSignal: false,
-                geoRequiresSignal: false,
-            };
-        }
-
-        if (this.hasUserProvidedSignal() === undefined) {
-            return {
-                ccpaSignal: true,
-                geoRequiresSignal: true,
-            };
-        }
-
-        const ccpaSignal = this.hasUserProvidedSignal();
-
-        debug('CCPA', 'User signal', ccpaSignal);
-
-        return {
-            ccpaSignal,
-            geoRequiresSignal: true,
-        };
-    }
-
     createUserSignal() {
         let privacyString = null;
 

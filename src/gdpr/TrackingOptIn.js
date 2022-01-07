@@ -1,9 +1,9 @@
 import { h, render } from 'preact/dist/preact';
 import Modal from '../modal/Modal';
-import { debug, isParameterSet, parseUrl } from '../shared/utils';
+import { isParameterSet, parseUrl } from '../shared/utils';
 import { API_STATUS } from './ConsentManagementProvider';
 
-class ConsentManagementPlatform {
+class TrackingOptIn {
     constructor(
         tracker,
         cookieManager,
@@ -42,7 +42,6 @@ class ConsentManagementPlatform {
         });
         this.consentManagementProvider.install().then(() => {
             this.options.onAcceptTracking(allowedVendors, allowedPurposes);
-            this.options.onConsentsReady();
         });
         this.cookieManager.setSessionCookiesOnAccept();
     };
@@ -56,35 +55,8 @@ class ConsentManagementPlatform {
         });
         this.consentManagementProvider.install().then(() => {
             this.options.onRejectTracking(allowedVendors, allowedPurposes);
-            this.options.onConsentsReady();
         });
     };
-
-    getConsent() {
-        // Nothing is needed if the geo does not require any consent
-        if (!this.geoRequiresTrackingConsent()) {
-            return {
-                gdprConsent: true,
-                geoRequiresConsent: false,
-            };
-        }
-
-        if (this.hasUserConsented() === undefined) {
-            return {
-                gdprConsent: false,
-                geoRequiresConsent: true,
-            };
-        }
-
-        const gdprConsent = this.hasUserConsented();
-
-        debug('GDPR', 'User consent', gdprConsent);
-
-        return {
-            gdprConsent,
-            geoRequiresConsent: true,
-        };
-    }
 
     hasUserConsented() {
         const hasConsentCookie = this.consentManagementProvider.hasUserConsent() || isParameterSet('mobile-app');
@@ -206,4 +178,4 @@ class ConsentManagementPlatform {
     }
 }
 
-export default ConsentManagementPlatform;
+export default TrackingOptIn;
