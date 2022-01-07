@@ -160,12 +160,6 @@ export default function main(options) {
 
 const autostartModal = () => {
     if (!window.trackingOptInManualStart) {
-        // ToDo: move to AdEngine loader
-        window.trackingOptInOptions = {
-            isSubjectToCcpa: window.ads.context && window.ads.context.opts.isSubjectToCcpa,
-            zIndex: 9999999,
-        };
-
         window.trackingOptInInstances = main(window.trackingOptInOptions || {});
     }
 };
