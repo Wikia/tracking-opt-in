@@ -1,6 +1,6 @@
-import { h, render } from 'preact/dist/preact';
+import {h, render} from 'preact/dist/preact';
 import Modal from '../modal/Modal';
-import {debug, isParameterSet, parseUrl} from '../shared/utils';
+import {isParameterSet, parseUrl} from '../shared/utils';
 import {API_STATUS} from './ConsentManagementProvider';
 import Cookies from "js-cookie";
 import {v4 as uuidv4} from 'uuid';
@@ -184,7 +184,7 @@ class TrackingOptIn {
     setTrackingCookies() {
         const {pvNumber, pvNumberGlobal, sessionId} = this.getTrackingInfo();
         const expires = 1 / 48; // 30 minutes
-        const domain = this.getDomain();
+        const domain = getDomain(window.location.host);
         const path = '/';
 
         Cookies.set('tracking_session_id', sessionId, {domain, expires, path});
@@ -193,28 +193,36 @@ class TrackingOptIn {
     }
 
     getTrackingInfo() {
-        const sessionId = Cookies.get('tracking_session_id');
-        const pvNumber = Cookies.get('pv_number');
-        const pvNumberGlobal = Cookies.get('pv_number_global');
-
-        return {
-            pvNumber: pvNumber ? parseInt(pvNumber, 10) : 0,
-            pvNumberGlobal: pvNumberGlobal ? parseInt(pvNumberGlobal, 10) : 0,
-            sessionId: sessionId || uuidv4(),
+        const cookies = {
+            sessionId: Cookies.get('tracking_session_id'),
+            pvNumber: Cookies.get('pv_number'),
+            pvNumberGlobal: Cookies.get('pv_number_global'),
         };
+
+        return getNewTrackingValues(cookies);
+    }
+}
+
+export function getNewTrackingValues(cookies) {
+    const {sessionId, pvNumber, pvNumberGlobal} = cookies;
+
+    return {
+        pvNumber: pvNumber ? parseInt(pvNumber, 10) : 0,
+        pvNumberGlobal: pvNumberGlobal ? parseInt(pvNumberGlobal, 10) : 0,
+        sessionId: sessionId || uuidv4(),
+    };
+}
+
+export function getDomain(host) {
+    const domain = host.split(':').shift();
+    const domainParts = domain.split('.');
+    const domainPartsCount = domainParts.length;
+
+    if (domainPartsCount < 2) {
+        return null;
     }
 
-    getDomain() {
-        const domain = window.location.host.split(':').shift();
-        const domainParts = domain.split('.');
-        const domainPartsCount = domainParts.length;
-
-        if (domainPartsCount < 2) {
-            return null;
-        }
-
-        return ['', domainParts[domainPartsCount - 2], domainParts[domainPartsCount - 1]].join('.');
-    }
+    return ['', domainParts[domainPartsCount - 2], domainParts[domainPartsCount - 1]].join('.');
 }
 
 export default TrackingOptIn;
