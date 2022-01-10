@@ -16,7 +16,9 @@ describe('TrackingOptIn', () => {
     });
 
     describe('getNewTrackingValues', () => {
+        // in test env, uuid4 is always generated with this value
         const fakeUUID = '00000000-0000-4000-8000-000000000000';
+
         it('should generate new values when there is none', () => {
             const actual = getNewTrackingValues({});
             const expected = {
@@ -31,7 +33,7 @@ describe('TrackingOptIn', () => {
             const existingValues = {
                 pvNumber: 2,
                 pvNumberGlobal: 3,
-                sessionId: fakeUUID,
+                sessionId: "hello-this-is-existing-uuid",
             };
             const actual = getNewTrackingValues(existingValues);
 
