@@ -201,8 +201,7 @@
 
 "@wikia/post-quecast@2.0.1":
   version "2.0.1"
-  resolved "https://artifactory.wikia-inc.com:443/artifactory/api/npm/wikia-npm/@wikia/post-quecast/-/post-quecast-2.0.1.tgz#719053af0658b8ba4c77117d26deb6d39d9113bb"
-  integrity sha1-cZBTrwZYuLpMdxF9Jt62052RE7s=
+  resolved "https://registry.yarnpkg.com/@wikia/post-quecast/-/post-quecast-2.0.1.tgz#719053af0658b8ba4c77117d26deb6d39d9113bb"
 
 abab@^1.0.4:
   version "1.0.4"
