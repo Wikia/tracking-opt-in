@@ -1,11 +1,12 @@
-import {getDomain, getNewTrackingValues} from "./TrackingOptIn";
-import {expect} from 'chai';
+import { getDomain, getNewTrackingValues } from './ConsentManagementPlatform';
+import { expect } from 'chai';
 
-describe('TrackingOptIn', () => {
+describe('ConsentManagementPlatform', () => {
     describe('getDomain', () => {
         it('should return null for domain without extension', () => {
             expect(getDomain('fandom')).to.equal(null);
         });
+
         it('should return truncated domain part for subdomains', () => {
             expect(getDomain('fandom.com')).to.equal('.fandom.com');
             expect(getDomain('a.fandom.com')).to.equal('.fandom.com');
@@ -29,6 +30,7 @@ describe('TrackingOptIn', () => {
 
             expect(actual).to.deep.include(expected);
         });
+
         it('should return the same if there are exising values', () => {
             const existingValues = {
                 pvNumber: 2,

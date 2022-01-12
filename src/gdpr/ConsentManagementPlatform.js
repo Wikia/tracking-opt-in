@@ -1,11 +1,11 @@
-import {h, render} from 'preact/dist/preact';
+import { h, render } from 'preact/dist/preact';
 import Modal from '../modal/Modal';
-import {isParameterSet, parseUrl} from '../shared/utils';
-import {API_STATUS} from './ConsentManagementProvider';
-import Cookies from "js-cookie";
-import {v4 as uuidv4} from 'uuid';
+import { debug, isParameterSet, parseUrl } from '../shared/utils';
+import { API_STATUS } from './ConsentManagementProvider';
+import Cookies from 'js-cookie';
+import { v4 as uuidv4 } from 'uuid';
 
-class TrackingOptIn {
+class ConsentManagementPlatform {
     constructor(
         tracker,
         cookieManager,
@@ -46,6 +46,7 @@ class TrackingOptIn {
         });
         this.consentManagementProvider.install().then(() => {
             this.options.onAcceptTracking(allowedVendors, allowedPurposes);
+            this.options.onConsentsReady();
         });
         this.cookieManager.setSessionCookiesOnAccept();
     };
@@ -59,8 +60,35 @@ class TrackingOptIn {
         });
         this.consentManagementProvider.install().then(() => {
             this.options.onRejectTracking(allowedVendors, allowedPurposes);
+            this.options.onConsentsReady();
         });
     };
+
+    getConsent() {
+        // Nothing is needed if the geo does not require any consent
+        if (!this.geoRequiresTrackingConsent()) {
+            return {
+                gdprConsent: true,
+                geoRequiresConsent: false,
+            };
+        }
+
+        if (this.hasUserConsented() === undefined) {
+            return {
+                gdprConsent: false,
+                geoRequiresConsent: true,
+            };
+        }
+
+        const gdprConsent = this.hasUserConsented();
+
+        debug('GDPR', 'User consent', gdprConsent);
+
+        return {
+            gdprConsent,
+            geoRequiresConsent: true,
+        };
+    }
 
     hasUserConsented() {
         const hasConsentCookie = this.consentManagementProvider.hasUserConsent() || isParameterSet('mobile-app');
@@ -182,7 +210,7 @@ class TrackingOptIn {
     }
 
     setTrackingCookies() {
-        const {pvNumber, pvNumberGlobal, sessionId} = this.getTrackingInfo();
+        const { pvNumber, pvNumberGlobal, sessionId } = this.getTrackingInfo();
         const expires = 1 / 48; // 30 minutes
         const domain = getDomain(window.location.host);
         const path = '/';
@@ -204,7 +232,7 @@ class TrackingOptIn {
 }
 
 export function getNewTrackingValues(cookies) {
-    const {sessionId, pvNumber, pvNumberGlobal} = cookies;
+    const { sessionId, pvNumber, pvNumberGlobal } = cookies;
 
     return {
         pvNumber: pvNumber ? parseInt(pvNumber, 10) : 0,
@@ -225,4 +253,4 @@ export function getDomain(host) {
     return ['', domainParts[domainPartsCount - 2], domainParts[domainPartsCount - 1]].join('.');
 }
 
-export default TrackingOptIn;
+export default ConsentManagementPlatform;

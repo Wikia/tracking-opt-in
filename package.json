@@ -11,6 +11,7 @@
         "@iabtcf/cmpapi": "v1.3.1",
         "@iabtcf/core": "v1.3.1",
         "@iabtcf/stub": "v1.3.1",
+        "@wikia/post-quecast": "2.0.1",
         "uuid": "^8.3.2"
     },
     "devDependencies": {
