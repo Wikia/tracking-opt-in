@@ -5,6 +5,13 @@ import Cookies from 'js-cookie';
 import UserSignalMechanism from './UserSignalMechanism';
 import ConsentManagementProvider from '../gdpr/ConsentManagementProvider';
 
+// Workaround for Secure random number generation since is not supported by the testing browser
+Object.defineProperty(global.self, 'crypto', {
+    value: {
+        getRandomValues: arr => arr
+    }
+});
+
 function cleanup() {
     delete window.__uspapi;
     Cookies.remove('usprivacy');
