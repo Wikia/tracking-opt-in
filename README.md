@@ -1,6 +1,6 @@
 # tracking-opt-in
 
-FANDOM's gdpr opt-in dialog prompt.
+FANDOM's gdpr opt-in dialog prompt and FANDOM's event based DWH tracking library.
 
 ## Installation
 Using yarn:
@@ -13,6 +13,30 @@ Access the npmjs.com UI through [vault](https://wikia-inc.atlassian.net/wiki/spa
 
 ## Usage
 The library exports one function that can be invoked to kickoff the process of showing the modal, or calling the appropriate callbacks if the user has already accepted or rejected tracking. The library is built using webpack's [`libraryTarget: "umd"`](https://webpack.js.org/configuration/output/#module-definition-systems) option, so it should be usable in any of our projects.
+
+Library also provides a mechanism for registering events to be sent to DWH. All events must have the following properties to be set:
+* `name`
+* `platform`
+* `environment`
+
+The `name` property is used as path pointing to DWH table. If is set to `view` or `pageview` it will be sent to `__track/view` path.
+In other cases it will just concatenated with `__track/special/` prefix. The usage is simple:
+
+`(window.fandomTrackingEventsQueue = window.fandomTrackingEventsQueue || []).push({name: 'gdpr_events', env: 'prod', platform: 'UP', ...});`
+
+or via library object:
+
+`import TrackingEventsQueue from "@wikia/trackingOptIn/tracking/TrackingEventsQueue";`
+`TrackingEventsQueue.get(window).push(){name: 'gdpr_events', env: 'prod', platform: 'UP', ...});`
+
+This tracker is integrated with GDPR consent modal and using queue to gather events before the consent is given.
+The queue size is bounded to 1000 events.
+After the consent is given tracker flushes the queue and switches to immediate flush mode.
+
+All tracking events require common parameters including tracking session and beacons.
+Those are also handled internally by the library. They are read from cookies or generated.
+The detailed list of common tracking parameters and cookies used to store their values please is available in
+`./src/tracking/cookie-config.js` and `./src/tracking/tracking-params-config.js`.  
 
 ## Integration Test
 * An integration test can be run for any client by adding a additional build to their pipeline: [Pipeline Syntax](http://jenkins:8080/view/CAKE/view/tracking-opt-in/job/external%20test/pipeline-syntax/)
@@ -45,7 +69,6 @@ Invocation of the exported function returns an instance of `ConsentManagementPla
 ### Options
 The following options are accepted:
 
-- `beaconCookieName` - The name of the beacon cookie that will be added to tracking calls
 - `cookieName` - The name of the cookie used for the user's tracking consent status. Should only be changed for development purposes. defaults to `tracking-opt-in-status`.
 - `cookieExpiration` - How long the consent cookie should last when the user accepts consent. Defaults to 50 years.
 - `cookieRejectExpiration` - How long the reject cookie should last when the user rejects. Defaults to 1 days.

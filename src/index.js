@@ -1,4 +1,4 @@
-import { SESSION_COOKIES, IAB_VENDORS } from './shared/consts';
+import { IAB_VENDORS } from './shared/consts';
 import ContentManager from './shared/ContentManager';
 import GeoManager from './shared/GeoManager';
 import LanguageManager from './shared/LangManager';
@@ -7,12 +7,14 @@ import OptInManager from './gdpr/OptInManager';
 import Tracker from './gdpr/Tracker';
 import ConsentManagementPlatform from './gdpr/ConsentManagementPlatform';
 import UserSignalMechanism from './ccpa/UserSignalMechanism';
-import CookieManager from './shared/CookieManager';
+import CookiesBaker from './tracking/CookiesBaker';
 import { communicationService } from './shared/communication';
 import { debug } from './shared/utils';
+import EventsTracker from "./tracking/EventsTracker";
+import { COOKIES } from "./tracking/cookie-config";
 
 export const DEFAULT_OPTIONS = {
-    sessionCookies: SESSION_COOKIES, // array of sessionCookies with extension times
+    cookies: COOKIES, // array of cookies that needs to be set after consent is processed
     beaconCookieName: null,
     cookieName: null, // use default cookie name
     cookieExpiration: null, // use default
@@ -25,6 +27,8 @@ export const DEFAULT_OPTIONS = {
     preventScrollOn: 'body',
     track: true,
     zIndex: 9999999,
+    env: 'prod',
+    platform: 'trackingOptIn',
     onAcceptTracking() {
         debug('MODAL', 'User opted in to tracking');
     },
@@ -54,11 +58,10 @@ function initializeGDPR(options) {
         enabledVendors,
         isCurse,
         ...depOptions
-    } = Object.assign({}, DEFAULT_OPTIONS, options);
-    const cookieManager = new CookieManager(depOptions.sessionCookies);
+    } = options;
     const langManager = new LanguageManager(depOptions.language);
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
-    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
+    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.track, depOptions.platform, depOptions.env);
     const consentManagementProvider = new ConsentManagementProvider({
         language: langManager.lang
     });
@@ -80,7 +83,6 @@ function initializeGDPR(options) {
 
     const instance = new ConsentManagementPlatform(
         tracker,
-        cookieManager,
         optInManager,
         geoManager,
         contentManager,
@@ -106,7 +108,7 @@ function initializeCCPA(options) {
     const {
         test,
         ...depOptions
-    } = Object.assign({}, DEFAULT_CCPA_OPTIONS, options);
+    } = options;
 
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const userSignalMechanism = new UserSignalMechanism({
@@ -125,6 +127,10 @@ export default function main(options) {
 
     debug('MODAL', 'Library loaded and started');
 
+    const mergedOptions = Object.assign({}, DEFAULT_OPTIONS, options);
+    const cookieManager = new CookiesBaker(mergedOptions.cookies);
+    const tracker = EventsTracker.build(window);
+
     if (!window.navigator.cookieEnabled) {
         debug('MODAL', 'Cookies are disabled - ignoring CMP and USAPI consent checks');
         communicationService.dispatch({
@@ -134,27 +140,34 @@ export default function main(options) {
             ccpaSignal: false,
             geoRequiresSignal: true,
         });
-
+        tracker.startTracking(false, {});
         return;
     }
 
     const optInInstances = { gdpr: null, ccpa: null };
     const onConsentsReady = () => {
+        const gdprConsent = optInInstances.gdpr.getConsent();
+
         communicationService.dispatch({
             type: consentsAction,
-            ...optInInstances.gdpr.getConsent(),
+            ...gdprConsent,
             ...optInInstances.ccpa.getSignal(),
         });
         communicationService.dispatch({
             type: instancesAction,
             ...optInInstances,
         });
+        // this will also handle CCPA region as it is not GDPR one
+        const allowedToTrack = gdprConsent.geoRequiresConsent === false || gdprConsent.gdprConsent === true;
+
+        tracker.startTracking(allowedToTrack, Cookies.get());
+        cookieManager.setOrExtendCookies(tracker.getTrackingParameters().toCookies());
     };
 
-    Object.assign(options, { onConsentsReady });
+    Object.assign(mergedOptions, { onConsentsReady });
 
-    optInInstances.gdpr = initializeGDPR(options);
-    optInInstances.ccpa = initializeCCPA(options);
+    optInInstances.gdpr = initializeGDPR(mergedOptions);
+    optInInstances.ccpa = initializeCCPA(Object.assign({}, DEFAULT_CCPA_OPTIONS, options,{ onConsentsReady }));
 
     return optInInstances;
 }

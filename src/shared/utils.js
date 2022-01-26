@@ -85,3 +85,11 @@ export function getJSON(url, useCache = true) {
         req.send(null);
     });
 }
+
+export function randomString() {
+    return (Math.random().toString(36) + '_________________').slice(2, 12);
+}
+
+export function randomStringWithTimestamp() {
+    return randomString() + '.'  + Date.now();
+}
