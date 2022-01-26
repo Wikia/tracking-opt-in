@@ -4,7 +4,7 @@ export default class TrackingEventsQueue {
     constructor(events) {
         this.events = [];
         this.listeners = [];
-        this.onAutoFlushMode = false;
+        this.autoFlushMode = false;
         if (events) {
             this.events.push(events);
         }
@@ -33,7 +33,7 @@ export default class TrackingEventsQueue {
         if (this.events.length >= TRACKABLE_EVENTS_QUEUE_CAPACITY) {
             return false;
         }
-        if (this.onAutoFlushMode) {
+        if (this.autoFlushMode) {
             this.onFlush(event);
         } else {
             this.events.push(event);
@@ -46,7 +46,7 @@ export default class TrackingEventsQueue {
         while (e = this.events.shift()) {
             this.onFlush(e);
         }
-        this.onAutoFlushMode = true;
+        this.autoFlushMode = true;
     }
 
     onFlush(event) {
