@@ -16,13 +16,11 @@ const ACTION_IMPRESSION = 'impression';
 const ACTION_CLICK = 'click';
 
 class Tracker {
-    constructor(language, detectedGeo, enable, platform, env) {
+    constructor(language, detectedGeo, enable) {
         this.enable = enable;
         this.defaultParams = {
             name: EVENT_NAME,
             couldBeTrackedWithoutConsent: true,
-            platform: platform,
-            env: env,
             [TRACK_PARAMS.LANGUAGE_CODE]: language,
             [TRACK_PARAMS.DETECTED_GEO]: detectedGeo,
         };

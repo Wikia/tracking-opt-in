@@ -64,7 +64,7 @@ function initializeGDPR(options) {
     } = Object.assign({}, DEFAULT_GDPR_OPTIONS, options)
     const langManager = new LanguageManager(depOptions.language);
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
-    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.track, depOptions.platform, depOptions.env);
+    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.track);
     const consentManagementProvider = new ConsentManagementProvider({
         language: langManager.lang
     });
