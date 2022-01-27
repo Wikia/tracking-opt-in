@@ -8,6 +8,12 @@ function getEventPath(name) {
 }
 
 export default class DataWarehouseEventsSender {
+    constructor (baseUrl = TRACKING_BASE_URL, timeout = TIMEOUT_MS, onComplete = () => {}) {
+        this.baseUrl = baseUrl;
+        this.timeout = timeout;
+        this.onComplete = onComplete;
+    }
+
     send(event) {
         if (!event) return;
 
@@ -15,20 +21,17 @@ export default class DataWarehouseEventsSender {
         delete event.name;
 
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
         const urlParams = Object.keys(event)
             .filter((k) => event[k] || event[k] === 0)
             .map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(event[k]))
             .join('&');
         const onComplete = event['onDWHTrackingComplete'] || this.onComplete;
+        const timeout = setTimeout(() => controller.abort(), this.timeout);
 
-        fetch(`${TRACKING_BASE_URL}${path}?${urlParams}`, {
+        fetch(`${this.baseUrl}${path}?${urlParams}`, {
             mode: 'no-cors',
             keepalive: true,
             signal: controller.signal
         }).then(onComplete).finally(() => clearTimeout(timeout));
-    }
-
-    onComplete (result) {
     }
 }

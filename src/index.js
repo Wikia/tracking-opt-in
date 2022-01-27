@@ -12,6 +12,7 @@ import { communicationService } from './shared/communication';
 import { debug } from './shared/utils';
 import EventsTracker from './tracking/EventsTracker';
 import { COOKIES } from './tracking/cookie-config';
+import { TRACKING_PARAMETERS } from "./tracking/tracking-params-config";
 
 export const DEFAULT_GDPR_OPTIONS = {
     cookieName: null, // use default cookie name
@@ -45,6 +46,7 @@ export const DEFAULT_CCPA_OPTIONS = {
 
 export const DEFAULT_TRACKING_OPTIONS = {
     cookies: COOKIES, // array of cookies that needs to be set after consent is processed
+    trackingParameters: TRACKING_PARAMETERS, // default tracking parameters added to each event
     env: 'prod',
     platform: 'trackingOptIn',
     trackingEventsSenders: null
@@ -165,7 +167,7 @@ export default function main(options) {
             ...optInInstances,
         });
         tracker.startTracking(isAllowedToTrack(gdprConsent, optInInstances.ccpa), Cookies.get());
-        cookiesBaker.setOrExtendCookies(tracker.getTrackingParameters().toCookiesJar());
+        cookiesBaker.setOrExtendCookies(tracker.getTrackingParametersAsCookies());
     };
 
     Object.assign(options, { onConsentsReady });

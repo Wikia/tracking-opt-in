@@ -7,7 +7,7 @@ describe('TrackingParameters', () => {
         const jar = { };
 
         // when
-        const params = TrackingParameters.fromCookiesJar(jar);
+        const params = TrackingParameters.fromCookiesJar(jar).values;
 
         // then
         assert.isObject(params);
@@ -30,7 +30,7 @@ describe('TrackingParameters', () => {
         };
 
         // when
-        const params = TrackingParameters.fromCookiesJar(cookiesJar);
+        const params = TrackingParameters.fromCookiesJar(cookiesJar).values;
 
         // then
         assert.isObject(params);

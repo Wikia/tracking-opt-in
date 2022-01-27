@@ -1,22 +1,20 @@
-import { TRACKING_PARAMETERS, TRACKING_PARAMETER_NAMES } from "./tracking-params-config";
+import { TRACKING_PARAMETERS } from "./tracking-params-config";
 
 export default class TrackingParameters {
-    [TRACKING_PARAMETER_NAMES.SESSION];
-    [TRACKING_PARAMETER_NAMES.BEACON];
-    [TRACKING_PARAMETER_NAMES.BEACON_V2];
-    [TRACKING_PARAMETER_NAMES.PAGE_VIEW_UID];
-    [TRACKING_PARAMETER_NAMES.PAGE_VIEW_NUMBER];
-    [TRACKING_PARAMETER_NAMES.GLOBAL_PAGE_VIEW_NUMBER];
+    constructor(trackingParameters) {
+        this.trackingParameters = trackingParameters;
+        this.values = {};
+    }
 
     readOrGenerate(cookiesJar) {
         cookiesJar = cookiesJar || {};
-        for (const param of TRACKING_PARAMETERS) {
+        for (const param of this.trackingParameters) {
             const value = param.cookieName ? cookiesJar[param.cookieName] : undefined;
 
             if (value !== undefined) {
-                this[param.name] = param.transformer ? param.transformer(value) : value;
+                this.values[param.name] = param.transformer ? param.transformer(value) : value;
             } else if (this[param.name] === undefined) {
-                this[param.name] = param.valueGenerator();
+                this.values[param.name] = param.valueGenerator();
             }
         }
         return this;
@@ -24,15 +22,19 @@ export default class TrackingParameters {
 
     toCookiesJar() {
         const cookies = {};
-        for (const param of TRACKING_PARAMETERS) {
+        for (const param of this.trackingParameters) {
             if (param.cookieName) {
-                cookies[param.cookieName] = this[param.name];
+                cookies[param.cookieName] = this.values[param.name];
             }
         }
         return cookies;
     }
 
-    static fromCookiesJar(cookiesJar) {
-        return new TrackingParameters().readOrGenerate(cookiesJar);
+    copyTo(target) {
+        return Object.assign(target, this.values);
+    }
+
+    static fromCookiesJar(cookiesJar, trackingParameters = TRACKING_PARAMETERS) {
+        return new TrackingParameters(trackingParameters).readOrGenerate(cookiesJar);
     }
 }

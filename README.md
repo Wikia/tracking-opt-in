@@ -35,15 +35,18 @@ The same could be done via queue object:
 This tracker is integrated with GDPR consent modal and is using queue to gather events before the consent for tracking is given.
 The queue size is bounded to 1000 events.
 After the consent is given tracker flushes itself, sends all queued events and switches to immediate flush mode.
+If library enters a non GDPR region, then consent is "given automatically", meaning that the tracker will start in auto flush mode.
 
 All tracking events require common parameters including tracking session and beacons.
 Those are also handled internally by the library. They are read from cookies or generated using provided function.
 The detailed list of common tracking parameters, and cookies used to store their values, is available in
 `./src/tracking/cookie-config.js` and `./src/tracking/tracking-params-config.js`.
+The list can be extended with `cookies` and `trackingParameters` main options, respectively.
 
 Tracker send events to DWH by default.
 You can attach or change the default sender by adding an option `trackingEventsSenders` to the `main` kick off method.
-If you want to add additional sender please don't forget to add the `DataWarehouseEventsSedner` to the list as this options overrides the default one.
+If you want to add additional sender please don't forget to add the `DataWarehouseEventsSender` instance to the list,
+as this option overrides the default one. Sender could be any object having `send(event)` method.
 
 ## Integration Test
 * An integration test can be run for any client by adding a additional build to their pipeline: [Pipeline Syntax](http://jenkins:8080/view/CAKE/view/tracking-opt-in/job/external%20test/pipeline-syntax/)
@@ -71,7 +74,8 @@ var optIn = trackingOptIn.main(options)
 </script>
 ```
 
-Invocation of the exported function returns an instance of `ConsentManagementPlatform`. See below for the available functions.
+Invocation of the exported function returns an object with GDPR consent and CCPA signals data.
+See below for the available functions.
 
 ### Options
 The following options are accepted:
@@ -99,7 +103,11 @@ The following options are accepted:
   - the user rejects non-IAB vendor tracking
   - the user has already rejected tracking (subsequent page load)
 - `isCurse` - Optional boolean that generates a different privacy link on curse products
-
+- `platform` - default parameter with platform name, e.g. UP, F2 to be set for tracking events
+- `env` - default environment tracking parameter value
+- `trackingEventsSenders` - an optional array of objects with `send(event)` method used to send tracking events, please be aware as it overrides the default `[DataWarehouseSender]` list!
+- `cookies` - could be used to extend list of cookies that are set after the GDPR consent is processed; the default list is available in `./src/tracking/cookie-config.js`
+- `trackingParameters` - could be used to extend list of default tracking parameters added to each sent event; the default list is available in `./src/tracking/tracking-params-config.js`
 #### Notes
 - `onAcceptTracking` and `onRejectTracking` are the key options that should be overridden by each app to either initialize their respective trackers or to somehow react to the user's rejection of tracking.
 - As of v2.0.0, accepting or rejecting _vendor tracking_ should not affect any GA or internal tracking unrelated to advertising.

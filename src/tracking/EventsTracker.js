@@ -52,7 +52,7 @@ export default class EventsTracker {
 
     constructor(eventsQueue, options) {
         this.eventsQueue = eventsQueue;
-        this.pageTrackingParameters = {};
+        this.options = options;
         this.senders = buildSenders(options);
         this.eventsQueue.registerListener(this);
         this.defaultParametersAssigner = buildDefaultAssigners(options);
@@ -60,12 +60,12 @@ export default class EventsTracker {
 
     startTracking(allowedToTrack, cookiesJar) {
         this.notAllowedToTrackWithoutConsent = !allowedToTrack;
-        this.pageTrackingParameters = TrackingParameters.fromCookiesJar(cookiesJar);
+        this.pageTrackingParameters = TrackingParameters.fromCookiesJar(cookiesJar, this.options.trackingParameters);
         this.eventsQueue.flush();
     }
 
-    getTrackingParameters() {
-        return this.pageTrackingParameters;
+    getTrackingParametersAsCookies() {
+        return this.pageTrackingParameters ? this.pageTrackingParameters.toCookiesJar() : {};
     }
 
     onFlush(event) {
@@ -75,7 +75,7 @@ export default class EventsTracker {
         if (this.notAllowedToTrackWithoutConsent && event['couldBeTrackedWithoutConsent'] !== true) {
             return false;
         }
-        event = Object.assign(event, this.pageTrackingParameters);
+        event = this.pageTrackingParameters.copyTo(event);
         this.defaultParametersAssigner.forEach(assigner => assigner(event));
         this.senders.forEach(sender => sender.send(event));
         return true;
