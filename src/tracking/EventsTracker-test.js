@@ -2,7 +2,8 @@ import { assert } from 'chai';
 import EventsTracker from './EventsTracker';
 import TrackingEventsQueue from './TrackingEventsQueue';
 import sinon from 'sinon';
-import { COOKIE_NAMES } from './cookie-config';
+import { COOKIES } from './cookie-config';
+import Cookies from 'js-cookie';
 
 const sandbox = sinon.createSandbox();
 const sender = { send: sandbox.spy() };
@@ -27,6 +28,7 @@ describe('EventsTracker', () => {
     });
 
     afterEach(() => {
+        COOKIES.forEach(cookie => Cookies.remove(cookie.name));
         sandbox.reset();
     });
 
@@ -40,7 +42,7 @@ describe('EventsTracker', () => {
         // when
         EventsTracker
             .build(container, { trackingEventsSenders: sender })
-            .startTracking(true, {});
+            .startTracking(true);
 
         // then
         assert.equal(sender.send.callCount, 2);
@@ -54,7 +56,7 @@ describe('EventsTracker', () => {
         queue.push({ name: 'test', platform: 'ios' });
 
         // when
-        tracker.startTracking(true, {});
+        tracker.startTracking(true);
 
         // then
         assert.isOk(sender.send.notCalled)
@@ -62,13 +64,11 @@ describe('EventsTracker', () => {
 
     it('should send events with tracking parameters', () => {
         // given
-        const cookieJar = {
-            [COOKIE_NAMES.BEACON]: 'beacon',
-        };
         queue.push({ name: 'test', env: 'dev', platform: 'ios', action: 'track!' });
+        Cookies.set('wikia_beacon_id', 'beacon');
 
         // when
-        tracker.startTracking(true, cookieJar)
+        tracker.startTracking(true)
 
         // then
         assert.isOk(sender.send.called);
@@ -86,7 +86,7 @@ describe('EventsTracker', () => {
         }
 
         // when
-        tracker.startTracking(true, {})
+        tracker.startTracking(true)
 
         // then
         assert.equal(sender.send.callCount, 1000);
@@ -99,7 +99,7 @@ describe('EventsTracker', () => {
         }
 
         // when
-        tracker.startTracking(true, {})
+        tracker.startTracking(true)
 
         // then
         assert.equal(sender.send.callCount, 1000);
@@ -112,7 +112,7 @@ describe('EventsTracker', () => {
         queue.push({ name: 'test', env: 'dev', platform: 'ios', action: 'track!', couldBeTrackedWithoutConsent: true });
 
         // when
-        tracker.startTracking(false, {})
+        tracker.startTracking(false)
 
         // then
         assert.isOk(sender.send.calledOnce);

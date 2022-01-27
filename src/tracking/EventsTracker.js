@@ -1,6 +1,8 @@
 import TrackingEventsQueue from './TrackingEventsQueue';
 import DataWarehouseEventsSender from './DataWarehouseEventsSender';
 import TrackingParameters from './TrackingParameters';
+import CookiesBaker from './CookiesBaker';
+import Cookies from 'js-cookie';
 
 class TrackableEvent {
     name;
@@ -56,16 +58,17 @@ export default class EventsTracker {
         this.senders = buildSenders(options);
         this.eventsQueue.registerListener(this);
         this.defaultParametersAssigner = buildDefaultAssigners(options);
+        this.cookiesBaker = new CookiesBaker(options.cookies);
     }
 
-    startTracking(allowedToTrack, cookiesJar) {
+    startTracking(allowedToTrack) {
+        const cookiesJar = allowedToTrack ? Cookies.get() : {};
         this.notAllowedToTrackWithoutConsent = !allowedToTrack;
         this.pageTrackingParameters = TrackingParameters.fromCookiesJar(cookiesJar, this.options.trackingParameters);
         this.eventsQueue.flush();
-    }
-
-    getTrackingParametersAsCookies() {
-        return this.pageTrackingParameters ? this.pageTrackingParameters.toCookiesJar() : {};
+        if (allowedToTrack) {
+            this.cookiesBaker.setOrExtendCookies(this.pageTrackingParameters.toCookiesJar());
+        }
     }
 
     onFlush(event) {

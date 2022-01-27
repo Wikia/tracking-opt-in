@@ -1,8 +1,9 @@
 import Cookies from 'js-cookie';
 import { getCookieDomain } from '../shared/utils';
+import { COOKIES } from './cookie-config';
 
-class CookiesBaker {
-    constructor(cookies) {
+export default class CookiesBaker {
+    constructor(cookies = COOKIES) {
         let domain = getCookieDomain(window.location.hostname);
         cookies.forEach(cookie => {
             if (!cookie.options.hasOwnProperty('domain')) {
@@ -25,5 +26,3 @@ class CookiesBaker {
         });
     }
 }
-
-export default CookiesBaker;

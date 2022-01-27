@@ -7,12 +7,11 @@ import OptInManager from './gdpr/OptInManager';
 import Tracker from './gdpr/Tracker';
 import ConsentManagementPlatform from './gdpr/ConsentManagementPlatform';
 import UserSignalMechanism from './ccpa/UserSignalMechanism';
-import CookiesBaker from './tracking/CookiesBaker';
 import { communicationService } from './shared/communication';
 import { debug } from './shared/utils';
 import EventsTracker from './tracking/EventsTracker';
 import { COOKIES } from './tracking/cookie-config';
-import { TRACKING_PARAMETERS } from "./tracking/tracking-params-config";
+import { TRACKING_PARAMETERS } from './tracking/tracking-params-config';
 
 export const DEFAULT_GDPR_OPTIONS = {
     cookieName: null, // use default cookie name
@@ -137,7 +136,6 @@ export default function main(options) {
 
     debug('MODAL', 'Library loaded and started');
     const trackingOptions = Object.assign({}, DEFAULT_TRACKING_OPTIONS, options);
-    const cookiesBaker = new CookiesBaker(trackingOptions.cookies);
     const tracker = EventsTracker.build(window, trackingOptions);
 
     if (!window.navigator.cookieEnabled) {
@@ -149,7 +147,7 @@ export default function main(options) {
             ccpaSignal: false,
             geoRequiresSignal: true,
         });
-        tracker.startTracking(false, {});
+        tracker.startTracking(false);
         return;
     }
 
@@ -166,8 +164,7 @@ export default function main(options) {
             type: instancesAction,
             ...optInInstances,
         });
-        tracker.startTracking(isAllowedToTrack(gdprConsent, optInInstances.ccpa), Cookies.get());
-        cookiesBaker.setOrExtendCookies(tracker.getTrackingParametersAsCookies());
+        tracker.startTracking(isAllowedToTrack(gdprConsent, optInInstances.ccpa));
     };
 
     Object.assign(options, { onConsentsReady });
