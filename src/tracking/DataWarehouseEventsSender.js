@@ -2,7 +2,8 @@ const TRACKING_BASE_URL = 'https://beacon.wikia-services.com/__track/';
 const TIMEOUT_MS = 3000;
 
 function getEventPath(name) {
-    name = !name ? 'view' : name.toLowerCase();
+    if (!name) return 'view';
+    name = name.toLowerCase();
     return name === 'view' || name === 'pageview' ? 'view' : 'special/' + name;
 }
 

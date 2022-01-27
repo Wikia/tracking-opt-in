@@ -16,7 +16,7 @@ class CookiesBaker {
         this.cookies.forEach(cookie => {
             let value = cookieValues[cookie.name] || Cookies.get(cookie.name);
 
-            if (!value && cookie.value) {
+            if (value === undefined && cookie.value !== undefined) {
                 value = typeof(cookie.value) === 'function' ? cookie.value() : cookie.value;
             }
             if (value) {

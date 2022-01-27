@@ -13,16 +13,16 @@ export default class TrackingParameters {
         for (const param of TRACKING_PARAMETERS) {
             const value = param.cookieName ? cookiesJar[param.cookieName] : undefined;
 
-            if (value) {
+            if (value !== undefined) {
                 this[param.name] = param.transformer ? param.transformer(value) : value;
-            } else if (!this[param.name]) {
+            } else if (this[param.name] === undefined) {
                 this[param.name] = param.valueGenerator();
             }
         }
         return this;
     }
 
-    toCookies() {
+    toCookiesJar() {
         const cookies = {};
         for (const param of TRACKING_PARAMETERS) {
             if (param.cookieName) {

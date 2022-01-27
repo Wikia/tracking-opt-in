@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { randomString, randomStringWithTimestamp } from "../shared/utils";
-import { COOKIE_NAMES } from "./cookie-config";
+import { randomString, randomStringWithTimestamp } from '../shared/utils';
+import { COOKIE_NAMES } from './cookie-config';
 
 export const TRACKING_PARAMETER_NAMES = {
     SESSION: 'session_id',

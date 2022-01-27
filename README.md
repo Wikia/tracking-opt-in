@@ -21,6 +21,7 @@ Library also provides a mechanism for registering events to be sent to DWH. All 
 
 The `name` property is used as path pointing to DWH table. If it is set to `view` or `pageview` it will be sent to `__track/view` path that logs events to `facts_pageview_events` table.
 In other cases it will be just concatenated with `__track/special/` prefix.
+The `platform` and `env` parameters could be set once using main entry options of the same name.
 
 The library usage is simple. Just push the event to queue:
 
@@ -39,6 +40,10 @@ All tracking events require common parameters including tracking session and bea
 Those are also handled internally by the library. They are read from cookies or generated using provided function.
 The detailed list of common tracking parameters, and cookies used to store their values, is available in
 `./src/tracking/cookie-config.js` and `./src/tracking/tracking-params-config.js`.
+
+Tracker send events to DWH by default.
+You can attach or change the default sender by adding an option `trackingEventsSenders` to the `main` kick off method.
+If you want to add additional sender please don't forget to add the `DataWarehouseEventsSedner` to the list as this options overrides the default one.
 
 ## Integration Test
 * An integration test can be run for any client by adding a additional build to their pipeline: [Pipeline Syntax](http://jenkins:8080/view/CAKE/view/tracking-opt-in/job/external%20test/pipeline-syntax/)

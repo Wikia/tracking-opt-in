@@ -1,18 +1,28 @@
 import { assert } from 'chai';
-import EventsTracker from "./EventsTracker";
-import TrackingEventsQueue, {TrackableEvent} from "./TrackingEventsQueue";
-import sinon from "sinon";
-import { COOKIE_NAMES } from "./cookie-config";
+import EventsTracker from './EventsTracker';
+import TrackingEventsQueue from './TrackingEventsQueue';
+import sinon from 'sinon';
+import { COOKIE_NAMES } from './cookie-config';
 
 const sandbox = sinon.createSandbox();
 const sender = { send: sandbox.spy() };
 let tracker;
 let queue;
 
+function and(matchers) {
+    let result = matchers.shift();
+    let matcher;
+
+    while (matcher = matchers.shift()) {
+        result = result.and(matcher);
+    }
+    return result;
+}
+
 describe('EventsTracker', () => {
     beforeEach(() => {
         const container = {};
-        tracker = EventsTracker.build(container, sender);
+        tracker = EventsTracker.build(container, { trackingEventsSenders: sender });
         queue = TrackingEventsQueue.get(container);
     });
 
@@ -46,11 +56,11 @@ describe('EventsTracker', () => {
 
         // then
         assert.isOk(sender.send.called);
-        assert.isOk(sender.send.calledWithMatch(
-            sinon.match.has('env', 'dev').and(
-                sinon.match.has('beacon', 'beacon')).and(
-                    sinon.match.has('pv_unique_id')))
-        );
+        assert.isOk(sender.send.calledWithMatch(and([
+            sinon.match.has('env', 'dev'),
+            sinon.match.has('beacon', 'beacon'),
+            sinon.match.has('pv_unique_id')
+        ])));
     });
 
     it('should send all stacked events after flush', () => {

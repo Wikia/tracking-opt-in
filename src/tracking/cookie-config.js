@@ -1,4 +1,4 @@
-import { randomString } from "../shared/utils";
+import { randomString } from '../shared/utils';
 
 export const COOKIE_NAMES = {
     WIKIA_SESSION: 'wikia_session_id',

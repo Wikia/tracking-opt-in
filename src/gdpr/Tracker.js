@@ -1,5 +1,5 @@
 import { debug } from '../shared/utils';
-import TrackingEventsQueue from "../tracking/TrackingEventsQueue";
+import TrackingEventsQueue from '../tracking/TrackingEventsQueue';
 
 const EVENT_NAME = 'gdpr_events';
 

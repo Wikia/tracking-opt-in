@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import TrackingParameters from "./TrackingParameters";
+import TrackingParameters from './TrackingParameters';
 
 describe('TrackingParameters', () => {
     it('should generate values', () => {
