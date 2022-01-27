@@ -30,6 +30,22 @@ describe('EventsTracker', () => {
         sandbox.reset();
     });
 
+    if('should process events queued before tracker is build', () => {
+        const queue = [];
+        const container = { fandomTrackingEventsQueue: queue };
+        queue.push({});
+        queue.push({ name: 'test', env: 'dev', platform: 'ios', action: 'track!' });
+        queue.push({ name: 'test', env: 'dev', platform: 'ios', action: 'and track more!' });
+
+        // when
+        EventsTracker
+            .build(container, { trackingEventsSenders: sender })
+            .startTracking(true, {});
+
+        // then
+        assert.equal(sender.send.callCount, 2);
+    })
+
     it('should not send invalid events', () => {
         // given
         queue.push({});

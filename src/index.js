@@ -61,7 +61,7 @@ function initializeGDPR(options) {
         enabledVendors,
         isCurse,
         ...depOptions
-    } = Object.assign({}, DEFAULT_GDPR_OPTIONS, options)
+    } = Object.assign({}, DEFAULT_GDPR_OPTIONS, options);
     const langManager = new LanguageManager(depOptions.language);
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.track);
@@ -125,7 +125,7 @@ function initializeCCPA(options) {
 }
 
 function isAllowedToTrack(gdprConsent, ccpaOptions) {
-    // this will also non GDPR regions including CCPA as they all have set this to true
+    // this will also cover non GDPR regions and CCPA as well, as they all will have this set to true
     return gdprConsent.gdprConsent === true;
 }
 
