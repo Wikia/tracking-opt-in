@@ -1,3 +1,5 @@
+export const DEFAULT_TRACKING_QUEUE_NAME = 'fandomTrackingEventsQueue';
+
 const TRACKABLE_EVENTS_QUEUE_CAPACITY = 1000;
 
 export default class TrackingEventsQueue {
@@ -10,15 +12,15 @@ export default class TrackingEventsQueue {
         }
     }
 
-    static get(container) {
-        let queue = container.fandomTrackingEventsQueue;
+    static get(container, singletonName = DEFAULT_TRACKING_QUEUE_NAME) {
+        let queue = container[singletonName];
 
         if (!queue) {
             queue = new TrackingEventsQueue();
-            container.fandomTrackingEventsQueue = queue;
+            container[singletonName] = queue;
         } else if (Array.isArray(queue)) {
             queue = new TrackingEventsQueue(queue);
-            container.fandomTrackableEventsQueue = queue;
+            container[singletonName] = queue;
         }
         return queue;
     }

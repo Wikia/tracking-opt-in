@@ -2,6 +2,9 @@ import TrackingEventsQueue from './TrackingEventsQueue';
 import TrackingParameters from './TrackingParameters';
 import CookiesBaker from './CookiesBaker';
 import Cookies from 'js-cookie';
+import { communicationService } from "../shared/communication";
+
+const CONSENTS_ACTION = '[AdEngine OptIn] set opt in';
 
 class TrackableEvent {
     name;
@@ -35,9 +38,16 @@ function setDefaultValue(event, defaultValue, property) {
     }
 }
 
+function isAllowedToTrack(action) {
+    // this will also cover non GDPR regions including CCPA as well,
+    // as they all will have this set to true
+    // Look in the ./gdpr/ConsentManagementPlatform.js for "non GDPR including CCPA" comment.
+    return action.trackingNotPossible !== true && action.gdprConsent === true;
+}
+
 export default class EventsTracker {
     static build(container, options) {
-        return new EventsTracker(TrackingEventsQueue.get(container), options);
+        return new EventsTracker(TrackingEventsQueue.get(container, options.eventQueueSingletonName), options);
     }
 
     constructor(eventsQueue, options) {
@@ -47,6 +57,17 @@ export default class EventsTracker {
         this.eventsQueue.registerListener(this);
         this.defaultParametersAssigner = buildDefaultAssigners(options);
         this.cookiesBaker = new CookiesBaker(options.cookies);
+        this.pageTrackingParameters = TrackingParameters.empty;
+        this.listenOnConsentAction();
+    }
+
+    listenOnConsentAction() {
+        const tracker = this;
+        communicationService.listen(action => {
+            if (action.type === CONSENTS_ACTION) {
+                tracker.startTracking(isAllowedToTrack(action));
+            }
+        });
     }
 
     startTracking(allowedToTrack) {

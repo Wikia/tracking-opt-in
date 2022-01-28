@@ -1,5 +1,4 @@
 import { debug } from '../shared/utils';
-import TrackingEventsQueue from '../tracking/TrackingEventsQueue';
 
 const EVENT_NAME = 'gdpr_events';
 
@@ -16,8 +15,9 @@ const ACTION_IMPRESSION = 'impression';
 const ACTION_CLICK = 'click';
 
 class Tracker {
-    constructor(language, detectedGeo, enable) {
+    constructor(language, detectedGeo, enable, eventsQueue) {
         this.enable = enable;
+        this.eventsQueue = eventsQueue;
         this.defaultParams = {
             name: EVENT_NAME,
             couldBeTrackedWithoutConsent: true,
@@ -38,7 +38,7 @@ class Tracker {
             debug('TRACKING', 'Fake Tracking Event', params);
             return;
         }
-        TrackingEventsQueue.get(window).push(event);
+        this.eventsQueue.push(event);
     }
     /**
      * Shortcuts

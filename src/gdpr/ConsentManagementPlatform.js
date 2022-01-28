@@ -89,6 +89,7 @@ class ConsentManagementPlatform {
         if (this.isOnWhiteListedPage()) {
             return false;
         } else if (!this.geoRequiresTrackingConsent()) {
+            // this also handles non GDPR including CCPA regions and forces library to act as it consent was given
             return true;
         } else if (hasConsentCookie && this.optInManager.hasAcceptedTracking()) {
             return true;
@@ -122,7 +123,7 @@ class ConsentManagementPlatform {
     }
 
     geoRequiresTrackingConsent() {
-        return this.geoManager.needsTrackingPrompt();
+        return this.geoManager.isCountryInScope();
     }
 
     reset() {
@@ -152,7 +153,6 @@ class ConsentManagementPlatform {
                 if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
                     this.consentManagementProvider.setVendorConsentCookie(null);
                 }
-
                 this.checkUserConsent();
             });
     }

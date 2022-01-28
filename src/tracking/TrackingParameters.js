@@ -1,6 +1,8 @@
 import { TRACKING_PARAMETERS } from "./tracking-params-config";
 
 export default class TrackingParameters {
+    static empty = new TrackingParameters([]);
+
     constructor(trackingParameters) {
         this.trackingParameters = trackingParameters;
         this.values = {};
