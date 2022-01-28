@@ -32,18 +32,25 @@ export const TRACKING_PARAMETERS = [
         cookieName: COOKIE_NAMES.PAGE_VIEW_NUMBER,
         valueGenerator: () => 1,
         transformer: increment,
+        matcher: isPageView
     },
     {
         name: TRACKING_PARAMETER_NAMES.GLOBAL_PAGE_VIEW_NUMBER,
         cookieName: COOKIE_NAMES.GLOBAL_PAGE_VIEW_NUMBER,
         valueGenerator: () => 1,
         transformer: increment,
+        matcher: isPageView
     },
     {
         name: TRACKING_PARAMETER_NAMES.PAGE_VIEW_UID,
         valueGenerator: uuid,
     }
 ]
+
+function isPageView(event) {
+    const name = event.name.toLowerCase();
+    return name === 'view' || name == 'pageview';
+}
 
 function increment(value) {
     return (parseInt(value) || 0) + 1;

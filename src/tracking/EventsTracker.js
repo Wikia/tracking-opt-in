@@ -1,5 +1,4 @@
 import TrackingEventsQueue from './TrackingEventsQueue';
-import DataWarehouseEventsSender from './DataWarehouseEventsSender';
 import TrackingParameters from './TrackingParameters';
 import CookiesBaker from './CookiesBaker';
 import Cookies from 'js-cookie';
@@ -14,18 +13,7 @@ class TrackableEvent {
 }
 
 function invalidEvent(event) {
-    return !event || !event['name'] || !event['env'] || !event['platform'];
-}
-
-function buildSenders(options) {
-    const senders = [];
-
-    if (options.trackingEventsSenders) {
-        senders.push(options.trackingEventsSenders);
-    } else {
-        senders.push(new DataWarehouseEventsSender());
-    }
-    return senders;
+    return !event || !event['name'];
 }
 
 function buildDefaultAssigners(options) {
@@ -55,7 +43,7 @@ export default class EventsTracker {
     constructor(eventsQueue, options) {
         this.eventsQueue = eventsQueue;
         this.options = options;
-        this.senders = buildSenders(options);
+        this.senders = options.trackingEventsSenders;
         this.eventsQueue.registerListener(this);
         this.defaultParametersAssigner = buildDefaultAssigners(options);
         this.cookiesBaker = new CookiesBaker(options.cookies);
@@ -67,8 +55,9 @@ export default class EventsTracker {
         this.pageTrackingParameters = TrackingParameters.fromCookiesJar(cookiesJar, this.options.trackingParameters);
         this.eventsQueue.flush();
         if (allowedToTrack) {
-            this.cookiesBaker.setOrExtendCookies(this.pageTrackingParameters.toCookiesJar());
+            this.cookiesBaker.setOrExtendCookies(this.pageTrackingParameters.toCookiesJar(), cookiesJar);
         }
+        return this;
     }
 
     onFlush(event) {

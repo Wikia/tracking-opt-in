@@ -12,6 +12,7 @@ import { debug } from './shared/utils';
 import EventsTracker from './tracking/EventsTracker';
 import { COOKIES } from './tracking/cookie-config';
 import { TRACKING_PARAMETERS } from './tracking/tracking-params-config';
+import DataWarehouseEventsSender from './tracking/DataWarehouseEventsSender';
 
 export const DEFAULT_GDPR_OPTIONS = {
     cookieName: null, // use default cookie name
@@ -48,7 +49,7 @@ export const DEFAULT_TRACKING_OPTIONS = {
     trackingParameters: TRACKING_PARAMETERS, // default tracking parameters added to each event
     env: 'prod',
     platform: 'trackingOptIn',
-    trackingEventsSenders: null
+    trackingEventsSenders: [new DataWarehouseEventsSender()]
 }
 
 function initializeGDPR(options) {
@@ -150,7 +151,6 @@ export default function main(options) {
         tracker.startTracking(false);
         return;
     }
-
     const optInInstances = { gdpr: null, ccpa: null };
     const onConsentsReady = () => {
         const gdprConsent = optInInstances.gdpr.getConsent();
@@ -164,6 +164,7 @@ export default function main(options) {
             type: instancesAction,
             ...optInInstances,
         });
+
         tracker.startTracking(isAllowedToTrack(gdprConsent, optInInstances.ccpa));
     };
 

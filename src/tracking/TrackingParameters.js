@@ -31,7 +31,13 @@ export default class TrackingParameters {
     }
 
     copyTo(target) {
-        return Object.assign(target, this.values);
+        for (const param of this.trackingParameters) {
+            if (target[param.name] !== undefined) continue;
+            if (param.matcher && !param.matcher(target)) continue;
+
+            target[param.name] = this.values[param.name];
+        }
+        return target;
     }
 
     static fromCookiesJar(cookiesJar, trackingParameters = TRACKING_PARAMETERS) {

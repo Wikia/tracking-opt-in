@@ -13,9 +13,9 @@ export default class CookiesBaker {
         this.cookies = cookies;
     }
 
-    setOrExtendCookies(cookieValues) {
+    setOrExtendCookies(cookieValues, orgCookiesJar = {}) {
         this.cookies.forEach(cookie => {
-            let value = cookieValues[cookie.name] || Cookies.get(cookie.name);
+            let value = cookieValues[cookie.name] || orgCookiesJar[cookie.name];
 
             if (value === undefined && cookie.value !== undefined) {
                 value = typeof(cookie.value) === 'function' ? cookie.value() : cookie.value;

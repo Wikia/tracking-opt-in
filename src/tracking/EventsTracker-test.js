@@ -4,6 +4,7 @@ import TrackingEventsQueue from './TrackingEventsQueue';
 import sinon from 'sinon';
 import { COOKIES } from './cookie-config';
 import Cookies from 'js-cookie';
+import { TRACKING_PARAMETERS } from "./tracking-params-config";
 
 const sandbox = sinon.createSandbox();
 const sender = { send: sandbox.spy() };
@@ -23,7 +24,10 @@ function and(matchers) {
 describe('EventsTracker', () => {
     beforeEach(() => {
         const container = {};
-        tracker = EventsTracker.build(container, { trackingEventsSenders: sender });
+        tracker = EventsTracker.build(container, {
+            trackingEventsSenders: [sender],
+            trackingParameters: TRACKING_PARAMETERS
+        });
         queue = TrackingEventsQueue.get(container);
     });
 
@@ -51,6 +55,7 @@ describe('EventsTracker', () => {
     it('should not send invalid events', () => {
         // given
         queue.push({});
+        queue.push({ action: 'test' });
         queue.push({ name: 'test' });
         queue.push({ name: 'test', env: 'dev' });
         queue.push({ name: 'test', platform: 'ios' });
@@ -59,12 +64,12 @@ describe('EventsTracker', () => {
         tracker.startTracking(true);
 
         // then
-        assert.isOk(sender.send.notCalled)
+        assert.equal(sender.send.callCount, 3);
     });
 
     it('should send events with tracking parameters', () => {
         // given
-        queue.push({ name: 'test', env: 'dev', platform: 'ios', action: 'track!' });
+        queue.push({ name: 'view', env: 'dev', platform: 'ios', action: 'track!' });
         Cookies.set('wikia_beacon_id', 'beacon');
 
         // when
@@ -75,7 +80,10 @@ describe('EventsTracker', () => {
         assert.isOk(sender.send.calledWithMatch(and([
             sinon.match.has('env', 'dev'),
             sinon.match.has('beacon', 'beacon'),
-            sinon.match.has('pv_unique_id')
+            sinon.match.has('b2'),
+            sinon.match.has('pv_unique_id'),
+            sinon.match.has('pv_number'),
+            sinon.match.has('pv_number_global'),
         ])));
     });
 
