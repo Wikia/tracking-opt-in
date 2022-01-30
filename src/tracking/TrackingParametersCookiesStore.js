@@ -2,20 +2,28 @@ import Cookies from 'js-cookie';
 import { getCookieDomain } from '../shared/utils';
 import { COOKIES } from './cookie-config';
 
-export default class CookiesBaker {
+export default class TrackingParametersCookiesStore {
     constructor(cookies = COOKIES) {
-        let domain = getCookieDomain(window.location.hostname);
+        const domain = getCookieDomain(window.location.hostname);
         cookies.forEach(cookie => {
             if (!cookie.options.hasOwnProperty('domain')) {
                 cookie.options.domain = domain;
             }
         })
         this.cookies = cookies;
+        this.cookieValues = Cookies.get();
     }
 
-    setOrExtendCookies(cookieValues, orgCookiesJar = {}) {
+    get() {
+        const cookieValues = this.cookieValues;
+        return this.cookies
+            .filter(cookie => cookie.name && cookie.param)
+            .reduce((params, cookie) => (params[cookie.param] = cookieValues[cookie.name], params), {});
+    }
+
+    save(paramValues = {}) {
         this.cookies.forEach(cookie => {
-            let value = cookieValues[cookie.name] || orgCookiesJar[cookie.name];
+            let value = (cookie.param ? paramValues[cookie.param] : undefined) || this.cookieValues[cookie.name];
 
             if (value === undefined && cookie.value !== undefined) {
                 value = typeof(cookie.value) === 'function' ? cookie.value() : cookie.value;

@@ -1,35 +1,27 @@
-import { TRACKING_PARAMETERS } from "./tracking-params-config";
+import { TRACKING_PARAMETERS } from './tracking-params-config';
 
 export default class TrackingParameters {
-    static empty = new TrackingParameters([]);
-
-    constructor(trackingParameters) {
+    constructor(trackingParameters = TRACKING_PARAMETERS) {
         this.trackingParameters = trackingParameters;
         this.values = {};
     }
 
-    readOrGenerate(cookiesJar) {
-        cookiesJar = cookiesJar || {};
+    fromPlainValues(plainValues) {
+        plainValues = plainValues || {};
         for (const param of this.trackingParameters) {
-            const value = param.cookieName ? cookiesJar[param.cookieName] : undefined;
+            const value = plainValues[param.name];
 
             if (value !== undefined) {
                 this.values[param.name] = param.transformer ? param.transformer(value) : value;
-            } else if (this[param.name] === undefined) {
-                this.values[param.name] = param.valueGenerator();
+            } else if (param.value) {
+                this.values[param.name] = typeof(param.value) === 'function' ? param.value() : param.value;
             }
         }
         return this;
     }
 
-    toCookiesJar() {
-        const cookies = {};
-        for (const param of this.trackingParameters) {
-            if (param.cookieName) {
-                cookies[param.cookieName] = this.values[param.name];
-            }
-        }
-        return cookies;
+    getValues() {
+        return this.values;
     }
 
     copyTo(target) {
@@ -40,9 +32,5 @@ export default class TrackingParameters {
             target[param.name] = this.values[param.name];
         }
         return target;
-    }
-
-    static fromCookiesJar(cookiesJar, trackingParameters = TRACKING_PARAMETERS) {
-        return new TrackingParameters(trackingParameters).readOrGenerate(cookiesJar);
     }
 }

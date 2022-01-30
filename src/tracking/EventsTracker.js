@@ -1,8 +1,7 @@
 import TrackingEventsQueue from './TrackingEventsQueue';
 import TrackingParameters from './TrackingParameters';
-import CookiesBaker from './CookiesBaker';
-import Cookies from 'js-cookie';
-import { communicationService } from "../shared/communication";
+import TrackingParametersCookiesStore from './TrackingParametersCookiesStore';
+import { communicationService } from '../shared/communication';
 
 const CONSENTS_ACTION = '[AdEngine OptIn] set opt in';
 
@@ -52,12 +51,12 @@ export default class EventsTracker {
 
     constructor(eventsQueue, options) {
         this.eventsQueue = eventsQueue;
-        this.options = options;
         this.senders = options.trackingEventsSenders;
         this.eventsQueue.registerListener(this);
         this.defaultParametersAssigner = buildDefaultAssigners(options);
-        this.cookiesBaker = new CookiesBaker(options.cookies);
-        this.pageTrackingParameters = TrackingParameters.empty;
+        this.pageTrackingParameters = new TrackingParameters(options.trackingParameters);
+        this.pageTrackingParametersStore = options.trackingParametersStore ?
+            options.trackingParametersStore : new TrackingParametersCookiesStore(options.cookies);
         this.listenOnConsentAction();
     }
 
@@ -71,12 +70,11 @@ export default class EventsTracker {
     }
 
     startTracking(allowedToTrack) {
-        const cookiesJar = allowedToTrack ? Cookies.get() : {};
         this.notAllowedToTrackWithoutConsent = !allowedToTrack;
-        this.pageTrackingParameters = TrackingParameters.fromCookiesJar(cookiesJar, this.options.trackingParameters);
+        this.pageTrackingParameters.fromPlainValues(this.pageTrackingParametersStore.get());
         this.eventsQueue.flush();
         if (allowedToTrack) {
-            this.cookiesBaker.setOrExtendCookies(this.pageTrackingParameters.toCookiesJar(), cookiesJar);
+            this.pageTrackingParametersStore.save(this.pageTrackingParameters.getValues());
         }
         return this;
     }

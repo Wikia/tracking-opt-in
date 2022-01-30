@@ -1,6 +1,7 @@
 import { randomString } from '../shared/utils';
+import {TRACKING_PARAMETER_NAMES} from "./tracking-params-config";
 
-export const COOKIE_NAMES = {
+const COOKIE_NAMES = {
     WIKIA_SESSION: 'wikia_session_id',
     BEACON: 'wikia_beacon_id',
     BEACON_V2: '_b2',
@@ -12,17 +13,20 @@ export const COOKIE_NAMES = {
 export const COOKIES = [
     {
         name: COOKIE_NAMES.BEACON_V2,
+        param: TRACKING_PARAMETER_NAMES.BEACON_V2,
         options: {
             expires: 730, /* 2 years in days */
         }
     },
     {
         name: COOKIE_NAMES.BEACON,
+        param: TRACKING_PARAMETER_NAMES.BEACON,
         options: {
             expires: 183, /* 6 months in days */
         },
     },
     {
+        // this cookies seems to be deprecated
         name: COOKIE_NAMES.WIKIA_SESSION,
         value: randomString,
         options: {
@@ -31,6 +35,7 @@ export const COOKIES = [
     },
     {
         name: COOKIE_NAMES.TRACKING_SESSION,
+        param: TRACKING_PARAMETER_NAMES.SESSION,
         options: {
             expires: 1 / 48, /* half an hour in days */
             secure: true,
@@ -39,6 +44,7 @@ export const COOKIES = [
     },
     {
         name: COOKIE_NAMES.PAGE_VIEW_NUMBER,
+        param: TRACKING_PARAMETER_NAMES.PAGE_VIEW_NUMBER,
         options: {
             expires: 1 / 48, /* half an hour in days */
             domain: '',
@@ -48,6 +54,7 @@ export const COOKIES = [
     },
     {
         name: COOKIE_NAMES.GLOBAL_PAGE_VIEW_NUMBER,
+        param: TRACKING_PARAMETER_NAMES.GLOBAL_PAGE_VIEW_NUMBER,
         options: {
             expires: 1 / 48, /* half an hour in days */
             secure: true,

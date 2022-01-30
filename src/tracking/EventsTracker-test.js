@@ -4,29 +4,19 @@ import TrackingEventsQueue from './TrackingEventsQueue';
 import sinon from 'sinon';
 import { COOKIES } from './cookie-config';
 import Cookies from 'js-cookie';
-import { TRACKING_PARAMETERS } from "./tracking-params-config";
 
+const BEACON_VALUE = "beacon";
 const sandbox = sinon.createSandbox();
 const sender = { send: sandbox.spy() };
 let tracker;
 let queue;
 
-function and(matchers) {
-    let result = matchers.shift();
-    let matcher;
-
-    while (matcher = matchers.shift()) {
-        result = result.and(matcher);
-    }
-    return result;
-}
-
 describe('EventsTracker', () => {
     beforeEach(() => {
+        Cookies.set('wikia_beacon_id', BEACON_VALUE);
         const container = {};
         tracker = EventsTracker.build(container, {
-            trackingEventsSenders: [sender],
-            trackingParameters: TRACKING_PARAMETERS
+            trackingEventsSenders: [sender]
         });
         queue = TrackingEventsQueue.get(container);
     });
@@ -70,21 +60,18 @@ describe('EventsTracker', () => {
     it('should send events with tracking parameters', () => {
         // given
         queue.push({ name: 'view', env: 'dev', platform: 'ios', action: 'track!' });
-        Cookies.set('wikia_beacon_id', 'beacon');
 
         // when
         tracker.startTracking(true)
 
         // then
         assert.isOk(sender.send.called);
-        assert.isOk(sender.send.calledWithMatch(and([
-            sinon.match.has('env', 'dev'),
-            sinon.match.has('beacon', 'beacon'),
-            sinon.match.has('b2'),
-            sinon.match.has('pv_unique_id'),
-            sinon.match.has('pv_number'),
-            sinon.match.has('pv_number_global'),
-        ])));
+        assert.isOk(sender.send.calledWithMatch(sinon.match.has('env', 'dev')));
+        assert.isOk(sender.send.calledWithMatch(sinon.match.has('beacon', BEACON_VALUE)));
+        assert.isOk(sender.send.calledWithMatch(sinon.match.has('b2')));
+        assert.isOk(sender.send.calledWithMatch(sinon.match.has('pv_unique_id')));
+        assert.isOk(sender.send.calledWithMatch(sinon.match.has('pv_number')));
+        assert.isOk(sender.send.calledWithMatch(sinon.match.has('pv_number_global')));
     });
 
     it('should send all stacked events after flush', () => {

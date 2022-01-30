@@ -1,6 +1,5 @@
 import { v4 as uuid } from 'uuid';
 import { randomString, randomStringWithTimestamp } from '../shared/utils';
-import { COOKIE_NAMES } from './cookie-config';
 
 export const TRACKING_PARAMETER_NAMES = {
     SESSION: 'session_id',
@@ -14,42 +13,37 @@ export const TRACKING_PARAMETER_NAMES = {
 export const TRACKING_PARAMETERS = [
     {
         name: TRACKING_PARAMETER_NAMES.SESSION,
-        cookieName: COOKIE_NAMES.TRACKING_SESSION,
-        valueGenerator: uuid
+        value: uuid
     },
     {
         name: TRACKING_PARAMETER_NAMES.BEACON,
-        cookieName: COOKIE_NAMES.BEACON,
-        valueGenerator: randomString
+        value: randomString
     },
     {
         name: TRACKING_PARAMETER_NAMES.BEACON_V2,
-        cookieName: COOKIE_NAMES.BEACON_V2,
-        valueGenerator: randomStringWithTimestamp
+        value: randomStringWithTimestamp
     },
     {
         name: TRACKING_PARAMETER_NAMES.PAGE_VIEW_NUMBER,
-        cookieName: COOKIE_NAMES.PAGE_VIEW_NUMBER,
-        valueGenerator: () => 1,
+        value: () => 1,
         transformer: increment,
         matcher: isPageView
     },
     {
         name: TRACKING_PARAMETER_NAMES.GLOBAL_PAGE_VIEW_NUMBER,
-        cookieName: COOKIE_NAMES.GLOBAL_PAGE_VIEW_NUMBER,
-        valueGenerator: () => 1,
+        value: () => 1,
         transformer: increment,
         matcher: isPageView
     },
     {
         name: TRACKING_PARAMETER_NAMES.PAGE_VIEW_UID,
-        valueGenerator: uuid,
+        value: uuid,
     }
 ]
 
 function isPageView(event) {
     const name = event.name.toLowerCase();
-    return name === 'view' || name == 'pageview';
+    return name === 'view' || name === 'pageview';
 }
 
 function increment(value) {

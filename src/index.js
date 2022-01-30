@@ -13,7 +13,7 @@ import EventsTracker from './tracking/EventsTracker';
 import { COOKIES } from './tracking/cookie-config';
 import { TRACKING_PARAMETERS } from './tracking/tracking-params-config';
 import DataWarehouseEventsSender from './tracking/DataWarehouseEventsSender';
-import TrackingEventsQueue, { DEFAULT_TRACKING_QUEUE_NAME } from "./tracking/TrackingEventsQueue";
+import { DEFAULT_TRACKING_QUEUE_NAME } from "./tracking/TrackingEventsQueue";
 
 export const DEFAULT_GDPR_OPTIONS = {
     cookieName: null, // use default cookie name

@@ -110,6 +110,7 @@ The following options are accepted:
 - `cookies` - could be used to extend list of cookies that are set after the GDPR consent is processed; the default list is available in `./src/tracking/cookie-config.js`
 - `trackingParameters` - could be used to extend list of default tracking parameters added to each sent event; the default list is available in `./src/tracking/tracking-params-config.js`
 - `eventQueueSingletonName` - name of the global events queue object stored in `window` object
+- `trackingParametersStore` - a store object for saving parameters between request, default implementation uses cookies, see `./tracking/TrackingParametersCookiesStore`
 #### Notes
 - `onAcceptTracking` and `onRejectTracking` are the key options that should be overridden by each app to either initialize their respective trackers or to somehow react to the user's rejection of tracking.
 - As of v2.0.0, accepting or rejecting _vendor tracking_ should not affect any GA or internal tracking unrelated to advertising.

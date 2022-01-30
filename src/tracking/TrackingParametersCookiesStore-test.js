@@ -1,27 +1,25 @@
 import { assert } from 'chai';
 import Cookies from 'js-cookie';
-import CookiesBaker from "./CookiesBaker";
-import { COOKIES } from "./cookie-config";
+import TrackingParametersCookiesStore from './TrackingParametersCookiesStore';
+import { COOKIES } from './cookie-config';
 
 const mockedCookieWikiaSessionId = '12345';
 const mockedCookieWikiaBeaconId = '67890';
 const mockedCookieB2 = '02468';
 
-describe('CookiesBaker', () => {
+describe('TrackingParametersCookiesStore', () => {
     afterEach(() => {
         COOKIES.forEach(cookie => Cookies.remove(cookie.name));
     });
 
-    it('should not override baked cookies', () => {
+    it('should not existing cookies', () => {
         // given
-        const cookies = {
-            'wikia_session_id': mockedCookieWikiaSessionId,
-            'wikia_beacon_id': mockedCookieWikiaBeaconId,
-            '_b2': mockedCookieB2,
-        }
+        Cookies.set('wikia_beacon_id', mockedCookieWikiaBeaconId);
+        Cookies.set('_b2', mockedCookieB2);
+        Cookies.set('wikia_session_id', mockedCookieWikiaSessionId);
 
         // when
-        new CookiesBaker(COOKIES).setOrExtendCookies(cookies);
+        new TrackingParametersCookiesStore().save({});
 
         // then
         assert.equal(Cookies.get('wikia_session_id'), mockedCookieWikiaSessionId);
@@ -29,14 +27,13 @@ describe('CookiesBaker', () => {
         assert.equal(Cookies.get('_b2', true), mockedCookieB2);
     });
 
-    it('it should bake cookies with own baker recipe', () => {
+    it('it should generate new cookie values', () => {
         // given
-        const cookies = {
-            'wikia_beacon_id': mockedCookieWikiaBeaconId,
-            '_b2': mockedCookieB2
-        }
+        Cookies.set('wikia_beacon_id', mockedCookieWikiaBeaconId);
+        Cookies.set('_b2', mockedCookieB2);
+
         // when
-        new CookiesBaker(COOKIES).setOrExtendCookies(cookies);
+        new TrackingParametersCookiesStore().save({});
         const newCookie = Cookies.get('wikia_session_id');
 
         // then
