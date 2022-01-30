@@ -71,10 +71,10 @@ export default class EventsTracker {
 
     startTracking(allowedToTrack) {
         this.notAllowedToTrackWithoutConsent = !allowedToTrack;
-        this.pageTrackingParameters.fromPlainValues(this.pageTrackingParametersStore.get());
+        this.pageTrackingParameters.fromPlainValues(this.pageTrackingParametersStore.getPlainValues());
         this.eventsQueue.flush();
         if (allowedToTrack) {
-            this.pageTrackingParametersStore.save(this.pageTrackingParameters.getValues());
+            this.pageTrackingParametersStore.save(this.pageTrackingParameters);
         }
         return this;
     }

@@ -14,16 +14,19 @@ export default class TrackingParametersCookiesStore {
         this.cookieValues = Cookies.get();
     }
 
-    get() {
+    getPlainValues() {
         const cookieValues = this.cookieValues;
         return this.cookies
             .filter(cookie => cookie.name && cookie.param)
             .reduce((params, cookie) => (params[cookie.param] = cookieValues[cookie.name], params), {});
     }
 
-    save(paramValues = {}) {
-        this.cookies.forEach(cookie => {
-            let value = (cookie.param ? paramValues[cookie.param] : undefined) || this.cookieValues[cookie.name];
+    save(params) {
+        const paramValues = (params ? params.values : {}) || {};
+        let value;
+
+        for (const cookie of this.cookies) {
+            value = (cookie.param ? paramValues[cookie.param] : undefined) || this.cookieValues[cookie.name];
 
             if (value === undefined && cookie.value !== undefined) {
                 value = typeof(cookie.value) === 'function' ? cookie.value() : cookie.value;
@@ -31,6 +34,6 @@ export default class TrackingParametersCookiesStore {
             if (value) {
                 Cookies.set(cookie.name, value, cookie.options);
             }
-        });
+        }
     }
 }

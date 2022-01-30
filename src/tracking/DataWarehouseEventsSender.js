@@ -23,12 +23,11 @@ export default class DataWarehouseEventsSender {
         const controller = new AbortController();
         const urlParams = Object.keys(event)
             .filter((k) => event[k] || event[k] === 0)
-            .map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(event[k]))
-            .join('&');
+            .reduce((params, k) => (params.append(k, event[k]), params), new URLSearchParams());
         const onComplete = event['onDWHTrackingComplete'] || this.onComplete;
         const timeout = setTimeout(() => controller.abort(), this.timeout);
 
-        fetch(`${this.baseUrl}${path}?${urlParams}`, {
+        fetch(`${this.baseUrl}${path}?${urlParams.toString()}`, {
             mode: 'no-cors',
             keepalive: true,
             signal: controller.signal

@@ -1,11 +1,11 @@
 import { assert } from 'chai';
 import TrackingParameters from './TrackingParameters';
-import { TRACKING_PARAMETER_NAMES } from "./tracking-params-config";
+import { TRACKING_PARAMETER_NAMES } from './tracking-params-config';
 
 describe('TrackingParameters', () => {
     it('should generate values', () => {
         // when
-        const params = new TrackingParameters().fromPlainValues({}).getValues();
+        const params = new TrackingParameters().fromPlainValues({}).values;
 
         // then
         assert.isObject(params);
@@ -28,7 +28,7 @@ describe('TrackingParameters', () => {
         };
 
         // when
-        const params = new TrackingParameters().fromPlainValues(plainValues).getValues();
+        const params = new TrackingParameters().fromPlainValues(plainValues).values;
 
         // then
         assert.isObject(params);

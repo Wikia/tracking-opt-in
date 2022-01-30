@@ -47,5 +47,5 @@ function isPageView(event) {
 }
 
 function increment(value) {
-    return (parseInt(value) || 0) + 1;
+    return (parseInt(value, 10) || 0) + 1;
 }

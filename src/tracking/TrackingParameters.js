@@ -20,10 +20,6 @@ export default class TrackingParameters {
         return this;
     }
 
-    getValues() {
-        return this.values;
-    }
-
     copyTo(target) {
         for (const param of this.trackingParameters) {
             if (target[param.name] !== undefined) continue;
