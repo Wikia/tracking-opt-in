@@ -1,5 +1,5 @@
 import { randomString } from '../shared/utils';
-import {TRACKING_PARAMETER_NAMES} from "./tracking-params-config";
+import {TRACKING_PARAMETER_NAMES} from './tracking-params-config';
 
 const COOKIE_NAMES = {
     WIKIA_SESSION: 'wikia_session_id',

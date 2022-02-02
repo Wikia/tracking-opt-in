@@ -13,7 +13,7 @@ import EventsTracker from './tracking/EventsTracker';
 import { COOKIES } from './tracking/cookie-config';
 import { TRACKING_PARAMETERS } from './tracking/tracking-params-config';
 import DataWarehouseEventsSender from './tracking/DataWarehouseEventsSender';
-import { DEFAULT_TRACKING_QUEUE_NAME } from "./tracking/TrackingEventsQueue";
+import { DEFAULT_TRACKING_QUEUE_NAME } from './tracking/TrackingEventsQueue';
 
 export const DEFAULT_GDPR_OPTIONS = {
     cookieName: null, // use default cookie name
@@ -54,7 +54,7 @@ export const DEFAULT_TRACKING_OPTIONS = {
     trackingEventsSenders: [new DataWarehouseEventsSender()]
 }
 
-function initializeGDPR(options, eventsQueue) {
+function initializeGDPR(options, trackerCallback) {
     const {
         zIndex,
         onAcceptTracking,
@@ -68,7 +68,7 @@ function initializeGDPR(options, eventsQueue) {
     } = Object.assign({}, DEFAULT_GDPR_OPTIONS, DEFAULT_TRACKING_OPTIONS, options);
     const langManager = new LanguageManager(depOptions.language);
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
-    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.track, eventsQueue);
+    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.track, trackerCallback);
     const consentManagementProvider = new ConsentManagementProvider({
         language: langManager.lang
     });
@@ -128,14 +128,18 @@ function initializeCCPA(options) {
     return userSignalMechanism;
 }
 
+function getTrackingCallback(options) {
+    const trackingOptions = Object.assign({}, DEFAULT_TRACKING_OPTIONS, options);
+    const tracker = EventsTracker.build(window, trackingOptions);
+
+    return tracker.track.bind(tracker);
+}
+
 export default function main(options) {
-    console.log('Options ', options);
     const consentsAction = '[AdEngine OptIn] set opt in';
     const instancesAction = '[AdEngine OptIn] set opt in instances';
 
     debug('MODAL', 'Library loaded and started');
-    const trackingOptions = Object.assign({}, DEFAULT_TRACKING_OPTIONS, options);
-    const tracker = EventsTracker.build(window, trackingOptions);
 
     if (!window.navigator.cookieEnabled) {
         debug('MODAL', 'Cookies are disabled - ignoring CMP and USAPI consent checks');
@@ -163,7 +167,7 @@ export default function main(options) {
     };
     Object.assign(options, { onConsentsReady });
 
-    optInInstances.gdpr = initializeGDPR(options, tracker.eventsQueue);
+    optInInstances.gdpr = initializeGDPR(options, getTrackingCallback(options));
     optInInstances.ccpa = initializeCCPA(options);
 
     return optInInstances;

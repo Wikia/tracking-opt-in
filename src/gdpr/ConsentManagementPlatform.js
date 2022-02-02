@@ -1,4 +1,4 @@
-import { render } from 'preact/dist/preact';
+import { h, render } from 'preact/dist/preact'; // please do not remove h, even if not called this is needed!
 import Modal from '../modal/Modal';
 import { debug, isParameterSet, parseUrl } from '../shared/utils';
 import { API_STATUS } from './ConsentManagementProvider';

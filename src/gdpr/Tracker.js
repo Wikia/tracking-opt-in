@@ -15,9 +15,9 @@ const ACTION_IMPRESSION = 'impression';
 const ACTION_CLICK = 'click';
 
 class Tracker {
-    constructor(language, detectedGeo, enable, eventsQueue) {
-        this.enable = enable;
-        this.eventsQueue = eventsQueue;
+    constructor(language, detectedGeo, enabled, trackingCallback) {
+        this.enabled = enabled && trackingCallback;
+        this.trackingCallback = trackingCallback;
         this.defaultParams = {
             name: EVENT_NAME,
             couldBeTrackedWithoutConsent: true,
@@ -34,11 +34,11 @@ class Tracker {
             [TRACK_PARAMS.LABEL]: label,
         };
 
-        if (!this.enable) {
+        if (!this.enabled) {
             debug('TRACKING', 'Fake Tracking Event', params);
             return;
         }
-        this.eventsQueue.push(event);
+        this.trackingCallback(event);
     }
     /**
      * Shortcuts

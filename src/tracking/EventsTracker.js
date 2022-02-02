@@ -60,6 +60,10 @@ export default class EventsTracker {
         this.listenOnConsentAction();
     }
 
+    track(event) {
+        this.eventsQueue.push(event);
+    }
+
     listenOnConsentAction() {
         const tracker = this;
         communicationService.listen(action => {
@@ -83,8 +87,12 @@ export default class EventsTracker {
         if (invalidEvent(event)) {
             return false;
         }
-        if (this.notAllowedToTrackWithoutConsent && event['couldBeTrackedWithoutConsent'] !== true) {
-            return false;
+        if (this.notAllowedToTrackWithoutConsent) {
+            if (event['couldBeTrackedWithoutConsent'] === true) {
+                delete event['couldBeTrackedWithoutConsent'];
+            } else {
+                return false;
+            }
         }
         event = this.pageTrackingParameters.copyTo(event);
         this.defaultParametersAssigner.forEach(assigner => assigner(event));
