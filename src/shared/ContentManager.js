@@ -66,7 +66,7 @@ const availableTranslations = [
     'tr',      // Turkish
     'zh',      // Chinese
 ];
-const TRANSLATIONS_URL_BASE = 'https://static.wikia.nocookie.net/fandom-ae-assets/tcf/v2/';
+const TRANSLATIONS_URL_BASE = 'https://script.wikia.nocookie.net/fandom-ae-assets/tcf/v2/';
 const TRANSLATIONS_FILE_NAME = 'purposes-CODE.json';
 
 function processLanguages(langs) {
