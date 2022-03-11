@@ -1,6 +1,6 @@
 import { SESSION_COOKIES, IAB_VENDORS } from './shared/consts';
 import ContentManager from './shared/ContentManager';
-import GeoManager from './shared/GeoManager';
+import GeoManager, { ensureGeoCookie } from './shared/GeoManager';
 import LanguageManager from './shared/LangManager';
 import ConsentManagementProvider from './gdpr/ConsentManagementProvider';
 import OptInManager from './gdpr/OptInManager';
@@ -165,10 +165,12 @@ const autostartModal = () => {
     }
 };
 
-if (document.readyState !== 'loading') {
-    autostartModal();
-} else {
-    document.addEventListener('DOMContentLoaded', () => {
+ensureGeoCookie().then(() => {
+    if (document.readyState !== 'loading') {
         autostartModal();
-    });
-}
+    } else {
+        document.addEventListener('DOMContentLoaded', () => {
+            autostartModal();
+        });
+    }
+});
