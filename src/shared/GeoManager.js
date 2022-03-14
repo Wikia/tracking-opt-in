@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { getCookieDomain } from './utils';
 
 export const COUNTRY_COOKIE_NAME = 'Geo';
 const MISSING_COOKIE_NAME = 'no-cookie';
@@ -87,6 +88,56 @@ function getGeoDataFromCookie(type = 'country') {
     }
 
     return false;
+}
+
+export function ensureGeoCookie() {
+    if (Cookies.get(COUNTRY_COOKIE_NAME)) {
+        return Promise.resolve();
+    }
+
+    const GEO_SERVICE_URL = 'https://services.fandom.com/geoip/location';
+
+    return new Promise((resolve, reject) => {
+        try {
+            const request = new XMLHttpRequest();
+
+            request.open('GET', GEO_SERVICE_URL, true);
+            request.setRequestHeader('Content-type', 'application/json');
+            request.timeout = 2000;
+            request.withCredentials = true;
+
+            request.onload = () => {
+                if (request.status < 200 || request.status >= 300) {
+                    console.warn('no geo cookie found');
+                    reject();
+                } else {
+                    const geoResponse = JSON.parse(request.responseText);
+
+                    resolve({
+                        continent: geoResponse.continent_code,
+                        country: geoResponse.country_code,
+                        region: geoResponse.region,
+                    });
+                }
+            };
+
+            request.onerror = () => {
+                console.warn('no geo cookie found');
+                reject();
+            };
+
+            request.send();
+        } catch (err) {
+            console.warn('no geo cookie found');
+            reject();
+        }
+    }).then((geoData) => {
+        Cookies.set('Geo', JSON.stringify(geoData), {
+            domain: getCookieDomain(window.location.hostname),
+            expires: 365,
+            path: '/',
+        });
+    });
 }
 
 class GeoManager {
