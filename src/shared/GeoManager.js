@@ -141,18 +141,18 @@ export function ensureGeoCookie() {
 }
 
 class GeoManager {
-    constructor(country, region, countriesRequiringPrompt) {
-        this.geosRequiringPrompt = (countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT).map(country => country.toLowerCase());
+    constructor(country, region, scope) {
+        this.scope = (scope || COUNTRIES_REQUIRING_PROMPT).map(country => country.toLowerCase());
         this.country = (country || getGeoDataFromCookie('country') || MISSING_COOKIE_NAME).toLowerCase();
         this.region = (region || getGeoDataFromCookie('region') || MISSING_COOKIE_NAME).toLowerCase();
     }
 
-    needsTrackingPrompt() {
-        return this.geosRequiringPrompt.indexOf(this.country) !== -1;
+    isCountryInScope() {
+        return this.scope.indexOf(this.country) !== -1;
     }
 
-    needsUserSignal() {
-        return this.geosRequiringPrompt.indexOf(this.getDetectedRegion()) !== -1;
+    isRegionInScope() {
+        return this.scope.indexOf(this.getDetectedRegion()) !== -1;
     }
 
     getDetectedGeo() {

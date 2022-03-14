@@ -17,12 +17,12 @@ describe('GeoManager', () => {
     describe('with provided options', () => {
         it('indicates consent is required', () => {
             const geoManager = new GeoManager(countryRequiringPrompt, null, [countryRequiringPrompt]);
-            assert.isOk(geoManager.needsTrackingPrompt());
+            assert.isOk(geoManager.isCountryInScope());
         });
 
         it('indicates consent is not required', () => {
             const geoManager = new GeoManager(countryNotRequiringPrompt, null, [countryRequiringPrompt]);
-            assert.isNotOk(geoManager.needsTrackingPrompt());
+            assert.isNotOk(geoManager.isCountryInScope());
         });
     });
 
@@ -34,26 +34,26 @@ describe('GeoManager', () => {
         describe('and geo cookie present', () => {
             it('indicates consent is required', () => {
                 setGeoCookie(countryRequiringPrompt);
-                assert.isOk(new GeoManager().needsTrackingPrompt());
+                assert.isOk(new GeoManager().isCountryInScope());
             });
 
             it('indicates consent is not required', () => {
                 setGeoCookie(countryNotRequiringPrompt);
-                assert.isNotOk(new GeoManager().needsTrackingPrompt());
+                assert.isNotOk(new GeoManager().isCountryInScope());
             });
         });
 
         describe('and unparseable geo cookie', () => {
             it('indicates consent is required', () => {
                 Cookies.set(COUNTRY_COOKIE_NAME, '{}');
-                assert.isNotOk(new GeoManager().needsTrackingPrompt());
+                assert.isNotOk(new GeoManager().isCountryInScope());
             });
         });
 
         describe('and no geo cookie', () => {
             it('indicates consent is required', () => {
                 Cookies.remove(COUNTRY_COOKIE_NAME);
-                assert.isNotOk(new GeoManager().needsTrackingPrompt());
+                assert.isNotOk(new GeoManager().isCountryInScope());
             });
         });
     });

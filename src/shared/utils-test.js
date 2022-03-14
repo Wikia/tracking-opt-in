@@ -1,4 +1,4 @@
-import { assert } from 'chai';
+import { assert, expect } from 'chai';
 import * as utils from './utils';
 
 const noop = () => {};
@@ -47,6 +47,18 @@ describe('Utils', () => {
             domain = utils.getCookieDomain('somethingkiwi.co.nz');
 
             assert.equal(domain, '.somethingkiwi.co.nz');
+        });
+
+        it('should return undefined for domain without extension', () => {
+            expect(utils.getCookieDomain('fandom')).to.equal(undefined);
+        });
+
+        it('should return truncated domain part for subdomains', () => {
+            expect(utils.getCookieDomain('fandom.com')).to.equal('.fandom.com');
+            expect(utils.getCookieDomain('a.fandom.com')).to.equal('.fandom.com');
+            expect(utils.getCookieDomain('b.a.fandom.com')).to.equal('.fandom.com');
+            expect(utils.getCookieDomain('c.b.a.fandom.com')).to.equal('.fandom.com');
+            expect(utils.getCookieDomain('d.c.b.a.fandom.com')).to.equal('.fandom.com');
         });
     });
 

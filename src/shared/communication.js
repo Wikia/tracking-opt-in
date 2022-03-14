@@ -14,6 +14,10 @@ class CommunicationService {
     dispatch(action) {
         this.communicator.dispatch({ ...action, __global: true });
     }
+
+    listen(listener) {
+        this.communicator.addListener(listener);
+    }
 }
 
 export const communicationService = new CommunicationService();

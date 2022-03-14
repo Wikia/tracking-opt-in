@@ -1,88 +1,44 @@
-import Cookies from 'js-cookie';
 import { debug } from '../shared/utils';
 
-const DEFAULT_BEACON_COOKIE_NAME = 'wikia_beacon_id';
-const TRACKING_BASE = 'https://beacon.wikia-services.com/__track/special/gdpr_events';
+const EVENT_NAME = 'gdpr_events';
+
 const TRACK_PARAMS = {
     LANGUAGE_CODE: 'lang_code',
     DETECTED_GEO: 'detected_geo',
     CATEGORY: 'ga_category',
     ACTION: 'ga_action',
     LABEL: 'ga_label',
-    BEACON: 'beacon',
 };
-const TRACK_TIMEOUT = 3000;
 
 const TRACKING_CATEGORY = 'gdpr-modal';
 const ACTION_IMPRESSION = 'impression';
 const ACTION_CLICK = 'click';
 
-function getBeaconFromCookie(cookieName) {
-    return Cookies.get(cookieName || DEFAULT_BEACON_COOKIE_NAME);
-}
-
 class Tracker {
-    constructor(language, detectedGeo, beaconCookieName, enable) {
-        this.enable = enable;
+    constructor(language, detectedGeo, enabled, trackingCallback) {
+        this.enabled = enabled && trackingCallback;
+        this.trackingCallback = trackingCallback;
         this.defaultParams = {
+            name: EVENT_NAME,
+            couldBeTrackedWithoutConsent: true,
             [TRACK_PARAMS.LANGUAGE_CODE]: language,
             [TRACK_PARAMS.DETECTED_GEO]: detectedGeo,
         };
-
-        const beacon = getBeaconFromCookie(beaconCookieName);
-        if (beacon) {
-            this.defaultParams[TRACK_PARAMS.BEACON] = beacon;
-        }
     }
 
-    // largely taken from https://github.com/Wikia/app/blob/a34191d/resources/wikia/modules/tracker.js
-    track(category, action, label, onComplete = () => {}) {
-        const params = {
+    track(category, action, label) {
+        const event = {
             ...this.defaultParams,
             [TRACK_PARAMS.CATEGORY]: category,
             [TRACK_PARAMS.ACTION]: action,
             [TRACK_PARAMS.LABEL]: label,
         };
 
-        if (!this.enable) {
+        if (!this.enabled) {
             debug('TRACKING', 'Fake Tracking Event', params);
             return;
         }
-
-        const container = document.head || document.getElementsByTagName( 'head' )[ 0 ] || document.documentElement;
-        const requestParams = [];
-
-        for (const p in params) {
-            requestParams.push(`${encodeURIComponent(p)}=${encodeURIComponent(params[p])}`);
-        }
-
-        let script = document.createElement('script');
-        script.src = `${TRACKING_BASE}?${requestParams.join('&')}`;
-        if ('async' in script) {
-            script.async = true;
-        }
-
-        script.onload = script.onreadystatechange = function( abort ) {
-            if ( abort || !script.readyState || /loaded|complete/.test( script.readyState ) ) {
-                // Handle memory leak in IE
-                script.onload = script.onreadystatechange = null;
-
-                // Remove the script
-                if ( container && script.parentNode ) {
-                    container.removeChild( script );
-                }
-
-                script = undefined;
-                onComplete();
-            }
-        };
-
-        container.insertBefore(script, container.firstChild);
-        setTimeout(() => {
-            if (script) {
-                script.onload(true);
-            }
-        }, TRACK_TIMEOUT);
+        this.trackingCallback(event);
     }
     /**
      * Shortcuts
