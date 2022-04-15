@@ -196,7 +196,7 @@ class UserSignalMechanism {
     }
 
     createUserSignal() {
-        let privacyString = null;
+        let privacyString;
 
         if (!this.options.ccpaApplies) {
             debug('CCPA', 'Geo does not require API');
@@ -218,6 +218,9 @@ class UserSignalMechanism {
             } else if (this.options.isSubjectToCcpa) {
                 privacyString = this.createPrivacyString(USP_VALUES.yes);
                 debug('CCPA', 'Force opt-out because user is subject to COPPA');
+            } else if (navigator.globalPrivacyControl) {
+                privacyString = this.createPrivacyString(USP_VALUES.yes);
+                debug('CCPA', 'Force opt-out because Global Privacy Control is detected');
             } else if (this.hasUserSignal()) {
                 const cookieOptOut = this.getPrivacyStringCookie().split('')[2];
 
