@@ -117,6 +117,8 @@ export function ensureGeoCookie() {
                         continent: geoResponse.continent_code,
                         country: geoResponse.country_code,
                         region: geoResponse.region,
+                        city: geoResponse.city,
+                        country_name: geoResponse.country_name
                     });
                 }
             };
