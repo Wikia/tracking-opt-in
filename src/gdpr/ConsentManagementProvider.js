@@ -5,6 +5,7 @@ import { CmpApi } from '@iabtcf/cmpapi';
 import { GVL, TCModel, TCString, VendorList } from '@iabtcf/core';
 import { default as installCMPStub } from '@iabtcf/stub';
 
+import { AC_VENDORS } from '../shared/consts';
 import { debug, getCookieDomain, getJSON } from '../shared/utils';
 
 export const CMP_VERSION = 4; // Increment to force modal again
@@ -78,7 +79,17 @@ class ConsentManagementProvider {
     }
 
     initialize() {
+        const addtlConsentMiddleware = (next, tcData, status) => {
+            if (typeof tcData !== 'boolean') {
+                tcData.addtlConsent = `1~${AC_VENDORS.join('.')}`;
+            }
+
+            next(tcData, status);
+        };
+
         this.cmpApi = new CmpApi(CMP_ID, CMP_VERSION, true, {
+            'getTCData': addtlConsentMiddleware,
+            'getInAppTCData': addtlConsentMiddleware,
             'isGalactusAllowed': (callback) => {
                 window.__tcfapi('addEventListener', 2, (tcData, success) => {
                     if (!['tcloaded', 'useractioncomplete'].includes(tcData.eventStatus)) {

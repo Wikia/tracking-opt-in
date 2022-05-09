@@ -180,6 +180,15 @@ export const IAB_VENDORS = [
 ];
 
 /*
+  Google’s Additional Consent Ad Tech Provider (ATP) IDs
+  The IDs are taken from https://storage.googleapis.com/tcfac/additional-consent-providers.csv
+  Last update:     2022-05-09
+ */
+export const AC_VENDORS = [
+    2822, // Adjust GmbH
+];
+
+/*
   Fandom's internal projects that are not affiliated with IAB,
   but they have to be listed and receive user's consent
   Last update:     2021-10-29
