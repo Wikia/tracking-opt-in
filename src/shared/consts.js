@@ -87,6 +87,7 @@ export const IAB_VENDORS = [
     508, // Lucid Holdings, LLC
     102, // Magnite, Inc. (Outstream)
     228, // McCann Discipline LTD
+    142, // Media.net Advertising FZ-LLC
     79,  // MediaMath, Inc.
     152, // Meetrics
     703, // MindTake Research
