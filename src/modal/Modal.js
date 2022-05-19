@@ -8,6 +8,7 @@ import styles from './styles.scss';
 class Modal extends Component {
     state = {
         consentedVendors: this.props.options.enabledVendors,
+        consentedProviders: this.props.options.enabledProviders,
         consentedPurposes: this.props.options.enabledPurposes,
         consentedSpecialFeatures: this.props.options.enabledSpecialFeatures,
         isScreenOne: true,
@@ -59,7 +60,12 @@ class Modal extends Component {
         this.props.optInManager.setTrackingAccepted();
         this.props.onRequestAppRemove();
         // Pass in all originally enabled vendors and purposes
-        this.props.onAcceptTracking(this.props.options.enabledVendors, this.props.options.enabledPurposes, this.props.options.enabledSpecialFeatures);
+        this.props.onAcceptTracking(
+            this.props.options.enabledVendors,
+            this.props.options.enabledPurposes,
+            this.props.options.enabledSpecialFeatures,
+            this.props.options.enabledProviders
+        );
     };
 
     learnMore = () => {
@@ -83,10 +89,20 @@ class Modal extends Component {
         // ToDo: make GVL change resistant
         if (this.state.consentedPurposes.length >= 10) {
             this.props.optInManager.setTrackingAccepted();
-            this.props.onAcceptTracking(this.state.consentedVendors, this.state.consentedPurposes, this.state.consentedSpecialFeatures);
+            this.props.onAcceptTracking(
+                this.state.consentedVendors,
+                this.state.consentedPurposes,
+                this.state.consentedSpecialFeatures,
+                this.state.consentedProviders
+            );
         } else {
             this.props.optInManager.setTrackingRejected();
-            this.props.onRejectTracking(this.state.consentedVendors, this.state.consentedPurposes, this.state.consentedSpecialFeatures);
+            this.props.onRejectTracking(
+                this.state.consentedVendors,
+                this.state.consentedPurposes,
+                this.state.consentedSpecialFeatures,
+                this.state.consentedProviders
+            );
         }
     };
 
@@ -99,9 +115,13 @@ class Modal extends Component {
         this.setState({consentedVendors: vendors, consentedSpecialFeatures: specialFeatures});
     };
 
+    updateProviders = (providers) => {
+        this.setState({consentedProviders: providers});
+    };
+
     render(props, state) {
         const { options, content, language, tracker } = props;
-        const { isScreenOne, consentedPurposes, consentedVendors, consentedSpecialFeatures } = state;
+        const { isScreenOne, consentedPurposes, consentedVendors, consentedProviders, consentedSpecialFeatures } = state;
 
         if (isScreenOne) {
             return (
@@ -117,15 +137,18 @@ class Modal extends Component {
                 <Preferences
                     allPurposes={options.enabledPurposes}
                     allVendors={options.enabledVendors}
+                    allProviders={options.enabledProviders}
                     appOptions={options}
                     clickBack={this.back}
                     clickSave={this.save}
                     consentedVendors={consentedVendors}
+                    consentedProviders={consentedProviders}
                     consentedPurposes={consentedPurposes}
                     consentedSpecialFeatures={consentedSpecialFeatures}
                     content={content}
                     language={language}
                     tracker={tracker}
+                    updateProviders={this.updateProviders}
                     updatePurposes={this.updatePurposes}
                     updateSpecialFeatures={this.updateSpecialFeatures}
                 />

@@ -154,6 +154,14 @@ class Tracker {
     trackInternalUseExpandClick() {
         this.trackClick('internal-use-expand');
     }
+
+    trackAdditionalConsentExpandClick() {
+        this.trackClick('additional-consent-expand');
+    }
+
+    trackAdditionalConsentProviderToggleClick(id) {
+        this.trackClick(`additional-consent-provider-toggle-${id}`);
+    }
 }
 
 export default Tracker;

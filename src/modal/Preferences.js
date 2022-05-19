@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import { INTERNAL_USE } from '../shared/consts';
+import AdditionalConsent from './AdditionalConsent';
 import InternalUse from './InternalUse';
 import PreferencesSection from './PreferencesSection';
 
@@ -21,8 +22,9 @@ class Preferences extends Component {
 
     componentWillMount() {
         if (!this.state.purposes && !this.state.features) {
-            const { consentedVendors, language, updatePurposes, updateSpecialFeatures } = this.props;
+            const { consentedVendors, language, updatePurposes, updateProviders, updateSpecialFeatures } = this.props;
 
+            updateProviders([]);
             updatePurposes(consentedVendors, []);
             updateSpecialFeatures(consentedVendors, []);
 
@@ -169,7 +171,18 @@ class Preferences extends Component {
     }
 
     render(props, state) {
-        const { appOptions, consentedPurposes, consentedSpecialFeatures, consentedVendors, content, clickBack, clickSave, tracker } = props;
+        const {
+            appOptions,
+            consentedPurposes,
+            consentedSpecialFeatures,
+            consentedVendors,
+            consentedProviders,
+            content,
+            clickBack,
+            clickSave,
+            tracker,
+            updateProviders
+        } = props;
         const { purposes, specialFeatures } = state;
 
         return (
@@ -204,6 +217,13 @@ class Preferences extends Component {
                         {this.renderPurposesPreferenceSections(purposes)}
                         <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.specialFeaturesHeader}</h2>
                         {this.renderSpecialFeaturesPreferenceSections(specialFeatures)}
+                        <h2 className={`${styles.heading} ${styles.preferencesSubheading}`}>{content.additionalConsentHeader}</h2>
+                        <AdditionalConsent
+                            content={content}
+                            consentedProviders={consentedProviders}
+                            tracker={tracker}
+                            updateProviders={updateProviders}
+                        />
                     </div>
                     <div className={globalStyles.footer}>
                         {/* These buttons are divs so that their styles aren't overridden */}

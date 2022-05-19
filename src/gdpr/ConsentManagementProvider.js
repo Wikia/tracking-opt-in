@@ -5,7 +5,7 @@ import { CmpApi } from '@iabtcf/cmpapi';
 import { GVL, TCModel, TCString, VendorList } from '@iabtcf/core';
 import { default as installCMPStub } from '@iabtcf/stub';
 
-import { AC_VENDORS } from '../shared/consts';
+import { AC_PROVIDERS } from '../shared/consts';
 import { debug, getCookieDomain, getJSON } from '../shared/utils';
 
 export const CMP_VERSION = 4; // Increment to force modal again
@@ -17,6 +17,7 @@ export const API_STATUS = {
 const CMP_ID = 141;
 const CMP_DEFAULT_LANGUAGE = 'en';
 const VENDOR_CONSENT_COOKIE_NAME = 'euconsent-v2';
+const PROVIDER_CONSENT_COOKIE_NAME = 'addtl_consent';
 const VENDOR_LIST_URL_BASE = 'https://script.wikia.nocookie.net/fandom-ae-assets/tcf/v2/';
 const VENDOR_LIST_FILE_NAME = 'vendor-list.json';
 const VENDOR_LIST_VERSION_NAME = 'archives/vendor-list-v[VERSION].json';
@@ -81,7 +82,7 @@ class ConsentManagementProvider {
     initialize() {
         const addtlConsentMiddleware = (next, tcData, status) => {
             if (typeof tcData !== 'boolean') {
-                tcData.addtlConsent = `1~${AC_VENDORS.join('.')}`;
+                tcData.addtlConsent = this.acString;
             }
 
             next(tcData, status);
@@ -142,6 +143,7 @@ class ConsentManagementProvider {
         debug('GDPR', 'Uninstalled');
 
         this.options = getDefaultOptions();
+        this.setProviderConsentCookie(null);
         this.setVendorConsentCookie(null);
         delete window.__tcfapi;
     }
@@ -149,6 +151,7 @@ class ConsentManagementProvider {
     unmount() {
         debug('GDPR', 'Unmounted');
 
+        this.setProviderConsentCookie(null);
         this.setVendorConsentCookie(null);
         delete window.__tcfapi;
 
@@ -195,11 +198,15 @@ class ConsentManagementProvider {
         }
 
         return this.loaded.then(() => {
-            this.tcString = this.createConsent();
+            const consentStrings = this.createConsent();
+
+            this.acString = consentStrings[0];
+            this.tcString = consentStrings[1];
 
             if (!this.hasUserConsent()) {
                 debug('GDPR', 'Cookie not found - saving');
 
+                this.setProviderConsentCookie(this.acString);
                 this.setVendorConsentCookie(this.tcString);
             }
 
@@ -209,17 +216,18 @@ class ConsentManagementProvider {
     }
 
     createConsent() {
+        let acString = this.getProviderConsentCookie();
         let tcString = this.getVendorConsentCookie();
 
-        if (tcString) {
-            debug('GDPR', 'TCString read from cookie', tcString, TCString.decode(tcString));
+        if (acString && tcString) {
+            debug('GDPR', 'ACString and TCString read from cookie', acString, tcString, TCString.decode(tcString));
 
-            return tcString;
+            return [acString, tcString];
         }
 
         const gvList = new GVL(this.vendorList);
         const tcModel = new TCModel(gvList);
-        const { allowedVendorPurposes, allowedSpecialFeatures, allowedVendors, consentScreen, language } = this.options;
+        const { allowedVendorPurposes, allowedSpecialFeatures, allowedVendors, allowedProviders, consentScreen, language } = this.options;
 
         tcModel.cmpId = CMP_ID;
         tcModel.cmpVersion = CMP_VERSION;
@@ -234,17 +242,22 @@ class ConsentManagementProvider {
         tcModel.purposeLegitimateInterests.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
         tcModel.vendorLegitimateInterests.set(Array.isArray(allowedVendors) ? allowedVendors : []);
 
-        debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes, ' and special feature options', allowedSpecialFeatures);
+        debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes, ' and special feature options', allowedSpecialFeatures, ' and providers', allowedProviders);
 
+        acString = `1~${allowedProviders.join('.')}`;
         tcString = TCString.encode(tcModel);
 
-        debug('GDPR', 'Consent string created', tcString);
+        debug('GDPR', 'Consent strings created', acString, tcString);
 
-        return tcString;
+        return [acString, tcString];
     }
 
     getVendorConsentCookie() {
         return Cookies.get(VENDOR_CONSENT_COOKIE_NAME) || '';
+    }
+
+    getProviderConsentCookie() {
+        return Cookies.get(PROVIDER_CONSENT_COOKIE_NAME) || '';
     }
 
     setVendorConsentCookie(consentString) {
@@ -257,8 +270,18 @@ class ConsentManagementProvider {
         }
     }
 
+    setProviderConsentCookie(consentString) {
+        const cookieAttributes = this.options.cookieAttributes;
+
+        if (consentString) {
+            Cookies.set(PROVIDER_CONSENT_COOKIE_NAME, consentString, cookieAttributes);
+        } else {
+            Cookies.remove(PROVIDER_CONSENT_COOKIE_NAME, cookieAttributes);
+        }
+    }
+
     hasUserConsent() {
-        return !!this.getVendorConsentCookie();
+        return !!this.getVendorConsentCookie() && !!this.getProviderConsentCookie();
     }
 
     /**

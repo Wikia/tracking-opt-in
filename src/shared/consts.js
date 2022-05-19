@@ -185,8 +185,12 @@ export const IAB_VENDORS = [
   The IDs are taken from https://storage.googleapis.com/tcfac/additional-consent-providers.csv
   Last update:     2022-05-09
  */
-export const AC_VENDORS = [
-    2822, // Adjust GmbH
+export const AC_PROVIDERS = [
+    {
+        id: 2822,
+        name: 'Adjust GmbH',
+        policyUrl: 'https://www.adjust.com/terms/privacy-policy/',
+    }
 ];
 
 /*
