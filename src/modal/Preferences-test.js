@@ -11,14 +11,20 @@ const document = global.document;
 const mockData = {
     allPurposes: [1, 2, 3],
     allVendors: [66, 77, 88, 99],
+    allProviders: [44, 55],
     allSpecialFeatures: [1, 2],
     consentedPurposes: [1, 2],
     consentedVendors: [77, 99],
+    consentedProviders: [77],
     consentedSpecialFeatures: [1],
 };
 
 function findByQuery(wrapper, query) {
     return wrapper.querySelector(query) || document.createElement('div');
+}
+
+function updateProviders(consentedProviders) {
+    mockData.consentedProviders = consentedProviders;
 }
 
 function updatePurposes(consentedVendors, consentedPurposes) {
@@ -41,16 +47,19 @@ describe('Preferences', () => {
         return render(h(Preferences, {
             allPurposes: mockData.allPurposes,
             allVendors: mockData.allVendors,
+            allProviders: mockData.allProviders,
             allSpecialFeatures: mockData.allSpecialFeatures,
             appOptions: {
                 zIndex: 2,
             },
             clickBack: callbacks.clickBack || noop,
             clickSave: callbacks.clickSave || noop,
+            consentedProviders: mockData.consentedProviders,
             consentedPurposes: mockData.consentedPurposes,
             consentedVendors: mockData.consentedVendors,
             consentedSpecialFeatures: mockData.consentedSpecialFeatures,
             content: i18nContent,
+            updateProviders,
             updatePurposes,
             updateSpecialFeatures,
         }), document.body);
