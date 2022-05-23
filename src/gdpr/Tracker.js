@@ -107,6 +107,10 @@ class Tracker {
         this.trackImpression('no-cookie');
     }
 
+    trackGpcImpression() {
+        this.trackImpression('gpc');
+    }
+
     trackPrivacyPolicyClick() {
         this.trackClick('privacy-policy');
     }
