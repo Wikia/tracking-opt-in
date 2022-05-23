@@ -25,7 +25,6 @@ class ConsentManagementPlatform {
         this.options = options;
         this.location = location;
         this.isReset = false;
-        this.pvUID = uuidv4();
     }
 
     removeApp = () => {
@@ -37,10 +36,11 @@ class ConsentManagementPlatform {
     };
 
     // Non-IAB tracking is accepted. Some or all IAB vendors or purposes _may_ be accepted
-    onAcceptTracking = (allowedVendors, allowedPurposes, allowedSpecialFeatures) => {
+    onAcceptTracking = (allowedVendors, allowedPurposes, allowedSpecialFeatures, allowedProviders) => {
         this.setTrackingCookies();
         this.consentManagementProvider.configure({
             allowedVendors: allowedVendors,
+            allowedProviders: allowedProviders,
             allowedVendorPurposes: allowedPurposes,
             allowedSpecialFeatures: allowedSpecialFeatures
         });
@@ -52,9 +52,10 @@ class ConsentManagementPlatform {
     };
 
     // Non-IAB tracking is rejected. Some or all IAB vendors or purposes _may_ be accepted
-    onRejectTracking = (allowedVendors, allowedPurposes, allowedSpecialFeatures) => {
+    onRejectTracking = (allowedVendors, allowedPurposes, allowedSpecialFeatures, allowedProviders) => {
         this.consentManagementProvider.configure({
             allowedVendors: allowedVendors,
+            allowedProviders: allowedProviders,
             allowedVendorPurposes: allowedPurposes,
             allowedSpecialFeatures: allowedSpecialFeatures
         });
@@ -109,13 +110,13 @@ class ConsentManagementPlatform {
     }
 
     isOnWhiteListedPage() {
-        const {host, pathname, search} = this.location;
+        const { host, pathname, search } = this.location;
 
         if (this.isReset || search.includes('withdrawConsent=true')) {
             return false;
         }
 
-        const {content} = this.contentManager;
+        const { content } = this.contentManager;
         const privacyParsedUrl = parseUrl(content.privacyPolicyUrl);
         const partnerParsedUrl = parseUrl(content.partnerListUrl);
 
@@ -184,6 +185,7 @@ class ConsentManagementPlatform {
             // ToDo: get rid of hardcoded list of purposes during cleanup
             enabledPurposes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             enabledVendors: this.options.enabledVendors,
+            enabledProviders: this.options.enabledProviders,
             enabledSpecialFeatures: [1, 2],
             zIndex: this.options.zIndex,
             preventScrollOn: this.options.preventScrollOn,

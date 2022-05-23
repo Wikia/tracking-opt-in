@@ -1,4 +1,4 @@
-import { SESSION_COOKIES, IAB_VENDORS } from './shared/consts';
+import { AC_PROVIDERS, IAB_VENDORS, SESSION_COOKIES } from './shared/consts';
 import ContentManager from './shared/ContentManager';
 import GeoManager, { ensureGeoCookie } from './shared/GeoManager';
 import LanguageManager from './shared/LangManager';
@@ -20,6 +20,7 @@ export const DEFAULT_OPTIONS = {
     country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
     enabledVendors: IAB_VENDORS, // array of IAB CMP vendor IDs
+    enabledProviders: AC_PROVIDERS.map((provider) => provider.id), // array of AC providers IDs
     language: null,
     queryParamName: null,
     preventScrollOn: 'body',
@@ -52,6 +53,7 @@ function initializeGDPR(options) {
         preventScrollOn,
         enabledVendorPurposes,
         enabledVendors,
+        enabledProviders,
         isCurse,
         ...depOptions
     } = Object.assign({}, DEFAULT_OPTIONS, options);
@@ -76,6 +78,7 @@ function initializeGDPR(options) {
 
     if (optInManager.checkCookieVersion() || consentManagementProvider.isWithdrawingConsent()) {
         consentManagementProvider.setVendorConsentCookie(null);
+        consentManagementProvider.setProviderConsentCookie(null);
     }
 
     const instance = new ConsentManagementPlatform(
@@ -89,6 +92,7 @@ function initializeGDPR(options) {
             preventScrollOn,
             zIndex,
             enabledVendors,
+            enabledProviders,
             onAcceptTracking,
             onRejectTracking,
             onConsentsReady,

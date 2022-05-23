@@ -10,6 +10,10 @@ class Consented {
     static isConsentedVendor(vendorId, props) {
         return props.consentedVendors.includes(vendorId);
     }
+
+    static isConsentedProvider(providerId, props) {
+        return props.consentedProviders.includes(providerId);
+    }
 }
 
 export default Consented;
