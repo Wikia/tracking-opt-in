@@ -80,7 +80,7 @@ class ConsentManagementProvider {
 
     initialize() {
         const addtlConsentMiddleware = (next, tcData, status) => {
-            if (typeof tcData !== 'boolean') {
+            if (tcData && typeof tcData !== 'boolean') {
                 tcData.addtlConsent = this.acString;
             }
 

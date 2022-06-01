@@ -7,15 +7,15 @@
   resolved "https://registry.yarnpkg.com/@iabtcf/cmpapi/-/cmpapi-1.3.1.tgz#0be83b8694491d91174b4a8e7993f110f100b705"
   integrity sha512-t60awD6WJTK/VVOB3dIyQXcYrZ5sjuRas9pbGAOLfYv3s57oIq6Qa8clEG1ordHVDXWPBbcafygcDh2EH48bDw==
 
-"@iabtcf/core@v1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@iabtcf/core/-/core-1.3.1.tgz#7286aa2a05cba1fbef8268d8ef9e8a243d7890e0"
-  integrity sha512-t3ZvQRXLhoze2cx15mZMt5wUVhj+q3CoXtSSdZuVbrEbnyzFJ6uW0fxr5dmH1vRud7QYGRXqjhCBL7Yr46VRpA==
+"@iabtcf/core@v1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@iabtcf/core/-/core-1.4.0.tgz#b5cd782ba86da44efaad8f26c909ec6ea68dc799"
+  integrity sha512-LfyscG/rNhw542MX4pNSBPzK3ddHDYB8cz7pNTOI6D664x7jJmVZjkRmw8X/h9yGQ2c0a/1AP9F8n5/UsxKjeA==
 
-"@iabtcf/stub@v1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.3.1.tgz#56a704a7123b4dc57ad684d8e0faa47fe6eb11e7"
-  integrity sha512-mT39WLn/aRdxqA+3wEUCRElgunCYCqWeUrFLl1wTS8K91iMAIFgVH1It0DHYhy0goKQUSkJ+E8MurcSKgpRmCw==
+"@iabtcf/stub@v1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@iabtcf/stub/-/stub-1.4.0.tgz#49e7a920d3ab5356dfc1f909860036a499d52202"
+  integrity sha512-TPspVaebewXPga0rtmNUqtidBz84e+8I08CJz8kup6VCVVNuORvBFAcTPcHV6tz+NaOW5mfAHsaXARVou1q+Gg==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
