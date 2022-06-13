@@ -165,6 +165,10 @@ class ConsentManagementPlatform {
 
                 this.checkUserConsent();
             });
+
+        if (window.navigator.globalPrivacyControl) {
+            this.tracker.trackGpcImpression();
+        }
     }
 
     checkUserConsent() {
@@ -174,7 +178,6 @@ class ConsentManagementPlatform {
                 break;
             case false:
                 if (window.navigator.globalPrivacyControl) {
-                    this.tracker.trackGpcImpression();
                     this.onRejectTracking([], [], [], []);
                 } else {
                     this.onRejectTracking();
