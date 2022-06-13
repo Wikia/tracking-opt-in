@@ -98,7 +98,7 @@ class ConsentManagementPlatform {
             return false;
         } else if (!this.geoRequiresTrackingConsent()) {
             return true;
-        } else if (window.navigator.globalPrivacyControl) {
+        } else if (this.isGpcEnabled()) {
             return false;
         } else if (hasConsentCookie && this.optInManager.hasAcceptedTracking()) {
             return true;
@@ -166,7 +166,7 @@ class ConsentManagementPlatform {
                 this.checkUserConsent();
             });
 
-        if (window.navigator.globalPrivacyControl) {
+        if (this.isGpcEnabled()) {
             this.tracker.trackGpcImpression();
         }
     }
@@ -177,7 +177,7 @@ class ConsentManagementPlatform {
                 this.onAcceptTracking();
                 break;
             case false:
-                if (window.navigator.globalPrivacyControl) {
+                if (this.isGpcEnabled()) {
                     this.onRejectTracking([], [], [], []);
                 } else {
                     this.onRejectTracking();
@@ -240,6 +240,14 @@ class ConsentManagementPlatform {
         };
 
         return getNewTrackingValues(cookies);
+    }
+
+    isGpcEnabled() {
+        try {
+            return window.navigator && window.navigator.globalPrivacyControl;
+        } catch(err) {
+            console.error(new Error(`'GDPR - GPC check error'));
+        }
     }
 }
 
