@@ -96,10 +96,10 @@ class ConsentManagementPlatform {
 
         if (this.isOnWhiteListedPage()) {
             return false;
-        } else if (this.geoRequiresTrackingConsent() && window.navigator.globalPrivacyControl) {
-            return false;
         } else if (!this.geoRequiresTrackingConsent()) {
             return true;
+        } else if (window.navigator.globalPrivacyControl) {
+            return false;
         } else if (hasConsentCookie && this.optInManager.hasAcceptedTracking()) {
             return true;
         } else if (hasConsentCookie && this.optInManager.hasRejectedTracking()) {
