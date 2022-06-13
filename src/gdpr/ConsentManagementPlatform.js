@@ -96,6 +96,8 @@ class ConsentManagementPlatform {
 
         if (this.isOnWhiteListedPage()) {
             return false;
+        } else if (window.navigator.globalPrivacyControl) {
+            return false;
         } else if (!this.geoRequiresTrackingConsent()) {
             return true;
         } else if (hasConsentCookie && this.optInManager.hasAcceptedTracking()) {
@@ -171,7 +173,11 @@ class ConsentManagementPlatform {
                 this.onAcceptTracking();
                 break;
             case false:
-                this.onRejectTracking();
+                if (window.navigator.globalPrivacyControl) {
+                    this.onRejectTracking([], [], [], []);
+                } else {
+                    this.onRejectTracking();
+                }
                 break;
             default:
                 if (!isParameterSet('mobile-app')) {
