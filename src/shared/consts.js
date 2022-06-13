@@ -189,7 +189,12 @@ export const AC_PROVIDERS = [
     {
         id: 2822,
         name: 'Adjust GmbH',
-        policyUrl: 'https://www.adjust.com/terms/privacy-policy/',
+        policyUrl: 'https://www.adjust.com/terms/gdpr/',
+    },
+    {
+        id: 3116,
+        name: 'Gamesight',
+        policyUrl: 'https://console.gamesight.io/privacy-policy',
     }
 ];
 
