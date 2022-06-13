@@ -96,7 +96,7 @@ class ConsentManagementPlatform {
 
         if (this.isOnWhiteListedPage()) {
             return false;
-        } else if (window.navigator.globalPrivacyControl) {
+        } else if (this.geoRequiresTrackingConsent() && window.navigator.globalPrivacyControl) {
             return false;
         } else if (!this.geoRequiresTrackingConsent()) {
             return true;
