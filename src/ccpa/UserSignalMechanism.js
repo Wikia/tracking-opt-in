@@ -99,6 +99,7 @@ class UserSignalMechanism {
 
     constructor(options) {
         this.options = Object.assign(getDefaultOptions(), options);
+        this.tracker = options.tracker;
         this.uspapiCommands = [
             this.ping,
             this.getUSPData,
@@ -220,6 +221,7 @@ class UserSignalMechanism {
                 debug('CCPA', 'Force opt-out because user is subject to COPPA');
             } else if (navigator.globalPrivacyControl) {
                 privacyString = this.createPrivacyString(USP_VALUES.yes);
+                this.tracker.trackGpcImpression();
                 debug('CCPA', 'Force opt-out because Global Privacy Control is detected');
             } else if (this.hasUserSignal()) {
                 const cookieOptOut = this.getPrivacyStringCookie().split('')[2];

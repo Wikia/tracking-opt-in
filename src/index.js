@@ -113,9 +113,12 @@ function initializeCCPA(options) {
     } = Object.assign({}, DEFAULT_CCPA_OPTIONS, options);
 
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
+    const langManager = new LanguageManager(depOptions.language);
+    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
     const userSignalMechanism = new UserSignalMechanism({
         ccpaApplies: geoManager.needsUserSignal(),
         isSubjectToCcpa: options.isSubjectToCoppa === undefined ? options.isSubjectToCcpa : options.isSubjectToCoppa,
+        tracker
     });
 
     userSignalMechanism.install();

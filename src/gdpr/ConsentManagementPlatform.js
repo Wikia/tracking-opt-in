@@ -174,6 +174,7 @@ class ConsentManagementPlatform {
                 break;
             case false:
                 if (window.navigator.globalPrivacyControl) {
+                    this.tracker.trackGpcImpression();
                     this.onRejectTracking([], [], [], []);
                 } else {
                     this.onRejectTracking();
