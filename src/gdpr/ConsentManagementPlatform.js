@@ -243,11 +243,7 @@ class ConsentManagementPlatform {
     }
 
     isGpcEnabled() {
-        try {
-            return window.navigator && window.navigator.globalPrivacyControl;
-        } catch(err) {
-            console.error(new Error(`'GDPR - GPC check error'));
-        }
+        return window.navigator && window.navigator.globalPrivacyControl;
     }
 }
 
