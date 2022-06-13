@@ -18,7 +18,6 @@ class Modal extends Component {
         this.props.tracker.trackViewImpression();
         this.preventScroll();
         this.checkForCookie();
-        this.checkForGpc();
     }
 
     componentWillUnmount() {
@@ -52,12 +51,6 @@ class Modal extends Component {
     checkForCookie() {
         if(!this.props.geoManager.hasGeoCookie()) {
             this.props.tracker.trackNoCookieImpression();
-        }
-    }
-
-    checkForGpc() {
-        if (window.navigator.globalPrivacyControl) {
-            this.props.tracker.trackGpcImpression()
         }
     }
 
