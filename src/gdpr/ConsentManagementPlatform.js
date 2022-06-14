@@ -98,6 +98,8 @@ class ConsentManagementPlatform {
             return false;
         } else if (!this.geoRequiresTrackingConsent()) {
             return true;
+        } else if (this.isGpcEnabled()) {
+            return false;
         } else if (hasConsentCookie && this.optInManager.hasAcceptedTracking()) {
             return true;
         } else if (hasConsentCookie && this.optInManager.hasRejectedTracking()) {
@@ -163,6 +165,10 @@ class ConsentManagementPlatform {
 
                 this.checkUserConsent();
             });
+
+        if (this.isGpcEnabled()) {
+            this.tracker.trackGpcImpression();
+        }
     }
 
     checkUserConsent() {
@@ -171,7 +177,11 @@ class ConsentManagementPlatform {
                 this.onAcceptTracking();
                 break;
             case false:
-                this.onRejectTracking();
+                if (this.isGpcEnabled()) {
+                    this.onRejectTracking([], [], [], []);
+                } else {
+                    this.onRejectTracking();
+                }
                 break;
             default:
                 if (!isParameterSet('mobile-app')) {
@@ -230,6 +240,10 @@ class ConsentManagementPlatform {
         };
 
         return getNewTrackingValues(cookies);
+    }
+
+    isGpcEnabled() {
+        return window.navigator && window.navigator.globalPrivacyControl;
     }
 }
 
