@@ -16,6 +16,7 @@
         "Fandom y sus socios usan cookies para almacenar y recopilar información de tu navegador para personalizar el contenido y los anuncios, proporcionar funcionalidades de redes sociales y analizar nuestro tráfico. Puedes definir tus preferencias y dar o modificar tu consentimiento para los fines y proveedores que se enumeran a continuación. Además, como se indica a continuación, algunas empresas procesan información sin tu consentimiento en función de su legítimo interés o el nuestro (como para ayudarnos en el análisis del tráfico del sitio web y para analizar mejoras en nuestro sitio). Puedes acceder a sus políticas de privacidad para obtener más información.",
         "Para obtener más información sobre las cookies que usamos, consulta nuestra %privacyPolicy%. Para obtener información sobre los socios que usan cookies en nuestro sitio, consulta %partnerList%."
     ],
+    "additionalConsentHeader": "Consentimiento adicional socios",
     "internalUseHeader": "Para uso interno de Fandom",
     "internalUseProject1": "Personalización del contenido",
     "purposesHeader": "Propósitos de nuestros socios",
