@@ -1,9 +1,9 @@
 {
-    "mainHeadline": "本網站使用Cookie",
+    "mainHeadline": "本網站使用cookie",
     "mainBody": [
-        "Fandom以及我們的合作夥伴將使用Cookie儲存和收集來自您瀏覽器的資訊，從而個人化內容和廣告，提供社交媒體功能，以及分析網站流量。",
-        "依據我們的隱私政策，您可以透過按下面的「%acceptButton%」基於您的許可同意我們使用cookie和技術。如果同意，您將允許我們和我們的合作夥伴收集個人資料，例如您在我們網站上瀏覽的歷史記錄和IP位址以提供符合您興趣的廣告，存儲和/或造訪設備上的資料，選擇基本廣告，創建訂製廣告配置文檔，選擇訂製廣告，創建訂製內容配置文檔，選擇訂製內容，衡量廣告績效，衡量內容績效，應用市場調查以生成用戶意見，開發和改進產品，確保安全性，防止欺詐，進行軟體調試，技術性投放廣告或內容，匹配和組合離線數據，連接到不同的設備，接收和使用自動發送的設備屬性進行識別，使用精確的地理位置資料，主動掃描設備屬性以進行識別。",
-        "關於其他選項，請選擇「%learnMoreButton%」。請注意，如果您選擇不接受，您可能會看到與您興趣不符合的廣告，並且網站的某些功能可能無法正常工作。您可以透過瀏覽器中的「清除Cookie」功能隨時改變主意並重新保存這些選項（這將在您下次訪問我們的網站時發起提示並徵求您的同意）。有關我們使用Cookie方面的訊息以及我們網站上使用Cookie的合作夥伴，請查閱我們的「%privacyPolicy%」和「%partnerList%」。"
+        "Fandom以及我們的合作夥伴將使用cookie儲存並收集來自您瀏覽器的資訊，從而個人化內容和廣告，提供社交媒體功能，以及分析網站流量。",
+        "依據我們的隱私政策，您可以透過點擊下方的「%acceptButton%」基於您的許可同意我們使用cookie和技術。如果同意，您將允許我們和我們的合作夥伴收集個人資料，例如您在我們網站上瀏覽的歷史記錄和IP位址以提供符合您興趣的廣告、儲存和/或存取裝置上的資訊、選擇基本廣告、建立個人化廣告檔案、選擇個人化廣告、建立個人化內容檔案、選擇個人化內容、衡量廣告成效、衡量內容成效、套用市場調查以產生受眾意見、開發和改善產品、確保安全性、防止詐騙、進行軟體除錯、技術性投放廣告或內容、匹配和組合離線資料源、連結不同裝置、接收和使用自動傳送的裝置屬性進行識別、使用精確的地理位置資料、主動掃描裝置屬性以進行識別。",
+        "關於其他選項，請選擇「%learnMoreButton%」。請注意，如果您選擇不接受，您可能會看到與您興趣不符的廣告，並且網站的某些功能可能無法正常運作。您可以透過瀏覽器的「清除cookie」功能隨時改變主意並重新儲存這些選項（這將在您下次造訪我們網站時跳出提示並徵求您的同意）。有關我們使用cookie方面的資訊以及我們網站上使用cookie的合作夥伴，請分別查閱我們的「%privacyPolicy%」和「%partnerList%」。"
     ],
     "acceptButton": "同意",
     "backButton": "返回",
@@ -13,11 +13,12 @@
     "partnerListButton": "合作夥伴清單",
     "preferencesHeadline": "偏好設定",
     "preferencesBody": [
-        "Fandom及其合作夥伴透過您的瀏覽器使用Cookie儲存和處理資訊個人化內容和廣告，並提供社交媒體功能以及分析流量資料。您可以設定您的偏好，並根據以下所列出的目的和合作商條款內容選擇同意或者拒絕。此外，如下所述，一些公司會未經您的同意收集資訊，這是基於他們或我們的合法權益（例如幫助我們分析網站流量以及提升網站）。您可以造訪他們的隱私政策瞭解更多資訊。",
-        "關於我們使用Cookie的更多資訊，請造訪我們的%privacyPolicy%。關於我們合作夥伴在我們網站上使用Cookie的資訊，請造訪%partnerList%。"
+        "Fandom及其合作夥伴透過您的瀏覽器使用cookie儲存和處理資訊以個人化內容與廣告、提供社交媒體功能並分析流量資料。您可以設定您的偏好並根據下列目的和合作商條款內容選擇同意或拒絕。此外，如下所述，一些公司會未經您的同意收集資訊，這是基於他們或我們的合法權益（例如協助我們分析網站流量以及改善網站）。您可以造訪他們的隱私政策瞭解更多資訊。",
+        "關於我們使用cookie的更多資訊，請造訪我們的%privacyPolicy%。關於我們合作夥伴在我們網站上使用cookie的資訊，請造訪%partnerList%。"
     ],
+    "additionalConsentHeader": "其他合作夥伴",
     "internalUseHeader": "Fandom內部使用",
-    "internalUseProject1": "內容訂製",
+    "internalUseProject1": "個人化內容",
     "purposesHeader": "我們合作夥伴的目的",
     "specialFeaturesHeader": "我們合作夥伴的特殊功能",
     "vendorsHeader": "我們的合作夥伴",
@@ -39,11 +40,11 @@
     "featuresHeading": "功能",
     "featuresSpecialHeading": "特殊功能",
     "privacyPolicyHeading": "隱私政策",
-    "storageDetailsHeading": "存儲詳細資訊",
-    "storageDetailsNonCookieAccessTrue": "這個供應商正在使用其他儲存方法（例如本地存儲）或正在訪問您設備上的資料。",
-    "storageDetailsNonCookieAccessFalse": "這個供應商使用Cookie作為儲存或訪問您的裝置上資料的方法。",
-    "storageDetailsCookieMaxAge": " Cookie最長存儲時間：",
-    "storageDetailsCookieMaxAgeImmediately": "即時到期",
+    "storageDetailsHeading": "儲存方式詳細資訊",
+    "storageDetailsNonCookieAccessTrue": "此供應商正在使用其他儲存方式（例如本地儲存空間）或正在存取您裝置上的資訊。",
+    "storageDetailsNonCookieAccessFalse": "此供應商使用cookie作為儲存或存取您裝置上資訊的方法。",
+    "storageDetailsCookieMaxAge": "cookie最久儲存時間：",
+    "storageDetailsCookieMaxAgeImmediately": "立即到期",
     "storageDetailsCookieMaxAgeSeconds": "秒",
     "storageDetailsCookieMaxAgeMinutes": "分鐘",
     "storageDetailsCookieMaxAgeHours": "小時",
