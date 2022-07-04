@@ -34,4 +34,12 @@ describe('CookieManager', () => {
         assert.equal(cookieManager.getSessionCookiesValue('wikia_beacon_id').length, 10);
         assert.equal(cookieManager.getSessionCookiesValue('_b2', true).length, 24);
     });
+
+    it('generates strings that are always 10 chars long', () => {
+        it( 'returns always 10 chars long string', () => {
+            const cookieManager = new CookieManager(SESSION_COOKIES);
+
+            assert.equal(cookieManager.generateValue().length, 10, 'generated value is not 10 chars long');
+        });
+    });
 });
