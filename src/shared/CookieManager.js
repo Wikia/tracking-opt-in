@@ -24,11 +24,11 @@ class CookieManager {
         // for users from GDPR countries if they did not give consent for tracking
         // we assign random values to session cookies; should match results of:
         // https://developer.fastly.com/reference/vcl/functions/randomness/randomstr/
-        const charsToPickFrom = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz_';
+        const validCharacters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz_';
 
         let resultValue = '';
-        for(resultValue; resultValue.length < 10;) {
-            resultValue += charsToPickFrom[(Math.random() * charsToPickFrom.length) | 0];
+        while(resultValue.length < 10) {
+            resultValue += validCharacters[(Math.random() * validCharacters.length) | 0];
         }
 
         if (withTimestamp) {
