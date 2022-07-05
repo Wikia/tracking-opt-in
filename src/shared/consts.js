@@ -80,6 +80,7 @@ export const IAB_VENDORS = [
     544, // Kochava
     67,  // LifeStreet
     667, // Liftoff
+    148, // Liveintent Inc.
     97,  // LiveRamp, Inc.
     587, // Localsensor
     109, // LoopMe
