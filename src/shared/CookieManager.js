@@ -24,7 +24,7 @@ class CookieManager {
         // for users from GDPR countries if they did not give consent for tracking
         // we assign random values to session cookies; should match results of:
         // https://developer.fastly.com/reference/vcl/functions/randomness/randomstr/
-        const validCharacters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYTZabcdefghijklmnopqrstuvwxyz_-';
+        const validCharacters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-';
 
         let resultValue = '';
         while(resultValue.length < 10) {
