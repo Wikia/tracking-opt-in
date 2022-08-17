@@ -119,7 +119,6 @@ export const IAB_VENDORS = [
     559, // OTTO
     384, // Pixalate
     140, // Platform161
-    177, // plista GmbH
     762, // Protected Media
     226, // Publicis Media
     76,  // PubMatic, Inc.
