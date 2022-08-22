@@ -29,6 +29,7 @@ export const IAB_VENDORS = [
     793, // Amazon Advertising
     23,  // Amobee
     394, // AudienceProject
+    561, // AuDigent
     63,  // Avocet
     273, // Bannerflow
     335, // Beachfront Media LLC
