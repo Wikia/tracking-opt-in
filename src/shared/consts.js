@@ -152,6 +152,7 @@ export const IAB_VENDORS = [
     104, // Sonobi, Inc
     13,  // Sovrn Holdings Inc
     165, // SpotX, Inc. (SpotX)
+    293, // SpringServe, LLC
     137, // Ströer SSP GmbH (DSP)
     136, // Ströer SSP GmbH (SSP)
     114, // Sublime
