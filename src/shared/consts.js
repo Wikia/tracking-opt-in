@@ -28,6 +28,7 @@ export const IAB_VENDORS = [
     259, // ADYOULIKE SA
     793, // Amazon Advertising
     23,  // Amobee
+    780, // Aniview LTD
     394, // AudienceProject
     561, // AuDigent
     63,  // Avocet
