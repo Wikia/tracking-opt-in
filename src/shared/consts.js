@@ -181,6 +181,8 @@ export const IAB_VENDORS = [
     281, // Wizaly
     32,  // Xandr, Inc. (AppNexus Inc.)
     173, // YieldMo
+    2,   // ATP: Captify Technologies Limited
+    6,   // AdSpirit GmbH
 ];
 
 /*
