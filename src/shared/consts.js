@@ -21,6 +21,7 @@ export const IAB_VENDORS = [
     22,  // Admetrics
     264, // Adobe Advertising Cloud
     565, // Adobe Audience Manager, Adobe Experience Platform
+    6,   // AdSpirit GmbH
     66,  // adsquare GmbH
     827, // AdTriba
     195, // advanced STORE GmbH
@@ -29,6 +30,7 @@ export const IAB_VENDORS = [
     793, // Amazon Advertising
     23,  // Amobee
     780, // Aniview LTD
+    2,   // ATP: Captify Technologies Limited
     394, // AudienceProject
     561, // AuDigent
     63,  // Avocet
@@ -181,8 +183,6 @@ export const IAB_VENDORS = [
     281, // Wizaly
     32,  // Xandr, Inc. (AppNexus Inc.)
     173, // YieldMo
-    2,   // ATP: Captify Technologies Limited
-    6,   // AdSpirit GmbH
 ];
 
 /*
