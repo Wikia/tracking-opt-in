@@ -183,6 +183,25 @@ export const IAB_VENDORS = [
     281, // Wizaly
     32,  // Xandr, Inc. (AppNexus Inc.)
     173, // YieldMo
+    922, // Amnet GmbH
+    983, // Axiom Media Connect
+    610, // Azerion Holding B.V.
+    724, // Between Exchange
+    815, // Blockthrough, Inc.
+    122, // Dentsu London Limited
+    929, // eBay Inc
+    24,  // Epsilon
+    316, // Gamned
+    170, // Goodway Group, Inc.
+    1031,// Havas Media (Artemis Alliance S.L.U.)
+    131, // ID5 Technology Ltd
+    253, // Improve Digital
+    991, // iProspect GmbH
+    972, // Kargo Global Inc.
+    493, // Magnite, Inc. (Carbon AI Limited)
+    1126,// Microsoft Advertising
+    1101,// PIA Advertising GmbH
+    308, // Rockabox Media Ltd t/a Scoota
 ];
 
 /*
