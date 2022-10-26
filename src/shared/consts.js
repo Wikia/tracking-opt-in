@@ -61,7 +61,6 @@ export const IAB_VENDORS = [
     761, // Digiseg
     144, // district m inc.
     754, // DistroScale, Inc.
-    126, // DoubleVerify Inc.
     674, // Duration Media, LLC.
     110, // Dynata LLC
     168, // EASYmedia
@@ -80,7 +79,6 @@ export const IAB_VENDORS = [
     316, // Gamned
     328, // Gemius
     758, // GfK
-    170, // Goodway Group, Inc.
     755, // Google Advertising Products
     98,  // GroupM UK Limited (GroupM)
     61,  // GumGum, Inc.
@@ -191,7 +189,6 @@ export const IAB_VENDORS = [
     423, // travel audience – An Amadeus Company
     88,  // TreSensa
     28,  // TripleLift, Inc.
-    162, // Unruly Group Ltd
     212, // usemax (Emego GmbH)
     1013,// Velocity Made Good LLC
     25,  // Verizon Media EMEA Limited (Oath (EMEA) Limited)
