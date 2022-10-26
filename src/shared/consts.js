@@ -28,17 +28,22 @@ export const IAB_VENDORS = [
     27,  // Adventori
     259, // ADYOULIKE SA
     793, // Amazon Advertising
+    922, // Amnet GmbH
     23,  // Amobee
     780, // Aniview LTD
     2,   // ATP: Captify Technologies Limited
     394, // AudienceProject
     561, // AuDigent
     63,  // Avocet
+    983, // Axiom Media Connect
+    610, // Azerion Holding B.V.
     273, // Bannerflow
     335, // Beachfront Media LLC
     12,  // Beeswax
+    724, // Between Exchange
     128, // BIDSWITCH GmbH
     94,  // Blis Media
+    815, // Blockthrough, Inc.
     156, // Centro
     315, // Celtra, Inc.
     734, // Cint
@@ -52,16 +57,18 @@ export const IAB_VENDORS = [
     298, // Cuebiq Inc.
     209, // Delta Projects
     707, // Dentsu Aegis Network
+    122, // Dentsu London Limited
     761, // Digiseg
     144, // district m inc.
     754, // DistroScale, Inc.
-    126, // DoubleVerify Inc.
     674, // Duration Media, LLC.
     110, // Dynata LLC
     168, // EASYmedia
+    929, // eBay Inc
     688, // Effinity
     213, // emetriq
     853, // Ensighten
+    24,  // Epsilon
     312, // Exactag
     1,   // Exponential
     120, // Eyeota Ptd Ltd
@@ -69,18 +76,24 @@ export const IAB_VENDORS = [
     78,  // Flashtalking, Inc.
     119, // FUSIO BY S4M
     1055,// Gamesight Inc
+    316, // Gamned
     328, // Gemius
     758, // GfK
     755, // Google Advertising Products
     98,  // GroupM UK Limited (GroupM)
     61,  // GumGum, Inc.
+    1031,// Havas Media (Artemis Alliance S.L.U.)
+    131, // ID5 Technology Ltd
     606, // Impactify
+    253, // Improve Digital
     10,  // Index Exchange, Inc.
     452, // Innovid Inc.
     278, // Integral Ad Science, Inc. (IAS)
     129, // IPONWEB GmbH
+    991, // iProspect GmbH
     294, // Jivox
     62,  // Justpremium BV
+    972, // Kargo Global Inc.
     544, // Kochava
     67,  // LifeStreet
     667, // Liftoff
@@ -90,11 +103,13 @@ export const IAB_VENDORS = [
     109, // LoopMe
     95,  // Lotame Solutions, Inc.
     508, // Lucid Holdings, LLC
+    493, // Magnite, Inc. (Carbon AI Limited)
     102, // Magnite, Inc. (Outstream)
     228, // McCann Discipline LTD
     142, // Media.net Advertising FZ-LLC
     79,  // MediaMath, Inc.
     152, // Meetrics
+    1126,// Microsoft Advertising
     703, // MindTake Research
     101, // MiQ
     898, // Mobkoi Ltd
@@ -121,6 +136,7 @@ export const IAB_VENDORS = [
     385, // Oracle Data Cloud (Oracle, BlueKai)
     772, // Oracle Data Cloud - MOAT
     559, // OTTO
+    1101,// PIA Advertising GmbH
     384, // Pixalate
     140, // Platform161
     762, // Protected Media
@@ -132,6 +148,7 @@ export const IAB_VENDORS = [
     192, // Remerge
     787, // Resolution Media
     36,  // RhythmOne DBA Unruly Group Ltd (RhythmOne, LLC)
+    308, // Rockabox Media Ltd t/a Scoota
     71,  // Roku Advertising Services (Dataxu, Inc.)
     4,   // Roq.ad
     16,  // RTB House
@@ -172,7 +189,6 @@ export const IAB_VENDORS = [
     423, // travel audience – An Amadeus Company
     88,  // TreSensa
     28,  // TripleLift, Inc.
-    162, // Unruly Group Ltd
     212, // usemax (Emego GmbH)
     1013,// Velocity Made Good LLC
     25,  // Verizon Media EMEA Limited (Oath (EMEA) Limited)
