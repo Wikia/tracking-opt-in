@@ -26,7 +26,6 @@ export const DEFAULT_OPTIONS = {
     queryParamName: null,
     preventScrollOn: 'body',
     track: true,
-    oneTrustEnabled: true,
     zIndex: 9999999,
     onAcceptTracking() {
         debug('MODAL', 'User opted in to tracking');
@@ -134,6 +133,7 @@ function initializeCCPA(options) {
 export default function main(options) {
     const consentsAction = '[AdEngine OptIn] set opt in';
     const instancesAction = '[AdEngine OptIn] set opt in instances';
+    const oneTrustEnabled = options.oneTrustEnabled || window.ads.context.oneTrustEnabled || false;
 
     debug('MODAL', 'Library loaded and started');
 
@@ -163,11 +163,11 @@ export default function main(options) {
                                       });
     };
 
-    Object.assign(options, {onConsentsReady, oneTrustEnabled: DEFAULT_OPTIONS.oneTrustEnabled});
+    Object.assign(options, {onConsentsReady, oneTrustEnabled});
 
     optInInstances.gdpr = initializeGDPR(options);
     optInInstances.ccpa = initializeCCPA(options);
-    if (DEFAULT_OPTIONS.oneTrustEnabled) {
+    if (oneTrustEnabled) {
         initializeOneTrust(optInInstances);
     }
     return optInInstances;

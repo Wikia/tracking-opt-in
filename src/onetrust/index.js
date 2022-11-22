@@ -35,7 +35,7 @@ function dispatchAction(action, channelId) {
             ...optIn.gdpr.getConsent(),
             ...optIn.ccpa.getSignal(),
         };
-    console.log('DJ : ' + JSON.stringify(action));
+
     channelId = channelId || 'default';
     var data = {
         action: action,
