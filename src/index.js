@@ -10,6 +10,7 @@ import UserSignalMechanism from './ccpa/UserSignalMechanism';
 import CookieManager from './shared/CookieManager';
 import { communicationService } from './shared/communication';
 import { debug } from './shared/utils';
+import { initializeOneTrust } from "./onetrust";
 
 export const DEFAULT_OPTIONS = {
     sessionCookies: SESSION_COOKIES, // array of sessionCookies with extension times
@@ -143,23 +144,26 @@ export default function main(options) {
     }
 
     const optInInstances = { gdpr: null, ccpa: null };
-    const onConsentsReady = () => {
-        communicationService.dispatch({
-            type: consentsAction,
-            ...optInInstances.gdpr.getConsent(),
-            ...optInInstances.ccpa.getSignal(),
-        });
-        communicationService.dispatch({
-            type: instancesAction,
-            ...optInInstances,
-        });
-    };
+    if (options.oneTrustEnabled || true) {
+        initializeOneTrust();
+    } else {
+        const onConsentsReady = () => {
+            communicationService.dispatch({
+                type: consentsAction,
+                ...optInInstances.gdpr.getConsent(),
+                ...optInInstances.ccpa.getSignal(),
+            });
+            communicationService.dispatch({
+                type: instancesAction,
+                ...optInInstances,
+            });
+        };
 
-    Object.assign(options, { onConsentsReady });
+        Object.assign(options, { onConsentsReady });
 
-    optInInstances.gdpr = initializeGDPR(options);
-    optInInstances.ccpa = initializeCCPA(options);
-
+        optInInstances.gdpr = initializeGDPR(options);
+        optInInstances.ccpa = initializeCCPA(options);
+    }
     return optInInstances;
 }
 
