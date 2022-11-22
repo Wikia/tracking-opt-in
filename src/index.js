@@ -65,8 +65,8 @@ function initializeGDPR(options) {
     const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName,
                                 depOptions.track);
     const consentManagementProvider = new ConsentManagementProvider({
-                                                                        language: langManager.lang
-                                                                    });
+        language: langManager.lang
+    });
 
     const optInManager = new OptInManager(
         window.location.hostname,
@@ -117,11 +117,11 @@ function initializeCCPA(options) {
 
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const userSignalMechanism = new UserSignalMechanism({
-                                                            ccpaApplies: geoManager.needsUserSignal(),
-                                                            isSubjectToCcpa: depOptions.isSubjectToCoppa === undefined
-                                                                             ? depOptions.isSubjectToCcpa
-                                                                             : depOptions.isSubjectToCoppa,
-                                                        });
+        ccpaApplies: geoManager.needsUserSignal(),
+        isSubjectToCcpa: depOptions.isSubjectToCoppa === undefined
+            ? depOptions.isSubjectToCcpa
+            : depOptions.isSubjectToCoppa,
+    });
 
     if (!depOptions.oneTrustEnabled) {
         userSignalMechanism.install();
@@ -151,12 +151,12 @@ export default function main(options) {
     if (!window.navigator.cookieEnabled) {
         debug('MODAL', 'Cookies are disabled - ignoring CMP and USAPI consent checks');
         communicationService.dispatch({
-                                          type: consentsAction,
-                                          gdprConsent: true,
-                                          geoRequiresConsent: true,
-                                          ccpaSignal: false,
-                                          geoRequiresSignal: true,
-                                      });
+            type: consentsAction,
+            gdprConsent: true,
+            geoRequiresConsent: true,
+            ccpaSignal: false,
+            geoRequiresSignal: true,
+        });
 
         return;
     }
@@ -164,14 +164,14 @@ export default function main(options) {
     const optInInstances = {gdpr: null, ccpa: null};
     const onConsentsReady = () => {
         communicationService.dispatch({
-                                          type: consentsAction,
-                                          ...optInInstances.gdpr.getConsent(),
-                                          ...optInInstances.ccpa.getSignal(),
-                                      });
+            type: consentsAction,
+            ...optInInstances.gdpr.getConsent(),
+            ...optInInstances.ccpa.getSignal(),
+        });
         communicationService.dispatch({
-                                          type: instancesAction,
-                                          ...optInInstances,
-                                      });
+            type: instancesAction,
+            ...optInInstances,
+        });
     };
 
     Object.assign(options, {onConsentsReady, oneTrustEnabled});
