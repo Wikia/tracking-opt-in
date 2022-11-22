@@ -1,6 +1,6 @@
-import { AC_PROVIDERS, IAB_VENDORS, SESSION_COOKIES } from './shared/consts';
+import {AC_PROVIDERS, IAB_VENDORS, SESSION_COOKIES} from './shared/consts';
 import ContentManager from './shared/ContentManager';
-import GeoManager, { ensureGeoCookie } from './shared/GeoManager';
+import GeoManager, {ensureGeoCookie} from './shared/GeoManager';
 import LanguageManager from './shared/LangManager';
 import ConsentManagementProvider from './gdpr/ConsentManagementProvider';
 import OptInManager from './gdpr/OptInManager';
@@ -8,9 +8,9 @@ import Tracker from './gdpr/Tracker';
 import ConsentManagementPlatform from './gdpr/ConsentManagementPlatform';
 import UserSignalMechanism from './ccpa/UserSignalMechanism';
 import CookieManager from './shared/CookieManager';
-import { communicationService } from './shared/communication';
-import { debug } from './shared/utils';
-import { initializeOneTrust } from "./onetrust";
+import {communicationService} from './shared/communication';
+import {debug} from './shared/utils';
+import {initializeOneTrust} from "./onetrust";
 
 export const DEFAULT_OPTIONS = {
     sessionCookies: SESSION_COOKIES, // array of sessionCookies with extension times
@@ -26,6 +26,7 @@ export const DEFAULT_OPTIONS = {
     queryParamName: null,
     preventScrollOn: 'body',
     track: true,
+    oneTrustEnabled: true,
     zIndex: 9999999,
     onAcceptTracking() {
         debug('MODAL', 'User opted in to tracking');
@@ -42,7 +43,8 @@ export const DEFAULT_CCPA_OPTIONS = {
     country: null, // country code
     region: null, // region code
     countriesRequiringPrompt: ['us-ca'], // array of lower case country codes
-    isSubjectToCcpa: window && window.ads && window.ads.context && window.ads.context.opts && window.ads.context.opts.isSubjectToCcpa,
+    isSubjectToCcpa: window && window.ads && window.ads.context && window.ads.context.opts
+                     && window.ads.context.opts.isSubjectToCcpa,
 };
 
 function initializeGDPR(options) {
@@ -61,10 +63,11 @@ function initializeGDPR(options) {
     const cookieManager = new CookieManager(depOptions.sessionCookies);
     const langManager = new LanguageManager(depOptions.language);
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
-    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
+    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName,
+                                depOptions.track);
     const consentManagementProvider = new ConsentManagementProvider({
-        language: langManager.lang
-    });
+                                                                        language: langManager.lang
+                                                                    });
 
     const optInManager = new OptInManager(
         window.location.hostname,
@@ -101,9 +104,9 @@ function initializeGDPR(options) {
         },
         window.location,
     );
-
-    instance.render();
-
+    if (!depOptions.oneTrustEnabled) {
+        instance.render();
+    }
     return instance;
 }
 
@@ -115,11 +118,15 @@ function initializeCCPA(options) {
 
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const userSignalMechanism = new UserSignalMechanism({
-        ccpaApplies: geoManager.needsUserSignal(),
-        isSubjectToCcpa: depOptions.isSubjectToCoppa === undefined ? depOptions.isSubjectToCcpa : depOptions.isSubjectToCoppa,
-    });
+                                                            ccpaApplies: geoManager.needsUserSignal(),
+                                                            isSubjectToCcpa: depOptions.isSubjectToCoppa === undefined
+                                                                             ? depOptions.isSubjectToCcpa
+                                                                             : depOptions.isSubjectToCoppa,
+                                                        });
 
-    userSignalMechanism.install();
+    if (!depOptions.oneTrustEnabled) {
+        userSignalMechanism.install();
+    }
 
     return userSignalMechanism;
 }
@@ -133,36 +140,35 @@ export default function main(options) {
     if (!window.navigator.cookieEnabled) {
         debug('MODAL', 'Cookies are disabled - ignoring CMP and USAPI consent checks');
         communicationService.dispatch({
-            type: consentsAction,
-            gdprConsent: true,
-            geoRequiresConsent: true,
-            ccpaSignal: false,
-            geoRequiresSignal: true,
-        });
+                                          type: consentsAction,
+                                          gdprConsent: true,
+                                          geoRequiresConsent: true,
+                                          ccpaSignal: false,
+                                          geoRequiresSignal: true,
+                                      });
 
         return;
     }
 
-    const optInInstances = { gdpr: null, ccpa: null };
-    if (options.oneTrustEnabled || true) {
-        initializeOneTrust();
-    } else {
-        const onConsentsReady = () => {
-            communicationService.dispatch({
-                type: consentsAction,
-                ...optInInstances.gdpr.getConsent(),
-                ...optInInstances.ccpa.getSignal(),
-            });
-            communicationService.dispatch({
-                type: instancesAction,
-                ...optInInstances,
-            });
-        };
+    const optInInstances = {gdpr: null, ccpa: null};
+    const onConsentsReady = () => {
+        communicationService.dispatch({
+                                          type: consentsAction,
+                                          ...optInInstances.gdpr.getConsent(),
+                                          ...optInInstances.ccpa.getSignal(),
+                                      });
+        communicationService.dispatch({
+                                          type: instancesAction,
+                                          ...optInInstances,
+                                      });
+    };
 
-        Object.assign(options, { onConsentsReady });
+    Object.assign(options, {onConsentsReady, oneTrustEnabled: DEFAULT_OPTIONS.oneTrustEnabled});
 
-        optInInstances.gdpr = initializeGDPR(options);
-        optInInstances.ccpa = initializeCCPA(options);
+    optInInstances.gdpr = initializeGDPR(options);
+    optInInstances.ccpa = initializeCCPA(options);
+    if (DEFAULT_OPTIONS.oneTrustEnabled) {
+        initializeOneTrust(optInInstances);
     }
     return optInInstances;
 }

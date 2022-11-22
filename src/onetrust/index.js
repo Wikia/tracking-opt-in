@@ -1,5 +1,3 @@
-import GeoManager, {COUNTRIES_REQUIRING_PROMPT} from "../shared/GeoManager";
-
 function loadScript(url, options) {
     const element = document.createElement('script');
     element.src = url;
@@ -27,21 +25,17 @@ export function initializeOneTrust() {
         charSet: 'UTF-8',
         type: 'text/javascript',
     });
+
     window.OptanonWrapper = OptanonWrapper
 }
 
 function dispatchAction(action, channelId) {
-    const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
-    if (!this.geoRequiresTrackingConsent()) {
         action = {
             ...action,
-            gdprConsent: true,
-            geoRequiresConsent: geoManager.needsTrackingPrompt(),
-            ccpaSignal: true,
-            geoRequiresSignal: geoManager.needsUserSignal(),
+            ...optIn.gdpr.getConsent(),
+            ...optIn.ccpa.getSignal(),
         };
-    }
-
+    console.log('DJ : ' + JSON.stringify(action));
     channelId = channelId || 'default';
     var data = {
         action: action,
@@ -53,9 +47,17 @@ function dispatchAction(action, channelId) {
     top.postMessage(data, '*');
 }
 
+function hideOneTrustIcon() {
+    var otConsentSdk = document.getElementById("onetrust-consent-sdk");
+    if (otConsentSdk) {
+        otConsentSdk.hidden = true;
+    }
+}
+
 function OptanonWrapper() {
     const consentBoxCloseDate = document.cookie.indexOf('OptanonAlertBoxClosed');
     if (consentBoxCloseDate !== -1) {
+        hideOneTrustIcon();
         dispatchAction({
             "type": "[AdEngine OptIn] set opt in",
             "timestamp": Date.now()
