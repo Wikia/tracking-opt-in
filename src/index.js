@@ -130,10 +130,20 @@ function initializeCCPA(options) {
     return userSignalMechanism;
 }
 
+
+function isOneTrustEnabled(options) {
+    const ads = (window.ads = window.ads || {});
+    const context = (ads.context = ads.context || {});
+
+    return options.oneTrustEnabled ||
+           context.oneTrustEnabled
+           || false
+}
+
 export default function main(options) {
     const consentsAction = '[AdEngine OptIn] set opt in';
     const instancesAction = '[AdEngine OptIn] set opt in instances';
-    const oneTrustEnabled = options.oneTrustEnabled || window.ads.context.oneTrustEnabled || false;
+    const oneTrustEnabled = isOneTrustEnabled(options);
 
     debug('MODAL', 'Library loaded and started');
 
