@@ -1,3 +1,5 @@
+import { communicationService } from "../shared/communication";
+
 function loadScript(url, options) {
     const element = document.createElement('script');
     element.src = url;
@@ -29,38 +31,25 @@ export function initializeOneTrust() {
     window.OptanonWrapper = OptanonWrapper
 }
 
-function dispatchAction(action, channelId) {
-        action = {
-            ...action,
-            ...optIn.gdpr.getConsent(),
-            ...optIn.ccpa.getSignal(),
-        };
-
-    channelId = channelId || 'default';
-    var data = {
-        action: action,
-        channelId: channelId,
-        private: true,
-        libId: '@wikia/post-quecast'
-    };
-
-    top.postMessage(data, '*');
+function dispatchAction() {
+    communicationService.dispatch({
+        type: consentsAction,
+        ...optIn.gdpr.getConsent(),
+        ...optIn.ccpa.getSignal(),
+    });
 }
 
 function hideOneTrustIcon() {
-    var otConsentSdk = document.getElementById("onetrust-consent-sdk");
-    if (otConsentSdk) {
-        otConsentSdk.hidden = true;
+    const otConsentIcon = document.getElementById("onetrust-consent-sdk");
+    if (otConsentIcon) {
+        otConsentIcon.hidden = true;
     }
 }
 
 function OptanonWrapper() {
-    const consentBoxCloseDate = document.cookie.indexOf('OptanonAlertBoxClosed');
-    if (consentBoxCloseDate !== -1) {
+    const consentBoxClosed = document.cookie.indexOf('OptanonConsent');
+    if (consentBoxClosed !== -1) {
         hideOneTrustIcon();
-        dispatchAction({
-            "type": "[AdEngine OptIn] set opt in",
-            "timestamp": Date.now()
-        });
+        dispatchAction();
     }
 }
