@@ -132,10 +132,11 @@ function initializeCCPA(options) {
 
 
 function isOneTrustEnabled() {
+    const params = new URLSearchParams(window.location.search);
     const ads = (window.ads = window.ads || {});
     const context = (ads.context = ads.context || {});
 
-    return (window.location.search.indexOf('one_trust_enabled=true') !== -1) ||
+    return JSON.parse(params.get('one_trust_enabled')) ||
            context.oneTrustEnabled ||
            false;
 }
