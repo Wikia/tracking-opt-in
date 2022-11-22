@@ -131,19 +131,19 @@ function initializeCCPA(options) {
 }
 
 
-function isOneTrustEnabled(options) {
+function isOneTrustEnabled() {
     const ads = (window.ads = window.ads || {});
     const context = (ads.context = ads.context || {});
 
-    return options.oneTrustEnabled ||
-           context.oneTrustEnabled
-           || false
+    return (window.location.search.indexOf('one_trust_enabled=true') !== -1) ||
+           context.oneTrustEnabled ||
+           false;
 }
 
 export default function main(options) {
     const consentsAction = '[AdEngine OptIn] set opt in';
     const instancesAction = '[AdEngine OptIn] set opt in instances';
-    const oneTrustEnabled = isOneTrustEnabled(options);
+    const oneTrustEnabled = isOneTrustEnabled();
 
     debug('MODAL', 'Library loaded and started');
 
