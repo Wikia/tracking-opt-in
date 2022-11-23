@@ -3,13 +3,10 @@ import { communicationService } from "../shared/communication";
 class OneTrustWrapper {
     optInInstances;
 
-    loadSingleScript(url, options) {
-        const element = document.createElement('script');
-        element.src = url;
-        Object.keys(options).map((key) => {
-            element.setAttribute(key, options[key])
-        });
-        document.body.appendChild(element);
+    initializeOneTrust(optInInstances) {
+        this.loadOneTrustScripts();
+        this.optInInstances = optInInstances;
+        window.OptanonWrapper = this.OptanonWrapper.bind(this);
     }
 
     loadOneTrustScripts(){
@@ -32,27 +29,29 @@ class OneTrustWrapper {
         });
     }
 
-    initializeOneTrust(optInInstances) {
-        this.loadOneTrustScripts();
-        this.optInInstances = optInInstances;
-        window.OptanonWrapper = this.OptanonWrapper.bind(this);
-
-    }
-
-    dispatchAction() {
-        const consentsAction = '[AdEngine OptIn] set opt in';
-        communicationService.dispatch({
-            type: consentsAction,
-            ...this.optInInstances.gdpr.getConsent(),
-            ...this.optInInstances.ccpa.getSignal(),
+    loadSingleScript(url, options) {
+        const element = document.createElement('script');
+        element.src = url;
+        Object.keys(options).map((key) => {
+            element.setAttribute(key, options[key])
         });
+        document.body.appendChild(element);
     }
 
     OptanonWrapper() {
         const consentBoxClosed = document.cookie.indexOf('OptanonAlertBoxClosed');
         if (consentBoxClosed !== -1) {
-            this.dispatchAction();
+            this.dispatchConsentsSetAction();
         }
+    }
+
+    dispatchConsentsSetAction() {
+        const consentsSetAction = '[AdEngine OptIn] set opt in';
+        communicationService.dispatch({
+            type: consentsSetAction,
+            ...this.optInInstances.gdpr.getConsent(),
+            ...this.optInInstances.ccpa.getSignal(),
+        });
     }
 }
 
