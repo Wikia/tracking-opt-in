@@ -10,7 +10,7 @@ import UserSignalMechanism from './ccpa/UserSignalMechanism';
 import CookieManager from './shared/CookieManager';
 import {communicationService} from './shared/communication';
 import {debug} from './shared/utils';
-import {initializeOneTrust} from "./onetrust";
+import {oneTrust} from "./onetrust";
 
 export const DEFAULT_OPTIONS = {
     sessionCookies: SESSION_COOKIES, // array of sessionCookies with extension times
@@ -179,7 +179,7 @@ export default function main(options) {
     optInInstances.gdpr = initializeGDPR(options);
     optInInstances.ccpa = initializeCCPA(options);
     if (oneTrustEnabled) {
-        initializeOneTrust(optInInstances);
+        oneTrust.initializeOneTrust(optInInstances);
     }
     return optInInstances;
 }
