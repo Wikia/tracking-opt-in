@@ -179,7 +179,7 @@ export default function main(options) {
     optInInstances.gdpr = initializeGDPR(options);
     optInInstances.ccpa = initializeCCPA(options);
     if (oneTrustEnabled) {
-        oneTrust.initializeOneTrust(optInInstances);
+        oneTrust.initialize(optInInstances);
     }
     return optInInstances;
 }

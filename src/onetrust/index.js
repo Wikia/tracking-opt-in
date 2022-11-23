@@ -3,7 +3,7 @@ import { communicationService } from "../shared/communication";
 class OneTrustWrapper {
     optInInstances;
 
-    initializeOneTrust(optInInstances) {
+    initialize(optInInstances) {
         this.loadOneTrustScripts();
         this.optInInstances = optInInstances;
         window.OptanonWrapper = this.OptanonWrapper.bind(this);
