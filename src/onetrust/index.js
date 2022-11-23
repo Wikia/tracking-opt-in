@@ -12,7 +12,7 @@ function loadScript(url, options) {
 export function initializeOneTrust(optInInstances) {
     loadScript('https://cdn.cookielaw.org/scripttemplates/otSDKStub.js', {
         type: 'text/javascript',
-        'data-domain-script': 'dea70a1b-c82d-4fe0-86ff-5e164b0a6022'
+        'data-domain-script': 'dea70a1b-c82d-4fe0-86ff-5e164b0a6022-test'
     });
 
     loadScript('https://cdn.cookielaw.org/opt-out/otCCPAiab.js', {
