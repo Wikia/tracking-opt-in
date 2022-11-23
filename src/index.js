@@ -1,6 +1,6 @@
 import { AC_PROVIDERS, IAB_VENDORS, SESSION_COOKIES } from './shared/consts';
 import ContentManager from './shared/ContentManager';
-import GeoManager, {ensureGeoCookie} from './shared/GeoManager';
+import GeoManager, { ensureGeoCookie } from './shared/GeoManager';
 import LanguageManager from './shared/LangManager';
 import ConsentManagementProvider from './gdpr/ConsentManagementProvider';
 import OptInManager from './gdpr/OptInManager';
