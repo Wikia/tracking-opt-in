@@ -1,4 +1,4 @@
-import {AC_PROVIDERS, IAB_VENDORS, SESSION_COOKIES} from './shared/consts';
+import { AC_PROVIDERS, IAB_VENDORS, SESSION_COOKIES } from './shared/consts';
 import ContentManager from './shared/ContentManager';
 import GeoManager, {ensureGeoCookie} from './shared/GeoManager';
 import LanguageManager from './shared/LangManager';
@@ -8,9 +8,9 @@ import Tracker from './gdpr/Tracker';
 import ConsentManagementPlatform from './gdpr/ConsentManagementPlatform';
 import UserSignalMechanism from './ccpa/UserSignalMechanism';
 import CookieManager from './shared/CookieManager';
-import {communicationService} from './shared/communication';
-import {debug} from './shared/utils';
-import {oneTrust} from "./onetrust";
+import { communicationService } from './shared/communication';
+import { debug } from './shared/utils';
+import { oneTrust } from "./onetrust";
 
 export const DEFAULT_OPTIONS = {
     sessionCookies: SESSION_COOKIES, // array of sessionCookies with extension times
@@ -161,7 +161,7 @@ export default function main(options) {
         return;
     }
 
-    const optInInstances = {gdpr: null, ccpa: null};
+    const optInInstances = { gdpr: null, ccpa: null };
     const onConsentsReady = () => {
         communicationService.dispatch({
             type: consentsAction,
@@ -174,7 +174,7 @@ export default function main(options) {
         });
     };
 
-    Object.assign(options, {onConsentsReady, oneTrustEnabled});
+    Object.assign(options, { onConsentsReady, oneTrustEnabled });
 
     optInInstances.gdpr = initializeGDPR(options);
     optInInstances.ccpa = initializeCCPA(options);
