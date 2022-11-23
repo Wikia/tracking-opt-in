@@ -2,6 +2,7 @@ import { communicationService } from "../shared/communication";
 
 class OneTrustWrapper {
     optInInstances;
+
     loadSingleScript(url, options) {
         const element = document.createElement('script');
         element.src = url;
