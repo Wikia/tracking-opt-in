@@ -9,7 +9,7 @@ function loadScript(url, options) {
     document.body.appendChild(element);
 }
 
-export function initializeOneTrust() {
+export function initializeOneTrust(optInInstances) {
     loadScript('https://cdn.cookielaw.org/scripttemplates/otSDKStub.js', {
         type: 'text/javascript',
         'data-domain-script': 'dea70a1b-c82d-4fe0-86ff-5e164b0a6022'
@@ -28,28 +28,23 @@ export function initializeOneTrust() {
         type: 'text/javascript',
     });
 
-    window.OptanonWrapper = OptanonWrapper
+    window.OptanonWrapper = (() => {
+        return OptanonWrapper
+    })().apply({optInInstances});
 }
 
-function dispatchAction() {
+function dispatchAction(optInInstances) {
+    const consentsAction = '[AdEngine OptIn] set opt in';
     communicationService.dispatch({
         type: consentsAction,
-        ...optIn.gdpr.getConsent(),
-        ...optIn.ccpa.getSignal(),
+        ...optInInstances.gdpr.getConsent(),
+        ...optInInstances.ccpa.getSignal(),
     });
 }
 
-function hideOneTrustIcon() {
-    const otConsentIcon = document.getElementById("onetrust-consent-sdk");
-    if (otConsentIcon) {
-        otConsentIcon.hidden = true;
-    }
-}
-
 function OptanonWrapper() {
-    const consentBoxClosed = document.cookie.indexOf('OptanonConsent');
+    const consentBoxClosed = document.cookie.indexOf('OptanonAlertBoxClosed');
     if (consentBoxClosed !== -1) {
-        hideOneTrustIcon();
-        dispatchAction();
+        dispatchAction(this.optInInstances);
     }
 }
