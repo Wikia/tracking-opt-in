@@ -10,7 +10,7 @@ import UserSignalMechanism from './ccpa/UserSignalMechanism';
 import CookieManager from './shared/CookieManager';
 import { communicationService } from './shared/communication';
 import { debug } from './shared/utils';
-import { oneTrust } from "./onetrust";
+import { oneTrust } from './onetrust';
 
 export const DEFAULT_OPTIONS = {
     sessionCookies: SESSION_COOKIES, // array of sessionCookies with extension times
@@ -42,8 +42,7 @@ export const DEFAULT_CCPA_OPTIONS = {
     country: null, // country code
     region: null, // region code
     countriesRequiringPrompt: ['us-ca'], // array of lower case country codes
-    isSubjectToCcpa: window && window.ads && window.ads.context && window.ads.context.opts
-                     && window.ads.context.opts.isSubjectToCcpa,
+    isSubjectToCcpa: window && window.ads && window.ads.context && window.ads.context.opts && window.ads.context.opts.isSubjectToCcpa,
 };
 
 function initializeGDPR(options) {
@@ -62,8 +61,7 @@ function initializeGDPR(options) {
     const cookieManager = new CookieManager(depOptions.sessionCookies);
     const langManager = new LanguageManager(depOptions.language);
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
-    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName,
-                                depOptions.track);
+    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
     const consentManagementProvider = new ConsentManagementProvider({
         language: langManager.lang
     });
@@ -118,9 +116,7 @@ function initializeCCPA(options) {
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const userSignalMechanism = new UserSignalMechanism({
         ccpaApplies: geoManager.needsUserSignal(),
-        isSubjectToCcpa: depOptions.isSubjectToCoppa === undefined
-            ? depOptions.isSubjectToCcpa
-            : depOptions.isSubjectToCoppa,
+        isSubjectToCcpa: depOptions.isSubjectToCoppa === undefined ? depOptions.isSubjectToCcpa : depOptions.isSubjectToCoppa,
     });
 
     if (!depOptions.oneTrustEnabled) {
@@ -136,9 +132,7 @@ function isOneTrustEnabled() {
     const ads = (window.ads = window.ads || {});
     const context = (ads.context = ads.context || {});
 
-    return JSON.parse(params.get('one_trust_enabled')) ||
-           context.oneTrustEnabled ||
-           false;
+    return JSON.parse(params.get('one_trust_enabled')) || context.oneTrustEnabled || false;
 }
 
 export default function main(options) {

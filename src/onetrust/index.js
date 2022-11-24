@@ -1,5 +1,6 @@
-import { communicationService } from "../shared/communication";
+import { communicationService } from '../shared/communication';
 import { ONE_TRUST_LIBRARIES } from '../shared/consts';
+import { loadScript } from '../shared/utils';
 
 class OneTrustWrapper {
     optInInstances;
@@ -12,17 +13,8 @@ class OneTrustWrapper {
 
     loadOneTrustScripts(){
         ONE_TRUST_LIBRARIES.forEach((library) => {
-            this.loadSingleScript(library.url, library.options);
+            loadScript(library.url, library.options);
         })
-    }
-
-    loadSingleScript(url, options) {
-        const element = document.createElement('script');
-        element.src = url;
-        Object.keys(options).map((key) => {
-            element.setAttribute(key, options[key])
-        });
-        document.body.appendChild(element);
     }
 
     OptanonWrapper() {
