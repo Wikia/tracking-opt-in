@@ -63,7 +63,8 @@ function initializeGDPR(options) {
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
     const consentManagementProvider = new ConsentManagementProvider({
-        language: langManager.lang
+        language: langManager.lang,
+        oneTrustEnabled: options.oneTrustEnabled
     });
 
     const optInManager = new OptInManager(
@@ -173,7 +174,7 @@ export default function main(options) {
     optInInstances.gdpr = initializeGDPR(options);
     optInInstances.ccpa = initializeCCPA(options);
     if (oneTrustEnabled) {
-        oneTrust.initialize(optInInstances);
+        oneTrust.initialize(optInInstances, options);
     }
     return optInInstances;
 }

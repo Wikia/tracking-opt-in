@@ -87,6 +87,7 @@ class Modal extends Component {
 
         // Pass in only those vendors and purposes the user left enabled in the preferences
         // ToDo: make GVL change resistant
+        debugger
         if (this.state.consentedPurposes.length >= 10) {
             this.props.optInManager.setTrackingAccepted();
             this.props.onAcceptTracking(

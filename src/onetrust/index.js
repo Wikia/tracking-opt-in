@@ -1,11 +1,22 @@
 import { communicationService } from '../shared/communication';
 import { ONE_TRUST_LIBRARIES } from '../shared/consts';
-import { loadScript } from '../shared/utils';
+import {getCookieValue, loadScript} from '../shared/utils';
+import OptInManager from "../gdpr/OptInManager";
 
 class OneTrustWrapper {
-    optInInstances;
+    ALLOW_TRACKING_GROUP = 'C0004'
 
-    initialize(optInInstances) {
+    optInInstances;
+    optInManager;
+
+    initialize(optInInstances, options) {
+        this.optInManager = new OptInManager(
+            window.location.hostname,
+            options.cookieName,
+            options.cookieExpiration,
+            options.cookieRejectExpiration,
+            options.queryParamName,
+        );
         this.loadOneTrustScripts();
         this.optInInstances = optInInstances;
         window.OptanonWrapper = this.OptanonWrapper.bind(this);
@@ -20,7 +31,16 @@ class OneTrustWrapper {
     OptanonWrapper() {
         const consentBoxClosed = document.cookie.indexOf('OptanonAlertBoxClosed');
         if (consentBoxClosed !== -1) {
+            this.setTrackingOptInCookies();
             this.dispatchConsentsSetAction();
+        }
+    }
+
+    setTrackingOptInCookies() {
+        if (getCookieValue('OptanonConsent').indexOf(this.ALLOW_TRACKING_GROUP) !== -1) {
+            this.optInManager.setTrackingAccepted();
+        } else {
+            this.optInManager.setTrackingRejected();
         }
     }
 
