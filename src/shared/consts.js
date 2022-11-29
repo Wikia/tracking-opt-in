@@ -249,3 +249,28 @@ export const SESSION_COOKIES = [
         extendTime: 183 // 6 months in days
     }
 ];
+
+export const ONE_TRUST_LIBRARIES = [
+    {
+        url: 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
+        options: {
+            type: 'text/javascript',
+            'data-domain-script': 'dea70a1b-c82d-4fe0-86ff-5e164b0a6022'
+        }
+    }, {
+        url: 'https://cdn.cookielaw.org/opt-out/otCCPAiab.js',
+        options: {
+            charSet: 'UTF-8',
+            type: 'text/javascript',
+            'ccpa-opt-out-ids': 'C0004',
+            'ccpa-opt-out-geo': 'ca',
+            'ccpa-opt-out-lspa': true
+        }
+    }, {
+        url: 'https://cdn.cookielaw.org/consent/tcf.stub.js',
+        options: {
+            charSet: 'UTF-8',
+            type: 'text/javascript',
+        }
+    }
+]
