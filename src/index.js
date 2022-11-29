@@ -133,7 +133,7 @@ function isOneTrustEnabled() {
     const ads = (window.ads = window.ads || {});
     const context = (ads.context = ads.context || {});
 
-    return JSON.parse(params.get('one_trust_enabled')) || context.oneTrustEnabled || false;
+    return JSON.parse(params.get('onetrust_enabled')) || context.oneTrustEnabled || false;
 }
 
 export default function main(options) {
