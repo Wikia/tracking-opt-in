@@ -86,6 +86,18 @@ export function getJSON(url, useCache = true) {
     });
 }
 
+export function addStyles(styles) {
+    let styleNode = document.createElement('style');
+    styleNode.type = 'text/css';
+    if (styleNode.style) {
+        styleNode.style.cssText = styles;
+    }
+    else {
+        styleNode.appendChild(document.createTextNode(styles));
+    }
+    document.head.appendChild(styleNode);
+}
+
 export function loadScript(url, options) {
     const element = document.createElement('script');
     element.src = url;
