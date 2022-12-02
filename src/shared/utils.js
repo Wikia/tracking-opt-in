@@ -85,3 +85,18 @@ export function getJSON(url, useCache = true) {
         req.send(null);
     });
 }
+
+export function loadScript(url, options) {
+    const element = document.createElement('script');
+    element.src = url;
+    Object.keys(options).map((key) => {
+        element.setAttribute(key, options[key])
+    });
+    document.body.appendChild(element);
+}
+
+export function getCookieValue(name) {
+    function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
+    var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
+    return match ? match[1] : null;
+}
