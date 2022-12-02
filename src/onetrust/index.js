@@ -20,7 +20,6 @@ class OneTrustWrapper {
         this.loadOneTrustScripts();
         this.optInInstances = optInInstances;
         window.OptanonWrapper = this.OptanonWrapper.bind(this);
-        this.hideOneTrustButton();
     }
 
     loadOneTrustScripts(){
