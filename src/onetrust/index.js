@@ -45,7 +45,7 @@ class OneTrustWrapper {
     }
 
     setTrackingOptInCookies() {
-        if (getCookieValue('OptanonConsent').indexOf(this.ALLOW_TRACKING_GROUP) !== -1) {
+        if (window.OptanonActiveGroups.indexOf(this.ALLOW_TRACKING_GROUP) !== -1) {
             this.optInManager.setTrackingAccepted();
         } else {
             this.optInManager.setTrackingRejected();
