@@ -1,6 +1,6 @@
 import { communicationService } from '../shared/communication';
 import { ONE_TRUST_LIBRARIES } from '../shared/consts';
-import { getCookieValue, loadScript, addStyles } from '../shared/utils';
+import { loadScript } from '../shared/utils';
 import OptInManager from "../gdpr/OptInManager";
 
 class OneTrustWrapper {
@@ -27,13 +27,6 @@ class OneTrustWrapper {
         ONE_TRUST_LIBRARIES.forEach((library) => {
             loadScript(library.url, library.options);
         })
-    }
-
-    hideOneTrustButton() {
-        addStyles("ot-sdk-btn {display: none !important; }\n"
-                  + "ot-sdk-show-settings {display: none !important; }\n"
-                  + "#ot-sdk-btn.ot-sdk-show-settings {display: none !important; }\n"
-                  + "#ot-sdk-btn.optanon-show-settings {display: none !important; }");
     }
 
     OptanonWrapper() {

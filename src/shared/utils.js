@@ -86,18 +86,6 @@ export function getJSON(url, useCache = true) {
     });
 }
 
-export function addStyles(styles) {
-    let styleNode = document.createElement('style');
-    styleNode.type = 'text/css';
-    if (styleNode.style) {
-        styleNode.style.cssText = styles;
-    }
-    else {
-        styleNode.appendChild(document.createTextNode(styles));
-    }
-    document.head.appendChild(styleNode);
-}
-
 export function loadScript(url, options) {
     const element = document.createElement('script');
     element.src = url;
@@ -105,10 +93,4 @@ export function loadScript(url, options) {
         element.setAttribute(key, options[key])
     });
     document.body.appendChild(element);
-}
-
-export function getCookieValue(name) {
-    function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
-    var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
-    return match ? match[1] : null;
 }
