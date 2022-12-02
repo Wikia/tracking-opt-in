@@ -37,7 +37,7 @@ class OneTrustWrapper {
     }
 
     setTrackingOptInCookies() {
-        if (window.OptanonActiveGroups.indexOf(this.ALLOW_TRACKING_GROUP) !== -1) {
+        if (window.OptanonActiveGroups?.includes(this.ALLOW_TRACKING_GROUP)) {
             this.optInManager.setTrackingAccepted();
         } else {
             this.optInManager.setTrackingRejected();
