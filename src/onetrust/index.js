@@ -1,6 +1,7 @@
 import { communicationService } from '../shared/communication';
 import { ONE_TRUST_DOMAIN_ID, ONE_TRUST_LIBRARIES } from '../shared/consts';
-import { loadScript } from '../shared/utils';
+import { getCookieValue, loadScript } from '../shared/utils';
+import OptInManager from "../gdpr/OptInManager";
 
 class OneTrustWrapper {
     ALLOW_TRACKING_GROUP = 'C0004';
