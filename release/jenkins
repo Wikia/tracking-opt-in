@@ -79,6 +79,8 @@ pipeline {
           sh "npm publish"
           sh "git push origin ${params.branch}"
           sh "git push origin --tags"
+          sh S3_PATH="s3://fandom-ae-assets/tracking-opt-in"
+          sh "s3cmd -c /etc/s3cmd/amazon_prod.cfg put --acl-public --stop-on-error --mime-type=application/javascript tracking-opt-in.min.js $S3_PATH/${params.version}/"
 
           slackSend (
             channel: '#adeng-release',
