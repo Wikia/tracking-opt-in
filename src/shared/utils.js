@@ -85,3 +85,12 @@ export function getJSON(url, useCache = true) {
         req.send(null);
     });
 }
+
+export function loadScript(url, options) {
+    const element = document.createElement('script');
+    element.src = url;
+    Object.keys(options).map((key) => {
+        element.setAttribute(key, options[key])
+    });
+    document.body.appendChild(element);
+}
