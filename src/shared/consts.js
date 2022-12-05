@@ -91,6 +91,8 @@ export const IAB_VENDORS = [
     10,  // Index Exchange, Inc.
     452, // Innovid Inc.
     278, // Integral Ad Science, Inc. (IAS)
+    436, // Invibes Group
+    438, // INVIDI technologies AB
     129, // IPONWEB GmbH
     991, // iProspect GmbH
     294, // Jivox
@@ -170,6 +172,7 @@ export const IAB_VENDORS = [
     45,  // Smart Adserver
     546, // Smart Trafik
     246, // Smartology
+    639, //	Smile Wanted Group
     295, // Sojern
     104, // Sonobi, Inc
     13,  // Sovrn Holdings Inc
@@ -195,6 +198,7 @@ export const IAB_VENDORS = [
     212, // usemax (Emego GmbH)
     1013,// Velocity Made Good LLC
     25,  // Verizon Media EMEA Limited (Oath (EMEA) Limited)
+    1145,//	Vidcrunch LLC
     601, // WebAds B.V
     284, // Weborama
     431, // White Ops
