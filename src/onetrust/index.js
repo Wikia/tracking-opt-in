@@ -1,11 +1,11 @@
 import { communicationService } from '../shared/communication';
-import { ONE_TRUST_LIBRARIES } from '../shared/consts';
-import {getCookieValue, loadScript} from '../shared/utils';
+import { ONE_TRUST_DOMAIN_ID, ONE_TRUST_LIBRARIES } from '../shared/consts';
+import { getCookieValue, loadScript } from '../shared/utils';
 import OptInManager from "../gdpr/OptInManager";
 
 class OneTrustWrapper {
-    ALLOW_TRACKING_GROUP = 'C0004'
-
+    ALLOW_TRACKING_GROUP = 'C0004';
+    FANDOM_DOMAIN = 'fandom.com';
     optInInstances;
     optInManager;
 
@@ -22,9 +22,23 @@ class OneTrustWrapper {
         window.OptanonWrapper = this.OptanonWrapper.bind(this);
     }
 
+    getDomainId() {
+        const domainParts = location.hostname.split('.');
+        const domainPartsCount = domainParts.length;
+
+        let completeDomain = [domainParts[domainPartsCount - 2], domainParts[domainPartsCount - 1]].join('.');
+        if (completeDomain === this.FANDOM_DOMAIN && location.hostname.includes('sandbox')) {
+            completeDomain = 'sandbox.' + completeDomain;
+        }
+
+        return ONE_TRUST_DOMAIN_ID[completeDomain] || ONE_TRUST_DOMAIN_ID["fandom.com"];
+    }
+
     loadOneTrustScripts(){
         ONE_TRUST_LIBRARIES.forEach((library) => {
-            loadScript(library.url, library.options);
+            loadScript(library.url, {...library.options,
+                'data-domain-script': this.getDomainId()
+            });
         })
     }
 
