@@ -15,7 +15,8 @@ export const API_STATUS = {
 };
 const CMP_ID = 141;
 const CMP_DEFAULT_LANGUAGE = 'en';
-const VENDOR_CONSENT_COOKIE_NAME = 'euconsent-v2';
+const DEPRECATED_VENDOR_CONSENT_COOKIE_NAME = 'euconsent-v2';
+const VENDOR_CONSENT_COOKIE_NAME = 'eupubconsent-v2';
 const PROVIDER_CONSENT_COOKIE_NAME = 'addtl_consent';
 const VENDOR_LIST_URL_BASE = 'https://script.wikia.nocookie.net/fandom-ae-assets/tcf/v2/';
 const VENDOR_LIST_FILE_NAME = 'vendor-list.json';
@@ -167,7 +168,7 @@ class ConsentManagementProvider {
                 break;
 
             case API_STATUS.UI_VISIBLE_RESET:
-                this.cmpApi.update(this.getVendorConsentCookie() || '', true);
+                this.cmpApi.update(this.getDeprecatedVendorConsentCookie() || '', true);
                 debug('GDPR', 'UI displayed after policy change');
                 break;
 
@@ -216,7 +217,7 @@ class ConsentManagementProvider {
 
     createConsent() {
         let acString = this.getProviderConsentCookie();
-        let tcString = this.getVendorConsentCookie();
+        let tcString = this.getDeprecatedVendorConsentCookie();
 
         if (acString && tcString) {
             debug('GDPR', 'ACString and TCString read from cookie', acString, tcString, TCString.decode(tcString));
@@ -251,6 +252,10 @@ class ConsentManagementProvider {
         return [acString, tcString];
     }
 
+    getDeprecatedVendorConsentCookie() {
+        return Cookies.get(DEPRECATED_VENDOR_CONSENT_COOKIE_NAME) || '';
+    }
+
     getVendorConsentCookie() {
         return Cookies.get(VENDOR_CONSENT_COOKIE_NAME) || '';
     }
@@ -263,9 +268,9 @@ class ConsentManagementProvider {
         const cookieAttributes = this.options.cookieAttributes;
 
         if (consentString) {
-            Cookies.set(VENDOR_CONSENT_COOKIE_NAME, consentString, cookieAttributes);
+            Cookies.set(DEPRECATED_VENDOR_CONSENT_COOKIE_NAME, consentString, cookieAttributes);
         } else {
-            Cookies.remove(VENDOR_CONSENT_COOKIE_NAME, cookieAttributes);
+            Cookies.remove(DEPRECATED_VENDOR_CONSENT_COOKIE_NAME, cookieAttributes);
         }
     }
 
@@ -280,7 +285,9 @@ class ConsentManagementProvider {
     }
 
     hasUserConsent() {
-        return !!this.getVendorConsentCookie() && !!this.getProviderConsentCookie();
+        return this.options.oneTrustEnabled ?
+            !!this.getVendorConsentCookie() :
+            !!this.getDeprecatedVendorConsentCookie() && !!this.getProviderConsentCookie();
     }
 
     /**
@@ -300,7 +307,7 @@ class ConsentManagementProvider {
      * @returns boolean
      */
     isVendorTCFPolicyVersionOutdated() {
-        const cookie = this.getVendorConsentCookie();
+        const cookie = this.getDeprecatedVendorConsentCookie();
 
         if (!cookie) {
             return false;
