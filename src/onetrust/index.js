@@ -1,6 +1,6 @@
 import { communicationService } from '../shared/communication';
 import { ONE_TRUST_DOMAIN_ID, ONE_TRUST_LIBRARIES } from '../shared/consts';
-import { getCookieValue, loadScript } from '../shared/utils';
+import { loadScript } from '../shared/utils';
 import OptInManager from "../gdpr/OptInManager";
 
 class OneTrustWrapper {
@@ -51,7 +51,7 @@ class OneTrustWrapper {
     }
 
     setTrackingOptInCookies() {
-        if (getCookieValue('OptanonConsent').indexOf(this.ALLOW_TRACKING_GROUP) !== -1) {
+        if (window.OptanonActiveGroups && window.OptanonActiveGroups.includes(this.ALLOW_TRACKING_GROUP)) {
             this.optInManager.setTrackingAccepted();
         } else {
             this.optInManager.setTrackingRejected();
