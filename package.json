@@ -1,6 +1,6 @@
 {
     "name": "@wikia/tracking-opt-in",
-    "version": "9.4.19-alpha",
+    "version": "9.4.20",
     "main": "dist/tracking-opt-in.min.js",
     "license": "Apache-2.0",
     "repository": {
@@ -36,6 +36,7 @@
         "consent-string": "^1.2.4",
         "cross-env": "^5.1.4",
         "css-loader": "^0.28.11",
+        "cssnano": "^4.1.11",
         "es6-promise": "^4.2.4",
         "handlebars": "^4.0.11",
         "handlebars-loader": "^1.7.0",

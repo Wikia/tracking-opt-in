@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 const autoprefixer = require('autoprefixer');
 
 const browsers = [
@@ -69,6 +70,9 @@ module.exports = {
                             sourceMap: isDevelopment,
                             plugins: () => [
                                 autoprefixerPlugin,
+                                require('cssnano')({
+                                    preset: 'default',
+                                }),
                             ],
                         },
                     },

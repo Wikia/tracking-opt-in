@@ -91,6 +91,8 @@ export const IAB_VENDORS = [
     10,  // Index Exchange, Inc.
     452, // Innovid Inc.
     278, // Integral Ad Science, Inc. (IAS)
+    436, // Invibes Group
+    438, // INVIDI technologies AB
     129, // IPONWEB GmbH
     991, // iProspect GmbH
     294, // Jivox
@@ -170,6 +172,7 @@ export const IAB_VENDORS = [
     45,  // Smart Adserver
     546, // Smart Trafik
     246, // Smartology
+    639, //	Smile Wanted Group
     295, // Sojern
     104, // Sonobi, Inc
     13,  // Sovrn Holdings Inc
@@ -195,6 +198,7 @@ export const IAB_VENDORS = [
     212, // usemax (Emego GmbH)
     1013,// Velocity Made Good LLC
     25,  // Verizon Media EMEA Limited (Oath (EMEA) Limited)
+    1145,//	Vidcrunch LLC
     601, // WebAds B.V
     284, // Weborama
     431, // White Ops
@@ -250,12 +254,23 @@ export const SESSION_COOKIES = [
     }
 ];
 
+export const ONE_TRUST_DOMAIN_ID = {
+    'cordcuttersnews.com': '3c599b07-25eb-490a-9ab8-c1b526903185-test',
+    'fanatical.com': '0ab0e172-dc9c-44b9-8a58-c80d9ba4fae0-test',
+    'futhead.com': '82c642a4-d3a9-4a78-a310-21a7b49ab17b-test',
+    'gamespot.com' : '73588546-b116-4dbc-ab64-9db97e11fc0d-test',
+    'metacritic.com': '50e16f1d-a929-4cc0-80a7-3c5c303eea6a-test',
+    'muthead.com': 'fb34a16e-696d-4748-af9f-96f3b9e2b4da-test',
+    'tvguide.com' : 'ffc22311-f4da-4e03-a1ad-32aecd522c5b-test',
+    'fandom.com': 'dea70a1b-c82d-4fe0-86ff-5e164b0a6022',
+    'sandbox.fandom.com': 'dea70a1b-c82d-4fe0-86ff-5e164b0a6022-test',
+}
+
 export const ONE_TRUST_LIBRARIES = [
     {
         url: 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
         options: {
             type: 'text/javascript',
-            'data-domain-script': 'dea70a1b-c82d-4fe0-86ff-5e164b0a6022'
         }
     }, {
         url: 'https://cdn.cookielaw.org/opt-out/otCCPAiab.js',
