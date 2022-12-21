@@ -227,8 +227,14 @@ class ConsentManagementPlatform {
         const domain = getDomain(window.location.host);
         const path = '/';
 
+        const pathSplitted = window.location.pathname.split('/');
+        const languagePath = pathSplitted[1] !== 'wiki' ? pathSplitted[1] : 'en';
+
         Cookies.set('tracking_session_id', sessionId, {domain, expires, path});
-        Cookies.set('pv_number', pvNumber + 1, {expires, path});
+        Cookies.set('pv_number', {
+            ...pvNumber,
+            [languagePath]: pvNumber[languagePath] + 1
+        }, {expires, path});
         Cookies.set('pv_number_global', pvNumberGlobal + 1, {domain, expires, path});
     }
 
