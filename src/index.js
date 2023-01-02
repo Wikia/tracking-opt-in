@@ -41,7 +41,7 @@ export const DEFAULT_OPTIONS = {
 export const DEFAULT_CCPA_OPTIONS = {
     country: null, // country code
     region: null, // region code
-    countriesRequiringPrompt: ['us-ca'], // array of lower case country codes
+    countriesRequiringPrompt: ['us'], // array of lower case country codes
     isSubjectToCcpa: window && window.ads && window.ads.context && window.ads.context.opts && window.ads.context.opts.isSubjectToCcpa,
 };
 

@@ -154,15 +154,11 @@ class GeoManager {
     }
 
     needsUserSignal() {
-        return this.geosRequiringPrompt.indexOf(this.getDetectedRegion()) !== -1;
+        return this.geosRequiringPrompt.indexOf(this.getDetectedGeo()) !== -1;
     }
 
     getDetectedGeo() {
         return this.country;
-    }
-
-    getDetectedRegion() {
-        return `${this.country}-${this.region}`;
     }
 
     hasGeoCookie() {
