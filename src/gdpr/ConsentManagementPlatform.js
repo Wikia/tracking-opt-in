@@ -132,7 +132,7 @@ class ConsentManagementPlatform {
     }
 
     geoRequiresTrackingConsent() {
-        return this.geoManager.needsTrackingPrompt();
+        return this.geoManager.hasSpecialPrivacyLaw();
     }
 
     reset() {

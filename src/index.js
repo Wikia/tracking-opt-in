@@ -60,8 +60,8 @@ function initializeGDPR(options) {
     } = Object.assign({}, DEFAULT_OPTIONS, options);
     const cookieManager = new CookieManager(depOptions.sessionCookies);
     const langManager = new LanguageManager(depOptions.language);
-    const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
-    const tracker = new Tracker(langManager.lang, geoManager.getDetectedGeo(), depOptions.beaconCookieName, depOptions.track);
+    const geoManager = new GeoManager(depOptions.country, depOptions.region);
+    const tracker = new Tracker(langManager.lang, geoManager.country, depOptions.beaconCookieName, depOptions.track);
     const consentManagementProvider = new ConsentManagementProvider({
         language: langManager.lang,
         oneTrustEnabled: options.oneTrustEnabled
@@ -116,7 +116,7 @@ function initializeCCPA(options) {
 
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const userSignalMechanism = new UserSignalMechanism({
-        ccpaApplies: geoManager.needsUserSignal(),
+        ccpaApplies: geoManager.hasSpecialPrivacyLaw(),
         isSubjectToCcpa: depOptions.isSubjectToCoppa === undefined ? depOptions.isSubjectToCcpa : depOptions.isSubjectToCoppa,
     });
 

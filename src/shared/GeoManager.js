@@ -149,16 +149,8 @@ class GeoManager {
         this.region = (region || getGeoDataFromCookie('region') || MISSING_COOKIE_NAME).toLowerCase();
     }
 
-    needsTrackingPrompt() {
+    hasSpecialPrivacyLaw() {
         return this.geosRequiringPrompt.indexOf(this.country) !== -1;
-    }
-
-    needsUserSignal() {
-        return this.geosRequiringPrompt.indexOf(this.getDetectedGeo()) !== -1;
-    }
-
-    getDetectedGeo() {
-        return this.country;
     }
 
     hasGeoCookie() {
