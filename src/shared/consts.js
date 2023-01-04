@@ -5,6 +5,7 @@
   Last update:     2021-11-16
  */
 export const IAB_VENDORS = [
+    92,  // 1plusX AG
     58,  // 33Across
     720, // AAX LLC
     40,  // Active Agent (ADITION technologies AG)
@@ -181,6 +182,7 @@ export const IAB_VENDORS = [
     137, // Ströer SSP GmbH (DSP)
     136, // Ströer SSP GmbH (SSP)
     114, // Sublime
+    517, // SunMedia
     275, // TabMo
     42,  // Taboola
     466, // TACTIC™ Real-Time Marketing
