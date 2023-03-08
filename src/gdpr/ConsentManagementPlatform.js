@@ -37,7 +37,6 @@ class ConsentManagementPlatform {
 
     // Non-IAB tracking is accepted. Some or all IAB vendors or purposes _may_ be accepted
     onAcceptTracking = (allowedVendors, allowedPurposes, allowedSpecialFeatures, allowedProviders) => {
-        this.setTrackingCookies();
         this.consentManagementProvider.configure({
             allowedVendors: allowedVendors,
             allowedProviders: allowedProviders,
