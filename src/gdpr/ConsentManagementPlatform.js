@@ -225,16 +225,4 @@ class ConsentManagementPlatform {
     }
 }
 
-export function getDomain(host) {
-    const domain = host.split(':').shift();
-    const domainParts = domain.split('.');
-    const domainPartsCount = domainParts.length;
-
-    if (domainPartsCount < 2) {
-        return null;
-    }
-
-    return ['', domainParts[domainPartsCount - 2], domainParts[domainPartsCount - 1]].join('.');
-}
-
 export default ConsentManagementPlatform;
