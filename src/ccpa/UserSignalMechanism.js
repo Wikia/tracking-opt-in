@@ -146,7 +146,6 @@ class UserSignalMechanism {
             });
         } catch (error) {
             void(error);
-            console.log(error);
             window.__uspapi = uspapi;
             console.error(new Error(`${LOG_GROUP} Incompatible stub - cannot run queue`));
         }
