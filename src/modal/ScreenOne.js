@@ -17,7 +17,7 @@ class ScreenOne extends Component {
         }
     }
 
-    render({ appOptions, content, clickLearnMore, clickAccept }) {
+    render({ appOptions, content, clickLearnMore, clickAccept, clickReject }) {
         return (
             <div
                 data-tracking-opt-in-overlay="true"
@@ -50,6 +50,14 @@ class ScreenOne extends Component {
                             key="accept"
                         >
                             {content.acceptButton}
+                        </div>
+                        <div
+                            data-tracking-opt-in-reject="true"
+                            className={`${globalStyles.rejectButton} ${globalStyles.footerButton}`}
+                            onClick={clickReject}
+                            key="reject"
+                        >
+                            {content.rejectButton}
                         </div>
                     </div>
                 </div>

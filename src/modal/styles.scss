@@ -55,12 +55,14 @@
     padding: 11px 18px;
     text-transform: uppercase;
 
-    &:first-child {
+    &:first-child,
+    &:nth-child(2) {
         margin-right: 18px;
     }
 }
 
 .acceptButton,
+.rejectButton,
 .saveButton {
     background-color: $color-primary-fill;
     border: 1px solid $color-primary-fill;

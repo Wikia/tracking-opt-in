@@ -68,6 +68,18 @@ class Modal extends Component {
         );
     };
 
+    reject = () => {
+        this.props.tracker.trackRejectClick();
+        this.props.onRequestAppRemove();
+        this.props.optInManager.setTrackingRejected();
+        this.props.onRejectTracking(
+            this.state.consentedVendors,
+            [],
+            [],
+            []
+        );
+    }
+
     learnMore = () => {
         this.props.tracker.trackLearnMoreClick();
         this.setState({ isScreenOne: false });
@@ -130,6 +142,7 @@ class Modal extends Component {
                     content={content}
                     clickLearnMore={this.learnMore}
                     clickAccept={this.accept}
+                    clickReject={this.reject}
                 />
             );
         } else {
