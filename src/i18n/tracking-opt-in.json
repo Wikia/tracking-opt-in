@@ -6,7 +6,7 @@
         "For additional options, please select \"%learnMoreButton%.\" Note that if you do not accept, you may see ads that are less relevant to you and certain features of the site may not work as intended. You can change your mind and revisit your consent choices at any time by utilizing the \"clear cookies\" functionality in your browser (this will prompt us to ask for consent again when you next visit our website). For information about our use of cookies and our partners who use cookies on our site, please see our %privacyPolicy% and %partnerList%, respectively."
     ],
     "acceptButton": "ACCEPT",
-    "rejectButton": "REJECT",
+    "rejectButton": "REJECT ALL",
     "backButton": "Back",
     "learnMoreButton": "LEARN MORE",
     "saveButton": "Save And Close",
