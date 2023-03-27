@@ -33,10 +33,11 @@
     background-color: #fff;
     box-shadow: 0 0 6px 0 rgba(195, 195, 195, 0.5);
     box-sizing: border-box;
-    height: 60px;
-    min-height: 60px;
     padding: 12px 27px;
     text-align: center;
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
 
     @media #{$desktop-devices} {
         text-align: right;
