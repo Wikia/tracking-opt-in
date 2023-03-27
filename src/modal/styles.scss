@@ -41,6 +41,13 @@
     @media #{$desktop-devices} {
         text-align: right;
     }
+
+    @media #{$mobile-devices} {
+        display: flex;
+        height: auto;
+        flex-direction: column;
+        gap: 8px;
+    }
 }
 
 .footerButton {
@@ -58,6 +65,9 @@
     &:first-child,
     &:nth-child(2) {
         margin-right: 18px;
+        @media #{$mobile-devices} {
+            margin-right: 0;
+        }
     }
 }
 
