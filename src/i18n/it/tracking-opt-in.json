@@ -6,6 +6,7 @@
         "Per opzioni aggiuntive, seleziona \"%learnMoreButton%\". Tieni presente che nel caso non accettassi, potresti vedere annunci meno pertinenti per i tuoi interessi e alcune funzioni del sito potrebbero non funzionare come previsto. Puoi cambiare idea e rivisitare le tue scelte di consenso in qualsiasi momento utilizzando la funzione \"cancella cookies\" del tuo browser (questo ci spingerà a richiederti di nuovo il consenso la prossima volta che visiterai il nostro sito). Per informazioni sul nostro uso dei cookie e sui nostri partner che usano cookie sul nostro sito, per favore consulta rispettivamente la nostra %privacyPolicy% e %partnerList%."
     ],
     "acceptButton": "ACCETTO",
+    "rejectButton": "RIFIUTA TUTTO",
     "backButton": "Indietro",
     "learnMoreButton": "ULTERIORI INFORMAZIONI",
     "saveButton": "Salva e chiudi",

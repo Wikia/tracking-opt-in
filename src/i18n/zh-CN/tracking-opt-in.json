@@ -6,6 +6,7 @@
         "有关其他选项，请选择“%learnMoreButton%”。请注意，如果您选择不接受，您可能会看到与您不太相关的广告，并且网站的某些功能可能无法正常使用。您可以通过使用浏览器中的“清除Cookie”功能随时改变主意并重新访问这些选项（这将在您下次访问我们的网站时再次进行提示并且征求您的同意）。有关我们使用Cookie的信息以及我们网站上使用Cookie的合作伙伴，请分别查看我们的“%privacyPolicy%”和“%partnerList%”。"
     ],
     "acceptButton": "同意",
+    "rejectButton": "拒绝全部",
     "backButton": "返回",
     "learnMoreButton": "了解更多",
     "saveButton": "保存并关闭",
