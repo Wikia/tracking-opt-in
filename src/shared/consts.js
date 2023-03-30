@@ -153,6 +153,7 @@ export const IAB_VENDORS = [
     192, // Remerge
     787, // Resolution Media
     36,  // RhythmOne DBA Unruly Group Ltd (RhythmOne, LLC)
+    290, // Readpeak Oy
     308, // Rockabox Media Ltd t/a Scoota
     71,  // Roku Advertising Services (Dataxu, Inc.)
     4,   // Roq.ad

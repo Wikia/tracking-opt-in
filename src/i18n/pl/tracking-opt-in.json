@@ -6,6 +6,7 @@
         "Aby poznać dodatkowe opcje, wybierz „%learnMoreButton%”. Pamiętaj, że jeśli nie wyrazisz zgody, możesz zobaczyć reklamy, które są mniej odpowiednie dla ciebie, a niektóre funkcje witryny mogą nie działać zgodnie z przeznaczeniem. W każdej chwili możesz zmienić zdanie i ponownie sprawdzić opcje zgody, korzystając z funkcji „wyczyść ciasteczka” w swojej przeglądarce (spowoduje to ponowne zapytanie o zgodę przy następnej wizycie na naszej stronie). Aby uzyskać informacje o wykorzystywaniu przez nas ciasteczek oraz na temat partnerów korzystających z ciasteczek w naszej witrynie, zapoznaj się z %privacyPolicy% oraz %partnerList%."
     ],
     "acceptButton": "AKCEPTUJĘ",
+    "rejectButton": "ODRZUĆ WSZYSTKIE",
     "backButton": "Wróć",
     "learnMoreButton": "DOWIEDZ SIĘ WIĘCEJ",
     "saveButton": "Zapisz i zamknij",
