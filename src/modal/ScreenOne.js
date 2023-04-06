@@ -44,20 +44,20 @@ class ScreenOne extends Component {
                             {content.learnMoreButton}
                         </div>
                         <div
-                            data-tracking-opt-in-accept="true"
-                            className={`${globalStyles.acceptButton} ${globalStyles.footerButton}`}
-                            onClick={clickAccept}
-                            key="accept"
-                        >
-                            {content.acceptButton}
-                        </div>
-                        <div
                             data-tracking-opt-in-reject="true"
                             className={`${globalStyles.rejectButton} ${globalStyles.footerButton}`}
                             onClick={clickReject}
                             key="reject"
                         >
                             {content.rejectButton}
+                        </div>
+                        <div
+                            data-tracking-opt-in-accept="true"
+                            className={`${globalStyles.acceptButton} ${globalStyles.footerButton}`}
+                            onClick={clickAccept}
+                            key="accept"
+                        >
+                            {content.acceptButton}
                         </div>
                     </div>
                 </div>
