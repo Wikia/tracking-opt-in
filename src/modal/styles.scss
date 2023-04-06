@@ -46,7 +46,7 @@
     @media #{$mobile-devices} {
         display: flex;
         height: auto;
-        flex-direction: column;
+        flex-direction: column-reverse;
         gap: 8px;
     }
 }
@@ -62,14 +62,6 @@
     outline: none;
     padding: 11px 18px;
     text-transform: uppercase;
-
-    &:first-child,
-    &:nth-child(2) {
-        margin-right: 18px;
-        @media #{$mobile-devices} {
-            margin-right: 0;
-        }
-    }
 }
 
 .acceptButton,
