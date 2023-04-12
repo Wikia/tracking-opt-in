@@ -46,7 +46,7 @@
     @media #{$mobile-devices} {
         display: flex;
         height: auto;
-        flex-direction: column-reverse;
+        flex-direction: column;
         gap: 8px;
     }
 }
