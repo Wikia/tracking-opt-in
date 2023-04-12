@@ -36,11 +36,11 @@
     padding: 12px 27px;
     text-align: center;
     display: flex;
-    justify-content: flex-end;
     gap: 16px;
 
     @media #{$desktop-devices} {
         text-align: right;
+        flex-direction: row-reverse;
     }
 
     @media #{$mobile-devices} {
@@ -64,6 +64,18 @@
     text-transform: uppercase;
 }
 
+.consentButtons {
+    display: flex;
+    height: auto;
+    gap: 18px;
+    flex-direction: row;
+
+    @media #{$mobile-devices} {
+        flex-direction: column-reverse;
+        gap: 8px
+    }
+}
+
 .acceptButton,
 .rejectButton,
 .saveButton {
@@ -77,6 +89,18 @@
     background-color: $color-secondary-fill;
     border: 1px solid $color-secondary;
     color: $color-secondary;
+}
+
+.learnMoreButton {
+    order: 2
+}
+
+.backButton {
+    order: 3
+}
+
+.acceptButton {
+    order: 1
 }
 
 .link {
