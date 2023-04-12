@@ -46,7 +46,7 @@
     @media #{$mobile-devices} {
         display: flex;
         height: auto;
-        flex-direction: column;
+        flex-direction: column-reverse;
         gap: 8px;
     }
 }
@@ -68,7 +68,7 @@
     display: flex;
     height: auto;
     gap: 18px;
-    flex-direction: row-reverse;
+    flex-direction: row;
 
     @media #{$mobile-devices} {
         flex-direction: column-reverse;
