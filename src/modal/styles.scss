@@ -36,11 +36,11 @@
     padding: 12px 27px;
     text-align: center;
     display: flex;
-    justify-content: flex-end;
     gap: 16px;
 
     @media #{$desktop-devices} {
         text-align: right;
+        flex-direction: row-reverse;
     }
 
     @media #{$mobile-devices} {
@@ -62,13 +62,17 @@
     outline: none;
     padding: 11px 18px;
     text-transform: uppercase;
+}
 
-    &:first-child,
-    &:nth-child(2) {
-        margin-right: 18px;
-        @media #{$mobile-devices} {
-            margin-right: 0;
-        }
+.consentButtons {
+    display: flex;
+    height: auto;
+    gap: 18px;
+    flex-direction: row;
+
+    @media #{$mobile-devices} {
+        flex-direction: column-reverse;
+        gap: 8px
     }
 }
 
@@ -85,6 +89,18 @@
     background-color: $color-secondary-fill;
     border: 1px solid $color-secondary;
     color: $color-secondary;
+}
+
+.learnMoreButton {
+    order: 2
+}
+
+.backButton {
+    order: 3
+}
+
+.acceptButton {
+    order: 1
 }
 
 .link {
