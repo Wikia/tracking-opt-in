@@ -57,7 +57,7 @@ class ScreenOne extends Component {
                             onClick={clickReject}
                             key="reject"
                         >
-                            {content.rejectButton}
+                            {content.rejectAllButton}
                         </div>
                     </div>
                 </div>
