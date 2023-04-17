@@ -256,39 +256,3 @@ export const SESSION_COOKIES = [
         extendTime: 183 // 6 months in days
     }
 ];
-
-export const ONE_TRUST_DOMAIN_ID = {
-    'cordcuttersnews.com': '3c599b07-25eb-490a-9ab8-c1b526903185-test',
-    'fanatical.com': '0ab0e172-dc9c-44b9-8a58-c80d9ba4fae0-test',
-    'futhead.com': '82c642a4-d3a9-4a78-a310-21a7b49ab17b-test',
-    'gamespot.com' : '73588546-b116-4dbc-ab64-9db97e11fc0d-test',
-    'metacritic.com': '50e16f1d-a929-4cc0-80a7-3c5c303eea6a-test',
-    'muthead.com': 'fb34a16e-696d-4748-af9f-96f3b9e2b4da-test',
-    'tvguide.com' : 'ffc22311-f4da-4e03-a1ad-32aecd522c5b-test',
-    'fandom.com': 'dea70a1b-c82d-4fe0-86ff-5e164b0a6022',
-    'sandbox.fandom.com': 'dea70a1b-c82d-4fe0-86ff-5e164b0a6022-test',
-}
-
-export const ONE_TRUST_LIBRARIES = [
-    {
-        url: 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
-        options: {
-            type: 'text/javascript',
-        }
-    }, {
-        url: 'https://cdn.cookielaw.org/opt-out/otCCPAiab.js',
-        options: {
-            charSet: 'UTF-8',
-            type: 'text/javascript',
-            'ccpa-opt-out-ids': 'C0004',
-            'ccpa-opt-out-geo': 'ca',
-            'ccpa-opt-out-lspa': true
-        }
-    }, {
-        url: 'https://cdn.cookielaw.org/consent/tcf.stub.js',
-        options: {
-            charSet: 'UTF-8',
-            type: 'text/javascript',
-        }
-    }
-]
