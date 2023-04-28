@@ -6,7 +6,11 @@
         "その他のオプションについては、「%learnMoreButton%」をお選びください。なお、ご同意いただけない場合は、関連性の低い広告が表示される可能性や、このサイトの機能が一部正常に動作しない可能性があることにご注意ください。この選択は、ブラウザの「クッキー削除」機能を使用して、後からいつでも変更可能です（こうすると、次回このサイトにアクセスした際に再び同意を求められます）。Fandomとそのパートナーによるクッキーの使用については%privacyPolicy%を、このサイトでクッキーを使用しているFandomのパートナーについては%partnerList%をご覧ください。"
     ],
     "acceptButton": "同意する",
+    "acceptAllButton": "すべて承諾",
     "rejectButton": "すべて拒否",
+    "rejectAllButton": "すべて拒否",
+    "consentButton": "同意する",
+    "doNotConsentButton": "同意しない",
     "backButton": "戻る",
     "learnMoreButton": "詳細を見る",
     "saveButton": "保存して閉じる",
