@@ -3,6 +3,7 @@ import { debug } from '../shared/utils';
 
 const DEFAULT_BEACON_COOKIE_NAME = 'wikia_beacon_id';
 const TRACKING_BASE = 'https://beacon.wikia-services.com/__track/special/gdpr_events';
+const TRACKING_BASE_BEAM = 'https://beam.wikia-services.com/__track/special/gdpr_events';
 const TRACK_PARAMS = {
     LANGUAGE_CODE: 'lang_code',
     DETECTED_GEO: 'detected_geo',
@@ -35,8 +36,16 @@ class Tracker {
         }
     }
 
-    // largely taken from https://github.com/Wikia/app/blob/a34191d/resources/wikia/modules/tracker.js
     track(category, action, label, onComplete = () => {}) {
+        trackWithHost(TRACKING_BASE, category, action, label, onComplete);
+        // OPS-14450: send 0.5% of tracking requests to beam
+        if (Math.random() < 0.005) {
+            trackWithHost(TRACKING_BASE_BEAM, category, action, label, onComplete);
+        }
+    }
+
+    // largely taken from https://github.com/Wikia/app/blob/a34191d/resources/wikia/modules/tracker.js
+    trackWithHost(host, category, action, label, onComplete = () => {}) {
         const params = {
             ...this.defaultParams,
             [TRACK_PARAMS.CATEGORY]: category,
@@ -57,7 +66,7 @@ class Tracker {
         }
 
         let script = document.createElement('script');
-        script.src = `${TRACKING_BASE}?${requestParams.join('&')}`;
+        script.src = `${host}?${requestParams.join('&')}`;
         if ('async' in script) {
             script.async = true;
         }
