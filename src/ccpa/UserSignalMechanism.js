@@ -221,7 +221,6 @@ class UserSignalMechanism {
 
                 debug('CCPA', `Privacy String updated via URL parameter: ${privacyString}`);
             } else if (this.options.isSubjectToCcpa) {
-
                 privacyString = this.createPrivacyString(USP_VALUES.yes);
                 debug('CCPA', 'Force opt-out because user is subject to COPPA');
             } else if (navigator.globalPrivacyControl) {
