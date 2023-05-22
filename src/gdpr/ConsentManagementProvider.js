@@ -51,7 +51,7 @@ class ConsentManagementProvider {
      * @returns Promise<VendorList>
      */
     static fetchVendorList() {
-        return getJSON(`${VENDOR_LIST_URL_BASE}${VENDOR_LIST_FILE_NAME}`);
+        return getJSON(`https://script.wikia.nocookie.net/fandom-ae-assets/tcf/dev/vendor-list.json`);
     }
 
     constructor(options) {
