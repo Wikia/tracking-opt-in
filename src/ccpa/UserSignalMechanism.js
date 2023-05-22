@@ -310,6 +310,8 @@ class UserSignalMechanism {
     }
 
     performDeletion(version, callback) {
+        debug('CCPA', 'performDeletion was called');
+
         if (this.deletionCallbacks && this.deletionCallbacks.length > 0) {
             this.deletionCallbacks.forEach((cb) => cb());
         }
