@@ -165,6 +165,7 @@ export const IAB_VENDORS = [
     775, // SelectMedia International LTD
     84,  // Semasio GmbH
     80,  // Sharethrough, Inc
+    111, // Showheroes SE
     59,  // Sift Media
     261, // Signal Digital Inc.
     73,  // Simplifi Holdings Inc.
