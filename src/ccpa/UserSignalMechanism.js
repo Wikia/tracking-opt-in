@@ -103,13 +103,10 @@ class UserSignalMechanism {
             this.ping,
             this.getUSPData,
             this.showConsentTool,
-            this.registerDeletion,
-            this.performDeletion
         ];
         this.explicit_notice = USP_VALUES.yes;
         this.lspa_support = USP_VALUES.no;
         this.opt_out_sale = USP_VALUES.no;
-        this.deletionCallbacks = [];
 
         if (window.__uspapi === undefined) {
             this.installStub();
@@ -217,8 +214,6 @@ class UserSignalMechanism {
             if (queryStringOverride) {
                 privacyString = this.createPrivacyString(getUSPValue(true));
 
-                this.performDeletion();
-
                 debug('CCPA', `Privacy String updated via URL parameter: ${privacyString}`);
             } else if (this.options.isSubjectToCcpa) {
                 privacyString = this.createPrivacyString(USP_VALUES.yes);
@@ -298,25 +293,6 @@ class UserSignalMechanism {
             uspapiVersion: version || USP_VERSION,
             uspapiLoaded: true,
         }));
-    }
-
-    registerDeletion(version, callback) {
-        return new Promise((resolve) => {
-            if (callback && typeof callback === 'function') {
-                this.deletionCallbacks.push(callback);
-                resolve();
-            }
-        });
-    }
-
-    performDeletion(version, callback) {
-        debug('CCPA', 'performDeletion was called');
-
-        if (this.deletionCallbacks && this.deletionCallbacks.length > 0) {
-            this.deletionCallbacks.forEach((cb) => cb());
-        }
-
-        return new Promise((resolve) => resolve());
     }
 
     getUSPData(version) {
