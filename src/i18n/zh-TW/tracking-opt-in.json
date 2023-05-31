@@ -6,7 +6,11 @@
         "關於其他選項，請選擇「%learnMoreButton%」。請注意，如果您選擇不接受，您可能會看到與您興趣不符的廣告，並且網站的某些功能可能無法正常運作。您可以透過瀏覽器的「清除cookie」功能隨時改變主意並重新儲存這些選項（這將在您下次造訪我們網站時跳出提示並徵求您的同意）。有關我們使用cookie方面的資訊以及我們網站上使用cookie的合作夥伴，請分別查閱我們的「%privacyPolicy%」和「%partnerList%」。"
     ],
     "acceptButton": "同意",
+    "acceptAllButton": "接受全部",
     "rejectButton": "拒絕全部",
+    "rejectAllButton": "拒絕全部",
+    "consentButton": "同意",
+    "doNotConsentButton": "不同意",
     "backButton": "返回",
     "learnMoreButton": "瞭解更多",
     "saveButton": "儲存並關閉",

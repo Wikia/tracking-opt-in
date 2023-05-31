@@ -6,7 +6,11 @@
         "Weitere Optionen findest du, wenn du auf \"%learnMoreButton%\" klickst. Bitte beachte, dass du, wenn du die Verwendung von Cookies ablehnst, Werbung siehst, die für dich weniger relevant ist und bestimmte Funktionen der Website möglicherweise nicht wie beabsichtigt funktionieren. Du kannst deine Meinung jederzeit ändern und deine Einwilligungserklärung erneut aufrufen, indem du die Cookies in deinem Browser löscht (dies führt dazu, dass wir dich beim nächsten Besuch unserer Website erneut um deine Einwilligung bitten). Informationen über die Nutzung von Cookies auf unserer Website durch uns und unsere Partner findest du in unserer %privacyPolicy% bzw. %partnerList%."
     ],
     "acceptButton": "ANNEHMEN",
+    "acceptAllButton": "ALLE AKZEPTIEREN",
     "rejectButton": "ALLE ABLEHNEN",
+    "rejectAllButton": "ALLE ABLEHNEN",
+    "consentButton": "ZUSTIMMEN",
+    "doNotConsentButton": "NICHT ZUSTIMMEN",
     "backButton": "Zurück",
     "learnMoreButton": "MEHR ERFAHREN",
     "saveButton": "Speichern und schließen",

@@ -6,7 +6,11 @@
         "Pour plus d'informations sur les options supplémentaires, sélectionnez %learnMoreButton%. Notez que, si vous n'acceptez pas, il se peut que des publicités moins pertinentes pour vous s'affichent et que certaines fonctionnalités du site ne fonctionnent pas comme prévu. Si vous changez d'avis, vous pouvez revenir sur votre choix à tout moment en utilisant la fonctionnalité \"effacer les cookies\" de votre navigateur (afin que votre consentement soit de nouveau demandé lors de votre prochaine visite de notre site Web). Pour plus d'informations sur notre utilisation des cookies et nos partenaires utilisant des cookies sur le site, veuillez consulter notre %privacyPolicy% et la %partnerList%, respectivement."
     ],
     "acceptButton": "ACCEPTER",
-    "rejectButton": "TOUT REFUSER",
+    "acceptAllButton": "TOUT ACCEPTER",
+    "rejectButton": "REFUSER",
+    "rejectAllButton": "TOUT REFUSER",
+    "consentButton": "CONSENTIR",
+    "doNotConsentButton": "NE PAS CONSENTIR",
     "backButton": "Retour",
     "learnMoreButton": "EN SAVOIR PLUS",
     "saveButton": "Enregistrer et fermer",
