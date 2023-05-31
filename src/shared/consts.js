@@ -259,7 +259,6 @@ export const SESSION_COOKIES = [
 ];
 
 export const ONE_TRUST_DOMAIN_ID = {
-    'cordcuttersnews.com': '3c599b07-25eb-490a-9ab8-c1b526903185-test',
     'fanatical.com': '0ab0e172-dc9c-44b9-8a58-c80d9ba4fae0-test',
     'futhead.com': '82c642a4-d3a9-4a78-a310-21a7b49ab17b-test',
     'gamespot.com' : '73588546-b116-4dbc-ab64-9db97e11fc0d-test',
