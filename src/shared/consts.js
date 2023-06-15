@@ -22,6 +22,7 @@ export const IAB_VENDORS = [
     22,  // Admetrics
     264, // Adobe Advertising Cloud
     565, // Adobe Audience Manager, Adobe Experience Platform
+    613, // Adserve.zone / Artworx AS
     6,   // AdSpirit GmbH
     66,  // adsquare GmbH
     827, // AdTriba
@@ -150,6 +151,7 @@ export const IAB_VENDORS = [
     11,  // Quantcast International Limited
     60,  // Rakuten Marketing
     631, // Relay42
+    1100,// Relevant Digital OY
     192, // Remerge
     787, // Resolution Media
     36,  // RhythmOne DBA Unruly Group Ltd (RhythmOne, LLC)
