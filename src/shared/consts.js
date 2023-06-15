@@ -151,6 +151,7 @@ export const IAB_VENDORS = [
     11,  // Quantcast International Limited
     60,  // Rakuten Marketing
     631, // Relay42
+    1100,// Relevant Digital OY
     192, // Remerge
     787, // Resolution Media
     36,  // RhythmOne DBA Unruly Group Ltd (RhythmOne, LLC)
