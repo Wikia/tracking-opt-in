@@ -22,6 +22,7 @@ export const IAB_VENDORS = [
     22,  // Admetrics
     264, // Adobe Advertising Cloud
     565, // Adobe Audience Manager, Adobe Experience Platform
+    613, // Adserve.zone / Artworx AS
     6,   // AdSpirit GmbH
     66,  // adsquare GmbH
     827, // AdTriba
