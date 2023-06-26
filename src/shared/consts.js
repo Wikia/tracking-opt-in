@@ -145,6 +145,7 @@ export const IAB_VENDORS = [
     1101,// PIA Advertising GmbH
     384, // Pixalate
     140, // Platform161
+    1131,// Playwire LLC
     762, // Protected Media
     226, // Publicis Media
     76,  // PubMatic, Inc.
