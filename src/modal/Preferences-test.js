@@ -93,4 +93,6 @@ describe('Preferences', () => {
         saveButton.click();
         assert.isOk(clickSave.called);
     });
+
+    tracker.track.restore();
 });

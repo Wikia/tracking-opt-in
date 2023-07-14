@@ -1,5 +1,3 @@
-import { Promise } from 'es6-promise';
-
 export const DEBUG_QUERY_PARAM = 'tracking-opt-in-debug';
 
 export function isParameterSet(param) {
@@ -58,32 +56,26 @@ export function getCookieDomain(hostname) {
 const cachedJson = {};
 
 export function getJSON(url, useCache = true) {
-    return new Promise((resolve, reject) => {
-        if (useCache && cachedJson[url]) {
-            resolve(cachedJson[url]);
-            return;
-        }
+    if (useCache && cachedJson[url]) {
+        return Promise.resolve(cachedJson[url]);
+    }
 
-        const req = new XMLHttpRequest();
-
-        req.open('GET', url, true);
-        req.onload = function () {
+    return fetch(url)
+        .then(response => response.text())
+        .then(responseText => {
             let response;
-
             try {
-                response = JSON.parse(this.responseText);
+                response = JSON.parse(responseText);
                 cachedJson[url] = response;
             } catch (e) {
                 response = null;
             }
 
-            resolve(response);
-        };
-        req.onerror = function () {
-            reject(new Error(`Cannot fetch: ${url}`));
-        };
-        req.send(null);
-    });
+            return response;
+        })
+        .catch(() => {
+            throw new Error(`Cannot fetch: ${url}`);
+        });
 }
 
 export function loadScript(url, options) {

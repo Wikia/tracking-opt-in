@@ -1,3 +1,4 @@
+import './script-public-path';
 import { AC_PROVIDERS, IAB_VENDORS, SESSION_COOKIES } from './shared/consts';
 import ContentManager from './shared/ContentManager';
 import GeoManager, { ensureGeoCookie } from './shared/GeoManager';

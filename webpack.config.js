@@ -37,6 +37,7 @@ module.exports = {
     output: {
         path: buildPath,
         filename: 'tracking-opt-in.min.js',
+        chunkFilename: '[name].translation.js',
         library: 'trackingOptIn',
         libraryTarget: 'umd',
     },
@@ -45,7 +46,14 @@ module.exports = {
             {
                 test: /\.js$/,
                 include: `${__dirname}/src`,
-                use: 'babel-loader',
+                exclude: /-test.js$/,
+                loader: 'esbuild-loader',
+                options: {
+                    target: 'es2015',
+                    loader: 'jsx',
+                    jsxFactory: 'h',
+                    jsxFragment: 'Fragment',
+                }
             },
             {
                 test: /\.s?css$/,
@@ -74,6 +82,20 @@ module.exports = {
                                     preset: 'default',
                                 }),
                             ],
+                        },
+                    },
+                    {
+                        loader: 'esbuild-loader',
+                        options: {
+                            /**
+                             * Since esbuild isn't aware of the `.sass` extension
+                             * it cannot auto-detect how to handle it.
+                             *
+                             * We need to tell it to treat the output of
+                             * `sass-loader` as CSS.
+                             */
+                            loader: 'css',
+                            minify: true,
                         },
                     },
                     {
