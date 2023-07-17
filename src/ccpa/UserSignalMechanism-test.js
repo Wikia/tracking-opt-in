@@ -1,9 +1,30 @@
 import { assert } from 'chai';
-import { spy } from 'sinon';
+import { spy, stub } from 'sinon';
 import Cookies from 'js-cookie';
 import UserSignalMechanism, { USP_VALUES, USP_VERSION } from './UserSignalMechanism';
 
 describe('UserSignalMechanism', () => {
+    let cookieJar = {};
+    let cookiesStub = {};
+
+    before(() => {
+        cookiesStub.set = stub(Cookies, 'set').callsFake((name, value) => {
+            cookieJar[name] = value;
+        });
+        cookiesStub.get = stub(Cookies, 'get').callsFake((name) => cookieJar[name]);
+        cookiesStub.remove = stub(Cookies, 'remove').callsFake((name) => cookieJar[name] && delete cookieJar[name]);
+    });
+
+    after(() => {
+        cookiesStub.set.restore();
+        cookiesStub.get.restore();
+        cookiesStub.remove.restore();
+    });
+
+    afterEach(() => {
+        cookieJar = {};
+    });
+
     function cleanup() {
         delete window.__uspapi;
         Cookies.remove('usprivacy');
@@ -57,7 +78,7 @@ describe('UserSignalMechanism', () => {
         };
         let uspapi;
 
-        before(() => {
+        beforeEach(() => {
             cleanup();
 
             uspapi = new UserSignalMechanism(config);

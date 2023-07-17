@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import { Promise } from 'es6-promise';
 
 import { CmpApi } from '@iabtcf/cmpapi';
 import { GVL, TCModel, TCString, VendorList } from '@iabtcf/core';

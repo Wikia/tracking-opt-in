@@ -5,6 +5,11 @@ import GeoManager, { COUNTRY_COOKIE_NAME } from "./GeoManager";
 const countryRequiringPrompt = 'PL';
 const countryNotRequiringPrompt = 'US';
 
+Object.defineProperty(document, 'cookie', {
+    value: '',
+    writable: true,
+});
+
 function setGeoCookie(country) {
     Cookies.set(COUNTRY_COOKIE_NAME, {
         region: 'CA',

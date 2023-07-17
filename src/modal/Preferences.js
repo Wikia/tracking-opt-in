@@ -30,13 +30,13 @@ class Preferences extends Component {
 
             Promise.all([
                 ConsentManagementProvider.fetchVendorList(),
-                ContentManager.fetchTranslation(language)
-            ]).then(([json, translation]) => {
-                if (translation) {
-                    json.features = translation.features;
-                    json.purposes = translation.purposes;
-                    json.specialFeatures = translation.specialFeatures;
-                    json.specialPurposes = translation.specialPurposes;
+                ContentManager.fetchPurposes(language)
+            ]).then(([json, purposes]) => {
+                if (purposes) {
+                    json.features = purposes.features;
+                    json.purposes = purposes.purposes;
+                    json.specialFeatures = purposes.specialFeatures;
+                    json.specialPurposes = purposes.specialPurposes;
                 }
 
                 // Filter vendors to those used by Fandom

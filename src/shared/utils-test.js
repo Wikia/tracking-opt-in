@@ -1,8 +1,6 @@
 import { assert } from 'chai';
 import * as utils from './utils';
 
-const noop = () => {};
-
 describe('Utils', () => {
     context('parseUrl', () => {
         it('parses a URL from string', () => {
@@ -51,16 +49,6 @@ describe('Utils', () => {
     });
 
     context('getJSON', () => {
-        let originalXHR;
-
-        beforeEach(() => {
-            originalXHR = window.XMLHttpRequest;
-        });
-
-        afterEach(() => {
-            window.XMLHttpRequest = originalXHR;
-        });
-
         it('returns an object if the response is correct', (done) => {
             const response = {
                 a: 0,
@@ -68,14 +56,12 @@ describe('Utils', () => {
                 c: 2
             };
 
-            window.XMLHttpRequest = function () {
-                this.open = noop;
-                this.send = () => {
-                    this.onload.call({
-                        responseText: JSON.stringify(response)
-                    });
-                };
-            };
+            Object.defineProperty(global, 'fetch', {
+                value: () => Promise.resolve({
+                    text: () => Promise.resolve(JSON.stringify(response))
+                }),
+                writable: true
+            });
 
             utils.getJSON('http://foo.bar', false)
                 .then((json) => {
@@ -85,12 +71,10 @@ describe('Utils', () => {
         });
 
         it('throws an error if not able to fetch the data', (done) => {
-            window.XMLHttpRequest = function () {
-                this.open = noop;
-                this.send = () => {
-                    this.onerror();
-                };
-            };
+            Object.defineProperty(global, 'fetch', {
+                value: () => Promise.reject(),
+                writable: true
+            });
 
             utils.getJSON('http://foo.bar', false)
                 .catch((error) => {
@@ -100,14 +84,12 @@ describe('Utils', () => {
         });
 
         it('returns null if not able to parse the response', (done) => {
-            window.XMLHttpRequest = function () {
-                this.open = noop;
-                this.send = () => {
-                    this.onload.call({
-                        responseText: 'foo'
-                    });
-                };
-            };
+            Object.defineProperty(global, 'fetch', {
+                value: () => Promise.resolve({
+                    text: () => Promise.resolve('not json')
+                }),
+                writable: true
+            });
 
             utils.getJSON('http://foo.bar', false)
                 .then((json) => {

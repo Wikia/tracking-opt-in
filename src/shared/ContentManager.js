@@ -4,18 +4,6 @@ import { getJSON } from './utils';
 // base i18n file
 import en from '../i18n/tracking-opt-in.json';
 
-// translations
-import de from '../i18n/de/tracking-opt-in.json';
-import esES from '../i18n/es-ES/tracking-opt-in.json';
-import fr from '../i18n/fr/tracking-opt-in.json';
-import it from '../i18n/it/tracking-opt-in.json';
-import ja from '../i18n/ja/tracking-opt-in.json';
-import pl from '../i18n/pl/tracking-opt-in.json';
-import ptPR from '../i18n/pt-BR/tracking-opt-in.json';
-import ru from '../i18n/ru/tracking-opt-in.json';
-import zhCN from '../i18n/zh-CN/tracking-opt-in.json';
-import zhTW from '../i18n/zh-TW/tracking-opt-in.json';
-
 /**
  * Additional strings (URLs, mostly)
  * - Keys for this object are the same as keys for `langToContent`
@@ -69,35 +57,20 @@ const availableTranslations = [
 const TRANSLATIONS_URL_BASE = 'https://script.wikia.nocookie.net/fandom-ae-assets/tcf/v2/';
 const TRANSLATIONS_FILE_NAME = 'purposes-CODE.json';
 
-function processLanguages(langs) {
-    const getAdditionalStrings = lang => additionalStrings[lang] || additionalStrings.en;
-    const langsWithStrings = {};
-
-    // add `additionalStrings` to `langs`
-    Object.keys(langs).forEach(key => {
-        langsWithStrings[key] = {
-            ...langs[key],
-            ...getAdditionalStrings(key),
-        };
-    });
-
-    return langsWithStrings;
-}
-
-export const langToContent = processLanguages({
-    de: de,
-    en: en,
-    es: esES,
-    fr: fr,
-    it: it,
-    ja: ja,
-    pl: pl,
-    pt: ptPR,
-    ru: ru,
-    zh: zhCN, // simplified
-    'zh-hk': zhTW, // traditional
-    'zh-tw': zhTW, // traditional
-});
+export const langToContent = {
+    de: () => import(/* webpackChunkName: "de" */ '../i18n/de/tracking-opt-in.json'),
+    en: () => en,
+    es: () => import(/* webpackChunkName: "es-ES" */ '../i18n/es-ES/tracking-opt-in.json'),
+    fr: () => import(/* webpackChunkName: "fr" */ '../i18n/fr/tracking-opt-in.json'),
+    it: () => import(/* webpackChunkName: "it" */ '../i18n/it/tracking-opt-in.json'),
+    ja: () => import(/* webpackChunkName: "ja" */ '../i18n/ja/tracking-opt-in.json'),
+    pl: () => import(/* webpackChunkName: "pl" */ '../i18n/pl/tracking-opt-in.json'),
+    pt: () => import(/* webpackChunkName: "pt" */ '../i18n/pt-BR/tracking-opt-in.json'),
+    ru: () => import(/* webpackChunkName: "ru" */ '../i18n/ru/tracking-opt-in.json'),
+    zh: () => import(/* webpackChunkName: "zh-CN" */ '../i18n/zh-CN/tracking-opt-in.json'), // simplified
+    'zh-hk': () => import(/* webpackChunkName: "zh-TW" */ '../i18n/zh-TW/tracking-opt-in.json'), // traditional
+    'zh-tw': () => import(/* webpackChunkName: "zh-TW" */ '../i18n/zh-TW/tracking-opt-in.json'), // traditional
+};
 
 export default class ContentManager {
     content = null;
@@ -106,7 +79,7 @@ export default class ContentManager {
     /**
      * @returns Promise<VendorList|null>
      */
-    static fetchTranslation(language) {
+    static fetchPurposes(language) {
         if (!availableTranslations.includes(language)) {
             return Promise.resolve(null);
         }
@@ -116,18 +89,27 @@ export default class ContentManager {
 
     constructor(lang) {
         this.language = lang;
+    }
 
+    fetchTranslations() {
         // all the strings default to `en`
-        let content = langToContent.en;
+        this.content = {
+            ...langToContent.en(),
+            ...(additionalStrings[this.language] || additionalStrings.en)
+        };
 
-        if (lang in langToContent) {
-            // merge both together
-            content = {
-                ...content,
-                ...langToContent[lang],
-            };
+        if (this.language === 'en' || langToContent[this.language] === undefined) {
+            return Promise.resolve();
         }
 
-        this.content = content;
+        return langToContent[this.language]()
+            .then(resource => resource.default)
+            .then((langContent) => {
+                // merge both together
+                this.content = {
+                    ...this.content,
+                    ...langContent,
+                };
+            });
     }
 }

@@ -1,3 +1,5 @@
+import 'whatwg-fetch';
+
 import main from '../index';
 
 import { assert } from 'chai';

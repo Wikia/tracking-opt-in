@@ -19,7 +19,8 @@ function noop() {}
 
 describe('Modal', () => {
     const tracker = new Tracker('en', 'geo', 'beacon', true);
-    stub(Tracker.prototype, 'track').callsFake((...a) => console.debug('Track', a));
+    tracker.track = stub().callsFake((...a) => console.debug('Track', a));
+
     let optInManager;
     let geoManager;
 
@@ -27,7 +28,9 @@ describe('Modal', () => {
         optInManager = createStubInstance(OptInManager);
         geoManager = createStubInstance(GeoManager);
 
-        return render(h(Modal, {
+        const contentManager = new ContentManager('en');
+
+        return contentManager.fetchTranslations().then(() => render(h(Modal, {
             tracker,
             optInManager,
             geoManager,
@@ -35,15 +38,15 @@ describe('Modal', () => {
             onAcceptTracking: callbacks.onAcceptTracking || noop,
             onRejectTracking: callbacks.onRejectTracking || noop,
             onConsentsReady: callbacks.onConsentsReady || noop,
-            content: (new ContentManager('en')).content,
-            language: (new ContentManager('en')).language,
+            content: contentManager.content,
+            language: contentManager.language,
             options: {
                 enabledPurposes: [],
                 enabledVendors: [],
                 preventScrollOn,
                 zIndex: 1,
             },
-        }), document.body);
+        }), document.body));
     }
 
     function removeApp() {
@@ -55,47 +58,55 @@ describe('Modal', () => {
         removeApp();
     });
 
-    it('renders ScreenOne by default', () => {
-        const wrapper = renderApp();
-        expect(wrapper.className).to.equal(styles.overlay);
+    it('renders ScreenOne by default', (done) => {
+        renderApp().then((wrapper) => {
+            expect(wrapper.className).to.equal(styles.overlay);
 
-        const container = findByClass(wrapper, styles.dialog);
-        expect(container).to.not.equal(null);
-        expect(container.className.split(' ')).to.include(styles.dialog);
+            const container = findByClass(wrapper, styles.dialog);
+            expect(container).to.not.equal(null);
+            expect(container.className.split(' ')).to.include(styles.dialog);
 
-        const content = findByClass(wrapper, stylesScreenOne.content);
-        expect(content).to.not.equal(null);
-        expect(content.className).to.equal(stylesScreenOne.content);
+            const content = findByClass(wrapper, stylesScreenOne.content);
+            expect(content).to.not.equal(null);
+            expect(content.className).to.equal(stylesScreenOne.content);
+            done();
+        });
     });
 
-    it('calls the appropriate funcs on accept button click', () => {
+    it('calls the appropriate funcs on accept button click', (done) => {
         const onAcceptTracking = stub();
         const onRequestAppRemove = stub();
 
-        const wrapper = renderApp({ onAcceptTracking, onRequestAppRemove });
-        const acceptButton = findByClass(wrapper, styles.acceptButton);
-        expect(acceptButton).to.not.equal(null);
-        acceptButton.click();
+        renderApp({ onAcceptTracking, onRequestAppRemove }).then((wrapper) => {
+            const acceptButton = findByClass(wrapper, styles.acceptButton);
+            expect(acceptButton).to.not.equal(null);
+            acceptButton.click();
 
-        assert.isOk(onAcceptTracking.called);
-        assert.isOk(onRequestAppRemove.called);
-        assert.isOk(tracker.track.called);
-        assert.isOk(optInManager.setTrackingAccepted.called);
+            assert.isOk(onAcceptTracking.called);
+            assert.isOk(onRequestAppRemove.called);
+            assert.isOk(tracker.track.called);
+            assert.isOk(optInManager.setTrackingAccepted.called);
+            done();
+        });
     });
 
     describe('with preventScrollOn', () => {
-        it('adds a class to the body element and removes it when unmounted', () => {
-            renderApp({}, 'body');
-            assert.isOk(document.querySelector('body').classList.contains(styles.withTrackingOptInDialogShown));
+        it('adds a class to the body element and removes it when unmounted', (done) => {
+            renderApp({}, 'body').then(() => {
+                assert.isOk(document.querySelector('body').classList.contains(styles.withTrackingOptInDialogShown));
 
-            removeApp();
-            assert.isNotOk(document.querySelector('body').classList.contains(styles.withTrackingOptInDialogShown));
+                removeApp();
+                assert.isNotOk(document.querySelector('body').classList.contains(styles.withTrackingOptInDialogShown));
+                done();
+            });
         });
 
-        it('accepts a dom element', () => {
+        it('accepts a dom element', (done) => {
             const body = document.querySelector('body');
-            renderApp({}, body);
-            assert.isOk(body.classList.contains(styles.withTrackingOptInDialogShown));
+            renderApp({}, body).then(() => {
+                assert.isOk(body.classList.contains(styles.withTrackingOptInDialogShown));
+                done();
+            });
         });
     });
 });

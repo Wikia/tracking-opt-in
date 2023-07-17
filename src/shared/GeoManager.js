@@ -98,49 +98,23 @@ export function ensureGeoCookie() {
 
     const GEO_SERVICE_URL = 'https://services.fandom.com/geoip/location';
 
-    return new Promise((resolve, reject) => {
-        try {
-            const request = new XMLHttpRequest();
-
-            request.open('GET', GEO_SERVICE_URL, true);
-            request.setRequestHeader('Content-type', 'application/json');
-            request.timeout = 2000;
-            request.withCredentials = true;
-
-            request.onload = () => {
-                if (request.status < 200 || request.status >= 300) {
-                    console.warn('no geo cookie found');
-                    reject();
-                } else {
-                    const geoResponse = JSON.parse(request.responseText);
-
-                    resolve({
-                        continent: geoResponse.continent_code,
-                        country: geoResponse.country_code,
-                        region: geoResponse.region,
-                        city: geoResponse.city,
-                        country_name: geoResponse.country_name
-                    });
-                }
+    return fetch(GEO_SERVICE_URL).then(response => response.json())
+        .then(geoResponse => {
+            return {
+                continent: geoResponse.continent_code,
+                country: geoResponse.country_code,
+                region: geoResponse.region,
+                city: geoResponse.city,
+                country_name: geoResponse.country_name
             };
-
-            request.onerror = () => {
-                console.warn('no geo cookie found');
-                reject();
-            };
-
-            request.send();
-        } catch (err) {
-            console.warn('no geo cookie found');
-            reject();
-        }
-    }).then((geoData) => {
-        Cookies.set('Geo', JSON.stringify(geoData), {
-            domain: getCookieDomain(window.location.hostname),
-            expires: 365,
-            path: '/',
+        })
+        .then((geoData) => {
+            Cookies.set('Geo', JSON.stringify(geoData), {
+                domain: getCookieDomain(window.location.hostname),
+                expires: 365,
+                path: '/',
+            });
         });
-    });
 }
 
 class GeoManager {

@@ -1,15 +1,32 @@
 import { assert } from 'chai';
+import { stub } from "sinon";
 import Cookies from 'js-cookie';
 import OptInManager, {
-    DEFAULT_COOKIE_NAME,
     DEFAULT_QUERY_PARAM_NAME,
     VERSION_COOKIE_NAME
 } from './OptInManager';
 import { CMP_VERSION } from './ConsentManagementProvider';
 
 describe('OptInManager', () => {
+    let cookieJar = {};
+    let cookiesStub = {};
+
+    before(() => {
+        cookiesStub.set = stub(Cookies, 'set').callsFake((name, value) => {
+            cookieJar[name] = value;
+        });
+        cookiesStub.get = stub(Cookies, 'get').callsFake((name) => cookieJar[name]);
+        cookiesStub.remove = stub(Cookies, 'remove').callsFake((name) => cookieJar[name] && delete cookieJar[name]);
+    });
+
+    after(() => {
+        cookiesStub.set.restore();
+        cookiesStub.get.restore();
+        cookiesStub.remove.restore();
+    });
+
     afterEach(() => {
-        Cookies.remove(DEFAULT_COOKIE_NAME);
+        cookieJar = {};
     });
 
     it('allows overrides for basic params', () => {

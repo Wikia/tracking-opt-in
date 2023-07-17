@@ -1,4 +1,5 @@
 import { assert } from 'chai';
+import { stub } from 'sinon';
 import Cookies from 'js-cookie';
 
 import { SESSION_COOKIES } from './consts';
@@ -9,22 +10,27 @@ const mockedCookieWikiaBeaconId = '67890';
 const mockedCookieB2 = '02468';
 
 describe('CookieManager', () => {
-    afterEach(() => {
-        Cookies.remove('tracking_session_id');
-        Cookies.remove('wikia_beacon_id');
-        Cookies.remove('_b2');
-    });
-
     it('in country not requiring the prompt gets value from the cookies', () => {
         const cookieManager = new CookieManager(SESSION_COOKIES);
 
-        Cookies.set('tracking_session_id', mockedCookieWikiaSessionId);
-        Cookies.set('wikia_beacon_id', mockedCookieWikiaBeaconId);
-        Cookies.set('_b2', mockedCookieB2);
+        const cookiesStub = stub(Cookies, 'get').callsFake((name) => {
+            switch (name) {
+                case 'tracking_session_id':
+                    return mockedCookieWikiaSessionId;
+                case 'wikia_beacon_id':
+                    return mockedCookieWikiaBeaconId;
+                case '_b2':
+                    return mockedCookieB2;
+                default:
+                    return '';
+            }
+        });
 
         assert.equal(cookieManager.getSessionCookiesValue('tracking_session_id'), mockedCookieWikiaSessionId);
         assert.equal(cookieManager.getSessionCookiesValue('wikia_beacon_id'), mockedCookieWikiaBeaconId);
         assert.equal(cookieManager.getSessionCookiesValue('_b2', true), mockedCookieB2);
+
+        cookiesStub.restore();
     });
 
     it('in country requiring the prompt gets random values of the right length', () => {

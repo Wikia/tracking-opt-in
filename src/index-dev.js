@@ -1,3 +1,4 @@
+import './script-public-path';
 import main from './index';
 
 // this module handles the hot reloading so it doesn't get included in the babel build
