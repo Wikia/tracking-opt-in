@@ -6,6 +6,7 @@ const MISSING_COOKIE_NAME = 'no-cookie';
 
 // client.geo.country_code https://docs.fastly.com/guides/vcl/geolocation-related-vcl-features
 const COUNTRIES_REQUIRING_PROMPT = [
+    'ad', // Andorra
     'ai', // Anguilla
     'aw', // Aruba
     'ax', // Åland Islands
