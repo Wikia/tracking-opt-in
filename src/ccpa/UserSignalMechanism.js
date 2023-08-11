@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import { Promise } from 'es6-promise';
 
 import { debug, getCookieDomain } from '../shared/utils';
 

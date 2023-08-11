@@ -157,6 +157,7 @@ class ConsentManagementPlatform {
         });
         this.consentManagementProvider.initialize();
         this.consentManagementProvider.loadVendorList()
+            .then(() => this.contentManager.fetchTranslations())
             .then(() => {
                 if (this.consentManagementProvider.isVendorTCFPolicyVersionOutdated()) {
                     this.consentManagementProvider.setVendorConsentCookie(null);
