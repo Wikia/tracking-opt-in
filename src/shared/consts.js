@@ -144,6 +144,7 @@ export const IAB_VENDORS = [
     559, // OTTO
     1101,// PIA Advertising GmbH
     384, // Pixalate
+    839, // Pixfuture Media Inc.
     140, // Platform161
     1131,// Playwire LLC
     762, // Protected Media
