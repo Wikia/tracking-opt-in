@@ -197,6 +197,7 @@ export const IAB_VENDORS = [
     202, // Telaria, Inc
     345, // The Kantar Group Limited
     686, // The MediaGrid Inc.
+    524, // The Ozone Project Limited
     52,  // The Rubicon Project, Inc. (The Rubicon Project, Limited)
     21,  // The Trade Desk (The Trade Desk, Inc and affiliated companies)
     423, // travel audience – An Amadeus Company
