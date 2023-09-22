@@ -139,10 +139,6 @@ class Tracker {
         this.trackClick('save');
     }
 
-    trackRejectClick() {
-        this.trackClick('reject');
-    }
-
     trackPurposeToggleClick(id) {
         this.trackClick(`purpose-toggle-${id}`);
     }

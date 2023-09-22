@@ -64,20 +64,12 @@
     text-transform: uppercase;
 }
 
-.consentButtons {
-    display: flex;
-    height: auto;
-    gap: 18px;
-    flex-direction: row;
-
-    @media #{$mobile-devices} {
-        flex-direction: column-reverse;
-        gap: 8px
+    &:first-child {
+        margin-right: 18px;
     }
 }
 
 .acceptButton,
-.rejectButton,
 .saveButton {
     background-color: $color-primary-fill;
     border: 1px solid $color-primary-fill;
