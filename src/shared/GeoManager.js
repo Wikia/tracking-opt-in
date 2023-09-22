@@ -74,7 +74,6 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'uk', // United Kingdom of Great Britain and Northern Ireland
     'wf', // Wallis-et-Futuna
 ];
-const COUNTRIES_WITH_REJECT_ALL_FUNCTIONALITY = ['fr'];
 
 function getGeoDataFromCookie(type = 'country') {
     const cookie = Cookies.get(COUNTRY_COOKIE_NAME);
@@ -131,10 +130,6 @@ class GeoManager {
 
     hasGeoCookie() {
         return this.country !== MISSING_COOKIE_NAME;
-    }
-
-    hasRejectAllFunctionality() {
-        return COUNTRIES_WITH_REJECT_ALL_FUNCTIONALITY.indexOf(this.country) !== -1;
     }
 }
 
