@@ -134,7 +134,7 @@ class GeoManager {
     }
 
     hasRejectAllFunctionality() {
-        return COUNTRIES_WITH_REJECT_ALL_FUNCTIONALITY.includes(this.country);
+        return COUNTRIES_WITH_REJECT_ALL_FUNCTIONALITY.indexOf(this.country) !== -1;
     }
 }
 
