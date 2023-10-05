@@ -3,7 +3,10 @@
     "version": "12.2.4",
     "main": "dist/tracking-opt-in.min.js",
     "license": "Apache-2.0",
-    "sideEffects": ["./src/script-public-path.js"],
+    "sideEffects": [
+        "./src/script-public-path.js",
+        "*.scss"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/Wikia/tracking-opt-in"

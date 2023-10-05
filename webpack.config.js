@@ -92,20 +92,6 @@ module.exports = {
                         },
                     },
                     {
-                        loader: 'esbuild-loader',
-                        options: {
-                            /**
-                             * Since esbuild isn't aware of the `.sass` extension
-                             * it cannot auto-detect how to handle it.
-                             *
-                             * We need to tell it to treat the output of
-                             * `sass-loader` as CSS.
-                             */
-                            loader: 'css',
-                            minify: true,
-                        },
-                    },
-                    {
                         loader: 'sass-loader',
                         options: {
                             sourceMap: isDevelopment
