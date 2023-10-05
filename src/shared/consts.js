@@ -84,6 +84,7 @@ export const IAB_VENDORS = [
     853, // Ensighten
     24,  // Epsilon
     312, // Exactag
+    877, // Experian LTD
     1,   // Exponential
     120, // Eyeota Ptd Ltd
     795, // Factor Eleven GmbH
