@@ -18,6 +18,7 @@ export const IAB_VENDORS = [
     50,  // Adform (Adform A/S)
     15,  // Adikteev
     39,  // ADITION technologies AG
+    14,  // AdKernel LLC
     93,  // Adloox
     447, // Adludio
     664, // adMarketplace, Inc.
@@ -79,6 +80,7 @@ export const IAB_VENDORS = [
     929, // eBay Inc
     688, // Effinity
     213, // emetriq
+    141, // Emodo
     853, // Ensighten
     24,  // Epsilon
     312, // Exactag
@@ -177,6 +179,7 @@ export const IAB_VENDORS = [
     787, // Resolution Media
     759, // Revjet
     36,  // RhythmOne DBA Unruly Group Ltd (RhythmOne, LLC)
+    108, // RichAudience
     308, // Rockabox Media Ltd t/a Scoota
     71,  // Roku Advertising Services (Dataxu, Inc.)
     4,   // Roq.ad
@@ -213,6 +216,7 @@ export const IAB_VENDORS = [
     275, // TabMo
     42,  // Taboola
     466, // TACTIC™ Real-Time Marketing
+    628, // TappX
     132, // Teads
     124, // TEEMO
     202, // Telaria, Inc
