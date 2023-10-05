@@ -58,18 +58,18 @@ const TRANSLATIONS_URL_BASE = 'https://script.wikia.nocookie.net/fandom-ae-asset
 const TRANSLATIONS_FILE_NAME = 'purposes-CODE.json';
 
 export const langToContent = {
-    de: () => import(/* webpackChunkName: "de" */ '../i18n/de/tracking-opt-in.json'),
+    de: () => import(/* webpackChunkName: "de.translation" */ '../i18n/de/tracking-opt-in.json'),
     en: () => en,
-    es: () => import(/* webpackChunkName: "es-ES" */ '../i18n/es-ES/tracking-opt-in.json'),
-    fr: () => import(/* webpackChunkName: "fr" */ '../i18n/fr/tracking-opt-in.json'),
-    it: () => import(/* webpackChunkName: "it" */ '../i18n/it/tracking-opt-in.json'),
-    ja: () => import(/* webpackChunkName: "ja" */ '../i18n/ja/tracking-opt-in.json'),
-    pl: () => import(/* webpackChunkName: "pl" */ '../i18n/pl/tracking-opt-in.json'),
-    pt: () => import(/* webpackChunkName: "pt" */ '../i18n/pt-BR/tracking-opt-in.json'),
-    ru: () => import(/* webpackChunkName: "ru" */ '../i18n/ru/tracking-opt-in.json'),
-    zh: () => import(/* webpackChunkName: "zh-CN" */ '../i18n/zh-CN/tracking-opt-in.json'), // simplified
-    'zh-hk': () => import(/* webpackChunkName: "zh-TW" */ '../i18n/zh-TW/tracking-opt-in.json'), // traditional
-    'zh-tw': () => import(/* webpackChunkName: "zh-TW" */ '../i18n/zh-TW/tracking-opt-in.json'), // traditional
+    es: () => import(/* webpackChunkName: "es-ES.translation" */ '../i18n/es-ES/tracking-opt-in.json'),
+    fr: () => import(/* webpackChunkName: "fr.translation" */ '../i18n/fr/tracking-opt-in.json'),
+    it: () => import(/* webpackChunkName: "it.translation" */ '../i18n/it/tracking-opt-in.json'),
+    ja: () => import(/* webpackChunkName: "ja.translation" */ '../i18n/ja/tracking-opt-in.json'),
+    pl: () => import(/* webpackChunkName: "pl.translation" */ '../i18n/pl/tracking-opt-in.json'),
+    pt: () => import(/* webpackChunkName: "pt.translation" */ '../i18n/pt-BR/tracking-opt-in.json'),
+    ru: () => import(/* webpackChunkName: "ru.translation" */ '../i18n/ru/tracking-opt-in.json'),
+    zh: () => import(/* webpackChunkName: "zh-CN.translation" */ '../i18n/zh-CN/tracking-opt-in.json'), // simplified
+    'zh-hk': () => import(/* webpackChunkName: "zh-TW.translation" */ '../i18n/zh-TW/tracking-opt-in.json'), // traditional
+    'zh-tw': () => import(/* webpackChunkName: "zh-TW.translation" */ '../i18n/zh-TW/tracking-opt-in.json'), // traditional
 };
 
 export default class ContentManager {

@@ -3,6 +3,7 @@
     "version": "12.2.2",
     "main": "dist/tracking-opt-in.min.js",
     "license": "Apache-2.0",
+    "sideEffects": false,
     "repository": {
         "type": "git",
         "url": "https://github.com/Wikia/tracking-opt-in"

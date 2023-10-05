@@ -37,9 +37,16 @@ module.exports = {
     output: {
         path: buildPath,
         filename: 'tracking-opt-in.min.js',
-        chunkFilename: '[name].translation.js',
+        chunkFilename: '[name].js',
         library: 'trackingOptIn',
         libraryTarget: 'umd',
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendors: false,
+            },
+        },
     },
     module: {
         rules: [

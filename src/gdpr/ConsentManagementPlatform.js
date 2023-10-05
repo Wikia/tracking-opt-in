@@ -2,8 +2,6 @@ import { h, render } from 'preact';
 import Modal from '../modal/Modal';
 import { debug, isParameterSet, parseUrl } from '../shared/utils';
 import { API_STATUS } from './ConsentManagementProvider';
-import Cookies from 'js-cookie';
-import { v4 as uuidv4 } from 'uuid';
 
 class ConsentManagementPlatform {
     constructor(
@@ -204,21 +202,23 @@ class ConsentManagementPlatform {
 
         this.consentManagementProvider.updateApi(API_STATUS.UI_VISIBLE_NEW);
 
-        render(
-            <Modal
-                onRequestAppRemove={this.removeApp}
-                onAcceptTracking={this.onAcceptTracking}
-                onRejectTracking={this.onRejectTracking}
-                tracker={this.tracker}
-                optInManager={this.optInManager}
-                geoManager={this.geoManager}
-                options={options}
-                content={this.contentManager.content}
-                language={this.contentManager.language}
-            />,
-            this.root,
-            this.root.lastChild
-        );
+        import(/* webpackChunkName: "gdpr-modal" */ '../modal/Modal').then(({ default: Modal }) => {
+            render(
+                <Modal
+                    onRequestAppRemove={this.removeApp}
+                    onAcceptTracking={this.onAcceptTracking}
+                    onRejectTracking={this.onRejectTracking}
+                    tracker={this.tracker}
+                    optInManager={this.optInManager}
+                    geoManager={this.geoManager}
+                    options={options}
+                    content={this.contentManager.content}
+                    language={this.contentManager.language}
+                />,
+                this.root,
+                this.root.lastChild
+            );
+        });
     }
 
     isGpcEnabled() {
