@@ -1,11 +1,11 @@
 import './script-public-path';
-import {AC_PROVIDERS, IAB_VENDORS, SESSION_COOKIES} from './shared/consts';
-import GeoManager, {ensureGeoCookie} from './shared/GeoManager';
+import { AC_PROVIDERS, IAB_VENDORS, SESSION_COOKIES } from './shared/consts';
+import GeoManager, { ensureGeoCookie } from './shared/GeoManager';
 import UserSignalMechanism from './ccpa/UserSignalMechanism';
 import TcfApi from "./ccpa/TcfApi";
-import {communicationService} from './shared/communication';
-import {debug} from './shared/utils';
-import {oneTrust} from './onetrust';
+import { communicationService } from './shared/communication';
+import { debug } from './shared/utils';
+import { oneTrust } from './onetrust';
 
 export const DEFAULT_OPTIONS = {
     sessionCookies: SESSION_COOKIES, // array of sessionCookies with extension times
@@ -52,11 +52,11 @@ function initializeGDPR(options) {
             depOptions.onConsentsReady();
         });
         return Promise.resolve({
-                                   getConsent: () => ({
-                                       gdprConsent: true,
-                                       geoRequiresConsent: false,
-                                   })
-                               });
+            getConsent: () => ({
+                gdprConsent: true,
+                geoRequiresConsent: false,
+            })
+        });
     }
 
     return import(/* webpackChunkName: "gdpr" */ './gdpr/index.js').then(({createInstance}) => {
@@ -76,11 +76,11 @@ function initializeCCPA(options) {
 
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const userSignalMechanism = new UserSignalMechanism({
-                                                            ccpaApplies: geoManager.hasSpecialPrivacyLaw(),
-                                                            isSubjectToCcpa: depOptions.isSubjectToCoppa === undefined
-                                                                             ? depOptions.isSubjectToCcpa
-                                                                             : depOptions.isSubjectToCoppa,
-                                                        });
+        ccpaApplies: geoManager.hasSpecialPrivacyLaw(),
+        isSubjectToCcpa: depOptions.isSubjectToCoppa === undefined
+                         ? depOptions.isSubjectToCcpa
+                         : depOptions.isSubjectToCoppa,
+    });
 
     if (!depOptions.oneTrustEnabled) {
         userSignalMechanism.install();
@@ -107,12 +107,12 @@ export default function main(options) {
     if (!window.navigator.cookieEnabled) {
         debug('MODAL', 'Cookies are disabled - ignoring CMP and USAPI consent checks');
         communicationService.dispatch({
-                                          type: consentsAction,
-                                          gdprConsent: true,
-                                          geoRequiresConsent: true,
-                                          ccpaSignal: false,
-                                          geoRequiresSignal: true,
-                                      });
+            type: consentsAction,
+            gdprConsent: true,
+            geoRequiresConsent: true,
+            ccpaSignal: false,
+            geoRequiresSignal: true,
+        });
 
         return;
     }
@@ -120,14 +120,14 @@ export default function main(options) {
     const optInInstances = {gdpr: null, ccpa: null};
     const onConsentsReady = () => {
         communicationService.dispatch({
-                                          type: consentsAction,
-                                          ...optInInstances.gdpr.getConsent(),
-                                          ...optInInstances.ccpa.getSignal(),
-                                      });
+            type: consentsAction,
+            ...optInInstances.gdpr.getConsent(),
+            ...optInInstances.ccpa.getSignal(),
+        });
         communicationService.dispatch({
-                                          type: instancesAction,
-                                          ...optInInstances,
-                                      });
+            type: instancesAction,
+            ...optInInstances,
+        });
     };
 
     Object.assign(options, {onConsentsReady, oneTrustEnabled});

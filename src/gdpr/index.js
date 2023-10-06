@@ -24,9 +24,9 @@ export function createInstance(geoManager, options) {
     const langManager = new LanguageManager(depOptions.language);
     const tracker = new Tracker(langManager.lang, geoManager.country, depOptions.beaconCookieName, depOptions.track);
     const consentManagementProvider = new ConsentManagementProvider({
-                                                                        language: langManager.lang,
-                                                                        oneTrustEnabled: options.oneTrustEnabled
-                                                                    });
+        language: langManager.lang,
+        oneTrustEnabled: options.oneTrustEnabled
+    });
 
     const optInManager = new OptInManager(
         window.location.hostname,

@@ -17,8 +17,7 @@ class TcfApi {
             return;
         }
 
-        let body = document.body,
-            iframe = document.createElement('iframe');
+        let body = document.body, iframe = document.createElement('iframe');
         iframe.name = name;
         iframe.style.display = 'none';
         body.appendChild(iframe);

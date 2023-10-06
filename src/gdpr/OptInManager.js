@@ -1,8 +1,7 @@
 import Cookies from 'js-cookie';
 import { getCookieDomain } from '../shared/utils';
+import { CMP_VERSION } from "./ConsentManagementProvider";
 
-// copied from ConsentManagementPlatform
-const CMP_VERSION = 5;
 const DEFAULT_ACCEPT_COOKIE_EXPIRATION = 18250; // 50 years in days
 const DEFAULT_REJECT_COOKIE_EXPIRATION = 31;
 export const DEFAULT_QUERY_PARAM_NAME = 'tracking-opt-in-status';
