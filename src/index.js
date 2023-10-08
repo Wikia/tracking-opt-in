@@ -11,7 +11,6 @@ import UserSignalMechanism from './ccpa/UserSignalMechanism';
 import CookieManager from './shared/CookieManager';
 import { communicationService } from './shared/communication';
 import { debug } from './shared/utils';
-import { oneTrust } from './onetrust';
 
 export const DEFAULT_OPTIONS = {
     sessionCookies: SESSION_COOKIES, // array of sessionCookies with extension times
@@ -63,10 +62,7 @@ function initializeGDPR(options) {
     const langManager = new LanguageManager(depOptions.language);
     const geoManager = new GeoManager(depOptions.country, depOptions.region);
     const tracker = new Tracker(langManager.lang, geoManager.country, depOptions.beaconCookieName, depOptions.track);
-    const consentManagementProvider = new ConsentManagementProvider({
-        language: langManager.lang,
-        oneTrustEnabled: options.oneTrustEnabled
-    });
+    const consentManagementProvider = new ConsentManagementProvider({language: langManager.lang});
 
     const optInManager = new OptInManager(
         window.location.hostname,
@@ -103,9 +99,7 @@ function initializeGDPR(options) {
         },
         window.location,
     );
-    if (!depOptions.oneTrustEnabled) {
-        instance.render();
-    }
+    instance.render();
     return instance;
 }
 
@@ -121,27 +115,15 @@ function initializeCCPA(options) {
         isSubjectToCcpa: depOptions.isSubjectToCoppa === undefined ? depOptions.isSubjectToCcpa : depOptions.isSubjectToCoppa,
     });
 
-    if (!depOptions.oneTrustEnabled) {
-        userSignalMechanism.install();
-    }
+    userSignalMechanism.install();
 
     return userSignalMechanism;
 }
 
 
-function isOneTrustEnabled() {
-    const params = new URLSearchParams(window.location.search);
-    const ads = (window.ads = window.ads || {});
-    const context = (ads.context = ads.context || {});
-
-    return JSON.parse(params.get('onetrust_enabled')) || context.oneTrustEnabled || false;
-}
-
 export default function main(options) {
     const consentsAction = '[AdEngine OptIn] set opt in';
     const instancesAction = '[AdEngine OptIn] set opt in instances';
-    const oneTrustEnabled = isOneTrustEnabled();
-
     debug('MODAL', 'Library loaded and started');
 
     if (!window.navigator.cookieEnabled) {
@@ -170,13 +152,10 @@ export default function main(options) {
         });
     };
 
-    Object.assign(options, { onConsentsReady, oneTrustEnabled });
+    Object.assign(options, { onConsentsReady });
 
     optInInstances.gdpr = initializeGDPR(options);
     optInInstances.ccpa = initializeCCPA(options);
-    if (oneTrustEnabled) {
-        oneTrust.initialize(optInInstances, options);
-    }
     return optInInstances;
 }
 

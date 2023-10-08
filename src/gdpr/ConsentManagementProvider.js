@@ -284,9 +284,7 @@ class ConsentManagementProvider {
     }
 
     hasUserConsent() {
-        return this.options.oneTrustEnabled ?
-            !!this.getVendorConsentCookie() :
-            !!this.getDeprecatedVendorConsentCookie() && !!this.getProviderConsentCookie();
+        return !!this.getDeprecatedVendorConsentCookie() && !!this.getProviderConsentCookie();
     }
 
     /**
