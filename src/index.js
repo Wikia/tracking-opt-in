@@ -2,7 +2,6 @@ import './script-public-path';
 import { AC_PROVIDERS, IAB_VENDORS, SESSION_COOKIES } from './shared/consts';
 import GeoManager, { ensureGeoCookie } from './shared/GeoManager';
 import UserSignalMechanism from './ccpa/UserSignalMechanism';
-import TcfApi from "./ccpa/TcfApi";
 import { communicationService } from './shared/communication';
 import { debug } from './shared/utils';
 import { oneTrust } from './onetrust';
@@ -46,7 +45,6 @@ function initializeGDPR(options) {
     const geoManager = new GeoManager(depOptions.country, depOptions.region);
 
     if (!geoManager.hasSpecialPrivacyLaw()) {
-        TcfApi.install();
         setTimeout(() => {
             depOptions.onAcceptTracking();
             depOptions.onConsentsReady();
