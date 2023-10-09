@@ -53,14 +53,16 @@ describe('main', () => {
         ];
 
         testMatrix.forEach(([isSubjectToCoppa, isSubjectToCcpa, expected]) => {
-            it(`should pass isSubjectToCppa=${expected} if isSubjectToCoppa=${isSubjectToCoppa} and isSubjectToCcpa=${isSubjectToCcpa}`, () => {
-                options.isSubjectToCcpa = isSubjectToCcpa;
-                options.isSubjectToCoppa = isSubjectToCoppa;
+            it(`should pass isSubjectToCcpa=${expected} if isSubjectToCoppa=${isSubjectToCoppa} and isSubjectToCcpa=${isSubjectToCcpa}`,
+                (done) => {
+                    options.isSubjectToCcpa = isSubjectToCcpa;
+                    options.isSubjectToCoppa = isSubjectToCoppa;
 
-                const { ccpa } = main(options);
-
-                assert.equal(ccpa.options.isSubjectToCcpa, expected)
-            });
+                    main(options).then(({ccpa}) => {
+                        assert.equal(ccpa.options.isSubjectToCcpa, expected)
+                        done();
+                    });
+                });
         });
     });
 });
