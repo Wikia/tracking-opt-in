@@ -12,9 +12,9 @@
         "url": "https://github.com/Wikia/tracking-opt-in"
     },
     "dependencies": {
-        "@iabtcf/cmpapi": "v1.3.1",
-        "@iabtcf/core": "v1.4.0",
-        "@iabtcf/stub": "v1.4.0",
+        "@iabtcf/cmpapi": "1.5.6",
+        "@iabtcf/core": "1.5.6",
+        "@iabtcf/stub": "1.5.6",
         "@wikia/post-quecast": "2.0.1",
         "uuid": "^8.3.2"
     },
