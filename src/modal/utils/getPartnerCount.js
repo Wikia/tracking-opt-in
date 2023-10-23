@@ -11,7 +11,7 @@ function getPartnerCount(blockOfText, partnerCount) {
         return match;
     });
 
-    return blockOfText.map(line => <p dangerouslySetInnerHTML={{ __html: replaceKeysInText(line) }} />);
+    return blockOfText?.map(line => <p dangerouslySetInnerHTML={{ __html: replaceKeysInText(line) }} />);
 }
 
 export default getPartnerCount;
