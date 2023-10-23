@@ -5,7 +5,7 @@ export const DEFAULT_LANG = 'en';
 export const DEFAULT_BROWSER_LANG = 'en-us';
 
 // https://developer.mozilla.org/en-US/docs/Web/API/NavigatorLanguage/language
-const getBrowserLang = () => (window.navigator && window.navigator.language)
+export const getBrowserLang = () => (window.navigator && window.navigator.language)
     ? window.navigator.language : DEFAULT_BROWSER_LANG;
 
 // parse the browser lang to map to just a two letter lang code or 'zh-hans'/'zh-hant'

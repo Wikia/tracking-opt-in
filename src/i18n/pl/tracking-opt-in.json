@@ -53,5 +53,7 @@
     "storageDetailsCookieMaxAgeSeconds": "sekund",
     "storageDetailsCookieMaxAgeMinutes": "minut",
     "storageDetailsCookieMaxAgeHours": "godz.",
-    "storageDetailsCookieMaxAgeDays": "dni"
+    "storageDetailsCookieMaxAgeDays": "dni",
+    "ourPartnersCount": ["Poprzez zaakceptowanie naszej %privacyPolicy% zgadzasz się także na wykorzystywanie Twoich danych przez %partnerCount% naszych partnerów."],
+    "example": "Przykład"
 }

@@ -12,7 +12,6 @@ class Modal extends Component {
         consentedPurposes: this.props.options.enabledPurposes,
         consentedSpecialFeatures: this.props.options.enabledSpecialFeatures,
         isScreenOne: true,
-        hasRejectAllFunctionality: this.props.geoManager.hasRejectAllFunctionality(),
     };
 
     componentDidMount() {
@@ -134,7 +133,7 @@ class Modal extends Component {
 
     render(props, state) {
         const { options, content, language, tracker } = props;
-        const { isScreenOne, consentedPurposes, consentedVendors, consentedProviders, consentedSpecialFeatures, hasRejectAllFunctionality } = state;
+        const { isScreenOne, consentedPurposes, consentedVendors, consentedProviders, consentedSpecialFeatures } = state;
 
         if (isScreenOne) {
             return (
@@ -144,7 +143,6 @@ class Modal extends Component {
                     clickLearnMore={this.learnMore}
                     clickAccept={this.accept}
                     clickReject={this.reject}
-                    hasRejectAllFunctionality={hasRejectAllFunctionality}
                 />
             );
         } else {

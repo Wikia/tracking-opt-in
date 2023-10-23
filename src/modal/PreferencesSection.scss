@@ -16,6 +16,13 @@
     font-weight: 500;
 }
 
+.partnersCount {
+    color: $color-text;
+    font-weight: bold;
+    opacity: 0.5;
+    display: inline;
+}
+
 .sectionExpand {
     color: $color-secondary;
     cursor: pointer;

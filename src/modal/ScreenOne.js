@@ -4,6 +4,8 @@ import globalStyles from './styles.scss';
 import styles from './ScreenOne.scss';
 
 import getParagraphs from './utils/getParagraphs';
+import {IAB_VENDORS} from "../shared/consts";
+import getPartnerCount from "./utils/getPartnerCount";
 
 class ScreenOne extends Component {
     clickDescription(event) {
@@ -17,7 +19,7 @@ class ScreenOne extends Component {
         }
     }
 
-    render({ appOptions, content, clickLearnMore, clickAccept, clickReject, hasRejectAllFunctionality }) {
+    render({ appOptions, content, clickLearnMore, clickAccept, clickReject }) {
         return (
             <div
                 data-tracking-opt-in-overlay="true"
@@ -31,6 +33,9 @@ class ScreenOne extends Component {
                         <div className={styles.usesCookiesText}> {content.mainHeadline} </div>
                         <div className={styles.bodyParagraphsContainer} onClick={(e) => this.clickDescription(e)}>
                             {getParagraphs(content.mainBody, content, appOptions.isCurse)}
+                            <div>
+                                {getParagraphs(content.ourPartnersCount, content, appOptions.isCurse)}
+                            </div>
                         </div>
                     </div>
                     <div className={globalStyles.footer}>
@@ -50,9 +55,8 @@ class ScreenOne extends Component {
                                 onClick={clickAccept}
                                 key="accept"
                             >
-                                {content.acceptButton}
+                                {content.acceptAllButton}
                             </div>
-                            {hasRejectAllFunctionality &&
                                 <div
                                     data-tracking-opt-in-reject="true"
                                     className={`${globalStyles.rejectButton} ${globalStyles.footerButton}`}
@@ -60,7 +64,7 @@ class ScreenOne extends Component {
                                     key="reject"
                                 >
                                     {content.rejectAllButton}
-                                </div>}
+                                </div>
                         </div>
                     </div>
                 </div>

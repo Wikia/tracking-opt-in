@@ -52,7 +52,6 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                include: `${__dirname}/src`,
                 exclude: /-test.js$/,
                 loader: 'esbuild-loader',
                 options: {
