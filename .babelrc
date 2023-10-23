@@ -1,9 +1,0 @@
-{
-  "presets": ["env", "preact"],
-  "plugins": [
-    "dynamic-import-webpack",
-    "transform-object-assign",
-    "transform-class-properties",
-    "transform-object-rest-spread"
-  ]
-}
