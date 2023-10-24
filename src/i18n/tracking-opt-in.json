@@ -43,6 +43,7 @@
     "dataCategoriesHeading": "Data category",
     "example": "Example",
     "purposesHeading": "Purposes",
+    "ourPartnersCount": ["By accepting our Privacy Policy, you consent to us sharing your personal data with %partnerCount% partners for the purposes and special purposes."],
     "purposesLegitimateInterestHeading": "Purposes of legitimate interest",
     "purposesFlexibleHeading": "Flexible purposes",
     "purposesSpecialHeading": "Special purposes",

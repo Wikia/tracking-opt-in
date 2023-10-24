@@ -4,8 +4,6 @@ import globalStyles from './styles.scss';
 import styles from './ScreenOne.scss';
 
 import getParagraphs from './utils/getParagraphs';
-import {IAB_VENDORS} from "../shared/consts";
-import getPartnerCount from "./utils/getPartnerCount";
 
 class ScreenOne extends Component {
     clickDescription(event) {
