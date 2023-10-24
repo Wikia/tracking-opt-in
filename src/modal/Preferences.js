@@ -160,6 +160,7 @@ class Preferences extends Component {
                 allFeaturesSpecial={specialFeatures}
                 allPurposes={this.state.purposes}
                 allPurposesSpecial={this.state.specialPurposes}
+                allDataCategories={this.state.dataCategories}
                 allItems={specialFeatures}
                 consentedVendors={consentedVendors}
                 consentedPurposes={consentedPurposes}
@@ -208,6 +209,7 @@ class Preferences extends Component {
                             allFeaturesSpecial={specialFeatures}
                             allPurposes={this.state.purposes}
                             allPurposesSpecial={this.state.specialPurposes}
+                            allDataCategories={this.state.dataCategories}
                             consentedVendors={consentedVendors}
                             consentedPurposes={consentedPurposes}
                             consentedSpecialFeatures={consentedSpecialFeatures}
