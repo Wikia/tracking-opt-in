@@ -1,4 +1,18 @@
-const path = require('path');
+const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
+
+const browsers = [
+    'last 2 chrome versions',
+    'last 2 firefox versions',
+    'last 2 safari versions',
+    'last 2 edge versions',
+    'last 2 ios versions',
+    'last 2 chromeandroid versions',
+];
+const autoprefixerPlugin = autoprefixer({
+    cascade: false,
+    browsers: browsers.join(', '),
+});
 
 // Karma configuration
 // Generated on Mon May 07 2018 11:09:08 GMT-0500 (CDT)
@@ -24,22 +38,25 @@ module.exports = function(config) {
       webpack: {
           devtool: 'inline-source-map',
           mode: 'development',
+          optimization: {
+              splitChunks: {
+                  cacheGroups: {
+                      default: false,
+                      vendors: false,
+                  },
+              },
+          },
           module: {
               rules: [
                   {
                       test: /\.js$/,
-                      include: path.resolve(__dirname, './src'),
-                      exclude: [
-                          `${__dirname}/src/Tracker.js`,
-                      ],
-                      use: [{
-                          loader: 'babel-loader',
-                          options: {
-                              plugins: [
-                                  'istanbul',
-                              ]
-                          },
-                      }]
+                      loader: 'esbuild-loader',
+                      options: {
+                          target: 'es2015',
+                          loader: 'jsx',
+                          jsxFactory: 'h',
+                          jsxFragment: 'Fragment',
+                      }
                   },
                   {
                       test: /\.s?css$/,
@@ -48,25 +65,43 @@ module.exports = function(config) {
                               loader: 'style-loader',
                               options: {
                                   sourceMap: true,
-                              }
+                                  hmr: true,
+                              },
                           },
                           {
                               loader: 'css-loader',
                               options: {
-                                  sourceMap: false,
+                                  sourceMap: true,
                                   modules: true,
+                              },
+                          },
+                          {
+                              loader: 'postcss-loader',
+                              options: {
+                                  sourceMap: true,
+                                  plugins: () => [
+                                      autoprefixerPlugin,
+                                      require('cssnano')({
+                                          preset: 'default',
+                                      }),
+                                  ],
                               },
                           },
                           {
                               loader: 'sass-loader',
                               options: {
-                                  sourceMap: false
+                                  sourceMap: true
                               },
                           }
                       ],
-                  }
+                  },
               ],
           },
+          plugins: [
+              new webpack.optimize.LimitChunkCountPlugin({
+                  maxChunks: 1
+              }),
+          ],
           resolve: {
               extensions: ['.js'],
               modules: [

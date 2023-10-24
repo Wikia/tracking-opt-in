@@ -21,7 +21,7 @@ function getParagraphs(blockOfText, content, isCurse = false) {
     });
 
     // Used to prevent cross-site scripting (XSS) attacks
-    return blockOfText.map(line => <p dangerouslySetInnerHTML={{ __html: replaceKeysInText(line) }} />);
+    return blockOfText?.map(line => <p dangerouslySetInnerHTML={{ __html: replaceKeysInText(line) }} />);
 }
 
 export default getParagraphs;
