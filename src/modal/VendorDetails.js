@@ -33,7 +33,7 @@ class VendorDetails extends Component {
                 {vendor.specialPurposes.length > 0 && (
                     <div>
                         <div className={styles.subheader}>
-                            {content.purposesSpecialHeading} {}
+                            {content.purposesSpecialHeading}
                         </div>
                         {vendor.specialPurposes.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
