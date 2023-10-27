@@ -66,7 +66,6 @@ class VendorDetails extends Component {
                         {vendor.flexiblePurposes.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
                                 <span>{allPurposes[purposeId].name}</span>
-
                             </div>
                         ))}
                     </div>
