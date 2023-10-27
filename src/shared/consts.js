@@ -247,7 +247,6 @@ export const IAB_VENDORS = [
     173, // YieldMo
     726, // Yougov
     301, // Zeotap GmbH
-    1237, // Aryel s.r.l
 ];
 
 /*
