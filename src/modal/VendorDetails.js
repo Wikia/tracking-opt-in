@@ -1,15 +1,12 @@
-import {Component, h} from 'preact';
+import { h } from 'preact';
 
 import styles from './PreferencesVendorList.scss';
 import getCookieAge from './utils/getCookieAge';
 import Consented from './utils/isConsented';
-import VendorUrls from "./VendorUrls";
-import DataCategories from "./DataCategories";
-import FindOutMoreLink from "./FindOutMoreLink";
 
-class VendorDetails extends Component {
+class VendorDetails {
     static renderVendor(vendor, props, hiddenSections = []) {
-        const { content, allPurposes, allPurposesSpecial, allFeatures, allFeaturesSpecial, allDataCategories } = props;
+        const { content, allPurposes, allPurposesSpecial, allFeatures, allFeaturesSpecial } = props;
 
         return (
             <div className={styles.vendorDetails}>
@@ -20,7 +17,7 @@ class VendorDetails extends Component {
                         </div>
                         {vendor.purposes.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
-                                <span>{allPurposes[purposeId].name} <span className={styles.dayNotification}>({vendor.dataRetention.purposes[purposeId] || vendor.dataRetention.stdRetention} {content.storageDetailsCookieMaxAgeDays})</span></span>
+                                <span>{allPurposes[purposeId].name}</span>
                                 {!hiddenSections.includes('purposesStatus') && (
                                     <span className={styles.allowed}>
                                         {Consented.isConsentedVendor(vendor.id, props) && Consented.isConsentedPurpose(purposeId, props) ? content.allowedButton : content.disallowedButton}
@@ -37,8 +34,10 @@ class VendorDetails extends Component {
                         </div>
                         {vendor.specialPurposes.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
-                                <span>{allPurposesSpecial[purposeId].name} <span className={styles.dayNotification}>({vendor.dataRetention.specialPurposes[purposeId] || vendor.dataRetention.stdRetention} {content.storageDetailsCookieMaxAgeDays})</span></span>
-                                <FindOutMoreLink content={content} vendor={vendor} />
+                                <span>{allPurposesSpecial[purposeId].name}</span>
+                                <a href={vendor.policyUrl} className={styles.link} target="_blank">
+                                    {content.findOutMoreButton}
+                                </a>
                             </div>
                         ))}
                     </div>
@@ -66,6 +65,9 @@ class VendorDetails extends Component {
                         {vendor.flexiblePurposes.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
                                 <span>{allPurposes[purposeId].name}</span>
+                                <a href={vendor.policyUrl} className={styles.link} target="_blank">
+                                    {content.findOutMoreButton}
+                                </a>
                             </div>
                         ))}
                     </div>
@@ -79,10 +81,12 @@ class VendorDetails extends Component {
                             <div className={styles.vendorDetail} key={`${vendor.id}_${featureId}`}>
                                 <div className={styles.flex}>
                                     <span>{allFeatures[featureId].name}</span>
-                                    <FindOutMoreLink vendor={vendor} content={content} />
+                                    <a href={vendor.policyUrl} className={styles.link} target="_blank">
+                                        {content.findOutMoreButton}
+                                    </a>
                                 </div>
                                 <div className={styles.featureDescription}>
-                                    {allFeatures[featureId].description}
+                                    {allFeatures[featureId].descriptionLegal}
                                 </div>
                             </div>
                         ))}
@@ -105,10 +109,18 @@ class VendorDetails extends Component {
                         ))}
                     </div>
                 )}
-                {vendor.urls && (
-                    <VendorUrls content={content} vendor={vendor} />
+                {vendor.policyUrl && (
+                    <div>
+                        <div className={styles.subheader}>
+                            {content.privacyPolicyHeading}
+                        </div>
+                        <div className={styles.vendorDetail}>
+                            <a href={vendor.policyUrl} className={styles.link} target="_blank">
+                                {content.privacyPolicyLinkButton}
+                            </a>
+                        </div>
+                    </div>
                 )}
-                <DataCategories content={content} vendor={vendor} dataCategories={allDataCategories} />
                 <div>
                     {(vendor.usesNonCookieAccess || vendor.usesCookies) && (
                         <div className={styles.subheader}>

@@ -1,10 +1,10 @@
 import { h, Component } from 'preact';
+import { PURPOSES } from '../shared/utils';
 import PreferencesVendorList from './PreferencesVendorList';
 import Switch from './Switch';
 
 import globalStyles from './styles.scss';
 import styles from './PreferencesSection.scss';
-import PreferenceExample from "./PreferenceExample";
 
 class PreferencesSection extends Component {
     state = {
@@ -54,7 +54,6 @@ class PreferencesSection extends Component {
             allFeatures,
             allFeaturesSpecial,
             allItems,
-            allDataCategories,
             consentedVendors,
             consentedPurposes,
             consentedSpecialFeatures,
@@ -67,10 +66,7 @@ class PreferencesSection extends Component {
             <div className={styles.section} key={item.id}>
                 <div className={styles.flex}>
                     <div>
-                        <div className={styles.heading}>
-                            {allItems[item.id].name}&nbsp;
-                            <div className={styles.partnersCount}>({item.vendors.length})</div>
-                        </div>
+                        <div className={styles.heading}>{allItems[item.id].name}</div>
                         <div className={styles.sectionExpand} onClick={() => this.toggleIsExpanded()}>
                             {isExpanded ? content.hidePurposeDetailsButton : content.showPurposeDetailsButton}
                             <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" className={`${globalStyles.chevron} ${isExpanded ? globalStyles.chevronExpanded : ''}`}>
@@ -82,19 +78,15 @@ class PreferencesSection extends Component {
                 </div>
                 {isExpanded && (
                     <div>
-                        <div className={styles.description}>{allItems[item.id].description}</div>
-                        {allItems[item.id].illustrations.length > 0 &&  <PreferenceExample description={allItems[item.id].illustrations} content={content} />}
-
+                        <div className={styles.description}>{allItems[item.id].descriptionLegal}</div>
                         <PreferencesVendorList
                             content={content}
-                            purposeId={item.id}
                             vendors={item.vendors}
                             onToggleVendor={onToggleVendor}
                             allPurposes={allPurposes}
                             allPurposesSpecial={allPurposesSpecial}
                             allFeatures={allFeatures}
                             allFeaturesSpecial={allFeaturesSpecial}
-                            allDataCategories={allDataCategories}
                             consentedVendors={consentedVendors}
                             consentedPurposes={consentedPurposes}
                             consentedSpecialFeatures={consentedSpecialFeatures}

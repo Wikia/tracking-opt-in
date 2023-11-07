@@ -37,7 +37,6 @@ class Preferences extends Component {
                     json.purposes = purposes.purposes;
                     json.specialFeatures = purposes.specialFeatures;
                     json.specialPurposes = purposes.specialPurposes;
-                    json.dataCategories = purposes.dataCategories;
                 }
 
                 // Filter vendors to those used by Fandom
@@ -56,7 +55,6 @@ class Preferences extends Component {
                     specialPurposes: objectToArray(json.specialPurposes),
                     features: objectToArray(json.features),
                     specialFeatures: specialFeaturesWithVendors,
-                    dataCategories: objectToArray(json.dataCategories)
                 });
 
                 // Opt-out Internal Use vendors on second screen
@@ -136,7 +134,6 @@ class Preferences extends Component {
                 allPurposes={purposes}
                 allPurposesSpecial={this.state.specialPurposes}
                 allItems={purposes}
-                allDataCategories={this.state.dataCategories}
                 consentedVendors={consentedVendors}
                 consentedPurposes={consentedPurposes}
                 consentedSpecialFeatures={consentedSpecialFeatures}
@@ -160,7 +157,6 @@ class Preferences extends Component {
                 allFeaturesSpecial={specialFeatures}
                 allPurposes={this.state.purposes}
                 allPurposesSpecial={this.state.specialPurposes}
-                allDataCategories={this.state.dataCategories}
                 allItems={specialFeatures}
                 consentedVendors={consentedVendors}
                 consentedPurposes={consentedPurposes}
@@ -209,7 +205,6 @@ class Preferences extends Component {
                             allFeaturesSpecial={specialFeatures}
                             allPurposes={this.state.purposes}
                             allPurposesSpecial={this.state.specialPurposes}
-                            allDataCategories={this.state.dataCategories}
                             consentedVendors={consentedVendors}
                             consentedPurposes={consentedPurposes}
                             consentedSpecialFeatures={consentedSpecialFeatures}

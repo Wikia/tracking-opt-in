@@ -6,7 +6,7 @@ import { default as installCMPStub } from '@iabtcf/stub';
 
 import { debug, getCookieDomain, getJSON } from '../shared/utils';
 
-export const CMP_VERSION = 7; // Increment to force modal again
+export const CMP_VERSION = 6; // Increment to force modal again
 export const API_STATUS = {
     UI_VISIBLE_NEW: 'ui-visible-new',
     UI_VISIBLE_RESET: 'ui-visible-reset',
@@ -17,7 +17,7 @@ const CMP_DEFAULT_LANGUAGE = 'en';
 const DEPRECATED_VENDOR_CONSENT_COOKIE_NAME = 'euconsent-v2';
 const VENDOR_CONSENT_COOKIE_NAME = 'eupubconsent-v2';
 const PROVIDER_CONSENT_COOKIE_NAME = 'addtl_consent';
-const VENDOR_LIST_URL_BASE = 'https://script.wikia.nocookie.net/fandom-ae-assets/tcf/v2.2/';
+const VENDOR_LIST_URL_BASE = 'https://script.wikia.nocookie.net/fandom-ae-assets/tcf/v2/';
 const VENDOR_LIST_FILE_NAME = 'vendor-list.json';
 const VENDOR_LIST_VERSION_NAME = 'archives/vendor-list-v[VERSION].json';
 const getDefaultCookieAttributes = () => ({

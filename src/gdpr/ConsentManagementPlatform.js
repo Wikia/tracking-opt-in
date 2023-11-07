@@ -191,7 +191,7 @@ class ConsentManagementPlatform {
     renderModal() {
         const options = {
             // ToDo: get rid of hardcoded list of purposes during cleanup
-            enabledPurposes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+            enabledPurposes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             enabledVendors: this.options.enabledVendors,
             enabledProviders: this.options.enabledProviders,
             enabledSpecialFeatures: [1, 2],
