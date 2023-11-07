@@ -1,12 +1,15 @@
-import { h } from 'preact';
+import {Component, h} from 'preact';
 
 import styles from './PreferencesVendorList.scss';
 import getCookieAge from './utils/getCookieAge';
 import Consented from './utils/isConsented';
+import VendorUrls from "./VendorUrls";
+import DataCategories from "./DataCategories";
+import FindOutMoreLink from "./FindOutMoreLink";
 
-class VendorDetails {
+class VendorDetails extends Component {
     static renderVendor(vendor, props, hiddenSections = []) {
-        const { content, allPurposes, allPurposesSpecial, allFeatures, allFeaturesSpecial } = props;
+        const { content, allPurposes, allPurposesSpecial, allFeatures, allFeaturesSpecial, allDataCategories } = props;
 
         return (
             <div className={styles.vendorDetails}>
@@ -17,7 +20,7 @@ class VendorDetails {
                         </div>
                         {vendor.purposes.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
-                                <span>{allPurposes[purposeId].name}</span>
+                                <span>{allPurposes[purposeId].name} <span className={styles.dayNotification}>({vendor.dataRetention.purposes[purposeId] || vendor.dataRetention.stdRetention} {content.storageDetailsCookieMaxAgeDays})</span></span>
                                 {!hiddenSections.includes('purposesStatus') && (
                                     <span className={styles.allowed}>
                                         {Consented.isConsentedVendor(vendor.id, props) && Consented.isConsentedPurpose(purposeId, props) ? content.allowedButton : content.disallowedButton}
@@ -34,10 +37,8 @@ class VendorDetails {
                         </div>
                         {vendor.specialPurposes.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
-                                <span>{allPurposesSpecial[purposeId].name}</span>
-                                <a href={vendor.policyUrl} className={styles.link} target="_blank">
-                                    {content.findOutMoreButton}
-                                </a>
+                                <span>{allPurposesSpecial[purposeId].name} <span className={styles.dayNotification}>({vendor.dataRetention.specialPurposes[purposeId] || vendor.dataRetention.stdRetention} {content.storageDetailsCookieMaxAgeDays})</span></span>
+                                <FindOutMoreLink content={content} vendor={vendor} />
                             </div>
                         ))}
                     </div>
@@ -65,9 +66,6 @@ class VendorDetails {
                         {vendor.flexiblePurposes.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
                                 <span>{allPurposes[purposeId].name}</span>
-                                <a href={vendor.policyUrl} className={styles.link} target="_blank">
-                                    {content.findOutMoreButton}
-                                </a>
                             </div>
                         ))}
                     </div>
@@ -81,12 +79,10 @@ class VendorDetails {
                             <div className={styles.vendorDetail} key={`${vendor.id}_${featureId}`}>
                                 <div className={styles.flex}>
                                     <span>{allFeatures[featureId].name}</span>
-                                    <a href={vendor.policyUrl} className={styles.link} target="_blank">
-                                        {content.findOutMoreButton}
-                                    </a>
+                                    <FindOutMoreLink vendor={vendor} content={content} />
                                 </div>
                                 <div className={styles.featureDescription}>
-                                    {allFeatures[featureId].descriptionLegal}
+                                    {allFeatures[featureId].description}
                                 </div>
                             </div>
                         ))}
@@ -109,18 +105,10 @@ class VendorDetails {
                         ))}
                     </div>
                 )}
-                {vendor.policyUrl && (
-                    <div>
-                        <div className={styles.subheader}>
-                            {content.privacyPolicyHeading}
-                        </div>
-                        <div className={styles.vendorDetail}>
-                            <a href={vendor.policyUrl} className={styles.link} target="_blank">
-                                {content.privacyPolicyLinkButton}
-                            </a>
-                        </div>
-                    </div>
+                {vendor.urls && (
+                    <VendorUrls content={content} vendor={vendor} />
                 )}
+                <DataCategories content={content} vendor={vendor} dataCategories={allDataCategories} />
                 <div>
                     {(vendor.usesNonCookieAccess || vendor.usesCookies) && (
                         <div className={styles.subheader}>

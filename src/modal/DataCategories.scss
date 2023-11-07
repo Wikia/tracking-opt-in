@@ -1,0 +1,28 @@
+@import './consts.scss';
+
+.subheader {
+    background-color: $color-gray;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 10px;
+}
+
+.dataCategory {
+    border-top: 1px solid $color-secondary;
+    padding: 8px 10px;
+
+    &:first-child {
+        border: none;
+    }
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dataCategoryDetails {
+    margin-top: 12px;
+    font-style: italic;
+}

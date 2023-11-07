@@ -12,24 +12,14 @@
         "url": "https://github.com/Wikia/tracking-opt-in"
     },
     "dependencies": {
-        "@iabtcf/cmpapi": "v1.3.1",
-        "@iabtcf/core": "v1.4.0",
-        "@iabtcf/stub": "v1.4.0",
+        "@iabtcf/cmpapi": "1.5.6",
+        "@iabtcf/core": "1.5.6",
+        "@iabtcf/stub": "1.5.6",
         "@wikia/post-quecast": "2.0.1",
         "uuid": "^8.3.2"
     },
     "devDependencies": {
         "autoprefixer": "^8.4.1",
-        "babel-cli": "^6.26.0",
-        "babel-core": "^6.26.0",
-        "babel-loader": "^7.1.4",
-        "babel-plugin-dynamic-import-webpack": "^1.1.0",
-        "babel-plugin-istanbul": "^4.1.6",
-        "babel-plugin-transform-class-properties": "^6.24.1",
-        "babel-plugin-transform-object-assign": "^6.22.0",
-        "babel-plugin-transform-object-rest-spread": "^6.26.0",
-        "babel-preset-env": "^1.6.1",
-        "babel-preset-preact": "^1.1.0",
         "chai": "^4.1.2",
         "consent-string": "^1.2.4",
         "cross-env": "^5.1.4",
