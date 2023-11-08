@@ -4,6 +4,12 @@ import { getCookieDomain } from './utils';
 export const COUNTRY_COOKIE_NAME = 'Geo';
 const MISSING_COOKIE_NAME = 'no-cookie';
 
+const COUNTRIES_WITH_REJECT_ALL_FUNCTIONALITY = [
+    'ad', // Andorra
+    'cz', // Czech Republic
+    'fr'  // France
+]
+
 // client.geo.country_code https://docs.fastly.com/guides/vcl/geolocation-related-vcl-features
 const COUNTRIES_REQUIRING_PROMPT = [
     'ad', // Andorra
@@ -130,6 +136,10 @@ class GeoManager {
 
     hasGeoCookie() {
         return this.country !== MISSING_COOKIE_NAME;
+    }
+
+    hasRejectAllFunctionality() {
+        return COUNTRIES_WITH_REJECT_ALL_FUNCTIONALITY.includes(this.country);
     }
 }
 
