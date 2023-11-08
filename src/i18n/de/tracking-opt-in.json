@@ -38,7 +38,14 @@
     "acceptedButton": "Angenommen",
     "rejectedButton": "Abgelehnt",
     "privacyPolicyLinkButton": "Link zur Datenschutzerklärung",
+    "legitimateInterestsHeading": "Rechtmäßige Interessen",
+    "legitimateInterestsLinkButton": "Link zu den rechtmäßigen Interessen",
+    "dataCategoriesHeading": "Datenkategorie",
+    "example": "Beispiel",
     "purposesHeading": "Verwendungszwecke",
+    "ourPartnersCount": [
+        "Indem du unsere Datenschutzrichtlinien akzeptierst, erklärst du dich damit einverstanden, dass wir deine persönlichen Daten mit %partnerCount% Partnern zu den genannten Zwecken und für spezielle Zwecke teilen."
+    ],
     "purposesLegitimateInterestHeading": "Zwecke des berechtigten Interesses",
     "purposesFlexibleHeading": "Flexible Anwendungszwecke",
     "purposesSpecialHeading": "Spezielle Anwendungszwecke",
