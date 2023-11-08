@@ -5,8 +5,6 @@ export const COUNTRY_COOKIE_NAME = 'Geo';
 const MISSING_COOKIE_NAME = 'no-cookie';
 
 const COUNTRIES_WITH_REJECT_ALL_FUNCTIONALITY = [
-    'ad', // Andorra
-    'cz', // Czech Republic
     'fr'  // France
 ]
 
