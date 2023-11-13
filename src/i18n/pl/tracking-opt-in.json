@@ -38,7 +38,14 @@
     "acceptedButton": "Akceptuję",
     "rejectedButton": "Odrzucona",
     "privacyPolicyLinkButton": "Link do Polityki prywatności",
+    "legitimateInterestsHeading": "Uzasadnione interesy",
+    "legitimateInterestsLinkButton": "Link do uzasadnionych interesów",
+    "dataCategoriesHeading": "Kategoria danych",
+    "example": "Przykład",
     "purposesHeading": "Cele",
+    "ourPartnersCount": [
+        "Akceptując naszą Politykę prywatności, wyrażasz zgodę na udostępnianie przez nas Twoich danych osobowych %partnerCount% partnerom w celach zwykłych i specjalnych."
+    ],
     "purposesLegitimateInterestHeading": "Cele związane z uzasadnionymi interesami",
     "purposesFlexibleHeading": "Cele elastyczne",
     "purposesSpecialHeading": "Cele specjalne",
@@ -53,7 +60,5 @@
     "storageDetailsCookieMaxAgeSeconds": "sekund",
     "storageDetailsCookieMaxAgeMinutes": "minut",
     "storageDetailsCookieMaxAgeHours": "godz.",
-    "storageDetailsCookieMaxAgeDays": "dni",
-    "ourPartnersCount": ["Poprzez zaakceptowanie naszej %privacyPolicy% zgadzasz się także na wykorzystywanie Twoich danych przez %partnerCount% naszych partnerów."],
-    "example": "Przykład"
+    "storageDetailsCookieMaxAgeDays": "dni"
 }

@@ -6,6 +6,7 @@ import Consented from './utils/isConsented';
 import VendorUrls from "./VendorUrls";
 import DataCategories from "./DataCategories";
 import FindOutMoreLink from "./FindOutMoreLink";
+import {getVendorPrivacyLinks} from "./utils/getVendorPrivacyLinks";
 
 class VendorDetails extends Component {
     static renderVendor(vendor, props, hiddenSections = []) {
@@ -51,7 +52,7 @@ class VendorDetails extends Component {
                         {vendor.legIntPurposes.map((purposeId) => (
                             <div className={`${styles.vendorDetail} ${styles.flex}`} key={`${vendor.id}_${purposeId}`}>
                                 <span>{allPurposes[purposeId].name}</span>
-                                <a href={vendor.policyUrl} className={styles.link} target="_blank">
+                                <a href={getVendorPrivacyLinks(vendor).privacy} className={styles.link} target="_blank">
                                     {content.findOutMoreButton}
                                 </a>
                             </div>

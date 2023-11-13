@@ -38,7 +38,14 @@
     "acceptedButton": "Accettato",
     "rejectedButton": "Rifiutato",
     "privacyPolicyLinkButton": "Link all'Informativa sulla privacy",
+    "legitimateInterestsHeading": "Interessi legittimi",
+    "legitimateInterestsLinkButton": "Link agli interessi legittimi",
+    "dataCategoriesHeading": "Categoria dati",
+    "example": "Esempio",
     "purposesHeading": "Scopi",
+    "ourPartnersCount": [
+        "Accettando la nostra Informativa sulla Privacy, ci autorizzi a condividere i tuoi dati personali con %partnerCount% partner per gli scopi e gli scopi speciali."
+    ],
     "purposesLegitimateInterestHeading": "Scopi dei nostri legittimi interessi",
     "purposesFlexibleHeading": "Scopi flessibili",
     "purposesSpecialHeading": "Scopi speciali",

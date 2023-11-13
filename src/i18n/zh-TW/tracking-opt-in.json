@@ -38,7 +38,14 @@
     "acceptedButton": "已同意",
     "rejectedButton": "已拒絕",
     "privacyPolicyLinkButton": "連結到隱私政策",
+    "legitimateInterestsHeading": "合法權益",
+    "legitimateInterestsLinkButton": "連結至合法權益",
+    "dataCategoriesHeading": "資料分類",
+    "example": "範例",
     "purposesHeading": "目的",
+    "ourPartnersCount": [
+        "如果接受我們的隱私權政策，您將允許我們因某些特殊原因和%partnerCount%個合作夥伴分享您的個人資料。"
+    ],
     "purposesLegitimateInterestHeading": "合法權益的目的",
     "purposesFlexibleHeading": "彈性目的",
     "purposesSpecialHeading": "特殊目的",

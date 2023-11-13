@@ -38,7 +38,14 @@
     "acceptedButton": "同意",
     "rejectedButton": "拒否済み",
     "privacyPolicyLinkButton": "プライバシー・ポリシーを見る",
+    "legitimateInterestsHeading": "正当な利益",
+    "legitimateInterestsLinkButton": "「正当な利益」へのリンク",
+    "dataCategoriesHeading": "データカテゴリ",
+    "example": "例",
     "purposesHeading": "目的",
+    "ourPartnersCount": [
+        "Fandomのプライバシー・ポリシーに同意すると、上記の目的および特別な目的でFandomがお客様の個人データを%partnerCount%のパートナーと共有することを承諾したことになります。"
+    ],
     "purposesLegitimateInterestHeading": "正当な利益の目的",
     "purposesFlexibleHeading": "変通する目的",
     "purposesSpecialHeading": "特別な目的",
