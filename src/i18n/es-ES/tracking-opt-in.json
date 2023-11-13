@@ -38,7 +38,14 @@
     "acceptedButton": "Aceptado",
     "rejectedButton": "Rechazado",
     "privacyPolicyLinkButton": "Enlace a Política de privacidad",
+    "legitimateInterestsHeading": "Intereses legítimos",
+    "legitimateInterestsLinkButton": "Enlace a los Intereses legítimos",
+    "dataCategoriesHeading": "Categoría de datos",
+    "example": "Ejemplo",
     "purposesHeading": "Propósitos",
+    "ourPartnersCount": [
+        "Al aceptar nuestra Política de Privacidad, usted acepta que compartamos sus datos personales con los socios de %partnerCount% para los fines y propósitos especiales."
+    ],
     "purposesLegitimateInterestHeading": "Fines de interés legítimo",
     "purposesFlexibleHeading": "Propósitos flexibles",
     "purposesSpecialHeading": "Propósitos especiales",
