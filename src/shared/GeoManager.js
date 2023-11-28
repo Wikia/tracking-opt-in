@@ -5,7 +5,9 @@ export const COUNTRY_COOKIE_NAME = 'Geo';
 const MISSING_COOKIE_NAME = 'no-cookie';
 
 const COUNTRIES_WITH_REJECT_ALL_FUNCTIONALITY = [
-    'fr'  // France
+    'fr',  // France
+    'gb', // United Kingdom of Great Britain and Northern Ireland
+    'uk', // United Kingdom of Great Britain and Northern Ireland
 ]
 
 // client.geo.country_code https://docs.fastly.com/guides/vcl/geolocation-related-vcl-features
