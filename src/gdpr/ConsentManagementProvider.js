@@ -6,6 +6,8 @@ import { default as installCMPStub } from '@iabtcf/stub';
 
 import { debug, getCookieDomain, getJSON } from '../shared/utils';
 
+// In TACO-290, we have bumped CMP_VERSION to 8.
+// Next time when reconsent is necessary set CMP_VERSION to 9 to cover all geos.
 export const CMP_VERSION = 7; // Increment to force modal again
 export const API_STATUS = {
     UI_VISIBLE_NEW: 'ui-visible-new',
