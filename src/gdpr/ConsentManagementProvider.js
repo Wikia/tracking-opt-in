@@ -6,7 +6,7 @@ import { default as installCMPStub } from '@iabtcf/stub';
 
 import { debug, getCookieDomain, getJSON } from '../shared/utils';
 
-export const CMP_VERSION = 7; // Increment to force modal again
+export const CMP_VERSION = 8; // Increment to force modal again
 export const API_STATUS = {
     UI_VISIBLE_NEW: 'ui-visible-new',
     UI_VISIBLE_RESET: 'ui-visible-reset',
