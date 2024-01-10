@@ -2,6 +2,7 @@ import './script-public-path';
 import { AC_PROVIDERS, IAB_VENDORS, SESSION_COOKIES } from './shared/consts';
 import GeoManager, { ensureGeoCookie } from './shared/GeoManager';
 import UserSignalMechanism from './ccpa/UserSignalMechanism';
+import GppManager from './gpp/GppManager';
 import { communicationService } from './shared/communication';
 import { debug } from './shared/utils';
 import { oneTrust } from './onetrust';
@@ -32,10 +33,11 @@ export const DEFAULT_OPTIONS = {
     },
 };
 
-export const DEFAULT_CCPA_OPTIONS = {
+export const DEFAULT_US_OPTIONS = {
     country: null, // country code
     region: null, // region code
     countriesRequiringPrompt: ['us'], // array of lower case country codes
+    statesRequiringPrompt: ['ca', 'co', 'ct', 'ut', 'va'], // array of lower case state codes
     isSubjectToCcpa: window && window.ads && window.ads.context && window.ads.context.opts
                      && window.ads.context.opts.isSubjectToCcpa,
 };
@@ -70,7 +72,7 @@ function initializeCCPA(options) {
     const {
         test,
         ...depOptions
-    } = Object.assign({}, DEFAULT_CCPA_OPTIONS, options);
+    } = Object.assign({}, DEFAULT_US_OPTIONS, options);
 
     const geoManager = new GeoManager(depOptions.country, depOptions.region, depOptions.countriesRequiringPrompt);
     const userSignalMechanism = new UserSignalMechanism({
@@ -85,6 +87,26 @@ function initializeCCPA(options) {
     }
 
     return userSignalMechanism;
+}
+
+function initializeGPP(options) {
+    const depOptions = Object.assign({}, DEFAULT_US_OPTIONS, options);
+    const geoManager = new GeoManager(depOptions.country, depOptions.region);
+
+    const gppManager = new GppManager({
+            region: geoManager.region,
+            gppApplies: geoManager.hasGppApplied(),
+            isSubjectToGPP: depOptions.isSubjectToCoppa === undefined
+                ? depOptions.isSubjectToCcpa
+                : depOptions.isSubjectToCoppa,
+        }
+    );
+
+    if (!depOptions.oneTrustEnabled) {
+        gppManager.setup();
+    }
+
+    return gppManager;
 }
 
 function isOneTrustEnabled() {
@@ -115,7 +137,7 @@ export default function main(options) {
         return;
     }
 
-    const optInInstances = {gdpr: null, ccpa: null};
+    const optInInstances = {gdpr: null, ccpa: null, gpp: null};
     const onConsentsReady = () => {
         communicationService.dispatch({
             type: consentsAction,
@@ -133,6 +155,7 @@ export default function main(options) {
     return initializeGDPR(options).then((gdpr) => {
         optInInstances.gdpr = gdpr;
         optInInstances.ccpa = initializeCCPA(options);
+        optInInstances.gpp = initializeGPP(options);
         if (oneTrustEnabled) {
             import(/* webpackChunkName: "onetrust" */ './onetrust/index.js').then(({oneTrust}) => {
                 oneTrust.initialize(optInInstances, options);
