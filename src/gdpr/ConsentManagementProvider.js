@@ -23,6 +23,8 @@ const VENDOR_LIST_URL_BASE = 'https://script.wikia.nocookie.net/fandom-ae-assets
 const VENDOR_LIST_FILE_NAME = 'vendor-list.json';
 const VENDOR_LIST_VERSION_NAME = 'archives/vendor-list-v[VERSION].json';
 const BLOCKED_INTERESTS = [1,3,4,5,6];
+const ALLOWED_PUBLISHER_LEGITIMATE_INTERESTS = [2, 7, 8, 9, 10, 11];
+
 const getDefaultCookieAttributes = () => ({
     domain: getCookieDomain(window.location.hostname),
     expires: 390 // thirteen 30-day months
@@ -244,6 +246,7 @@ class ConsentManagementProvider {
         tcModel.purposeConsents.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
         tcModel.specialFeatureOptins.set(Array.isArray(allowedSpecialFeatures) ? allowedSpecialFeatures : []);
         tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
+        tcModel.publisherLegitimateInterests.set(ALLOWED_PUBLISHER_LEGITIMATE_INTERESTS);
         // ToDo: proper implementation of Right to Object
         tcModel.purposeLegitimateInterests.set(this.getLegitimateInterests(allowedVendorPurposes));
         tcModel.vendorLegitimateInterests.set(Array.isArray(allowedVendors) ? allowedVendors : []);
