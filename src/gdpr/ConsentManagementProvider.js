@@ -167,7 +167,8 @@ class ConsentManagementProvider {
     updateApi(event) {
         switch (event) {
             case API_STATUS.UI_VISIBLE_NEW:
-                this.cmpApi.update('', true);
+                const [, tcfString] = this.createConsent();
+                this.cmpApi.update(tcfString, true);
                 debug('GDPR', 'UI displayed for the first time');
                 break;
 
@@ -235,7 +236,7 @@ class ConsentManagementProvider {
 
         const gvList = new GVL(this.vendorList);
         const tcModel = new TCModel(gvList);
-        const { allowedVendorPurposes, allowedSpecialFeatures, allowedVendors, allowedProviders, consentScreen, language } = this.options;
+        const { allowedVendorPurposes, allowedSpecialFeatures, allowedVendors, allowedProviders = [], consentScreen, language } = this.options;
 
         tcModel.cmpId = CMP_ID;
         tcModel.cmpVersion = CMP_VERSION;
