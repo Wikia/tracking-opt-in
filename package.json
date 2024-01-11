@@ -49,7 +49,7 @@
         "request": "^2.86.0",
         "rimraf": "^2.6.2",
         "sass": "^1.69.3",
-        "sass-loader": "^7.3.1",
+        "sass-loader": "^10.4.1",
         "sinon": "^5.0.7",
         "style-loader": "^0.21.0",
         "webpack": "^4.6.0",
