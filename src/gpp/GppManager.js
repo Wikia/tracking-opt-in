@@ -1,36 +1,18 @@
 import { CmpApi } from '@iabgpp/cmpapi';
-import { debug, getCookieDomain } from "../shared/utils";
+import { debug, getCookieDomain } from '../shared/utils';
+import { loadStub } from './stub/GppStub';
+import {
+	NOTICE_FIELDS,
+	OPT_OUT_FIELDS,
+	SENSITIVE_DATA_PROCESSING_LENGTH_FIELD,
+	SENSITIVE_DATA_PROCESSING_LENGTHS,
+	KNOWN_CHILD_SENSIITIVE_DATA_FIELD,
+	KNOWN_CHILD_SENSIITIVE_DATA_LENGTHS,
+	US_MSPA_FIELDS
+} from './GppAPIUtils'
 import Cookies from "js-cookie";
 
-const NOTICE_FIELDS = {
-	'uscav1': ['SaleOptOutNotice', 'SharingOptOutNotice', 'SensitiveDataLimitUseNotice'],
-	'uscov1': ['SharingNotice', 'SaleOptOutNotice', 'TargetedAdvertisingOptOutNotice'],
-	'usctv1': ['SharingNotice', 'SaleOptOutNotice', 'TargetedAdvertisingOptOutNotice'],
-	'usutv1': ['SharingNotice', 'SaleOptOutNotice', 'TargetedAdvertisingOptOutNotice', 'SensitiveDataProcessingOptOutNotice'],
-	'usvav1': ['SharingNotice', 'SaleOptOutNotice', 'TargetedAdvertisingOptOutNotice'],
-}
-const OPT_OUT_FIELDS = {
-	'uscav1': ['SaleOptOut', 'SharingOptOut'],
-	'uscov1': ['SaleOptOut', 'TargetedAdvertisingOptOut'],
-	'usctv1': ['SaleOptOut', 'TargetedAdvertisingOptOut'],
-	'usutv1': ['SaleOptOut', 'TargetedAdvertisingOptOut'],
-	'usvav1': ['SaleOptOut', 'TargetedAdvertisingOptOut'],
-}
-const SENSITIVE_DATA_PROCESSING_LENGTH_FIELD = 'SensitiveDataProcessing'
-const SENSITIVE_DATA_PROCESSING_LENGTHS = {
-	'uscav1': 9,
-	'uscov1': 7,
-	'usctv1': 8,
-	'usutv1': 8,
-	'usvav1': 8,
-}
-const KNOWN_CHILD_SENSIITIVE_DATA_FIELD = 'KnownChildSensitiveDataConsents'
-const KNOWN_CHILD_SENSIITIVE_DATA_LENGTHS = {
-	'uscav1': 2,
-	'usctv1': 3,
-}  // NOTE: no length = single int
-const US_MSPA_FIELDS = ['MspaCoveredTransaction', 'MspaOptOutOptionMode', 'MspaServiceProviderMode']
-
+const GPP_STRING_COOKIE_NAME = 'gpp'
 const CONSENT_VALUES = {
 	notApplicable: 0,
 	optOut: 1,  // opt-out or no consent
@@ -47,14 +29,9 @@ const MSPA_FIELDS_VALUES = {
 	no: 2,
 }
 
-const GPP_STRING_COOKIE_NAME = 'gpp'
-
-
 class GppManager {
-	// TODO extract all consts and setting fields to separate file?
 
 	constructor(options) {
-		this.cmpApi = new CmpApi(1, 3);
 		this.section = `us${options.region}v1`;
 		this.gppApplies = options.gppApplies;
 		this.isSubjectToGPP = options.isSubjectToGPP;
@@ -62,9 +39,32 @@ class GppManager {
 			domain: getCookieDomain(window.location.hostname),
 			expires: 365 // 1 year
 		};
+
+		// Install temporary stub until full CMP will be ready
+		if (typeof window.__gpp === 'undefined') {
+			GppManager.installStub();
+		}
+	}
+
+	static installStub() {
+		loadStub();
 	}
 
 	setup() {
+		this.cmpApi = new CmpApi(1, 3);
+		this.cmpApi.setSupportedAPIs([
+			"8:uscav1",
+			"9:usvav1",
+			"10:uscov1",
+			"11:usutv1",
+			"12:usctv1",
+		]);
+		this.cmpApi.setApplicableSections([8, 9, 10, 11, 12]);
+
+		this.init();
+	}
+
+	init() {
 		if (!this.gppApplies) {
 			debug('GPP', 'Geo does not require API');
 		} else {
@@ -92,11 +92,11 @@ class GppManager {
 					// opt out the user when cookie is invalid
 					this.setGppString(CONSENT_VALUES.optOut);
 				}
-			} {
+			} else {
 				this.setGppString(CONSENT_VALUES.consent);
 			}
+			this.setGppStringCookie();
 		}
-		this.setGppStringCookie();
 	}
 
 	getGppStringCookie() {
@@ -107,10 +107,10 @@ class GppManager {
 		Cookies.set(GPP_STRING_COOKIE_NAME, this.cmpApi.getGppString(), this.cookieAttributes);
 	}
 
-	setGppString(value = 1) {
+	setGppString(consentValue = CONSENT_VALUES.optOut) {
 		this.setNotices(this.section);
-		this.setMSPA(this.section);
-		this.setConsents(this.section, value);
+		this.setMSPAFields(this.section);
+		this.setConsents(this.section, consentValue);
 	}
 
 	setConsents(section, value) {
@@ -149,8 +149,8 @@ class GppManager {
 		});
 	}
 
-	setMSPA(section) {
-		// TODO decide what has to be set here
+	setMSPAFields(section) {
+		// TODO decide what has to be set here - TACO-355
 		US_MSPA_FIELDS.forEach((fieldName) => {
 			this.cmpApi.setFieldValue(section, fieldName, MSPA_FIELDS_VALUES.yes);
 		});
