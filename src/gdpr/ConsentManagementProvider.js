@@ -22,6 +22,9 @@ const PROVIDER_CONSENT_COOKIE_NAME = 'addtl_consent';
 const VENDOR_LIST_URL_BASE = 'https://script.wikia.nocookie.net/fandom-ae-assets/tcf/v2.2/';
 const VENDOR_LIST_FILE_NAME = 'vendor-list.json';
 const VENDOR_LIST_VERSION_NAME = 'archives/vendor-list-v[VERSION].json';
+const BLOCKED_INTERESTS = [1,3,4,5,6];
+const ALLOWED_PUBLISHER_LEGITIMATE_INTERESTS = [2, 7, 8, 9, 10, 11];
+
 const getDefaultCookieAttributes = () => ({
     domain: getCookieDomain(window.location.hostname),
     expires: 390 // thirteen 30-day months
@@ -164,7 +167,8 @@ class ConsentManagementProvider {
     updateApi(event) {
         switch (event) {
             case API_STATUS.UI_VISIBLE_NEW:
-                this.cmpApi.update('', true);
+                const [, tcfString] = this.createConsent();
+                this.cmpApi.update(tcfString, true);
                 debug('GDPR', 'UI displayed for the first time');
                 break;
 
@@ -216,6 +220,10 @@ class ConsentManagementProvider {
         });
     }
 
+    getLegitimateInterests(allowedVendorPurposes) {
+        return Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes.filter(purpose => !BLOCKED_INTERESTS.includes(purpose)) : [];
+    }
+
     createConsent() {
         let acString = this.getProviderConsentCookie();
         let tcString = this.getDeprecatedVendorConsentCookie();
@@ -228,7 +236,7 @@ class ConsentManagementProvider {
 
         const gvList = new GVL(this.vendorList);
         const tcModel = new TCModel(gvList);
-        const { allowedVendorPurposes, allowedSpecialFeatures, allowedVendors, allowedProviders, consentScreen, language } = this.options;
+        const { allowedVendorPurposes, allowedSpecialFeatures, allowedVendors, allowedProviders = [], consentScreen, language } = this.options;
 
         tcModel.cmpId = CMP_ID;
         tcModel.cmpVersion = CMP_VERSION;
@@ -239,8 +247,9 @@ class ConsentManagementProvider {
         tcModel.purposeConsents.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
         tcModel.specialFeatureOptins.set(Array.isArray(allowedSpecialFeatures) ? allowedSpecialFeatures : []);
         tcModel.vendorConsents.set(Array.isArray(allowedVendors) ? allowedVendors : []);
+        tcModel.publisherLegitimateInterests.set(ALLOWED_PUBLISHER_LEGITIMATE_INTERESTS);
         // ToDo: proper implementation of Right to Object
-        tcModel.purposeLegitimateInterests.set(Array.isArray(allowedVendorPurposes) ? allowedVendorPurposes : []);
+        tcModel.purposeLegitimateInterests.set(this.getLegitimateInterests(allowedVendorPurposes));
         tcModel.vendorLegitimateInterests.set(Array.isArray(allowedVendors) ? allowedVendors : []);
 
         debug('GDPR', 'Consent saved with vendors: ', allowedVendors, ' and purposes', allowedVendorPurposes, ' and special feature options', allowedSpecialFeatures, ' and providers', allowedProviders);
