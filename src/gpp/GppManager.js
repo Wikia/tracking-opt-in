@@ -86,23 +86,13 @@ class GppManager {
 			} else if (navigator.globalPrivacyControl) {
 				this.setGppSection(CONSENT_VALUES.optOut);
 				debug('GPP', 'Force opt-out because Global Privacy Control is detected');
-			} else if (this.getGppCookie()) {
-				try {
-					this.cmpApi.setGppString(this.getGppCookie());
-				} catch (err) {
-					// opt out the user when cookie is invalid
-					this.setGppSection(CONSENT_VALUES.optOut);
-				}
+			} else if (this.cmpApi.hasSection(this.section)) {
+				this.cmpApi.setSignalStatus(SignalStatus.READY);
+				this.setGppCookie();  // note: to be sure the cookie matches API
 			} else {
 				this.setGppSection(CONSENT_VALUES.consent);
 			}
-			this.setGppCookie();
 		}
-		this.cmpApi.setSignalStatus(SignalStatus.READY);
-	}
-
-	getGppCookie() {
-		return Cookies.get(GPP_STRING_COOKIE_NAME) || '';
 	}
 
 	setGppCookie() {
@@ -110,10 +100,13 @@ class GppManager {
 	}
 
 	setGppSection(consentValue = CONSENT_VALUES.optOut) {
+		this.cmpApi.setSignalStatus(SignalStatus.NOT_READY);
 		this.setNotices(this.section);
 		this.setMSPAFields(this.section);
 		this.setConsents(this.section, consentValue);
 		this.cmpApi.fireSectionChange(this.section);
+		this.cmpApi.setSignalStatus(SignalStatus.READY);
+		this.setGppCookie();
 	}
 
 	setConsents(section, value) {
