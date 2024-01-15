@@ -1,4 +1,4 @@
-import { CmpApi } from '@iabgpp/cmpapi';
+import { CmpApi, CmpStatus, SignalStatus } from '@iabgpp/cmpapi';
 import { debug, getCookieDomain } from '../shared/utils';
 import { loadStub } from './stub/GppStub';
 import {
@@ -60,11 +60,12 @@ class GppManager {
 			"12:usctv1",
 		]);
 		this.cmpApi.setApplicableSections([8, 9, 10, 11, 12]);
+		this.cmpApi.setCmpStatus(CmpStatus.LOADED);
 
-		this.init();
+		this.setSignal();
 	}
 
-	init() {
+	setSignal() {
 		if (!this.gppApplies) {
 			debug('GPP', 'Geo does not require API');
 		} else {
@@ -77,40 +78,42 @@ class GppManager {
 				window.location.search.includes('optOutSale=true');
 
 			if (queryStringOverride) {
-				this.setGppString(CONSENT_VALUES.optOut);
+				this.setGppSection(CONSENT_VALUES.optOut);
 				debug('GPP', 'Privacy String updated via URL parameter');
 			} else if (this.isSubjectToGPP) {
-				this.setGppString(CONSENT_VALUES.optOut);
+				this.setGppSection(CONSENT_VALUES.optOut);
 				debug('GPP', 'Force opt-out because user is subject to COPPA');
 			} else if (navigator.globalPrivacyControl) {
-				this.setGppString(CONSENT_VALUES.optOut);
+				this.setGppSection(CONSENT_VALUES.optOut);
 				debug('GPP', 'Force opt-out because Global Privacy Control is detected');
-			} else if (this.getGppStringCookie()) {
+			} else if (this.getGppCookie()) {
 				try {
-					this.cmpApi.setGppString(this.getGppStringCookie());
+					this.cmpApi.setGppString(this.getGppCookie());
 				} catch (err) {
 					// opt out the user when cookie is invalid
-					this.setGppString(CONSENT_VALUES.optOut);
+					this.setGppSection(CONSENT_VALUES.optOut);
 				}
 			} else {
-				this.setGppString(CONSENT_VALUES.consent);
+				this.setGppSection(CONSENT_VALUES.consent);
 			}
-			this.setGppStringCookie();
+			this.setGppCookie();
 		}
+		this.cmpApi.setSignalStatus(SignalStatus.READY);
 	}
 
-	getGppStringCookie() {
+	getGppCookie() {
 		return Cookies.get(GPP_STRING_COOKIE_NAME) || '';
 	}
 
-	setGppStringCookie() {
+	setGppCookie() {
 		Cookies.set(GPP_STRING_COOKIE_NAME, this.cmpApi.getGppString(), this.cookieAttributes);
 	}
 
-	setGppString(consentValue = CONSENT_VALUES.optOut) {
+	setGppSection(consentValue = CONSENT_VALUES.optOut) {
 		this.setNotices(this.section);
 		this.setMSPAFields(this.section);
 		this.setConsents(this.section, consentValue);
+		this.cmpApi.fireSectionChange(this.section);
 	}
 
 	setConsents(section, value) {
