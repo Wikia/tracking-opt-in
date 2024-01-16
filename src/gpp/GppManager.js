@@ -71,11 +71,7 @@ class GppManager {
 		} else {
 			debug('GPP', 'Geo requires API');
 
-			const queryStringOverride =
-				window &&
-				window.location &&
-				window.location.search &&
-				window.location.search.includes('optOutSale=true');
+			const queryStringOverride = window?.location?.search?.includes('optOutSale=true');
 
 			if (queryStringOverride) {
 				this.setGppSection(CONSENT_VALUES.optOut);
