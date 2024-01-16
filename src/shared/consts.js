@@ -243,6 +243,7 @@ export const IAB_VENDORS = [
     18,  // Widespace
     281, // Wizaly
     32,  // Xandr, Inc. (AppNexus Inc.)
+    25,  // Yahoo EMEA Limited
     70,  // Yieldlab AG
     173, // YieldMo
     726, // Yougov
