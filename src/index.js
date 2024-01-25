@@ -5,6 +5,7 @@ import UserSignalMechanism from './ccpa/UserSignalMechanism';
 import { communicationService } from './shared/communication';
 import { debug } from './shared/utils';
 import { oneTrust } from './onetrust';
+import Cookies from 'js-cookie';
 
 export const DEFAULT_OPTIONS = {
     sessionCookies: SESSION_COOKIES, // array of sessionCookies with extension times
@@ -38,7 +39,21 @@ export const DEFAULT_CCPA_OPTIONS = {
     countriesRequiringPrompt: ['us'], // array of lower case country codes
     isSubjectToCcpa: window && window.ads && window.ads.context && window.ads.context.opts
                      && window.ads.context.opts.isSubjectToCcpa,
+    isSubjectToCoppa: isSubjectToCoppa(),
 };
+
+function isSubjectToCoppa() {
+    const wikiDirectedAtChildren = window.ads && window.ads.context && window.ads.context.targeting
+        && window.ads.context.targeting.directedAtChildren;
+
+    if (!wikiDirectedAtChildren) {
+        return false;
+    }
+
+    const ageGateCookie = Cookies.get('ag');
+
+    return ageGateCookie && ageGateCookie === '0'; // '0' means user is a kid
+}
 
 function initializeGDPR(options) {
     const depOptions = Object.assign({}, DEFAULT_OPTIONS, options);
