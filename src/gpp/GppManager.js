@@ -41,7 +41,7 @@ class GppManager {
 		};
 
 		// Install temporary stub until full CMP will be ready
-		if (typeof window.__gpp === 'undefined') {
+		if (typeof window.__gpp === 'undefined' && this.gppApplies) {
 			GppManager.installStub();
 		}
 	}
@@ -51,43 +51,42 @@ class GppManager {
 	}
 
 	setup() {
-		this.cmpApi = new CmpApi(1, 3);
-		this.cmpApi.setSupportedAPIs([
-			"8:uscav1",
-			"9:usvav1",
-			"10:uscov1",
-			"11:usutv1",
-			"12:usctv1",
-		]);
-		this.cmpApi.setApplicableSections([8, 9, 10, 11, 12]);
-		this.cmpApi.setCmpStatus(CmpStatus.LOADED);
-
-		this.setSignal();
-	}
-
-	setSignal() {
 		if (!this.gppApplies) {
 			debug('GPP', 'Geo does not require API');
 		} else {
 			debug('GPP', 'Geo requires API');
+			this.cmpApi = new CmpApi(1, 3);
+			this.cmpApi.setSupportedAPIs([
+				"8:uscav1",
+				"9:usvav1",
+				"10:uscov1",
+				"11:usutv1",
+				"12:usctv1",
+			]);
+			this.cmpApi.setApplicableSections([8, 9, 10, 11, 12]);
+			this.cmpApi.setCmpStatus(CmpStatus.LOADED);
 
-			const queryStringOverride = window?.location?.search?.includes('optOutSale=true');
+			this.setSignal();
+		}
+	}
 
-			if (queryStringOverride) {
-				this.setGppSection(CONSENT_VALUES.optOut);
-				debug('GPP', 'Privacy String updated via URL parameter');
-			} else if (this.isSubjectToGPP) {
-				this.setGppSection(CONSENT_VALUES.optOut);
-				debug('GPP', 'Force opt-out because user is subject to COPPA');
-			} else if (navigator.globalPrivacyControl) {
-				this.setGppSection(CONSENT_VALUES.optOut);
-				debug('GPP', 'Force opt-out because Global Privacy Control is detected');
-			} else if (this.cmpApi.hasSection(this.section)) {
-				this.cmpApi.setSignalStatus(SignalStatus.READY);
-				this.setGppCookie();  // note: to be sure the cookie matches API
-			} else {
-				this.setGppSection(CONSENT_VALUES.consent);
-			}
+	setSignal() {
+		const queryStringOverride = window?.location?.search?.includes('optOutSale=true');
+
+		if (queryStringOverride) {
+			this.setGppSection(CONSENT_VALUES.optOut);
+			debug('GPP', 'Privacy String updated via URL parameter');
+		} else if (this.isSubjectToGPP) {
+			this.setGppSection(CONSENT_VALUES.optOut);
+			debug('GPP', 'Force opt-out because user is subject to COPPA');
+		} else if (navigator.globalPrivacyControl) {
+			this.setGppSection(CONSENT_VALUES.optOut);
+			debug('GPP', 'Force opt-out because Global Privacy Control is detected');
+		} else if (this.cmpApi.hasSection(this.section)) {
+			this.cmpApi.setSignalStatus(SignalStatus.READY);
+			this.setGppCookie();  // note: to be sure the cookie matches API
+		} else {
+			this.setGppSection(CONSENT_VALUES.consent);
 		}
 	}
 
