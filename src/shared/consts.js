@@ -1,3 +1,5 @@
+export const CMP_ID = 141;
+
 /*
   IAB CMP vendor IDs of Fandom's ad partners
   The IDs are taken from https://vendorlist.consensu.org/v2/vendor-list.json

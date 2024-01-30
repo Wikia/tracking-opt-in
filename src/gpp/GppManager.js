@@ -1,5 +1,5 @@
-import { SignalStatus } from '@iabgpp/cmpapi';
 import { debug, getCookieDomain } from '../shared/utils';
+import { CMP_ID } from "../shared/consts";
 import { loadStub } from './stub/GppStub';
 import {
 	NOTICE_FIELDS,
@@ -55,8 +55,9 @@ class GppManager {
 			debug('GPP', 'Geo does not require API');
 		} else {
 			debug('GPP', 'Geo requires API');
-			const { CmpApi, CmpStatus } = await import(/* webpackChunkName: "iabgpp-cmpapi" */ '@iabgpp/cmpapi');
-			this.cmpApi = new CmpApi(1, 3);
+			const { CmpApi, CmpStatus, SignalStatus } = await import(/* webpackChunkName: "iabgpp-cmpapi" */ '@iabgpp/cmpapi');
+            this.signalStatus = SignalStatus;
+			this.cmpApi = new CmpApi(CMP_ID, 3);
 			this.cmpApi.setSupportedAPIs([
 				"8:uscav1",
 				"9:usvav1",
@@ -84,7 +85,7 @@ class GppManager {
 			this.setGppSection(CONSENT_VALUES.optOut);
 			debug('GPP', 'Force opt-out because Global Privacy Control is detected');
 		} else if (this.cmpApi.hasSection(this.section)) {
-			this.cmpApi.setSignalStatus(SignalStatus.READY);
+			this.cmpApi.setSignalStatus(this.signalStatus.READY);
 			this.setGppCookie();  // note: to be sure the cookie matches API
 		} else {
 			this.setGppSection(CONSENT_VALUES.consent);
@@ -96,12 +97,12 @@ class GppManager {
 	}
 
 	setGppSection(consentValue = CONSENT_VALUES.optOut) {
-		this.cmpApi.setSignalStatus(SignalStatus.NOT_READY);
+		this.cmpApi.setSignalStatus(this.signalStatus.NOT_READY);
 		this.setNotices(this.section);
 		this.setMSPAFields(this.section);
 		this.setConsents(this.section, consentValue);
 		this.cmpApi.fireSectionChange(this.section);
-		this.cmpApi.setSignalStatus(SignalStatus.READY);
+		this.cmpApi.setSignalStatus(this.signalStatus.READY);
 		this.setGppCookie();
 	}
 

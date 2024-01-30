@@ -5,6 +5,7 @@ import { GVL, TCModel, TCString, VendorList } from '@iabtcf/core';
 import { default as installCMPStub } from '@iabtcf/stub';
 
 import { debug, getCookieDomain, getJSON } from '../shared/utils';
+import { CMP_ID } from "../shared/consts";
 
 // In TACO-290, we have bumped CMP_VERSION to 8.
 // Next time when reconsent is necessary set CMP_VERSION to 9 to cover all geos.
@@ -14,7 +15,6 @@ export const API_STATUS = {
     UI_VISIBLE_RESET: 'ui-visible-reset',
     DISABLED: 'disable',
 };
-const CMP_ID = 141;
 const CMP_DEFAULT_LANGUAGE = 'en';
 const DEPRECATED_VENDOR_CONSENT_COOKIE_NAME = 'euconsent-v2';
 const VENDOR_CONSENT_COOKIE_NAME = 'eupubconsent-v2';
