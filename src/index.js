@@ -2,7 +2,6 @@ import './script-public-path';
 import { AC_PROVIDERS, IAB_VENDORS, SESSION_COOKIES } from './shared/consts';
 import GeoManager, { ensureGeoCookie } from './shared/GeoManager';
 import UserSignalMechanism from './ccpa/UserSignalMechanism';
-import GppManager from './gpp/GppManager';
 import { communicationService } from './shared/communication';
 import { debug } from './shared/utils';
 import { oneTrust } from './onetrust';
@@ -93,20 +92,25 @@ function initializeGPP(options) {
     const depOptions = Object.assign({}, DEFAULT_US_OPTIONS, options);
     const geoManager = new GeoManager(depOptions.country, depOptions.region);
 
-    const gppManager = new GppManager({
+    if (!geoManager.hasGppApplied()) {
+        return Promise.resolve({});
+    }
+
+    return import(/* webpackChunkName: "gpp" */ './gpp/GppManager.js').then(({default: GppManager}) => {
+        const gppManager = new GppManager({
             region: geoManager.region,
             gppApplies: geoManager.hasGppApplied(),
             isSubjectToGPP: depOptions.isSubjectToCoppa === undefined
-                ? depOptions.isSubjectToCcpa
-                : depOptions.isSubjectToCoppa,
+                            ? depOptions.isSubjectToCcpa
+                            : depOptions.isSubjectToCoppa,
+        });
+
+        if (!depOptions.oneTrustEnabled) {
+            gppManager.setup();
         }
-    );
 
-    if (!depOptions.oneTrustEnabled) {
-        gppManager.setup();
-    }
-
-    return gppManager;
+        return gppManager;
+    });
 }
 
 function isOneTrustEnabled() {

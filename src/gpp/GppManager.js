@@ -10,6 +10,7 @@ import {
 	KNOWN_CHILD_SENSIITIVE_DATA_LENGTHS,
 	US_MSPA_FIELDS
 } from './GppAPIUtils'
+import { CmpApi, CmpStatus, SignalStatus } from '@iabgpp/cmpapi';
 import Cookies from "js-cookie";
 
 const GPP_STRING_COOKIE_NAME = 'gpp'
@@ -51,25 +52,19 @@ class GppManager {
 	}
 
 	async setup() {
-		if (!this.gppApplies) {
-			debug('GPP', 'Geo does not require API');
-		} else {
-			debug('GPP', 'Geo requires API');
-			const { CmpApi, CmpStatus, SignalStatus } = await import(/* webpackChunkName: "iabgpp-cmpapi" */ '@iabgpp/cmpapi');
-            this.signalStatus = SignalStatus;
-			this.cmpApi = new CmpApi(CMP_ID, 3);
-			this.cmpApi.setSupportedAPIs([
-				"8:uscav1",
-				"9:usvav1",
-				"10:uscov1",
-				"11:usutv1",
-				"12:usctv1",
-			]);
-			this.cmpApi.setApplicableSections([8, 9, 10, 11, 12]);
-			this.cmpApi.setCmpStatus(CmpStatus.LOADED);
+        debug('GPP', 'Geo requires API');
+        this.cmpApi = new CmpApi(CMP_ID, 3);
+        this.cmpApi.setSupportedAPIs([
+            "8:uscav1",
+            "9:usvav1",
+            "10:uscov1",
+            "11:usutv1",
+            "12:usctv1",
+        ]);
+        this.cmpApi.setApplicableSections([8, 9, 10, 11, 12]);
+        this.cmpApi.setCmpStatus(CmpStatus.LOADED);
 
-			this.setSignal();
-		}
+        this.setSignal();
 	}
 
 	setSignal() {
@@ -85,7 +80,7 @@ class GppManager {
 			this.setGppSection(CONSENT_VALUES.optOut);
 			debug('GPP', 'Force opt-out because Global Privacy Control is detected');
 		} else if (this.cmpApi.hasSection(this.section)) {
-			this.cmpApi.setSignalStatus(this.signalStatus.READY);
+			this.cmpApi.setSignalStatus(SignalStatus.READY);
 			this.setGppCookie();  // note: to be sure the cookie matches API
 		} else {
 			this.setGppSection(CONSENT_VALUES.consent);
@@ -97,12 +92,12 @@ class GppManager {
 	}
 
 	setGppSection(consentValue = CONSENT_VALUES.optOut) {
-		this.cmpApi.setSignalStatus(this.signalStatus.NOT_READY);
+		this.cmpApi.setSignalStatus(SignalStatus.NOT_READY);
 		this.setNotices(this.section);
 		this.setMSPAFields(this.section);
 		this.setConsents(this.section, consentValue);
 		this.cmpApi.fireSectionChange(this.section);
-		this.cmpApi.setSignalStatus(this.signalStatus.READY);
+		this.cmpApi.setSignalStatus(SignalStatus.READY);
 		this.setGppCookie();
 	}
 
