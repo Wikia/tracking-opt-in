@@ -59,6 +59,8 @@ export const IAB_VENDORS = [
     156, // Centro
     734, // Cint
     767, // Clinch
+    1257, // Clipcentric GmbH
+    319, // Clipcentric, Inc.
     243, // Cloud Technologies
     416, // Commanders Act
     77,  // comScore, Inc.
