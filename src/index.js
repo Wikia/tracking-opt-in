@@ -89,7 +89,7 @@ function initializeCCPA(options) {
     return userSignalMechanism;
 }
 
-function initializeGPP(options) {
+async function initializeGPP(options) {
     const depOptions = Object.assign({}, DEFAULT_US_OPTIONS, options);
     const geoManager = new GeoManager(depOptions.country, depOptions.region);
 
@@ -103,7 +103,7 @@ function initializeGPP(options) {
     );
 
     if (!depOptions.oneTrustEnabled) {
-        gppManager.setup();
+        await gppManager.setup();
     }
 
     return gppManager;

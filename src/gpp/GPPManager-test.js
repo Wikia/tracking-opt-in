@@ -58,7 +58,7 @@ describe('GppManager', () => {
 	context('GPP API', () => {
 		let gppApi;
 
-		beforeEach(() => {
+		beforeEach(async () => {
 			cleanup();
 			const options = {
 				region: 'ca',
@@ -66,7 +66,7 @@ describe('GppManager', () => {
 			}
 
 			gppApi = new GppManager(options);
-			gppApi.setup();
+			await gppApi.setup();
 		});
 
 		after(cleanup);
@@ -106,33 +106,33 @@ describe('GppManager', () => {
 
 		after(cleanup);
 
-		it('It sets all consents as default', () => {
+		it('It sets all consents as default', async () => {
 			gppApi = new GppManager(options);
-			gppApi.setup();
+			await gppApi.setup();
 			assert.equal(Cookies.get('gpp'), consentString);
 		});
 
-		it('It sets no consent for COPPA', () => {
+		it('It sets no consent for COPPA', async () => {
 			options.isSubjectToGPP = true;
 
 			gppApi = new GppManager(options);
-			gppApi.setup();
+			await gppApi.setup();
 			assert.equal(Cookies.get('gpp'), optedOutString);
 		});
 
-		it('It sets no consent when GPC set', () => {
+		it('It sets no consent when GPC set', async () => {
 			navigator.globalPrivacyControl = true;
 
 			gppApi = new GppManager(options);
-			gppApi.setup();
+			await gppApi.setup();
 			assert.equal(Cookies.get('gpp'), optedOutString);
 		});
 
-		it('It sets no consent when cookie is invalid', () => {
+		it('It sets no consent when cookie is invalid', async () => {
 			cookiesStub.set('gpp', 'invalidGppString');
 
 			gppApi = new GppManager(options);
-			gppApi.setup();
+			await gppApi.setup();
 			assert.equal(Cookies.get('gpp'), optedOutString);
 		});
 

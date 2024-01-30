@@ -1,4 +1,4 @@
-import { CmpApi, CmpStatus, SignalStatus } from '@iabgpp/cmpapi';
+import { SignalStatus } from '@iabgpp/cmpapi';
 import { debug, getCookieDomain } from '../shared/utils';
 import { loadStub } from './stub/GppStub';
 import {
@@ -50,11 +50,12 @@ class GppManager {
 		loadStub();
 	}
 
-	setup() {
+	async setup() {
 		if (!this.gppApplies) {
 			debug('GPP', 'Geo does not require API');
 		} else {
 			debug('GPP', 'Geo requires API');
+			const { CmpApi, CmpStatus } = await import(/* webpackChunkName: "iabgpp-cmpapi" */ '@iabgpp/cmpapi');
 			this.cmpApi = new CmpApi(1, 3);
 			this.cmpApi.setSupportedAPIs([
 				"8:uscav1",
