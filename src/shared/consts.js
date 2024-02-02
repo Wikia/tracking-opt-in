@@ -18,7 +18,7 @@ export const IAB_VENDORS = [
     50,  // Adform (Adform A/S)
     15,  // Adikteev
     39,  // ADITION technologies AG
-    597, //Adjust Digital A/S
+    597, // Adjust Digital A/S
     14,  // AdKernel LLC
     93,  // Adloox
     447, // Adludio
