@@ -94,7 +94,7 @@ describe('GppManager', () => {
 		let gppApi;
 		const consentString = 'DBABBg~BVqqqqhU.QA';
 		const optedOutString = 'DBABBg~BVVVVVRU.QA';
-		const options = {
+		let options = {
 			region: 'ca',
 			gppApplies: true,
 			isSubjectToGPP: false,
@@ -102,6 +102,12 @@ describe('GppManager', () => {
 
 		beforeEach(() => {
 			cleanup();
+			options = {
+				region: 'ca',
+				gppApplies: true,
+				isSubjectToGPP: false,
+			}
+			navigator.globalPrivacyControl = false;
 		});
 
 		after(cleanup);
@@ -128,12 +134,28 @@ describe('GppManager', () => {
 			assert.equal(Cookies.get('gpp'), optedOutString);
 		});
 
-		it('It sets no consent when cookie is invalid', async () => {
+		it('It sets consent when cookie is invalid', async () => {
 			cookiesStub.set('gpp', 'invalidGppString');
 
 			gppApi = new GppManager(options);
 			await gppApi.setup();
+			assert.equal(Cookies.get('gpp'), consentString);
+		});
+
+		it('It sets no consent when opted out cookie is already provided', async () => {
+			cookiesStub.set('gpp', optedOutString);
+
+			gppApi = new GppManager(options);
+			await gppApi.setup();
 			assert.equal(Cookies.get('gpp'), optedOutString);
+		});
+
+		it('It sets consent when consent cookie is already provided', async () => {
+			cookiesStub.set('gpp', consentString);
+
+			gppApi = new GppManager(options);
+			await gppApi.setup();
+			assert.equal(Cookies.get('gpp'), consentString);
 		});
 
 	});

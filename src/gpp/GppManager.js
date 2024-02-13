@@ -79,12 +79,25 @@ class GppManager {
 		} else if (navigator.globalPrivacyControl) {
 			this.setGppSection(CONSENT_VALUES.optOut);
 			debug('GPP', 'Force opt-out because Global Privacy Control is detected');
-		} else if (this.cmpApi.hasSection(this.section)) {
-			this.cmpApi.setSignalStatus(SignalStatus.READY);
-			this.setGppCookie();  // note: to be sure the cookie matches API
 		} else {
-			this.setGppSection(CONSENT_VALUES.consent);
+			if (this.getGppCookie()) {
+				try {
+					this.cmpApi.setGppString(this.getGppCookie());
+				} catch (e) {
+					debug('GPP', 'Invalid gpp cookie provided');
+					this.cmpApi.clear();
+				}
+			}
+			if (this.cmpApi.hasSection(this.section)) {
+				this.cmpApi.setSignalStatus(SignalStatus.READY);
+			} else {
+				this.setGppSection(CONSENT_VALUES.consent);
+			}
 		}
+	}
+
+	getGppCookie() {
+		return Cookies.get('gpp');
 	}
 
 	setGppCookie() {
