@@ -233,7 +233,9 @@ export const IAB_VENDORS = [
     423, // travel audience – An Amadeus Company
     88,  // TreSensa
     28,  // TripleLift, Inc.
+    4202,// Trusted Stack
     985, // TV SQUARED LIMITED
+    1043,// TypeA Holdings Ltd
     162, // Unruly Group Ltd
     212, // usemax (Emego GmbH)
     1013,// Velocity Made Good LLC
