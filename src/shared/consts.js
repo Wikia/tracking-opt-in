@@ -63,6 +63,7 @@ export const IAB_VENDORS = [
     243, // Cloud Technologies
     416, // Commanders Act
     77,  // comScore, Inc.
+    143,  // Connatix Native Exchange Inc.
     138, // ConnectAd Realtime GmbH
     85,  // Crimtan Holdings Limited
     91,  // Criteo
