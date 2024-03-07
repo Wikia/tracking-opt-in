@@ -44,7 +44,6 @@ export function createInstance(geoManager, options) {
 
     return new ConsentManagementPlatform(
         tracker,
-        cookieManager,
         optInManager,
         geoManager,
         contentManager,
