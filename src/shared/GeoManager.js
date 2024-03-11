@@ -81,6 +81,15 @@ const COUNTRIES_REQUIRING_PROMPT = [
     'wf', // Wallis-et-Futuna
 ];
 
+const GPP_COUNTRIES = ['us']
+const GPP_US_STATES = [
+    'ca',
+    'co',
+    'ct',
+    'ut',
+    'va',
+]
+
 function getGeoDataFromCookie(type = 'country') {
     const cookie = Cookies.get(COUNTRY_COOKIE_NAME);
     if (cookie) {
@@ -141,6 +150,13 @@ class GeoManager {
     hasRejectAllFunctionality() {
         return COUNTRIES_WITH_REJECT_ALL_FUNCTIONALITY.includes(this.country);
     }
+
+    hasGppApplied() {
+        if (this.country === 'us') {
+            return GPP_US_STATES.indexOf(this.region) !== -1;
+        }
+        return GPP_COUNTRIES.indexOf(this.country) !== -1;
+    };
 }
 
 export default GeoManager;

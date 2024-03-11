@@ -12,6 +12,7 @@
         "url": "https://github.com/Wikia/tracking-opt-in"
     },
     "dependencies": {
+        "@iabgpp/cmpapi": "3.1.0",
         "@iabtcf/cmpapi": "1.5.6",
         "@iabtcf/core": "1.5.6",
         "@iabtcf/stub": "1.5.6",
