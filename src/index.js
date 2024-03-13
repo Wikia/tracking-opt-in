@@ -137,6 +137,8 @@ export default function main(options) {
             import(/* webpackChunkName: "onetrust" */ './onetrust/index.js').then(({oneTrust}) => {
                 oneTrust.initialize(optInInstances, options);
             });
+        } else {
+            hideOneTrustButton();
         }
         return optInInstances;
     });
@@ -149,6 +151,18 @@ const autostartModal = () => {
         });
     }
 };
+
+const hideOneTrustButton = () => {
+    debug('ACTION', 'Hiding OneTrust button');
+    
+    const oneTrustButton = window.document.querySelector(
+        ".ot-sdk-show-settings",
+    );
+
+    if (oneTrustButton) {
+        oneTrustButton.style.visibility = "hidden";
+    }
+}
 
 ensureGeoCookie().then(() => {
     if (document.readyState !== 'loading') {
