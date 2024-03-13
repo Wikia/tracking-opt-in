@@ -148,6 +148,7 @@ export const IAB_VENDORS = [
     37,  // Neural.ONE
     577, // Neustar on behalf of The Procter & Gamble Company
     468, // Neustar, Inc.
+    1060, // Next Millennium Media INC
     130, // NextRoll, Inc.
     812, // Nielsen LLC (DAR)
     373, // Nielsen Marketing Cloud (Exelate)
