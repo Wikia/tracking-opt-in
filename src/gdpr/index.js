@@ -1,5 +1,4 @@
 import ConsentManagementPlatform from "./ConsentManagementPlatform";
-import CookieManager from "../shared/CookieManager";
 import LanguageManager from "../shared/LangManager";
 import Tracker from "./Tracker";
 import ConsentManagementProvider from "./ConsentManagementProvider";
@@ -20,7 +19,6 @@ export function createInstance(geoManager, options) {
         ...depOptions
     } = options;
 
-    const cookieManager = new CookieManager(depOptions.sessionCookies);
     const langManager = new LanguageManager(depOptions.language);
     const tracker = new Tracker(langManager.lang, geoManager.country, depOptions.beaconCookieName, depOptions.track);
     const consentManagementProvider = new ConsentManagementProvider({
@@ -46,7 +44,6 @@ export function createInstance(geoManager, options) {
 
     return new ConsentManagementPlatform(
         tracker,
-        cookieManager,
         optInManager,
         geoManager,
         contentManager,

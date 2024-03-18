@@ -12,7 +12,19 @@ class CommunicationService {
     }
 
     dispatch(action) {
-        this.communicator.dispatch({ ...action, __global: true });
+        this.communicator.dispatch({...action, __global: true});
+    }
+
+    on(action, callback) {
+        this.communicator.addListener((a) => {
+            if (this.ofType(a, action)) {
+                callback(a);
+            }
+        });
+    }
+
+    ofType(action, actionToListen) {
+        return action.type === actionToListen;
     }
 }
 
