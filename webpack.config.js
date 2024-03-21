@@ -23,15 +23,21 @@ let topLevelOptions = {};
 if (process.env.NODE_ENV === 'development' || process.env.SERVE === 'true') {
     topLevelOptions = {
         devServer: {
-            port: 3000,
-            hot: true,
+            allowedHosts: 'all',
             client: {
                 overlay: {
                     errors: true,
                     warnings: false,
                     runtimeErrors: false,
                 },
-            }
+            },
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            },
+            host: 'localhost',
+            hot: false,
+            liveReload: false,
+            port: 3000,
         }
     };
 }
