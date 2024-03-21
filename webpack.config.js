@@ -22,10 +22,15 @@ let topLevelOptions = {};
 
 if (process.env.NODE_ENV === 'development' || process.env.SERVE === 'true') {
     topLevelOptions = {
-        serve: {
+        devServer: {
             port: 3000,
-            hot: {
-                port: 3001,
+            hot: true,
+            client: {
+                overlay: {
+                    errors: true,
+                    warnings: false,
+                    runtimeErrors: false,
+                },
             }
         }
     };
@@ -33,7 +38,7 @@ if (process.env.NODE_ENV === 'development' || process.env.SERVE === 'true') {
 
 module.exports = {
     mode: process.env.NODE_ENV,
-    entry: isDevelopment ? './src/index.js' : './src/index-dev.js',
+    entry: './src/index.js',
     output: {
         path: buildPath,
         filename: 'tracking-opt-in.min.js',
