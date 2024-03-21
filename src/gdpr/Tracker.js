@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { debug } from '../shared/utils';
+import { communicationService } from "../shared/communication";
 
 const DEFAULT_BEACON_COOKIE_NAME = 'wikia_beacon_id';
 const TRACKING_BASE = 'https://beacon.wikia-services.com/__track/special/gdpr_events';
@@ -33,9 +34,11 @@ class Tracker {
         if (beacon) {
             this.defaultParams[TRACK_PARAMS.BEACON] = beacon;
         }
+        this.onIdentityReady = new Promise((resolve) => {
+            communicationService.on('[IdentityEngine] Identity ready', () => resolve());
+        })
     }
 
-    // largely taken from https://github.com/Wikia/app/blob/a34191d/resources/wikia/modules/tracker.js
     track(category, action, label, onComplete = () => {}) {
         const params = {
             ...this.defaultParams,
@@ -49,41 +52,19 @@ class Tracker {
             return;
         }
 
-        const container = document.head || document.getElementsByTagName( 'head' )[ 0 ] || document.documentElement;
         const requestParams = [];
-
         for (const p in params) {
             requestParams.push(`${encodeURIComponent(p)}=${encodeURIComponent(params[p])}`);
         }
+        const url = `${TRACKING_BASE}?${requestParams.join('&')}`;
 
-        let script = document.createElement('script');
-        script.src = `${TRACKING_BASE}?${requestParams.join('&')}`;
-        if ('async' in script) {
-            script.async = true;
-        }
-
-        script.onload = script.onreadystatechange = function( abort ) {
-            if ( abort || !script.readyState || /loaded|complete/.test( script.readyState ) ) {
-                // Handle memory leak in IE
-                script.onload = script.onreadystatechange = null;
-
-                // Remove the script
-                if ( container && script.parentNode ) {
-                    container.removeChild( script );
-                }
-
-                script = undefined;
-                onComplete();
-            }
-        };
-
-        container.insertBefore(script, container.firstChild);
-        setTimeout(() => {
-            if (script) {
-                script.onload(true);
-            }
-        }, TRACK_TIMEOUT);
+        this.onIdentityReady.then(() => {
+            const controller = new AbortController();
+            fetch(url, { signal: controller.signal });
+            setTimeout(() => controller.abort(), TRACK_TIMEOUT);
+        });
     }
+
     /**
      * Shortcuts
      */

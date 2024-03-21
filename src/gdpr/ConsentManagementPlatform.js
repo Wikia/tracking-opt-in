@@ -6,7 +6,6 @@ import { API_STATUS } from './ConsentManagementProvider';
 class ConsentManagementPlatform {
     constructor(
         tracker,
-        cookieManager,
         optInManager,
         geoManager,
         contentManager,
@@ -15,7 +14,6 @@ class ConsentManagementPlatform {
         location
     ) {
         this.tracker = tracker;
-        this.cookieManager = cookieManager;
         this.optInManager = optInManager;
         this.geoManager = geoManager;
         this.contentManager = contentManager;
@@ -45,7 +43,6 @@ class ConsentManagementPlatform {
             this.options.onAcceptTracking(allowedVendors, allowedPurposes);
             this.options.onConsentsReady();
         });
-        this.cookieManager.setSessionCookiesOnAccept();
     };
 
     // Non-IAB tracking is rejected. Some or all IAB vendors or purposes _may_ be accepted

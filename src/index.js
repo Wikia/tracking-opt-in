@@ -1,5 +1,5 @@
 import './script-public-path';
-import { AC_PROVIDERS, IAB_VENDORS, SESSION_COOKIES } from './shared/consts';
+import { AC_PROVIDERS, IAB_VENDORS } from './shared/consts';
 import GeoManager, { ensureGeoCookie } from './shared/GeoManager';
 import UserSignalMechanism from './ccpa/UserSignalMechanism';
 import { communicationService } from './shared/communication';
@@ -7,7 +7,6 @@ import { debug } from './shared/utils';
 import { oneTrust } from './onetrust';
 
 export const DEFAULT_OPTIONS = {
-    sessionCookies: SESSION_COOKIES, // array of sessionCookies with extension times
     beaconCookieName: null,
     cookieName: null, // use default cookie name
     cookieExpiration: null, // use default
