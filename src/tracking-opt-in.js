@@ -10,7 +10,6 @@ export const DEFAULT_OPTIONS = {
     cookieName: null, // use default cookie name
     cookieExpiration: null, // use default
     cookieRejectExpiration: null,
-    country: null, // country code
     countriesRequiringPrompt: null, // array of lower case country codes
     enabledVendors: IAB_VENDORS, // array of IAB CMP vendor IDs
     enabledProviders: AC_PROVIDERS.map((provider) => provider.id), // array of AC providers IDs
@@ -31,8 +30,6 @@ export const DEFAULT_OPTIONS = {
 };
 
 export const DEFAULT_CCPA_OPTIONS = {
-    country: null, // country code
-    region: null, // region code
     countriesRequiringPrompt: ['us'], // array of lower case country codes
     isSubjectToCcpa: window && window.ads && window.ads.context && window.ads.context.opts
                      && window.ads.context.opts.isSubjectToCcpa,
@@ -43,16 +40,9 @@ function initializeGDPR(options) {
     const geoManager = new GeoManager(depOptions.country, depOptions.region);
 
     if (!geoManager.hasSpecialPrivacyLaw()) {
-        setTimeout(() => {
-            depOptions.onAcceptTracking();
-            depOptions.onConsentsReady();
-        });
-        return Promise.resolve({
-            getConsent: () => ({
-                gdprConsent: true,
-                geoRequiresConsent: false,
-            })
-        });
+        depOptions.onAcceptTracking();
+        depOptions.onConsentsReady();
+        return Promise.resolve(null);
     }
 
     return import(/* webpackChunkName: "gdpr" */ './gdpr/index.js').then(({createInstance}) => {
@@ -93,7 +83,7 @@ function isOneTrustEnabled() {
     return JSON.parse(params.get('onetrust_enabled')) || context.oneTrustEnabled || false;
 }
 
-export default function trackingOptIn(options) {
+export default function trackingOptIn(options = {}) {
     const consentsAction = '[AdEngine OptIn] set opt in';
     const instancesAction = '[AdEngine OptIn] set opt in instances';
     const oneTrustEnabled = isOneTrustEnabled();
@@ -117,7 +107,10 @@ export default function trackingOptIn(options) {
     const onConsentsReady = () => {
         communicationService.dispatch({
             type: consentsAction,
-            ...optInInstances.gdpr.getConsent(),
+            ...(optInInstances.gdpr ? optInInstances.gdpr.getConsent() : {
+                gdprConsent: true,
+                geoRequiresConsent: false,
+            }),
             ...optInInstances.ccpa.getSignal(),
         });
         communicationService.dispatch({
@@ -128,9 +121,9 @@ export default function trackingOptIn(options) {
 
     Object.assign(options, {onConsentsReady, oneTrustEnabled});
 
+    optInInstances.ccpa = initializeCCPA(options);
     return initializeGDPR(options).then((gdpr) => {
         optInInstances.gdpr = gdpr;
-        optInInstances.ccpa = initializeCCPA(options);
         if (oneTrustEnabled) {
             import(/* webpackChunkName: "onetrust" */ './onetrust/index.js').then(({oneTrust}) => {
                 oneTrust.initialize(optInInstances, options);
