@@ -87,6 +87,7 @@ export const IAB_VENDORS = [
     141, // Emodo
     853, // Ensighten
     24,  // Epsilon
+    444, // EX.CO Technologies Ltd
     312, // Exactag
     877, // Experian LTD
     1,   // Exponential
