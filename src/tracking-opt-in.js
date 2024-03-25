@@ -83,6 +83,18 @@ function isOneTrustEnabled() {
     return JSON.parse(params.get('onetrust_enabled')) || context.oneTrustEnabled || false;
 }
 
+const hideOneTrustButton = () => {
+    debug('ACTION', 'Hiding OneTrust button');
+
+    const oneTrustButton = window.document.querySelector(
+        ".ot-sdk-show-settings",
+    );
+
+    if (oneTrustButton) {
+        oneTrustButton.style.visibility = "hidden";
+    }
+}
+
 export default function trackingOptIn(options = {}) {
     const consentsAction = '[AdEngine OptIn] set opt in';
     const instancesAction = '[AdEngine OptIn] set opt in instances';
@@ -128,6 +140,8 @@ export default function trackingOptIn(options = {}) {
             import(/* webpackChunkName: "onetrust" */ './onetrust/index.js').then(({oneTrust}) => {
                 oneTrust.initialize(optInInstances, options);
             });
+        } else {
+            hideOneTrustButton();
         }
         return optInInstances;
     });
