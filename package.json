@@ -54,15 +54,15 @@
         "webpack": "^4.6.0",
         "webpack-bundle-analyzer": "^2.13.1",
         "webpack-cli": "^4.0.0",
-        "webpack-serve": "^0.3.2",
+        "webpack-dev-server": "^4.0.0",
         "whatwg-fetch": "^3.6.2"
     },
     "scripts": {
         "nohup:dev": "yarn clean && nohup yarn start:dev &",
         "nohup:prod": "yarn clean && nohup yarn start:prod &",
-        "dev": "NODE_ENV=development SERVE=true cross-env webpack-serve ./webpack.config.js",
+        "dev": "NODE_ENV=development SERVE=true cross-env webpack-dev-server",
         "start:dev": "yarn clean && yarn dev",
-        "start:prod": "yarn clean && NODE_ENV=production SERVE=true cross-env webpack-serve ./webpack.config.js",
+        "start:prod": "yarn clean && NODE_ENV=production SERVE=true cross-env webpack-dev-server",
         "build": "yarn clean && yarn build:webpack",
         "build:webpack": "cross-env NODE_ENV=production webpack",
         "clean": "rimraf dist",

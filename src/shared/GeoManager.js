@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { getCookieDomain } from './utils';
 
-export const COUNTRY_COOKIE_NAME = 'Geo';
+export const GEO_COOKIE_NAME = 'Geo';
 const MISSING_COOKIE_NAME = 'no-cookie';
 
 const COUNTRIES_WITH_REJECT_ALL_FUNCTIONALITY = [
@@ -82,7 +82,7 @@ const COUNTRIES_REQUIRING_PROMPT = [
 ];
 
 function getGeoDataFromCookie(type = 'country') {
-    const cookie = Cookies.get(COUNTRY_COOKIE_NAME);
+    const cookie = Cookies.get(GEO_COOKIE_NAME);
     if (cookie) {
         try {
             const obj = JSON.parse(cookie);
@@ -97,9 +97,27 @@ function getGeoDataFromCookie(type = 'country') {
     return false;
 }
 
-export function ensureGeoCookie() {
-    if (Cookies.get(COUNTRY_COOKIE_NAME)) {
-        return Promise.resolve();
+export function ensureGeoAvailable() {
+    if (window.ads.geo !== undefined) {
+        return Promise.resolve({
+            continent: window.ads.geo.continent,
+            country: window.ads.geo.country,
+            region: window.ads.geo.region,
+        });
+    }
+
+    const cookie = Cookies.get(GEO_COOKIE_NAME);
+    if (cookie) {
+        try {
+            const geo = JSON.parse(cookie);
+            return Promise.resolve({
+                continent: geo.continent,
+                country: geo.country,
+                region: geo.region,
+            });
+        } catch (e) {
+            console.error('error parsing geo cookie', cookie);
+        }
     }
 
     const GEO_SERVICE_URL = 'https://services.fandom.com/geoip/location';
@@ -110,24 +128,15 @@ export function ensureGeoCookie() {
                 continent: geoResponse.continent_code,
                 country: geoResponse.country_code,
                 region: geoResponse.region,
-                city: geoResponse.city,
-                country_name: geoResponse.country_name
             };
-        })
-        .then((geoData) => {
-            Cookies.set('Geo', JSON.stringify(geoData), {
-                domain: getCookieDomain(window.location.hostname),
-                expires: 365,
-                path: '/',
-            });
         });
 }
 
 class GeoManager {
     constructor(country, region, countriesRequiringPrompt) {
         this.geosRequiringPrompt = (countriesRequiringPrompt || COUNTRIES_REQUIRING_PROMPT).map(country => country.toLowerCase());
-        this.country = (country || getGeoDataFromCookie('country') || MISSING_COOKIE_NAME).toLowerCase();
-        this.region = (region || getGeoDataFromCookie('region') || MISSING_COOKIE_NAME).toLowerCase();
+        this.country = (country || MISSING_COOKIE_NAME).toLowerCase();
+        this.region = (region || MISSING_COOKIE_NAME).toLowerCase();
     }
 
     hasSpecialPrivacyLaw() {

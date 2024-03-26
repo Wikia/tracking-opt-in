@@ -1,6 +1,6 @@
 import 'whatwg-fetch';
 
-import main from '../index';
+import trackingOptIn from "../tracking-opt-in";
 
 import { assert } from 'chai';
 import Cookies from 'js-cookie';
@@ -28,6 +28,8 @@ describe('main', () => {
 
     beforeEach(() => {
         options = {
+            country: 'US',
+            region: 'CA',
             enableCCPAinit: true,
         };
         ConsentManagementProvider.installStub();
@@ -58,7 +60,7 @@ describe('main', () => {
                     options.isSubjectToCcpa = isSubjectToCcpa;
                     options.isSubjectToCoppa = isSubjectToCoppa;
 
-                    main(options).then(({ccpa}) => {
+                    trackingOptIn(options).then(({ccpa}) => {
                         assert.equal(ccpa.options.isSubjectToCcpa, expected)
                         done();
                     });
