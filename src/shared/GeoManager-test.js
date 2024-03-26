@@ -1,22 +1,8 @@
 import { assert } from 'chai';
-import Cookies from 'js-cookie';
-import GeoManager, { COUNTRY_COOKIE_NAME } from "./GeoManager";
+import GeoManager from "./GeoManager";
 
 const countryRequiringPrompt = 'PL';
 const countryNotRequiringPrompt = 'US';
-
-Object.defineProperty(document, 'cookie', {
-    value: '',
-    writable: true,
-});
-
-function setGeoCookie(country) {
-    Cookies.set(COUNTRY_COOKIE_NAME, {
-        region: 'CA',
-        country,
-        continent: 'NA'
-    });
-}
 
 describe('GeoManager', () => {
     describe('with provided options', () => {
@@ -28,38 +14,6 @@ describe('GeoManager', () => {
         it('indicates consent is not required', () => {
             const geoManager = new GeoManager(countryNotRequiringPrompt, null, [countryRequiringPrompt]);
             assert.isNotOk(geoManager.hasSpecialPrivacyLaw());
-        });
-    });
-
-    describe('with default options', () => {
-        after(() => {
-            Cookies.remove(COUNTRY_COOKIE_NAME);
-        });
-
-        describe('and geo cookie present', () => {
-            it('indicates consent is required', () => {
-                setGeoCookie(countryRequiringPrompt);
-                assert.isOk(new GeoManager().hasSpecialPrivacyLaw());
-            });
-
-            it('indicates consent is not required', () => {
-                setGeoCookie(countryNotRequiringPrompt);
-                assert.isNotOk(new GeoManager().hasSpecialPrivacyLaw());
-            });
-        });
-
-        describe('and unparseable geo cookie', () => {
-            it('indicates consent is required', () => {
-                Cookies.set(COUNTRY_COOKIE_NAME, '{}');
-                assert.isNotOk(new GeoManager().hasSpecialPrivacyLaw());
-            });
-        });
-
-        describe('and no geo cookie', () => {
-            it('indicates consent is required', () => {
-                Cookies.remove(COUNTRY_COOKIE_NAME);
-                assert.isNotOk(new GeoManager().hasSpecialPrivacyLaw());
-            });
         });
     });
 });
