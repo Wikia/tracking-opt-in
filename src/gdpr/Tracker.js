@@ -11,6 +11,7 @@ const TRACK_PARAMS = {
     ACTION: 'ga_action',
     LABEL: 'ga_label',
     BEACON: 'beacon',
+    PV_UNIQUE_ID: 'pv_unique_id',
 };
 const TRACK_TIMEOUT = 3000;
 
@@ -20,6 +21,10 @@ const ACTION_CLICK = 'click';
 
 function getBeaconFromCookie(cookieName) {
     return Cookies.get(cookieName || DEFAULT_BEACON_COOKIE_NAME);
+}
+
+function getPvUniqueId() {
+    return window.fandomContext?.tracking?.pvUID
 }
 
 class Tracker {
@@ -40,6 +45,21 @@ class Tracker {
     }
 
     track(category, action, label, onComplete = () => {}) {
+        if (!this.enable) {
+            debug('TRACKING', 'Fake Tracking Event', params);
+            return;
+        }
+
+        this.onIdentityReady.then(() => {
+            const url = this.prepareTrackUrl(category, action, label);
+
+            const controller = new AbortController();
+            fetch(url, { signal: controller.signal });
+            setTimeout(() => controller.abort(), TRACK_TIMEOUT);
+        });
+    }
+
+    prepareTrackUrl(category, action, label) {
         const params = {
             ...this.defaultParams,
             [TRACK_PARAMS.CATEGORY]: category,
@@ -47,22 +67,17 @@ class Tracker {
             [TRACK_PARAMS.LABEL]: label,
         };
 
-        if (!this.enable) {
-            debug('TRACKING', 'Fake Tracking Event', params);
-            return;
+        const pvUniqueId = getPvUniqueId();
+
+        if (pvUniqueId) {
+            params[TRACK_PARAMS.PV_UNIQUE_ID] = pvUniqueId;
         }
 
         const requestParams = [];
         for (const p in params) {
             requestParams.push(`${encodeURIComponent(p)}=${encodeURIComponent(params[p])}`);
         }
-        const url = `${TRACKING_BASE}?${requestParams.join('&')}`;
-
-        this.onIdentityReady.then(() => {
-            const controller = new AbortController();
-            fetch(url, { signal: controller.signal });
-            setTimeout(() => controller.abort(), TRACK_TIMEOUT);
-        });
+        return `${TRACKING_BASE}?${requestParams.join('&')}`;
     }
 
     /**
