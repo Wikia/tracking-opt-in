@@ -63,7 +63,7 @@
         "dev": "NODE_ENV=development SERVE=true cross-env webpack-dev-server",
         "start:dev": "yarn clean && yarn dev",
         "start:prod": "yarn clean && NODE_ENV=production SERVE=true cross-env webpack-dev-server",
-        "build": "exit 1 && yarn clean && yarn build:webpack",
+        "build": "yarn clean && yarn build:webpack",
         "build:webpack": "cross-env NODE_ENV=production webpack",
         "clean": "rimraf dist",
         "prepublishOnly": "yarn build",
