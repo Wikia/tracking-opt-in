@@ -127,6 +127,7 @@ export const IAB_VENDORS = [
     148, // Liveintent Inc.
     97,  // LiveRamp, Inc.
     587, // Localsensor
+    1046,// Longtail Ad Solutions, Inc dba JW Player
     109, // LoopMe
     95,  // Lotame Solutions, Inc.
     508, // Lucid Holdings, LLC
