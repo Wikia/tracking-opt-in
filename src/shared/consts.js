@@ -127,6 +127,7 @@ export const IAB_VENDORS = [
     148, // Liveintent Inc.
     97,  // LiveRamp, Inc.
     587, // Localsensor
+    1046,// Longtail Ad Solutions, Inc dba JW Player
     109, // LoopMe
     95,  // Lotame Solutions, Inc.
     508, // Lucid Holdings, LLC
@@ -237,7 +238,6 @@ export const IAB_VENDORS = [
     423, // travel audience – An Amadeus Company
     88,  // TreSensa
     28,  // TripleLift, Inc.
-    4202,// Trusted Stack
     985, // TV SQUARED LIMITED
     1043,// TypeA Holdings Ltd
     162, // Unruly Group Ltd
