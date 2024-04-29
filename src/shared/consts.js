@@ -53,6 +53,7 @@ export const IAB_VENDORS = [
     128, // BIDSWITCH GmbH
     94,  // Blis Media
     815, // Blockthrough, Inc.
+    422, // Brand Metrics Sweden AB
     1081,// C WIRE AG
     315, // Celtra, Inc.
     156, // Centro
