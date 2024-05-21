@@ -1,0 +1,62 @@
+@Library('GlobalSharedLibrary') _
+
+final slackWebhookUrl = 'https://hooks.slack.com/services/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'
+final buildUrl = env.BUILD_URL
+final dryRun = params.dryRun
+final branch = params.branch
+final environment = 'Production'
+
+def issueKey
+def version
+def sharedFunctions
+
+node('qa-vm-adeng02') {
+    try {
+        timeout(time: 30, unit: 'MINUTES') {
+
+            stage('Clone sources') {
+                currentBuild.description = "Deploying <a href=\\\"https://github.com/Wikia/tracking-opt-in/tree/$branch\\\">$branch</a>"
+                cleanWs()
+                checkout scm
+                sharedFunctions = load "jobs/functions.groovy"
+            }
+            stage('Setup NPM') {
+                sharedFunctions.setupNpm()
+            }
+
+            stage('Get Version') {
+                version = sharedFunctions.getVersion()
+            }
+
+            stage('Build') {
+                sharedFunctions.build(version)
+            }
+
+            stage("Track change start") {
+                issueKey = sharedFunctions.markReleaseStart(environment, version, branch, buildUrl)
+            }
+
+            stage('Deploy Version') {
+                if (dryRun) {
+                    println "Dry run; skipping deploy"
+                } else {
+                    sharedFunctions.publishProd(version)
+                }
+            }
+
+            stage('notify slack') {
+                sharedFunctions.notifySlack(slackWebhookUrl, "New version of *tracking-opt-in* released <https://github.com/Wikia/tracking-opt-in/tree/v'$version'|v'$version'>")
+            }
+        }
+    } catch (Exception e) {
+        println "Failed due to ${e}"
+        currentBuild.result = "FAILED"
+        sharedFunctions.notifySlack(slackWebhookUrl, ":x: <!here> Something went wrong during *tracking-opt-in* release (<'$buildUrl'|show log>)")
+        throw e
+    } finally {
+        stage('Track change finish') {
+            final success = currentBuild.currentResult == 'SUCCESS'
+            sharedFunctions.markReleaseFinish(success, issueKey, environment)
+        }
+    }
+}
