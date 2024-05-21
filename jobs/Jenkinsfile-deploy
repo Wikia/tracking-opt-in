@@ -2,7 +2,6 @@
 
 final slackWebhookUrl = 'https://hooks.slack.com/services/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'
 final buildUrl = env.BUILD_URL
-final dryRun = params.dryRun
 final branch = params.branch
 final environment = 'Production'
 
@@ -29,7 +28,7 @@ node('qa-vm-adeng02') {
             }
 
             stage('Build') {
-                sharedFunctions.build(version)
+                sharedFunctions.build()
             }
 
             stage("Track change start") {
@@ -37,11 +36,10 @@ node('qa-vm-adeng02') {
             }
 
             stage('Deploy Version') {
-                if (dryRun) {
-                    println "Dry run; skipping deploy"
-                } else {
-                    sharedFunctions.publishProd(version)
-                }
+                // TODO--publish
+                println """
+                sharedFunctions.publishProd(version)
+                """
             }
 
             stage('notify slack') {
