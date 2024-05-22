@@ -49,12 +49,11 @@ final publishBranch(String releaseType, String branch) {
 }
 
 final notifySlack(String webhookUrl, String text) {
-    // TODO--remove test note
     sh """
         curl -H "Content-Type: application/json" \\
         -X POST \\
         --data '{
-          "text":"[Change tracking test] $text"
+          "text":"$text"
         }' \\
         "$webhookUrl"
     """
@@ -65,8 +64,7 @@ final markReleaseStart(String environment, String version, String branch, String
     final issueKey = releaseTracking.changeStart(
             [
                     affectedApp        : "Fandom Community Platform",
-                    // TODO--remove test
-                    affectedService    : "[TEST] TrackingOptIn",
+                    affectedService    : "TrackingOptIn",
                     environment        : environment,
                     version            : "tracking-opt-in-${version}",
                     extraDescription   : """

@@ -36,10 +36,7 @@ node('qa-vm-adeng02') {
             }
 
             stage('Deploy Version') {
-                // TODO--publish
-                println """
                 sharedFunctions.publishProd(version)
-                """
             }
 
             stage('notify slack') {
