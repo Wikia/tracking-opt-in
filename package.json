@@ -1,6 +1,6 @@
 {
     "name": "@wikia/tracking-opt-in",
-    "version": "14.4.3",
+    "version": "14.4.4",
     "main": "dist/tracking-opt-in.min.js",
     "license": "Apache-2.0",
     "sideEffects": [
