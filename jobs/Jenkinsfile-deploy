@@ -39,7 +39,7 @@ node('qa-vm-adeng02') {
             }
 
             stage('notify slack') {
-                sharedFunctions.notifySlack("New version of *tracking-opt-in* released <https://github.com/Wikia/tracking-opt-in/tree/v'$version'|v'$version'>")
+                sharedFunctions.notifySlack(":package: New version of *tracking-opt-in* released <https://github.com/Wikia/tracking-opt-in/tree/v'$version'|v'$version'> :checkmark:")
             }
         }
     } catch (Exception e) {
