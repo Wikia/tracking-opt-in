@@ -1,0 +1,59 @@
+@Library('GlobalSharedLibrary') _
+
+final buildUrl = env.BUILD_URL
+final branch = params.BRANCH
+final releaseType = params.RELEASE_TYPE
+final environment = releaseType == 'dev' ? "Development" : "Production"
+
+def issueKey
+def version
+def sharedFunctions
+
+
+node('qa-vm-adeng02') {
+    try {
+        timeout(time: 30, unit: 'MINUTES') {
+
+            stage('Clone sources') {
+                currentBuild.description = "Deploying <a href=\\\"https://github.com/Wikia/tracking-opt-in/tree/$branch\\\">$branch</a>"
+                cleanWs()
+                checkout scm
+                sharedFunctions = load "jobs/functions.groovy"
+            }
+
+            stage('Setup NPM') {
+                sharedFunctions.setupNpm()
+            }
+
+            stage('Get Version') {
+                version = sharedFunctions.getVersion()
+            }
+
+            stage('Build') {
+                sharedFunctions.build()
+            }
+
+            stage("Track change start") {
+                issueKey = sharedFunctions.markReleaseStart(environment, version, branch, buildUrl)
+            }
+
+            stage('Deploy Version') {
+                sharedFunctions.publishBranch(releaseType, branch)
+            }
+
+            stage('notify slack') {
+                sharedFunctions.notifySlack(":package: New version of *tracking-opt-in* released <https://github.com/Wikia/tracking-opt-in/tree/v'$version'|v'$version'>:checkmark:")
+            }
+        }
+    } catch (Exception e) {
+        println "Failed due to ${e}"
+        currentBuild.result = "FAILED"
+        sharedFunctions.notifySlack(":x: Something went wrong during *tracking-opt-in* deploy of *'$releaseType'/'$branch'* (<'$buildUrl'|show log>)")
+        throw e
+    } finally {
+        stage('Track change finish') {
+            final success = currentBuild.currentResult == 'SUCCESS'
+            sharedFunctions.markReleaseFinish(success, issueKey, environment)
+        }
+    }
+}

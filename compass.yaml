@@ -1,0 +1,24 @@
+# Learn more about formatting compass.yml:
+# https://go.atlassian.com/compass-yml-format
+name: TrackingOptIn
+description: Handles tracking-opt-in.
+configVersion: 1
+typeId: SERVICE
+ownerId: null
+fields:
+  tier: 1
+  lifecycle: Active
+links:
+  - name: ""
+    type: ON_CALL
+    url: "https://wikia.pagerduty.com/service-directory/P7K8ZQF"
+  - name: ""
+    type: DOCUMENT
+    url: "https://fandom.atlassian.net/wiki/spaces/GDPR/pages/611615493/Tracking-opt-in"
+relationships:
+  DEPENDS_ON: []
+labels:
+  - fcp
+  - nar
+  - fanatical
+customFields: null
