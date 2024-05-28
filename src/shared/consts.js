@@ -67,7 +67,6 @@ export const IAB_VENDORS = [
     143,  // Connatix Native Exchange Inc.
     138, // ConnectAd Realtime GmbH
     85,  // Crimtan Holdings Limited
-    91,  // Criteo
     298, // Cuebiq Inc.
     875, // Cynapsis Interactive GmbH
     938, // dataXtrade GmbH
