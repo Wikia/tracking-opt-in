@@ -41,7 +41,7 @@ final publishProd(String version) {
 }
 
 final publishBranch(String releaseType, String branch) {
-    s3Path="s3://fandom-ae-assets/tracking-opt-in/$releaseType/$branch"
+    s3Path="s3://fandom-ae-assets/tracking-opt-in/$releaseType/$branch/"
     sh """
         cd \$(pwd)/dist
         s3cmd -c /etc/s3cmd/amazon_prod.cfg put --acl-public --stop-on-error --recursive ./ --rinclude='.*.js\$' --rexclude='.*' --mime-type=application/javascript --add-header='Content-Encoding:gzip' $s3Path
