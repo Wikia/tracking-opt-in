@@ -48,15 +48,8 @@ final publishBranch(String releaseType, String branch) {
     """
 }
 
-final notifySlack(String webhookUrl, String text) {
-    sh """
-        curl -H "Content-Type: application/json" \\
-        -X POST \\
-        --data '{
-          "text":"$text"
-        }' \\
-        "$webhookUrl"
-    """
+final notifySlack(String text) {
+    slackSend channel: '#adeng-release', message: text
 }
 
 final markReleaseStart(String environment, String version, String branch, String buildUrl) {

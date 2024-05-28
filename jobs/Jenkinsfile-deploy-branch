@@ -1,6 +1,5 @@
 @Library('GlobalSharedLibrary') _
 
-final slackWebhookUrl = 'https://hooks.slack.com/services/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'
 final buildUrl = env.BUILD_URL
 final branch = params.BRANCH
 final releaseType = params.RELEASE_TYPE
@@ -38,13 +37,13 @@ node('qa-vm-adeng02') {
             }
 
             stage('notify slack') {
-                sharedFunctions.notifySlack(slackWebhookUrl, "New version of *tracking-opt-in* released <https://github.com/Wikia/tracking-opt-in/tree/v'$version'|v'$version'>")
+                sharedFunctions.notifySlack("New version of *tracking-opt-in* released <https://github.com/Wikia/tracking-opt-in/tree/v'$version'|v'$version'>")
             }
         }
     } catch (Exception e) {
         println "Failed due to ${e}"
         currentBuild.result = "FAILED"
-        sharedFunctions.notifySlack(slackWebhookUrl, ":x: Something went wrong during *tracking-opt-in* deploy of *'$releaseType'/'$branch'* (<'$buildUrl'|show log>)")
+        sharedFunctions.notifySlack(":x: Something went wrong during *tracking-opt-in* deploy of *'$releaseType'/'$branch'* (<'$buildUrl'|show log>)")
         throw e
     } finally {
         stage('Track change finish') {
