@@ -7,6 +7,7 @@ final environment = 'Production'
 def issueKey
 def version
 def sharedFunctions
+def prLink
 
 node('qa-vm-adeng02') {
     try {
@@ -15,7 +16,9 @@ node('qa-vm-adeng02') {
             stage('Clone sources') {
                 currentBuild.description = "Deploying <a href=\\\"https://github.com/Wikia/tracking-opt-in/tree/$branch\\\">$branch</a>"
                 cleanWs()
-                checkout scm
+                def scmVars = checkout scm
+                def commitHash = scmVars.GIT_COMMIT
+                prLink = "https://github.com/Wikia/tracking-opt-in/pulls?q=is:pr+${commitHash}"
                 sharedFunctions = load "jobs/functions.groovy"
             }
             stage('Setup NPM') {
@@ -31,11 +34,17 @@ node('qa-vm-adeng02') {
             }
 
             stage("Track change start") {
-                issueKey = sharedFunctions.markReleaseStart(environment, version, branch, buildUrl)
+                issueKey = sharedFunctions.markReleaseStart(environment, version, branch, prLink, buildUrl)
             }
 
             stage('Deploy Version') {
                 sharedFunctions.publishProd(version)
+            }
+
+            if (environment == 'Production') {
+                sshagent(['bd3cf712-39a7-4b16-979e-ff86208ab2ea']) {
+                    releaseTracking.createGitReleaseTag(environment: environment)
+                }
             }
 
             stage('notify slack') {

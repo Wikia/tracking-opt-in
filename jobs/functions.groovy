@@ -52,8 +52,11 @@ final notifySlack(String text) {
     slackSend channel: '#adeng-release', message: text
 }
 
-final markReleaseStart(String environment, String version, String branch, String buildUrl) {
+final markReleaseStart(String environment, String version, String branch, String prLink, String buildUrl) {
     final commitMsg = releaseTracking.getGitCommitMessage()
+    final relatedIssues = environment != 'Production' ? releaseTracking.getIssueKeysFromText(commitMsg) :
+            releaseTracking.getIssueKeysFromGitDiff(releaseTracking.getLatestGitReleaseTag(environment: environment), "origin/${branch}")
+
     final issueKey = releaseTracking.changeStart(
             [
                     affectedApp        : "Fandom Community Platform",
@@ -62,13 +65,14 @@ final markReleaseStart(String environment, String version, String branch, String
                     version            : "tracking-opt-in-${version}",
                     extraDescription   : """
                           Deployment information:
+                          - *PR:* [${prLink}]
                           - *Branch:* [https://github.com/Wikia/tracking-opt-in/tree/${branch}]
-                          - *PR:* [https://github.com/Wikia/tracking-opt-in/pulls?q=is%3Apr+head%3A${branch}]
                           - *Commit message:* ${commitMsg}
                           - *Build Url:* ${buildUrl}
                           """,
-                    relatedIssues      : releaseTracking.getIssueKeysFromText(commitMsg),
+                    relatedIssues      : relatedIssues,
                     datacentersImpacted: ['amazon_prod'],
+                    author             : releaseTracking.getBuildUserEmail()
             ]
     )
     echo "Jira issue key: ${issueKey}"
