@@ -35,6 +35,7 @@ export const IAB_VENDORS = [
     195, // advanced STORE GmbH
     27,  // Adventori
     259, // ADYOULIKE SA
+    70,  // Akamai
     793, // Amazon Advertising
     922, // Amnet GmbH
     23,  // Amobee
