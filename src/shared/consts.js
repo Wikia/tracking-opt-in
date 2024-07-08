@@ -247,6 +247,7 @@ export const IAB_VENDORS = [
     25,  // Verizon Media EMEA Limited (Oath (EMEA) Limited)
     7,   // Vibrant Media Ltd.
     1145,// Vidcrunch LLC
+    1004,// Vuukle DMCC
     601, // WebAds B.V
     284, // Weborama
     431, // White Ops
