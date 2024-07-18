@@ -20,7 +20,7 @@ export function createInstance(geoManager, options) {
     } = options;
 
     const langManager = new LanguageManager(depOptions.language);
-    const tracker = new Tracker(langManager.lang, geoManager.country, depOptions.beaconCookieName, depOptions.track);
+    const tracker = new Tracker(langManager.lang, geoManager.country, geoManager.region, depOptions.beaconCookieName, depOptions.track);
     const consentManagementProvider = new ConsentManagementProvider({
         language: langManager.lang,
         oneTrustEnabled: options.oneTrustEnabled

@@ -7,6 +7,7 @@ const TRACKING_BASE = 'https://beacon.wikia-services.com/__track/special/gdpr_ev
 const TRACK_PARAMS = {
     LANGUAGE_CODE: 'lang_code',
     DETECTED_GEO: 'detected_geo',
+    DETECTED_REGION: 'detected_region',
     CATEGORY: 'ga_category',
     ACTION: 'ga_action',
     LABEL: 'ga_label',
@@ -28,11 +29,12 @@ function getPvUniqueId() {
 }
 
 class Tracker {
-    constructor(language, detectedGeo, beaconCookieName, enable) {
+    constructor(language, detectedGeo, detectedRegion, beaconCookieName, enable) {
         this.enable = enable;
         this.defaultParams = {
             [TRACK_PARAMS.LANGUAGE_CODE]: language,
             [TRACK_PARAMS.DETECTED_GEO]: detectedGeo,
+            [TRACK_PARAMS.DETECTED_REGION]: detectedRegion,
         };
 
         const beacon = getBeaconFromCookie(beaconCookieName);
