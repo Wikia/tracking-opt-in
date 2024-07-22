@@ -33,7 +33,7 @@ class Tracker {
         this.enable = enable;
         this.defaultParams = {
             [TRACK_PARAMS.LANGUAGE_CODE]: language,
-            [TRACK_PARAMS.DETECTED_GEO]: detectedGeo,
+            [TRACK_PARAMS.DETECTED_GEO]: detectedGeo.toUpperCase(),
             [TRACK_PARAMS.DETECTED_REGION]: detectedRegion.toUpperCase(),
         };
 
