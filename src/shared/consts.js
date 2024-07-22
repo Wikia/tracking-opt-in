@@ -15,6 +15,7 @@ export const IAB_VENDORS = [
     57,  // Adara Media
     299, // AdClear
     539, // AdDefend GmbH
+    1203, // Aderize, Inc.
     50,  // Adform (Adform A/S)
     15,  // Adikteev
     39,  // ADITION technologies AG
