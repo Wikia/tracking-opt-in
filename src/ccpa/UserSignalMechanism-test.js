@@ -137,25 +137,25 @@ describe('UserSignalMechanism', () => {
         afterEach(cleanup);
 
         it('sets user signal to 1--- and not set privacy cookie if options.ccpaApplies is false', () => {
-            const privacyString = '1---';
+            const privacyString = '';
             config.ccpaApplies = false;
 
             uspapi = new UserSignalMechanism(config);
 
             uspapi.createUserSignal();
 
-            assert.equal(uspapi.userSignal, privacyString);
+            assert.equal(uspapi.getPrivacyStringCookie(), privacyString);
             assert.isUndefined(Cookies.get('usprivacy'));
         });
 
         it('sets user signal to 1--- and not set privacy cookie if options.ccpaApplies is undefined', () => {
-            const privacyString = '1---';
+            const privacyString = '';
 
             uspapi = new UserSignalMechanism(config);
 
             uspapi.createUserSignal();
 
-            assert.equal(uspapi.userSignal, privacyString);
+            assert.equal(uspapi.getPrivacyStringCookie(), privacyString);
             assert.isUndefined(Cookies.get('usprivacy'));
         });
 
@@ -169,7 +169,7 @@ describe('UserSignalMechanism', () => {
 
             uspapi.createUserSignal();
 
-            assert.equal(uspapi.userSignal, privacyString);
+            assert.equal(uspapi.getPrivacyStringCookie(), privacyString);
             assert.equal(Cookies.get('usprivacy'), privacyString);
         });
     });
@@ -190,13 +190,13 @@ describe('UserSignalMechanism', () => {
         it('should set userSignal to 1YYN if called with "yes"', () => {
             uspapi.saveUserSignal(USP_VALUES.yes);
 
-            assert.equal(uspapi.userSignal, '1YYN');
+            assert.equal(uspapi.getPrivacyStringCookie(), '1YYN');
         });
 
         it('should set userSignal to 1YNN if called with "no"', () => {
             uspapi.saveUserSignal(USP_VALUES.no);
 
-            assert.equal(uspapi.userSignal, '1YNN');
+            assert.equal(uspapi.getPrivacyStringCookie(), '1YNN');
         });
     });
 });
