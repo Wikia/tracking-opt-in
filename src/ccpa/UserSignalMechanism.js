@@ -241,8 +241,6 @@ class UserSignalMechanism {
 
             this.setPrivacyStringCookie(privacyString);
         }
-
-        this.userSignal = privacyString;
     }
 
     createPrivacyString(optOutSale) {
@@ -264,7 +262,7 @@ class UserSignalMechanism {
     }
 
     hasUserProvidedSignal() {
-        if (!this.userSignal) {
+        if (!this.hasUserSignal()) {
             return undefined;
         }
 
@@ -319,7 +317,7 @@ class UserSignalMechanism {
     }
 
     getUSPData(version) {
-        const uspString = this.userSignal;
+        const uspString = this.getPrivacyStringCookie();
         const isCorrectVersion =
             !this.options.ccpaApplies
             || !version
@@ -343,7 +341,6 @@ class UserSignalMechanism {
         debug('CCPA', `Privacy String saved via console: ${privacyString}`);
 
         this.setPrivacyStringCookie(privacyString);
-        this.userSignal = privacyString;
     }
 
     showConsentTool(value) {
